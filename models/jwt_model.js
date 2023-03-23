@@ -16,8 +16,10 @@ JWTSchema = new Schema(
             type:Schema.Types.ObjectId,
             ref:'User'
         },
-        createdAt: { type: Date, expires: 30, default: Date.now }
+        expireAt: {
+            type: Date,
+            default: Date.now() +3600*1000*24,
+        }
     }
 )
-
 module.exports = mongoose.model('JWT',JWTSchema)
