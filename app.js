@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const passport = require('./middleware/passport_auth');
+const jwtbalcklist = require('./middleware/jwt_blacklist');
 
 var indexRouter = require('./routes/index');
 
@@ -17,12 +19,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/register',require('./routes/register'));
 app.use('/login',require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/refresh', require('./routes/refresh'))
+app.get('/test',(req, res)=>{
+    res.json({'message':'test'})
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
