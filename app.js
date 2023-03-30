@@ -7,6 +7,7 @@ const passport = require('./middleware/passport_auth');
 const jwtbalcklist = require('./middleware/jwt_blacklist');
 
 var indexRouter = require('./routes/index');
+const fileUpload = require("express-fileupload");
 
 var app = express();
 
@@ -26,9 +27,10 @@ app.use('/register',require('./routes/register'));
 app.use('/login',require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/refresh', require('./routes/refresh'))
-app.get('/test',(req, res)=>{
-    res.json({'message':'test'})
-})
+app.use('/upload',require('./routes/uploadFiles'));
+app.get('/upload_ui', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
