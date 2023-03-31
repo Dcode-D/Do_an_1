@@ -4,10 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('./middleware/passport_auth');
-const jwtbalcklist = require('./middleware/jwt_blacklist');
 
 var indexRouter = require('./routes/index');
-const fileUpload = require("express-fileupload");
 
 var app = express();
 

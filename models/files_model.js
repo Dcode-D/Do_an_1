@@ -17,7 +17,6 @@ const schema = mongoose.Schema({
     },
     attachedId: {
         type: Schema.Types.ObjectId,
-        required: true,
     },
     publishDate: {
         type: Date,

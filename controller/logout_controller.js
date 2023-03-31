@@ -1,9 +1,9 @@
 const jwtModel = require('../models/jwt_model')
 
 const logout_controller = async (req,res)=>{
+    console.log(req.user._id)
     if(!req.headers.authorization.startsWith('Bearer ')) return res.sendStatus(401);
     const reqjwt = req.headers.authorization.split(' ')[1];
-
     if(!reqjwt){
         return res.sendStatus(204);
     }
