@@ -24,7 +24,8 @@ app.use('/', indexRouter);
 app.use('/register',require('./routes/register'));
 app.use('/login',require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
-app.use('/refresh', require('./routes/refresh'))
+app.use('/refresh', require('./routes/refresh'));
+app.use('/hotel',require('./routes/hotel'));
 app.use('/upload',require('./routes/uploadFiles'));
 app.get('/upload_ui', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
