@@ -56,7 +56,7 @@ class _AppState extends State<App>{
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withOpacity(0.1),
                       spreadRadius: 1,
                       blurRadius: 10,
                       offset: const Offset(2,4),
@@ -72,7 +72,6 @@ class _AppState extends State<App>{
                         current_tab = index;
                       });
                     },
-                    backgroundColor: Colors.white,
                     selectedItemColor: Colors.orange,
                     unselectedItemColor: Colors.grey,
                     items: [

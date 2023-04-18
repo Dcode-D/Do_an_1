@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+        body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
@@ -68,164 +68,175 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
               ]
             ),
-            Spacer(flex: 3),
+            Spacer(flex: 4),
             Flexible(
-              flex: 10,
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.85),
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
-                  border: Border.all(
-                    color: Colors.black.withOpacity(0.2),
-                    width: 1,
+              flex: 13,
+              child: SingleChildScrollView(
+                child: Container(
+                  width: double.infinity,
+                  height: 438,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.85),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
+                    border: Border.all(
+                      color: Colors.black.withOpacity(0.2),
+                      width: 1,
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15,bottom: 5),
-                        child: Text(
-                          "Welcome to our App",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                            color: Colors.orange,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15,bottom: 10),
+                          child: Text(
+                            "Welcome to our App",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w700,
+                              color: Colors.orange,
+                            ),
                           ),
                         ),
-                      ),
-                      TextField(
-                        textAlignVertical: TextAlignVertical.center,
-                        keyboardType: TextInputType.text,
-                        cursorColor: Colors.black,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter username or email",
-                          prefixIcon: Icon(
-                            FontAwesomeIcons.userAlt,
-                            size: 20,
-                            color: Colors.black54,
+                        TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.text,
+                          cursorColor: Colors.black,
+                          style: const TextStyle(
+                            fontSize: 18,
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.orange,
-                        ),
-                      Container(
-                        height:5,
-                      ),
-                      TextField(
-                        textAlignVertical: TextAlignVertical.center,
-                        keyboardType: TextInputType.visiblePassword,
-                        obscureText: isPasswordHidden,
-                        cursorColor: Colors.black,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter password",
-                          prefixIcon: const Icon(
-                            FontAwesomeIcons.key,
-                            size: 20,
-                            color: Colors.black54,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              isPasswordHidden
-                                  ? FontAwesomeIcons.eyeSlash
-                                  : FontAwesomeIcons.eye,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter username or email",
+                            prefixIcon: Icon(
+                              FontAwesomeIcons.userAlt,
                               size: 20,
                               color: Colors.black54,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                isPasswordHidden = !isPasswordHidden;
-                              });
-                            },
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.orange,
-                      ),
-                      SizedBox(
-                        height:10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          Text(
-                            "Forgot password?",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontStyle: FontStyle.italic,
-                              decoration: TextDecoration.underline,
-                            ),
+                        Container(
+                          height: 1,
+                          color: Colors.orange,
                           ),
-                          SizedBox(width: 20),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        width: 250,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.orange,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: isPasswordHidden,
+                          cursorColor: Colors.black,
+                          style: const TextStyle(
+                            fontSize: 18,
                           ),
-                          onPressed: () {
-                            Navigator.of(context).push(_CreateRouteToApp());
-                          },
-                          child: const Text(
-                            "Sign in",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter password",
+                            prefixIcon: const Icon(
+                              FontAwesomeIcons.key,
+                              size: 20,
+                              color: Colors.black54,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isPasswordHidden
+                                    ? FontAwesomeIcons.eyeSlash
+                                    : FontAwesomeIcons.eye,
+                                size: 20,
+                                color: Colors.black54,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isPasswordHidden = !isPasswordHidden;
+                                });
+                              },
                             ),
                           ),
                         ),
-                      ),
-                      Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account?",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontStyle: FontStyle.italic,
-                            ),
+                        Container(
+                          height: 1,
+                          color: Colors.orange,
+                        ),
+                        SizedBox(
+                          height:10,
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              Text(
+                                "Forgot password?",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontStyle: FontStyle.italic,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                            ],
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(_CreateRouteToSignUp());
-                            },
-                            child: const Text(
-                              "Sign up",
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontStyle: FontStyle.italic,
-                                decoration: TextDecoration.underline,
+                        ),
+                        const Spacer(flex: 2),
+                        Flexible(
+                          flex: 3,
+                          child: Container(
+                            width: 250,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(_CreateRouteToApp());
+                              },
+                              child: const Text(
+                                "Sign in",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Spacer(flex: 3),
+                        Flexible(
+                          flex: 2,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Don't have an account?",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(_CreateRouteToSignUp());
+                                },
+                                child: const Text(
+                                  "Sign up",
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                    fontStyle: FontStyle.italic,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
