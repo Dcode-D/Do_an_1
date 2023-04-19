@@ -1,8 +1,8 @@
+import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Function callbackSetNavbar;
-  const HomeScreen({Key? key,required this.callbackSetNavbar}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
     createState() => _HomeScreenState();
@@ -16,7 +16,7 @@ class  _HomeScreenState extends State<HomeScreen> {
         body: Container(
           child: Center(
               child: Text('Home Screen')),
-        ),),
+        ),)
     );
   }
 }

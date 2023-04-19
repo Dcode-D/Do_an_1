@@ -1,8 +1,9 @@
 import 'package:doan1/screens/login/signup_screens.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../app.dart';
+import '../../BLOC/authentication/authentication_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -192,8 +193,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
-                              onPressed: () {
-                                Navigator.of(context).push(_CreateRouteToApp());
+                              onPressed: context.read<AuthenticationBloc>().state == authenticateStatus.unAuthorized ? null : () {
+                                context.read<AuthenticationBloc>().add(
+                                    AuthenticateEvent(Username: "username.text", Password: "password.text")
+                                );
                               },
                               child: const Text(
                                 "Sign in",
@@ -258,28 +261,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
         return SlideTransition(
           position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
-
-  Route _CreateRouteToApp(){
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => App(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        final tween = Tween(begin: begin, end: end);
-        final curvedAnimation = CurvedAnimation(
-          parent: animation,
-          curve: curve,
-        );
-
-        return SlideTransition(
-          position: tween.animate(curvedAnimation),
           child: child,
         );
       },

@@ -1,11 +1,11 @@
+import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final Function callbackSetNavbar;
 
-  const ProfileScreen({Key? key, required this.callbackSetNavbar}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   createState() => _ProfileScreenState();

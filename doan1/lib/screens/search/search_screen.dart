@@ -1,3 +1,4 @@
+import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -5,30 +6,19 @@ import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
 
 class SearchScreen extends StatefulWidget {
-  final Function callbackSetNavbar;
 
-  const SearchScreen({Key? key, required this.callbackSetNavbar})
+  const SearchScreen({Key? key})
       : super(key: key);
 
   @override
   createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
+class _SearchScreenState extends State<SearchScreen>
+    with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   var _searchController = TextEditingController();
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  late TabController _tabController = TabController(length: 2, vsync: this);
 
   @override
   Widget build(BuildContext context) {

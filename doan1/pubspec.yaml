@@ -44,6 +44,8 @@ dependencies:
   get_it: ^7.2.0
   bloc: ^8.1.1
   flutter_typeahead: ^4.3.7
+  flutter_bloc: ^8.1.2
+  flutter_smart_dialog: ^4.9.0+5
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,9 @@
+import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class BookingScreen extends StatefulWidget {
-  final Function callbackSetNavbar;
 
-  const BookingScreen({Key? key, required this.callbackSetNavbar})
+  const BookingScreen({Key? key})
       : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class _BookingScreenState extends State<BookingScreen> {
       body: Container(
         child: Center(
             child: Text('Booking Screen')),
-      )
+      ),
     );
   }
 }

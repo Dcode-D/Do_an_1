@@ -1,8 +1,7 @@
+import 'package:doan1/BLOC/authentication/authentication_page.dart';
 import 'package:doan1/screens/login/login_screens.dart';
 import 'package:doan1/screens/login/signup_screens.dart';
 import 'package:flutter/material.dart';
-
-import 'app.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +19,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: LoginScreen(),
+      home: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeIn,
+          child: AuthenticationPage()),
     );
   }
 }
