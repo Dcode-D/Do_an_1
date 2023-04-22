@@ -16,60 +16,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/login-wallpaper.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children:[
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0,top: 35),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            blurRadius: 20,
-                            offset: const Offset(2, 4),
-                          ),
-                        ],
-                      ),
-                      child: Image(
-                        image: AssetImage('assets/icons/icon-logo.jpg'),
-                        width: 80,
-                        height: 80,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 35,left: 5),
-                  child: Text(
-                    "Let's start\nyour journey",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Roboto',
-                      fontSize: 35,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/login-wallpaper.jpg'),
+              fit: BoxFit.cover,
             ),
-            Spacer(flex:3),
-            Flexible(
-              flex:25,
-              child: SingleChildScrollView(
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children:[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0,top: 35),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              blurRadius: 20,
+                              offset: const Offset(2, 4),
+                            ),
+                          ],
+                        ),
+                        child: Image(
+                          image: AssetImage('assets/icons/icon-logo.jpg'),
+                          width: 80,
+                          height: 80,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 35,left: 5),
+                    child: Text(
+                      "Let's start\nyour journey",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Roboto',
+                        fontSize: 35,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(flex:3),
+              Flexible(
+                flex:25,
                 child: Container(
                   width: double.infinity,
                   height: 520,
@@ -305,9 +305,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-            ),
-            ])
-    )
+              ])
+    ),
+      )
     );
   }
 }
