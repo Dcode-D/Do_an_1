@@ -2,6 +2,8 @@ const dateBookingModel = require('../models/dateBookingModel');
 
 const createDateBooking = async (req, res) => {
     try {
+        const check = await dateBookingModel.find({bookingDate: req.body.date, attachedService: req.body.service});
+        if (check.length>0) return res.status(400).json({status: "error", message: "Date booking already exists"});
         const dateBooking = new dateBookingModel({
             bookingDate: req.body.date,
             attachedService: req.body.service,
