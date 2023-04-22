@@ -24,6 +24,30 @@ const RoomSchema = Schema({
         type: Number,
         require:true,
         min: 0,
+    },
+    checkInHour: {
+        type: Number,
+        require: true,
+        max: 23,
+        min: 0,
+    },
+    checkInMinute: {
+        type: Number,
+        require: true,
+        max: 59,
+        min: 0,
+    },
+    checkOutHour: {
+        type: Number,
+        require: true,
+        max: 23,
+        min: 0,
+    },
+    checkOutMinute: {
+        type: Number,
+        require: true,
+        max: 59,
+        min: 0,
     }
 })
 

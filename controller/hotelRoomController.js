@@ -1,4 +1,5 @@
 const hotelRoomModel = require('../models/hotel_room_model');
+const dateBookingModel = require('../models/dateBookingModel');
 const hotelModel = require('../models/hotel_model');
 
 const updateHotelRoom = async (req, res) => {
@@ -11,10 +12,13 @@ const updateHotelRoom = async (req, res) => {
             const hotelRoom = await hotelRoomModel.findById(req.params.id);
             if (!hotelRoom) return res.status(404).json({status: "error", message: "Hotel room not found"});
             if (req.body.number) hotelRoom.number = req.body.number;
-            if (req.body.hotel) hotelRoom.hotel = req.body.hotel;
             if (req.body.adultCapacity) hotelRoom.adultCapacity = req.body.adultCapacity;
             if (req.body.childrenCapacity) hotelRoom.childrenCapacity = req.body.childrenCapacity;
             if (req.body.price) hotelRoom.price = req.body.price;
+            if (req.body.checkInHour) hotelRoom.checkInHour = req.body.checkInHour;
+            if (req.body.checkOutHour) hotelRoom.checkOutHour = req.body.checkOutHour;
+            if (req.body.checkInMinute) hotelRoom.checkInMinute = req.body.checkInMinute;
+            if (req.body.checkOutMinute) hotelRoom.checkOutMinute = req.body.checkOutMinute;
             await hotelRoom.save();
             return res.status(200).json({status: "success", message: "Hotel room updated"});
         }
@@ -59,6 +63,10 @@ const uploadHotelRoom = async (req,res)=>{
             "adultCapacity": req.body.adultCapacity,
             "childrenCapacity": req.body.childrenCapacity,
             "price": req.body.price,
+            "checkInHour": req.body.checkInHour,
+            "checkInMinute": req.body.checkInMinute,
+            "checkOutHour": req.body.checkOutHour,
+            "checkOutMinute": req.body.checkOutMinute,
         });
         await hotelRoom.save();
         res.status(200).send('Hotel room information uploaded');
@@ -68,12 +76,21 @@ const uploadHotelRoom = async (req,res)=>{
     }
 }
 
+//pass in by query of the day to retrieve room available for that day
 const getHotelRoom = async (req,res)=>{
     try{
+        const query = dateBookingModel.find({});
+        let notAvailableList = [];
+        if(req.query.day){
+            let day = req.query.day;
+            const tmplist = await query.where('bookingDate').equals(new Date(day)).select('attachedService').exec();
+            tmplist.forEach((item)=>notAvailableList.push(item.attachedService));
+        }
         if(!req.params.hotel){
             return res.status(400).json({status: "error", message: "No hotel id"});
         }
-        const hotelRoom = await hotelRoomModel.find({hotel: req.params.hotel});
+        const hotelRoom = await hotelRoomModel.find({hotel: req.params.hotel}).where('_id').nin(notAvailableList).exec();
+        hotelRoom.forEach((item)=>console.log(item._id!==notAvailableList[0]));
         return res.status(200).json({status: "success", data: hotelRoom});
     }
     catch (e){

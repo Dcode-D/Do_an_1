@@ -28,6 +28,7 @@ app.use('/refresh', require('./routes/refresh'));
 app.use('/hotel',require('./routes/hotel'));
 app.use('/upload',require('./routes/uploadFiles'));
 app.use('/files',require('./routes/files'));
+app.use('/dateBooking',require('./routes/dateBooking'));
 app.get('/upload_ui', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
 });

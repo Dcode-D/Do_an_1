@@ -5,7 +5,7 @@ const {uploadHotelRoom,getHotelRoom,deleteHotelRoom,updateHotelRoom} = require('
 const authen = require('../middleware/utils_auth');
 
 router.get('/:id', getHotel);
-router.get('/',getHotelByQueries)
+router.get('/:page',getHotelByQueries)
 router.get('/:hotel/room',getHotelRoom)
 router.use(authen);
 router.post('/', [fileUploadMiddleware, fileExtLimiterMiddleware, hotelController]);
