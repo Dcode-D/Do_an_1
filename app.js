@@ -29,6 +29,7 @@ app.use('/hotel',require('./routes/hotel'));
 app.use('/upload',require('./routes/uploadFiles'));
 app.use('/files',require('./routes/files'));
 app.use('/dateBooking',require('./routes/dateBooking'));
+app.use('/rating',require('./routes/rating'));
 app.get('/upload_ui', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
 });

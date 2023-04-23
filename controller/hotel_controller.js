@@ -1,5 +1,6 @@
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const fs = require('fs');
 const FileModel = require('../models/files_model');
 const hotelModel = require('../models/hotel_model');
 const hotelRoomModel = require('../models/hotel_room_model');
@@ -57,6 +58,10 @@ const hotelController = async (req,res)=>{
 const updateHotelImage = async (req,res)=>{
     try {
         if (req.params.id) {
+            let hotel = await hotelModel.findOne({_id: req.params.id});
+            if(!hotel||!hotel.owner.equals(req.user._id)){
+                return res.status(403).json({status: "error", message: "Not permitted"});
+            }
             var imglist = []
             if (req.files) {
                 const files = req.files;
@@ -76,15 +81,46 @@ const updateHotelImage = async (req,res)=>{
                     })
                     imglist.push(fileModel._id)
                 }
-                var hotel = await hotelModel.findOne({_id: req.params.id});
-                if(!hotel||hotel.owner!==req.user._id){
-                    return res.status(403).json({status: "error", message: "Not permitted"});
-                }
+
                 hotel.images = [...hotel.images, ...imglist];
                 return res.status(200).send('Hotel image uploaded');
             }
             else {
                 return res.status(400).json({status: "error", message: "No image uploaded"});
+            }
+        } else {
+            return res.status(400).json({status: "error", message: "No hotel id"});
+        }
+    }catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+const deleteHotelImage = async (req,res)=>{
+    try {
+        if (req.params.id) {
+            let hotel = await hotelModel.findOne({_id: req.params.id});
+            if(!hotel||!hotel.owner.equals(req.user._id)){
+                return res.status(403).json({status: "error", message: "Not permitted"});
+            }
+            if (req.body.imageId) {
+                const imageId = req.body.imageId;
+                const index = hotel.images.indexOf(imageId);
+                if (index > -1) {
+                    hotel.images.splice(index, 1);
+                    const filetoDelete = await FileModel.findById(imageId);
+                    if(filetoDelete){
+                        const uri = filetoDelete.path;
+                        fs.unlinkSync(uri)
+                        await filetoDelete.deleteOne();
+                    }
+                }
+                await hotel.save();
+                return res.status(200).send('Hotel image deleted');
+            }
+            else {
+                return res.status(400).json({status: "error", message: "No image id"});
             }
         } else {
             return res.status(400).json({status: "error", message: "No hotel id"});
@@ -138,8 +174,8 @@ const getHotelByQueries = async (req,res)=>{
 
 const updateHotelInfo = async (req, res) => {
     const hotel = await hotelModel.findById(req.params.id);
-    if(!hotel||hotel.owner!==req.user._id){
-        return res.status(403).json({status: "error", message: "Not permitted"});
+    if(!hotel||!hotel.owner.equals(req.user._id)){
+        return res.status(403).json({status: "error", message: "Id not found/ not permitted"});
     }
     const { id } = req.params;
     const { name, address, description, province } = req.body;
@@ -161,7 +197,7 @@ const updateHotelInfo = async (req, res) => {
 const deleteHotel = async (req, res) => {
     try {
         const hotelcheck = await hotelModel.findById(req.params.id);
-        if(!hotelcheck||hotelcheck.owner!==req.user._id){
+        if(!hotelcheck||!hotelcheck.owner.equals(req.user._id)){
             return res.status(403).json({status: "error", message: "Not permitted"});
         }
         const hotel = await hotelModel.findByIdAndDelete(req.params.id);
@@ -179,4 +215,4 @@ const deleteHotel = async (req, res) => {
     }
 }
 
-module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, updateHotelImage, deleteHotel};
+module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, updateHotelImage, deleteHotel, deleteHotelImage};
