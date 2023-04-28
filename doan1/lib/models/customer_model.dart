@@ -21,3 +21,6 @@ class Customer{
 }
 
 // Note: This is a dummy data for testing purpose
+List<Customer> customers = [
+
+];

@@ -23,7 +23,7 @@ class TourDetailScreen extends StatefulWidget {
 class _TourDetailScreenState extends State<TourDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    // TODO: implement build for TourDetailScreen
     throw UnimplementedError();
   }
 }

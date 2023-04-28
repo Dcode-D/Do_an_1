@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:doan1/models/hotel_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -51,24 +52,25 @@ class TourCarousel extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             controller: listController,
             scrollDirection: Axis.horizontal,
-            itemCount: 4,
+            itemCount: tours.length,
             itemBuilder: (BuildContext context, int index) {
               Tour tour = tourList[index];
-              Image tourImg = Image.memory(base64Decode(tour.img));
+              Image tourImg = Image.asset(tour.img);
               return TourItem(tour: tour, tourImg: tourImg, type: 1);
             },
           ),
         ),
         SmoothPageIndicator(
             controller: listController,
-            count: 3,
+            count: (tours.length/2).round(),
             effect: const ExpandingDotsEffect(
               activeDotColor: Color(0xFF8a8a8a),
               dotColor: Color(0xFFababab),
               dotHeight: 4.8,
               dotWidth: 6,
               spacing: 4.8,
-            ))
+            )
+        )
       ],
     );
   }

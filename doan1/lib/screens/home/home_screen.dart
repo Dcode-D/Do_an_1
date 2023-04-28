@@ -5,7 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/destination_model.dart';
+import '../../models/tour_model.dart';
 import 'destination_carousel.dart';
+import 'tour_carousel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class  _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,8 +196,11 @@ class  _HomeScreenState extends State<HomeScreen> {
                 child: DestinationCarousel(destinationList: destinationList),
               ),
               SizedBox(height: 10,),
+              TourCarousel(tourList: tours),
+              SizedBox(height: 10,),
               HotelCarousel(),
               SizedBox(height: 80),
+
             ],
           )
         ),

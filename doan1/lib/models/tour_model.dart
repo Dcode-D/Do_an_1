@@ -27,3 +27,39 @@ String id;
 }
 
 //Note: This is a dummy data for testing purpose
+List<Tour> tours = [
+  Tour(
+    id: '1',
+    img: 'assets/images/tour0.jpg',
+    name: 'Tour 0',
+    description: 'Tour 0 description',
+    destinationIDs: '1,2,3',
+    price: '1000',
+    profit: '100',
+    ratingList: comments,
+    status: 1,
+  ),
+  Tour(
+    id: '2',
+    img: 'assets/images/tour1.jpg',
+    name: 'Tour 1',
+    description: 'Tour 1 description',
+    destinationIDs: '1,2,3',
+    price: '1000',
+    profit: '100',
+    ratingList: comments,
+    status: 1,
+  ),
+  Tour(
+    id: '3',
+    img: 'assets/images/tour2.jpg',
+    name: 'Tour 2',
+    description: 'Tour 2 description',
+    destinationIDs: '1,2,3',
+    price: '1000',
+    profit: '100',
+    ratingList: comments,
+    status: 1,
+  ),
+
+];
