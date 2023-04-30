@@ -1,9 +1,13 @@
+import 'package:doan1/widgets/hotel_item.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import '../../models/hotel_model.dart';
+import '../../models/tour_model.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
+import '../../widgets/tour_item.dart';
 
 class SearchScreen extends StatefulWidget {
 
@@ -124,7 +128,7 @@ class _SearchScreenState extends State<SearchScreen>
                 ),
                 tabs: const [
                   Tab(text: 'Tour'),
-                  Tab(text: 'Destination'),
+                  Tab(text: 'Hotel'),
                 ],
               ),
             )),
@@ -133,11 +137,25 @@ class _SearchScreenState extends State<SearchScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          Center(
-            child: Text('Tour'),
-          ),
-          Center(
-            child: Text('Destination'),
+          ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
+          itemCount: tours.length,
+          itemBuilder: (BuildContext context, int index) {
+          Tour tour = tours[index];
+          Image tourImg = Image.asset(tour.img);
+          return TourItem(tour: tour, tourImg: tourImg, type: 2);
+          },
+        ),
+          ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+            itemCount: hotels.length,
+            itemBuilder: (BuildContext context, int index) {
+              Hotel hotel = hotels[index];
+              Image hotelImg = Image.asset(hotel.imageUrl);
+              return HotelItem(hotel: hotel, hotelImg: hotelImg, type: 2);
+            },
           ),
         ],
       )

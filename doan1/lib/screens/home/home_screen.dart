@@ -100,11 +100,11 @@ class  _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(10),
                         ),
                               child: IconButton(onPressed: (){},
-                          icon: Icon(FontAwesomeIcons.planeArrival, color: Colors.white, size: 25,),),
+                          icon: Icon(FontAwesomeIcons.flag, color: Colors.white, size: 25,),),
                       ),
                             SizedBox(height: 10,),
                               Text(
-                              "Flights",
+                              "Tours",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -192,9 +192,7 @@ class  _HomeScreenState extends State<HomeScreen> {
                 )
                 ),
               SizedBox(height: 15,),
-              Center(
-                child: DestinationCarousel(destinationList: destinationList),
-              ),
+              DestinationCarousel(destinationList: destinationList),
               SizedBox(height: 10,),
               TourCarousel(tourList: tours),
               SizedBox(height: 10,),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../models/tour_model.dart';
 
@@ -24,6 +25,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build for TourDetailScreen
-    throw UnimplementedError();
+    return Scaffold(
+      body: Container(),
+    );
   }
 }

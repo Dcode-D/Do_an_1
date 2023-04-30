@@ -7,7 +7,7 @@ class Hotel{
   String address;
   String description;
   String type;
-  int price;
+  String price;
 
   Hotel({
     required this.id,
@@ -29,7 +29,7 @@ List<Hotel> hotels = [
     address: '404 Great St',
     description: 'Hotel 0 description',
     type: 'Hotel',
-    price: 175,
+    price: '175',
   ),
   Hotel(
     id: '2',
@@ -38,7 +38,7 @@ List<Hotel> hotels = [
     address: '404 Great St',
     description: 'Hotel 1 description',
     type: 'Hotel',
-    price: 300,
+    price: '300',
   ),
   Hotel(
     id: '3',
@@ -47,6 +47,6 @@ List<Hotel> hotels = [
     address: '404 Great St',
     description: 'Hotel 2 description',
     type: 'Hotel',
-    price: 240,
+    price: '240',
   ),
 ];

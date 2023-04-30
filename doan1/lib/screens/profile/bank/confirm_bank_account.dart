@@ -1,10 +1,14 @@
+
+import 'package:doan1/screens/profile/bank/success_bank_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ConfirmBankScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    GlobalKey currentKey = GlobalKey();
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -202,6 +206,7 @@ class ConfirmBankScreen extends StatelessWidget{
                 child: ElevatedButton(
                     onPressed: (){
                     //TODO: Open confirm dialog and nav to edit profile screen
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessBankScreen()));
                     },
                     child: const Center(
                       child: Text(
