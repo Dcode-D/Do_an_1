@@ -21,7 +21,7 @@ class TourItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: type == 1 ? 320 : 350,
       child: GestureDetector(
         onTap: () => Navigator.push(context,

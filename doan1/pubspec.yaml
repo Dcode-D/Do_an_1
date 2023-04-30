@@ -51,6 +51,8 @@ dependencies:
   intl: ^0.18.1
   another_flushbar: ^1.12.29
 
+  smooth_star_rating_null_safety: ^1.0.4+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

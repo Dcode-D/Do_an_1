@@ -8,6 +8,7 @@ class Hotel{
   String description;
   String type;
   String price;
+  List<String> imageUrls = [];
 
   Hotel({
     required this.id,
@@ -17,6 +18,7 @@ class Hotel{
     required this.description,
     required this.type,
     required this.price,
+    required this.imageUrls,
   });
 }
 
@@ -30,6 +32,11 @@ List<Hotel> hotels = [
     description: 'Hotel 0 description',
     type: 'Hotel',
     price: '175',
+    imageUrls: [
+      'assets/images/hotel0.jpg',
+      'assets/images/hotel1.jpg',
+      'assets/images/hotel2.jpg',
+    ],
   ),
   Hotel(
     id: '2',
@@ -39,6 +46,11 @@ List<Hotel> hotels = [
     description: 'Hotel 1 description',
     type: 'Hotel',
     price: '300',
+    imageUrls: [
+      'assets/images/hotel0.jpg',
+      'assets/images/hotel1.jpg',
+      'assets/images/hotel2.jpg',
+    ],
   ),
   Hotel(
     id: '3',
@@ -48,5 +60,10 @@ List<Hotel> hotels = [
     description: 'Hotel 2 description',
     type: 'Hotel',
     price: '240',
+    imageUrls: [
+      'assets/images/hotel0.jpg',
+      'assets/images/hotel1.jpg',
+      'assets/images/hotel2.jpg',
+    ],
   ),
 ];

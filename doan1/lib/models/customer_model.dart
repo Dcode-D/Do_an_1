@@ -22,5 +22,40 @@ class Customer{
 
 // Note: This is a dummy data for testing purpose
 List<Customer> customers = [
-
+  Customer(
+    id: '1',
+    avatar: 'assets/images/avatar0.jpg',
+    name: 'Customer 0',
+    email: '',
+    phone: '',
+    address: '',
+    iDCard: '',
+    idBankAccount: ''),
+  Customer(
+      id: '2',
+      avatar: 'assets/images/avatar0.jpg',
+      name: 'Customer 0',
+      email: '',
+      phone: '',
+      address: '',
+      iDCard: '',
+      idBankAccount: ''),
+  Customer(
+      id: '3',
+      avatar: 'assets/images/avatar0.jpg',
+      name: 'Customer 0',
+      email: '',
+      phone: '',
+      address: '',
+      iDCard: '',
+      idBankAccount: ''),
+  Customer(
+      id: '4',
+      avatar: 'assets/images/avatar0.jpg',
+      name: 'Customer 0',
+      email: '',
+      phone: '',
+      address: '',
+      iDCard: '',
+      idBankAccount: ''),
 ];
