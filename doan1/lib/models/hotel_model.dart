@@ -6,7 +6,7 @@ class Hotel{
   String name;
   String address;
   String description;
-  String type;
+  List<String> type;
   String price;
   List<String> imageUrls = [];
 
@@ -25,12 +25,12 @@ class Hotel{
 //Note: This is a dummy data for testing purpose
 List<Hotel> hotels = [
   Hotel(
-    id: '1',
+    id: 'h1',
     imageUrl: 'assets/images/hotel0.jpg',
     name: 'Hotel 0',
     address: '404 Great St',
     description: 'Hotel 0 description',
-    type: 'Hotel',
+    type: ['Hotel', 'Resort'],
     price: '175',
     imageUrls: [
       'assets/images/hotel0.jpg',
@@ -39,31 +39,31 @@ List<Hotel> hotels = [
     ],
   ),
   Hotel(
-    id: '2',
+    id: 'h2',
     imageUrl: 'assets/images/hotel1.jpg',
     name: 'Hotel 1',
     address: '404 Great St',
     description: 'Hotel 1 description',
-    type: 'Hotel',
+    type: ['Hotel', 'Resort'],
     price: '300',
     imageUrls: [
-      'assets/images/hotel0.jpg',
       'assets/images/hotel1.jpg',
+      'assets/images/hotel0.jpg',
       'assets/images/hotel2.jpg',
     ],
   ),
   Hotel(
-    id: '3',
+    id: 'h3',
     imageUrl: 'assets/images/hotel2.jpg',
     name: 'Hotel 2',
     address: '404 Great St',
     description: 'Hotel 2 description',
-    type: 'Hotel',
+    type: ['Hotel', 'Resort'],
     price: '240',
     imageUrls: [
-      'assets/images/hotel0.jpg',
-      'assets/images/hotel1.jpg',
       'assets/images/hotel2.jpg',
+      'assets/images/hotel1.jpg',
+      'assets/images/hotel0.jpg',
     ],
   ),
 ];

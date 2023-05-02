@@ -42,7 +42,7 @@ class HotelCarousel extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 300.0,
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),

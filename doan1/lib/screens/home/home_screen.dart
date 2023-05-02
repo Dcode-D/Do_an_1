@@ -35,7 +35,7 @@ class  _HomeScreenState extends State<HomeScreen> {
                       offset: const Offset(0, 7), // changes position of shadow
                     ),
                   ],
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage("assets/images/home_background.jpg"),
                     fit: BoxFit.cover,
                   ),
@@ -57,12 +57,12 @@ class  _HomeScreenState extends State<HomeScreen> {
                                     width: 2,
                                   ),
                                 ),
-                                child: CircleAvatar(
+                                child: const CircleAvatar(
                                   radius: 40,
                                   backgroundImage: AssetImage("assets/images/avatar-wallpaper.jpg"),
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Container(
                                 height: 40,
                                 width: 40,
@@ -71,11 +71,11 @@ class  _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: IconButton(onPressed: (){},
-                                    icon: Icon(FontAwesomeIcons.solidBell, color: Colors.white, size: 25,)),
+                                    icon: const Icon(FontAwesomeIcons.solidBell, color: Colors.white, size: 25,)),
                               ),
                           ],
                         ),
-                      Spacer(),
+                      const Spacer(),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -88,7 +88,7 @@ class  _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       Row(
                         children: [
                           Column(
@@ -100,9 +100,9 @@ class  _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(10),
                         ),
                               child: IconButton(onPressed: (){},
-                          icon: Icon(FontAwesomeIcons.flag, color: Colors.white, size: 25,),),
+                          icon: const Icon(FontAwesomeIcons.flag, color: Colors.white, size: 25,),),
                       ),
-                            SizedBox(height: 10,),
+                            const SizedBox(height: 10,),
                               Text(
                               "Tours",
                               style: TextStyle(
@@ -113,7 +113,7 @@ class  _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             ],),
-                          Spacer(),
+                          const Spacer(),
                           Column(
                             children:[
                               Container(
@@ -124,9 +124,9 @@ class  _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: IconButton(onPressed: (){},
-                                  icon: Icon(FontAwesomeIcons.building, color: Colors.white, size: 25,),),
+                                  icon: const Icon(FontAwesomeIcons.building, color: Colors.white, size: 25,),),
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               Text(
                                 "Hotel",
                                 style: TextStyle(
@@ -137,7 +137,7 @@ class  _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ],),
-                          Spacer(),
+                          const Spacer(),
                           Column(
                             children:[
                               Container(
@@ -148,9 +148,9 @@ class  _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: IconButton(onPressed: (){},
-                                  icon: Icon(FontAwesomeIcons.car, color: Colors.white, size: 25,),),
+                                  icon: const Icon(FontAwesomeIcons.car, color: Colors.white, size: 25,),),
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               Text(
                                 "Car",
                                 style: TextStyle(
@@ -161,7 +161,7 @@ class  _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ],),
-                          Spacer(),
+                          const Spacer(),
                           Column(
                             children:[
                               Container(
@@ -172,9 +172,9 @@ class  _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: IconButton(onPressed: (){},
-                                  icon: Icon(FontAwesomeIcons.taxi, color: Colors.white, size: 25,),),
+                                  icon: const Icon(FontAwesomeIcons.taxi, color: Colors.white, size: 25,),),
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               Text(
                                 "Taxi",
                                 style: TextStyle(
@@ -186,18 +186,18 @@ class  _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],),
                         ],),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                     ],
                   ),
                 )
                 ),
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               DestinationCarousel(destinationList: destinationList),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               TourCarousel(tourList: tours),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               HotelCarousel(),
-              SizedBox(height: 80),
+              const SizedBox(height: 80),
 
             ],
           )

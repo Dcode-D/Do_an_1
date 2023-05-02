@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'package:doan1/models/hotel_model.dart';
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:doan1/widgets/tour_item.dart';
 
 import '../../models/tour_model.dart';
@@ -46,7 +43,7 @@ class TourCarousel extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 320.0,
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),

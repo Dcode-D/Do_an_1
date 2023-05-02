@@ -1,8 +1,6 @@
-import 'dart:ui';
 
 import 'package:doan1/screens/detail_screens/hotel/hotel_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../models/hotel_model.dart';
@@ -26,7 +24,7 @@ class HotelItem extends StatelessWidget{
     return SizedBox(
       height: type == 1 ? 280 : 300,
       child: GestureDetector(
-        onTap: () => Navigator.push(context,
+        onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => HotelDetailScreen(
               hotel: hotel,
