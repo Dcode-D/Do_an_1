@@ -26,10 +26,10 @@ app.use('/login',require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/hotel',require('./routes/hotel'));
-app.use('/upload',require('./routes/uploadFiles'));
 app.use('/files',require('./routes/files'));
 app.use('/dateBooking',require('./routes/dateBooking'));
 app.use('/rating',require('./routes/rating'));
+app.use('/car',require('./routes/car'));
 app.get('/upload_ui', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
 });

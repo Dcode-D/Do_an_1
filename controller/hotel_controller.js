@@ -19,7 +19,7 @@ const fileExtLimiterMiddleware = fileExtLimiter(['.jpg', '.png', '.jpeg', '.gif'
 
 const hotelController = async (req,res)=>{
     try {
-        var imglist = []
+        let imglist = []
         if (req.files) {
             const files = req.files;
             for (const key in files) {
@@ -202,6 +202,10 @@ const deleteHotel = async (req, res) => {
         }
         const hotel = await hotelModel.findByIdAndDelete(req.params.id);
         await hotelRoomModel.deleteMany({hotel: req.params.id});
+        const filesUri = await FileModel.find({attachedId: req.params.id});
+        filesUri.forEach((file)=>{
+            fs.unlinkSync(file.path);
+        })
         await FileModel.deleteMany({attachedId: req.params.id});
 
         if (!hotel) {
