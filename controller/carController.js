@@ -88,7 +88,13 @@ const deleteCar = async (req, res) => {
     try {
         const carcheck = await Car.findById(req.params.id);
         if (carcheck.owner === req.user._id) {
-            await Car.findByIdAndDelete(req.params.id);
+            const deletedcar = await Car.findByIdAndDelete(req.params.id);
+            if(deletedcar.images){
+                deletedcar.images.forEach(async (image)=>{
+                    const filetodelete = await FileModel.findByIdAndDelete(image);
+                    fs.unlinkSync(filetodelete.path);
+                })
+            }
             res.json({ message: 'Car deleted successfully' });
         }
         else {
@@ -162,7 +168,7 @@ const deleteCarImage = async (req,res)=>{
                     }
                 }
                 await car.save();
-                return res.status(200).send('Hotel image deleted');
+                return res.status(200).send('Car image deleted');
             }
             else {
                 return res.status(400).json({status: "error", message: "No image id"});

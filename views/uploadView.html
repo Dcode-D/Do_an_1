@@ -65,16 +65,17 @@
                 formData.append(myFiles.item(key).name, myFiles.item(key))
             })
 
-            // formData.append("name", "Star hotel"),
-            // formData.append("description","Huge hotel with 1000 rooms"),
-            // formData.append("address","20 Trang bom street"),
-            // formData.append("province","Vung tau"),
-            formData.append("number",402)
-            formData.append("price",1000000)
-            formData.append("adultCapacity",2)
-            formData.append("childrenCapacity",2)
+            formData.append("name", "Star hotel");
+            formData.append("description","Huge hotel with 1000 rooms");
+            formData.append("address","20 Trang bom street");
+            formData.append("province","Vung tau");
+            formData.append("number",100);
+            // formData.append("number",402)
+            // formData.append("price",1000000)
+            // formData.append("adultCapacity",2)
+            // formData.append("childrenCapacity",2)
 
-            fetch('http://localhost:3500/hotel/642d98ebd702733681bf6995/room', {
+            fetch('http://localhost:3500/files', {
                 method: 'POST',
                 body: formData,
                 headers:{

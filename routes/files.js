@@ -22,6 +22,8 @@ router.post('/', async (req, res) => {
             return  res.status(400).send('No files were uploaded.');
         }
         const files = req.files;
+        // console.log("content type: ", req.headers['content-type'])
+        // console.log("body: ", req.body)
         for(const key in files){
             const filename = Date.now().toString()+ files[key].name;
             const filepath = path.join(__dirname, '../upload/files',filename)
