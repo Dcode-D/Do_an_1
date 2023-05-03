@@ -89,103 +89,82 @@ class  _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 20,),
-                      Row(
-                        children: [
-                          Column(
-                            children:[
-                            Container(
-                              height: 64, width: 64,
-                              decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Column(
+                              children:[
+                              Container(
+                                height: 64, width: 64,
+                                decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(10),
+                          ),
+                                child: IconButton(onPressed: (){},
+                            icon: const Icon(FontAwesomeIcons.flag, color: Colors.white, size: 25,),),
                         ),
-                              child: IconButton(onPressed: (){},
-                          icon: const Icon(FontAwesomeIcons.flag, color: Colors.white, size: 25,),),
+                              const SizedBox(height: 10,),
+                                Text(
+                                "Tours",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontFamily: GoogleFonts.sourceSansPro().fontFamily,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              ],),
+                            const Spacer(),
+                            Column(
+                              children:[
+                                Container(
+                                  height: 64,
+                                  width: 64,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: IconButton(onPressed: (){},
+                                    icon: const Icon(FontAwesomeIcons.building, color: Colors.white, size: 25,),),
+                                ),
+                                const SizedBox(height: 10,),
+                                Text(
+                                  "Hotel",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: GoogleFonts.sourceSansPro().fontFamily,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],),
+                            const Spacer(),
+                            Column(
+                              children:[
+                                Container(
+                                  height: 64,
+                                  width: 64,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: IconButton(onPressed: (){},
+                                    icon: const Icon(FontAwesomeIcons.car, color: Colors.white, size: 25,),),
+                                ),
+                                const SizedBox(height: 10,),
+                                Text(
+                                  "Car",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: GoogleFonts.sourceSansPro().fontFamily,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],),
+                          ],),
                       ),
-                            const SizedBox(height: 10,),
-                              Text(
-                              "Tours",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            ],),
-                          const Spacer(),
-                          Column(
-                            children:[
-                              Container(
-                                height: 64,
-                                width: 64,
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: IconButton(onPressed: (){},
-                                  icon: const Icon(FontAwesomeIcons.building, color: Colors.white, size: 25,),),
-                              ),
-                              const SizedBox(height: 10,),
-                              Text(
-                                "Hotel",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],),
-                          const Spacer(),
-                          Column(
-                            children:[
-                              Container(
-                                height: 64,
-                                width: 64,
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: IconButton(onPressed: (){},
-                                  icon: const Icon(FontAwesomeIcons.car, color: Colors.white, size: 25,),),
-                              ),
-                              const SizedBox(height: 10,),
-                              Text(
-                                "Car",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],),
-                          const Spacer(),
-                          Column(
-                            children:[
-                              Container(
-                                height: 64,
-                                width: 64,
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: IconButton(onPressed: (){},
-                                  icon: const Icon(FontAwesomeIcons.taxi, color: Colors.white, size: 25,),),
-                              ),
-                              const SizedBox(height: 10,),
-                              Text(
-                                "Taxi",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],),
-                        ],),
                       const SizedBox(height: 10,),
                     ],
                   ),
@@ -198,7 +177,6 @@ class  _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 10,),
               HotelCarousel(),
               const SizedBox(height: 80),
-
             ],
           )
         ),

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../models/hotel_model.dart';
 
@@ -22,106 +23,90 @@ class HotelDetailScreen extends StatefulWidget{
 }
 
 class _HotelDetailScreenState extends State<HotelDetailScreen> {
+  final PageController listController = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(
-        builder: (context) => Container(
-          child: Column(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.45,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
+        builder: (context) => Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(0.0, 2.0),
+                        blurRadius: 6.0,
                       ),
-                      boxShadow: [
-                        BoxShadow(
+                    ],
+                  ),
+                  child: Hero(
+                    tag: widget.type == 1 ? widget.hotel.id : widget.hotel.name,
+                    child: PageView.builder(
+                      controller: listController,
+                        itemCount: widget.hotel.imageUrls.length,
+                        itemBuilder:(context, index) {
+                          return Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                      image: AssetImage(widget.hotel.imageUrls[index]),
+                                      fit: BoxFit.cover
+                                  )
+                              )// image:AssetImage(url),),
+                          );
+                        },
+                  ),
+                ),
+                ),
+                // buttons row
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 40.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.black.withOpacity(0.3)
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: Colors.white,
-                          offset: Offset(0.0, 2.0),
-                          blurRadius: 6.0,
+                          onPressed: () => Navigator.pop(context),
                         ),
-                      ],
-                    ),
-                    child: Hero(
-                      tag: widget.type == 1 ? widget.hotel.id : widget.hotel.name,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
-                        ),
-                        child: CarouselSlider(
-                          items: widget.hotel.imageUrls.map((url) {
-                            return Container(
-                             margin: const EdgeInsets.all(5.0),
-                             decoration: BoxDecoration(
-                               borderRadius: BorderRadius.circular(10.0),
-                               image: DecorationImage(
-                                 image: AssetImage(url),
-                                 fit: BoxFit.cover
-                               )
-                               // image:AssetImage(url),
-                             ),
-                              );
-                          }).toList(),
-                          options: CarouselOptions(
-                              initialPage: 0,
-                              autoPlay: false,
-                              enlargeCenterPage: true,
-                              aspectRatio: 1/1,
-                        )
                       ),
-                    ),
-                    ),
+                    ],
                   ),
-                  // buttons row
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 40.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.black.withOpacity(0.3)
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                            color: Colors.white,
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                        ),
-                        // Row(
-                        //   children: <Widget>[
-                        //     IconButton(
-                        //       icon: const Icon(Icons.search),
-                        //       iconSize: 30.0,
-                        //       color: Colors.black,
-                        //       onPressed: () => Navigator.pop(context),
-                        //     ),
-                        //     IconButton(
-                        //       icon: const Icon(FontAwesomeIcons.sortAmountDown),
-                        //       iconSize: 25.0,
-                        //       color: Colors.black,
-                        //       onPressed: () => Navigator.pop(context),
-                        //     ),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                  ),
-                  // name and province
-                ],
-              )
-            ],
-          ),
+                ),
+                // name and province
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            SmoothPageIndicator(
+              controller: listController,
+              count: widget.hotel.imageUrls.length,
+              effect: const ExpandingDotsEffect(
+                activeDotColor: Color(0xFF8a8a8a),
+                dotColor: Color(0xFFababab),
+                dotHeight: 4.8,
+                dotWidth: 6,
+                spacing: 4.8,
+              ),
+            ),
+          ],
         ),
       ),
     );
