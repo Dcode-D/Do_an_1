@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
+import 'package:doan1/screens/detail_screens/hotel/hotel_book_info_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -28,85 +31,203 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(
-        builder: (context) => Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 8.0),
+                          blurRadius: 10.0,
+                        ),
+                      ],
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 6.0,
-                      ),
-                    ],
+                    child: Hero(
+                      tag: widget.type == 1 ? widget.hotel.id : widget.hotel.name,
+                      child: PageView.builder(
+                        controller: listController,
+                          itemCount: widget.hotel.imageUrls.length,
+                          itemBuilder:(context, index) {
+                            return Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(0.0, 8.0),
+                                        blurRadius: 10.0,
+                                      ),
+                                    ],
+                                    image: DecorationImage(
+                                        image: AssetImage(widget.hotel.imageUrls[index]),
+                                        fit: BoxFit.cover
+                                    )
+                                )// image:AssetImage(url),),
+                            );
+                          },
+                    ),
                   ),
-                  child: Hero(
-                    tag: widget.type == 1 ? widget.hotel.id : widget.hotel.name,
-                    child: PageView.builder(
-                      controller: listController,
-                        itemCount: widget.hotel.imageUrls.length,
-                        itemBuilder:(context, index) {
-                          return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  image: DecorationImage(
-                                      image: AssetImage(widget.hotel.imageUrls[index]),
-                                      fit: BoxFit.cover
-                                  )
-                              )// image:AssetImage(url),),
-                          );
-                        },
                   ),
-                ),
-                ),
-                // buttons row
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 40.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.black.withOpacity(0.3)
+                  // buttons row
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 40.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.black.withOpacity(0.3)
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                            color: Colors.white,
+                            onPressed: () => Navigator.pop(context),
+                          ),
                         ),
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                          color: Colors.white,
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                // name and province
-              ],
-            ),
-            const SizedBox(height: 10.0),
-            SmoothPageIndicator(
-              controller: listController,
-              count: widget.hotel.imageUrls.length,
-              effect: const ExpandingDotsEffect(
-                activeDotColor: Color(0xFF8a8a8a),
-                dotColor: Color(0xFFababab),
-                dotHeight: 4.8,
-                dotWidth: 6,
-                spacing: 4.8,
+                  // name and province
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 10.0),
+              Center(
+                child: SmoothPageIndicator(
+                  controller: listController,
+                  count: widget.hotel.imageUrls.length,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Color(0xFF8a8a8a),
+                    dotColor: Color(0xFFababab),
+                    dotHeight: 4.8,
+                    dotWidth: 6,
+                    spacing: 4.8,
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Text(
+                    widget.hotel.name,
+                    style: GoogleFonts.raleway(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text("${widget.hotel.price}\$/Night",
+                    style: GoogleFonts.raleway(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500,),),
+                ],
+              ),
+              const SizedBox(height: 10.0),
+              Row(
+                children: [
+                  Icon(FontAwesomeIcons.mapMarkerAlt, size: 18.0, color: Colors.grey),
+                  SizedBox(width: 5.0),
+                  Text(
+                    widget.hotel.address,
+                    style: GoogleFonts.raleway(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10.0),
+              Text(
+                "Hotel facilities",
+                style: GoogleFonts.raleway(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              //TODO: Make list of facilities
+              GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4, crossAxisSpacing: 8.0, mainAxisSpacing: 0
+                  ),
+              itemCount: widget.hotel.hotelFacilities.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(width: 1,
+                                color: Colors.grey.withOpacity(0.5)),
+                        color: Colors.white,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 5.0,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.hotel.hotelFacilities[index],
+                          style: GoogleFonts.raleway(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    );
+              }),
+              const SizedBox(height: 10,),
+              Text("Description",
+                style: GoogleFonts.raleway(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w700,
+                ),),
+              const SizedBox(height: 10.0),
+              Text(
+                widget.hotel.description,
+                style: GoogleFonts.raleway(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> HotelBookingInfoScreen()));
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  minimumSize: const Size(double.infinity, 50.0),
+                  elevation: 0.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                child: Center(
+                  child: Text("Book now",
+                    style: GoogleFonts.raleway(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                    ),),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -80,7 +80,6 @@ class Salomon_nav_bar extends StatelessWidget{
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: SalomonBottomBar(
-
                       currentIndex: state.selectedIndex,
                       onTap: (index) {
                         BlocProvider.of<NavigationBloc>(context).add(NavigateEvent(selectedIndex: index));

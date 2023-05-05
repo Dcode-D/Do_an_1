@@ -32,7 +32,7 @@ List<Tour> tours = [
     id: 't1',
     img: 'assets/images/tour0.jpg',
     name: 'Tour 0',
-    description: 'Tour 0 description',
+    description: 'Tour 0',
     destinationIDs: '1,2,3',
     price: '1000',
     profit: '100',

@@ -6,7 +6,7 @@ class Hotel{
   String name;
   String address;
   String description;
-  List<String> type;
+  List<String> hotelFacilities = [];
   String price;
   List<String> imageUrls = [];
 
@@ -16,7 +16,7 @@ class Hotel{
     required this.name,
     required this.address,
     required this.description,
-    required this.type,
+    required this.hotelFacilities,
     required this.price,
     required this.imageUrls,
   });
@@ -30,7 +30,7 @@ List<Hotel> hotels = [
     name: 'Hotel 0',
     address: '404 Great St',
     description: 'Hotel 0 description',
-    type: ['Hotel', 'Resort'],
+    hotelFacilities: ['Wifi', 'Pool'],
     price: '175',
     imageUrls: [
       'assets/images/hotel0.jpg',
@@ -44,7 +44,7 @@ List<Hotel> hotels = [
     name: 'Hotel 1',
     address: '404 Great St',
     description: 'Hotel 1 description',
-    type: ['Hotel', 'Resort'],
+    hotelFacilities: ['Park', 'Breakfast'],
     price: '300',
     imageUrls: [
       'assets/images/hotel1.jpg',
@@ -58,7 +58,7 @@ List<Hotel> hotels = [
     name: 'Hotel 2',
     address: '404 Great St',
     description: 'Hotel 2 description',
-    type: ['Hotel', 'Resort'],
+    hotelFacilities: ['Bar', 'Wifi'],
     price: '240',
     imageUrls: [
       'assets/images/hotel2.jpg',
