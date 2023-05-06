@@ -58,82 +58,82 @@ class CardScrollWidget extends StatelessWidget {
             bottom: padding + verticalInset * max(-delta, 0.0),
             start: start,
             textDirection: TextDirection.rtl,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(3.0, 6.0),
-                        blurRadius: 10.0)
-                  ],
-                ),
-                child: AspectRatio(
-                  aspectRatio: cardAspectRatio,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: <Widget>[
-                      Hero(
-                        tag: destinationList[i].description,
-                        child: Image(
-                          image: images[i].image,
-                          fit: BoxFit.cover,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DestinationDetailScreen(
+                          destination: destinationList[i],
+                          img: images[i],
+                          type: 2,
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 20.0,
-                            bottom: 12.0,
+                  ),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(3.0, 6.0),
+                          blurRadius: 10.0)
+                    ],
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: cardAspectRatio,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        Hero(
+                          tag: destinationList[i].description,
+                          child: Image(
+                            image: images[i].image,
+                            fit: BoxFit.cover,
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                destinationList[i].name,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 28.0,
-                                ),
-                              ),
-                              const SizedBox(height: 5.0),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_pin,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20.0,
+                              bottom: 12.0,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  destinationList[i].name,
+                                  style: const TextStyle(
                                     color: Colors.white,
-                                    size: 20,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 28.0,
                                   ),
-                                  Text(
-                                    destinationList[i].province,
-                                    style: const TextStyle(
+                                ),
+                                const SizedBox(height: 5.0),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.location_pin,
                                       color: Colors.white,
-                                      fontSize: 16.0,
+                                      size: 20,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 16.0),
-                              GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          DestinationDetailScreen(
-                                            destination: destinationList[i],
-                                            img: images[i],
-                                            type: 2,
-                                          ),
+                                    Text(
+                                      destinationList[i].province,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                      ),
                                     ),
-                                  );
-                                },
-                                child: Container(
+                                  ],
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
                                   width: 120,
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 22.0,
@@ -161,13 +161,13 @@ class CardScrollWidget extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

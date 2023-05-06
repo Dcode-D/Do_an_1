@@ -32,7 +32,8 @@ class AuthenticationPage extends StatelessWidget {
               },
               child: BlocSelector<AuthenticationBloc,AuthenticationInfoState,authenticateStatus>(
                 selector: (state)=>state.isloggedin,
-                builder: (context,state)=>state==authenticateStatus.unAuthorized ?  AnimatedSwitcher(
+                builder: (context,state)=>state==authenticateStatus.unAuthorized ?
+                AnimatedSwitcher(
                   duration: Duration(milliseconds: 250),
                     switchInCurve: Curves.easeIn,
                     child: LoginScreen())

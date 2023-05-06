@@ -13,7 +13,7 @@ class SuccessBankScreen extends StatelessWidget{
           width: MediaQuery.of(context).size.width,
           color: Colors.white,
           child: Center(
-child: Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
@@ -51,7 +51,7 @@ child: Column(
                   ),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
                     },
                     child: Text(
                       'Back to profile',

@@ -208,7 +208,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
               const SizedBox(height: 10.0),
               ElevatedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> HotelBookingInfoScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                      BlocProvider(
+                        create: (_) => HotelBookingBloc(),
+                          child: HotelBookingInfoScreen())));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blue,
