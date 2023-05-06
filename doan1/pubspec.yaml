@@ -53,6 +53,7 @@ dependencies:
 
   smooth_star_rating_null_safety: ^1.0.4+2
   dropdown_button2: ^2.1.0
+  syncfusion_flutter_datepicker: ^21.2.3
 
 dev_dependencies:
   flutter_test:

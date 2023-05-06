@@ -10,6 +10,8 @@ class RoomAndQuantity extends StatefulWidget {
 }
 
 class _RoomAndQuantityState extends State<RoomAndQuantity> {
+  int _adultsCounter = 0;
+  int _childrenCounter = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,15 +95,22 @@ class _RoomAndQuantityState extends State<RoomAndQuantity> {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      setState(() {
+                        if(_adultsCounter>0){
+                          _adultsCounter--;
+                        }
+                      });
+                    },
                     child:const SizedBox(
                         width: 40,
                         height: 40,
                         child: Icon(Icons.remove))
                 ),
                 const SizedBox(width: 20),
-                const Text('1',
-                  style: TextStyle(
+                Text(
+                  '$_adultsCounter',
+                  style: const TextStyle(
                     fontFamily: 'Raleway',
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -110,7 +119,11 @@ class _RoomAndQuantityState extends State<RoomAndQuantity> {
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      setState(() {
+                        _adultsCounter++;
+                      });
+                    },
                     child:const SizedBox(
                         width: 40,
                         height: 40,
@@ -132,15 +145,22 @@ class _RoomAndQuantityState extends State<RoomAndQuantity> {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      setState(() {
+                        if(_childrenCounter>0){
+                          _childrenCounter--;
+                        }
+                      });
+                    },
                     child:const SizedBox(
                         width: 40,
                         height: 40,
                         child: Icon(Icons.remove))
                 ),
                 const SizedBox(width: 20),
-                const Text('1',
-                  style: TextStyle(
+                Text(
+                  '$_childrenCounter',
+                  style: const TextStyle(
                     fontFamily: 'Raleway',
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -149,7 +169,11 @@ class _RoomAndQuantityState extends State<RoomAndQuantity> {
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      setState(() {
+                        _childrenCounter++;
+                      });
+                    },
                     child:const SizedBox(
                         width: 40,
                         height: 40,

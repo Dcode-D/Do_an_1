@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../widgets/salomon_bottom_bar.dart';
+
 class HotelBookingSuccessScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class HotelBookingSuccessScreen extends StatelessWidget{
                 height: 200,
               ),
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 'Success',
                 style: TextStyle(
                   fontFamily: 'Raleway',
@@ -56,7 +58,10 @@ class HotelBookingSuccessScreen extends StatelessWidget{
                 ),
                 child: TextButton(
                   onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => NavigationNavBar(),
+                      ));
                   },
                   child: const Text(
                     'Back to home',

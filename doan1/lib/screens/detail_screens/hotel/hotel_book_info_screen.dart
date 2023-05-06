@@ -1,4 +1,6 @@
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
+import 'package:doan1/screens/detail_screens/hotel/setting_booking/bank_selection_screen.dart';
+import 'package:doan1/screens/detail_screens/hotel/setting_booking/date_setting_screen.dart';
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/room_and_quantity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -192,7 +194,9 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         ),
                         const Spacer(),
                         InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DateSettingScreen()));
+                          },
                           child: Text(
                             'Set a date',
                             style: TextStyle(
@@ -361,7 +365,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         const Spacer(),
                         InkWell(
                           onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RoomAndQuantity()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const RoomAndQuantity()));
                           },
                           child: Text(
                             'Set',
@@ -478,7 +482,9 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         ),
                         const Spacer(),
                         InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const BankSelectionScreen()));
+                          },
                           child: Text(
                             'Change',
                             style: TextStyle(
@@ -532,7 +538,6 @@ class HotelBookingInfoScreen extends StatelessWidget{
                     const SizedBox(height: 20,),
                     Row(
                       children: [
-                        //TODO: fix bloc checkpay at hotel
                         Checkbox(
                             value: state.isPayAtHotel,
                             onChanged: (checked) {
