@@ -25,7 +25,7 @@ class Hotel{
 //Note: This is a dummy data for testing purpose
 List<Hotel> hotels = [
   Hotel(
-    id: 'h1',
+    id: 'h0',
     imageUrl: 'assets/images/hotel0.jpg',
     name: 'Hotel 0',
     address: '404 Great St',
@@ -39,7 +39,7 @@ List<Hotel> hotels = [
     ],
   ),
   Hotel(
-    id: 'h2',
+    id: 'h1',
     imageUrl: 'assets/images/hotel1.jpg',
     name: 'Hotel 1',
     address: '404 Great St',
@@ -53,7 +53,7 @@ List<Hotel> hotels = [
     ],
   ),
   Hotel(
-    id: 'h3',
+    id: 'h2',
     imageUrl: 'assets/images/hotel2.jpg',
     name: 'Hotel 2',
     address: '404 Great St',

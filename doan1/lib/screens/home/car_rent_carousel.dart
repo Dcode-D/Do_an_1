@@ -1,15 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:doan1/widgets/tour_item.dart';
 
-import '../../models/tour_model.dart';
+import '../../models/vehicle_model.dart';
+import '../../widgets/vehicle_item.dart';
 
-class TourCarousel extends StatelessWidget {
-  final List<Tour> tourList;
-  TourCarousel({Key? key, required this.tourList}) : super(key: key);
-
+class VehicleRentCarousel extends StatelessWidget{
+  VehicleRentCarousel({Key? key}) : super(key: key);
   final PageController listController = PageController();
 
   @override
@@ -22,7 +19,7 @@ class TourCarousel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Top Tours',
+                'Vehicle rent',
                 style: GoogleFonts.raleway(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
@@ -41,35 +38,37 @@ class TourCarousel extends StatelessWidget {
                   ),
                 ),
               ),
+
             ],
           ),
         ),
         SizedBox(
-          height: 320.0,
+          height: 300.0,
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             controller: listController,
             scrollDirection: Axis.horizontal,
-            itemCount: tours.length,
+            itemCount: vehicles.length,
             itemBuilder: (BuildContext context, int index) {
-              Tour tour = tourList[index];
-              Image tourImg = Image.asset(tour.img);
-              return TourItem(tour: tour, tourImg: tourImg, type: 1);
+              Vehicle vehicle = vehicles[index];
+              Image vehicleImg = Image.asset(vehicle.imageUrl);
+              return VehicleItem(vehicle: vehicle, vehicleImg: vehicleImg, type: 1);
             },
           ),
         ),
         SmoothPageIndicator(
-            controller: listController,
-            count: (tours.length/2).round(),
-            effect: const ExpandingDotsEffect(
-              activeDotColor: Color(0xFF8a8a8a),
-              dotColor: Color(0xFFababab),
-              dotHeight: 4.8,
-              dotWidth: 6,
-              spacing: 4.8,
-            )
-        )
+          controller: listController,
+          count: (vehicles.length/2).round(),
+          effect: const ExpandingDotsEffect(
+            activeDotColor: Color(0xFF8a8a8a),
+            dotColor: Color(0xFFababab),
+            dotHeight: 4.8,
+            dotWidth: 6,
+            spacing: 4.8,
+          ),
+        ),
       ],
     );
   }
+
 }

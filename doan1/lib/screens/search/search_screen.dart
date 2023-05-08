@@ -20,8 +20,8 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen>
     with SingleTickerProviderStateMixin {
-  final ScrollController _scrollController = ScrollController();
-  var _searchController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
+  final _searchController = TextEditingController();
   late TabController _tabController = TabController(length: 2, vsync: this);
 
   @override

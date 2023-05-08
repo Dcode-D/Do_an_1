@@ -1,5 +1,6 @@
 import 'package:doan1/widgets/hotel_item.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../models/hotel_model.dart';
@@ -19,9 +20,9 @@ class HotelCarousel extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              const Text(
+              Text(
                 'Exclusive Hotels',
-                style: TextStyle(
+                style: GoogleFonts.raleway(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,

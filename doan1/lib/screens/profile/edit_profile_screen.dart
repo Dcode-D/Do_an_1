@@ -22,7 +22,7 @@ class EditProfileScreen extends StatelessWidget{
               snap: true,
               backgroundColor: Colors.white,
               automaticallyImplyLeading: true,
-              title: Text(
+              title: const Text(
                 'Personal Information',
                 style: TextStyle(
                   color: Colors.black,
@@ -36,7 +36,6 @@ class EditProfileScreen extends StatelessWidget{
                   padding: const EdgeInsets.only(right: 5.0),
                   child: IconButton(
                     onPressed: (){
-                      //TODO: Pop dialog to ask are they sure to save information
                       SmartDialog.show(builder: (context){
                         return Container(
                           height: 150,
@@ -141,7 +140,7 @@ class EditProfileScreen extends StatelessWidget{
             child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
@@ -161,7 +160,7 @@ class EditProfileScreen extends StatelessWidget{
                     children:[
                       Row(
                         children:[
-                          Icon(
+                          const Icon(
                             FontAwesomeIcons.user,
                             color: Colors.black,
                             size: 20,
@@ -259,7 +258,7 @@ class EditProfileScreen extends StatelessWidget{
                     children: [
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.envelope,
                               color: Colors.black,
                               size: 20,
@@ -278,7 +277,7 @@ class EditProfileScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.phone,
                               color: Colors.black,
                               size: 20,
@@ -298,7 +297,7 @@ class EditProfileScreen extends StatelessWidget{
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             FontAwesomeIcons.bank,
                             color: Colors.black,
                             size: 20,
@@ -311,14 +310,14 @@ class EditProfileScreen extends StatelessWidget{
                               fontFamily: 'Raleway',
                               color: Colors.black,),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           ElevatedButton(
                               onPressed: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => AddBankScreen()));
                               },
-                              child: Text(
+                              child: const Text(
                                   "Add Bank",
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Raleway',
@@ -331,7 +330,7 @@ class EditProfileScreen extends StatelessWidget{
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
@@ -351,7 +350,7 @@ class EditProfileScreen extends StatelessWidget{
                     children: [
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.user,
                               color: Colors.black,
                               size: 20,
@@ -370,7 +369,7 @@ class EditProfileScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.lock,
                               color: Colors.black,
                               size: 20,

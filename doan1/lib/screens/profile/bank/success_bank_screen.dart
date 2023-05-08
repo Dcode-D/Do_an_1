@@ -1,6 +1,7 @@
 import 'package:doan1/BLOC/authentication/authentication_page.dart';
 import 'package:doan1/screens/home/home_screen.dart';
 import 'package:doan1/screens/profile/edit_profile_screen.dart';
+import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -22,7 +23,7 @@ class SuccessBankScreen extends StatelessWidget{
                   height: 200,
                 ),
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   'Success',
                   style: TextStyle(
                     fontFamily: 'Raleway',
@@ -32,13 +33,13 @@ class SuccessBankScreen extends StatelessWidget{
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   'Your bank account has been added.',
                   style: TextStyle(
                     fontFamily: 'Raleway',
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black,
+                    color: Colors.orange,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -51,10 +52,10 @@ class SuccessBankScreen extends StatelessWidget{
                   ),
                   child: TextButton(
                     onPressed: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationNavBar()));
                     },
-                    child: Text(
-                      'Back to profile',
+                    child: const Text(
+                      'Back to home',
                       style: TextStyle(
                         fontFamily: 'Raleway',
                         fontSize: 16,

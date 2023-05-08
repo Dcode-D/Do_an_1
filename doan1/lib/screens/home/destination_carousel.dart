@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/destination_model.dart';
 import '../../widgets/card_scroll_widget.dart';
@@ -52,9 +53,9 @@ class _DestinationCarouselState extends State<DestinationCarousel> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              const Text(
+              Text(
                 'Top Destinations',
-                style: TextStyle(
+                style: GoogleFonts.raleway(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,

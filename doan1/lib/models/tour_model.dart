@@ -1,7 +1,7 @@
 import 'comment_model.dart';
 
 class Tour{
-String id;
+  String id;
   String img;
   String name;
   String description;

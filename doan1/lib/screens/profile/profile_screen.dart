@@ -1,5 +1,9 @@
+import 'package:doan1/BLOC/authentication/authentication_page.dart';
+import 'package:doan1/screens/login/login_screens.dart';
+import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -395,18 +399,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         onPressed: () {
-
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return const LogOutDialog();
+                              },
+                            );
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
+                          children: const [
+                            Icon(
                               FontAwesomeIcons.signOutAlt,
                               color: Colors.red,
                               size: 20,
                             ),
-                            const SizedBox(width: 10),
-                            const Text(
+                            SizedBox(width: 10),
+                            Text(
                               "Sign Out",
                               style: TextStyle(
                                 fontSize: 20,

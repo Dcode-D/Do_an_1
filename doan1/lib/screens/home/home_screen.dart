@@ -1,3 +1,4 @@
+import 'package:doan1/screens/home/car_rent_carousel.dart';
 import 'package:doan1/screens/home/hotel_carousel.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -176,6 +177,8 @@ class  _HomeScreenState extends State<HomeScreen> {
               TourCarousel(tourList: tours),
               const SizedBox(height: 10,),
               HotelCarousel(),
+              const SizedBox(height: 10,),
+              VehicleRentCarousel(),
               const SizedBox(height: 80),
             ],
           )
