@@ -18,7 +18,7 @@ class SuccessBankScreen extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/icons/icon_success_add_bank.png',
+                  'assets/icons/icon-success-add-bank.png',
                   width: 200,
                   height: 200,
                 ),

@@ -12,10 +12,10 @@ import '../BLOC/navigation/navigation_bloc.dart';
 class NavigationNavBar extends StatelessWidget{
   int current_tab = 0;
   late var tabs = [
-  HomeScreen(),
-  SearchScreen(),
-  BookingScreen(),
-  ProfileScreen(),
+  const HomeScreen(),
+  const SearchScreen(),
+  const BookingScreen(),
+  const ProfileScreen(),
   ];
   @override
 Widget build(BuildContext context){

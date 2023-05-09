@@ -13,7 +13,7 @@ class ConfirmBankScreen extends StatelessWidget{
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return[
-            SliverAppBar(
+            const SliverAppBar(
               centerTitle: true,
               floating: true,
               pinned: true,
@@ -205,7 +205,6 @@ class ConfirmBankScreen extends StatelessWidget{
                 ),
                 child: ElevatedButton(
                     onPressed: (){
-                    //TODO: Open confirm dialog and nav to edit profile screen
                       Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessBankScreen()));
                     },
                     child: const Center(

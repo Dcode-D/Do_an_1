@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 2.5,
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),

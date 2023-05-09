@@ -29,10 +29,10 @@ class Tour{
 //Note: This is a dummy data for testing purpose
 List<Tour> tours = [
   Tour(
-    id: 't1',
+    id: 't0',
     img: 'assets/images/tour0.jpg',
     name: 'Tour 0',
-    description: 'Tour 0',
+    description: 'Tour 0 description',
     destinationIDs: '1,2,3',
     price: '1000',
     profit: '100',
@@ -40,7 +40,7 @@ List<Tour> tours = [
     status: 1,
   ),
   Tour(
-    id: 't2',
+    id: 't1',
     img: 'assets/images/tour1.jpg',
     name: 'Tour 1',
     description: 'Tour 1 description',
@@ -51,7 +51,7 @@ List<Tour> tours = [
     status: 1,
   ),
   Tour(
-    id: 't3',
+    id: 't2',
     img: 'assets/images/tour2.jpg',
     name: 'Tour 2',
     description: 'Tour 2 description',

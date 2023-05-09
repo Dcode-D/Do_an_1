@@ -90,16 +90,13 @@ class TourItem extends StatelessWidget {
                 ),
                 child: Stack(
                   children: <Widget>[
-                    Hero(
-                      tag: type == 1 ? tour.id : tour.name,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Image(
-                          height: type == 1 ? 180.0 : 200.0,
-                          width: type == 1 ? 200.0 : 280.0,
-                          image: tourImg.image,
-                          fit: BoxFit.cover,
-                        ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image(
+                        height: type == 1 ? 180.0 : 200.0,
+                        width: type == 1 ? 200.0 : 280.0,
+                        image: tourImg.image,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     Positioned(

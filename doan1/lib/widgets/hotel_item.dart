@@ -71,7 +71,7 @@ class HotelItem extends StatelessWidget{
                         ),
                         const SizedBox(height: 2.0),
                         Text(
-                          '${formatCurrency.format(int.parse(hotel.price))}'+'\$ / night',
+                          '${formatCurrency.format(int.parse(hotel.price))}\$ / night',
                           style: TextStyle(
                             fontSize: type == 1 ? 18.0 : 20.0,
                             fontWeight: FontWeight.w600,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -87,7 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         padding: const EdgeInsets.only(top:20,left: 30),
                         child: Row(
                           children: [
-                            Text(
+                            const Text(
                               "New\naccount",
                               style: TextStyle(
                                 color: Colors.black,
@@ -96,22 +97,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Spacer(),
-                            //TODO: Upload photo button here
-
+                            const Spacer(),
+                            InkWell(
+                              onTap: (){
+                                //TODO: Implement add photo for profile
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: const Offset(0, 6)
+                                    ),]
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Center(
+                                      child: Image(
+                                        image: AssetImage('assets/icons/icon-camera.png'),
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 20,)
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10,left:20, right: 20),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10,left:20, right: 20),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: TextInputType.emailAddress,
                           cursorColor: Colors.black,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                           ),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter email",
                             prefixIcon: Icon(
@@ -130,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.orange,
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Padding(
                         padding: const EdgeInsets.only(left:20, right: 20),
                         child: TextField(
@@ -247,7 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.orange,
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Padding(
                         padding: const EdgeInsets.only(left:20, right: 20),
                         child: TextField(
@@ -276,10 +307,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: Colors.orange,
                         ),
                       ),
-                      Spacer(flex: 1,),
+                      const Spacer(flex: 1,),
                       Flexible(
                         flex: 2,
-                        child: Container(
+                        child: SizedBox(
                           width: 250,
                           height: 50,
                           child: ElevatedButton(
@@ -289,7 +320,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              
+                            },
                             child: const Text(
                               "Sign up",
                               style: TextStyle(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../widgets/salomon_bottom_bar.dart';
 
-class HotelBookingSuccessScreen extends StatelessWidget{
+class VehicleRentSuccess extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +16,7 @@ class HotelBookingSuccessScreen extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/icons/icon-booking-success.png',
+                'assets/icons/icon-vehicle-rent-success.png',
                 width: 200,
                 height: 200,
               ),
@@ -32,7 +32,7 @@ class HotelBookingSuccessScreen extends StatelessWidget{
               ),
               const SizedBox(height: 20),
               const Text(
-                'Your hotel has been booked successfully.',
+                'Your vehicle has been booked successfully.',
                 style: TextStyle(
                   fontFamily: 'Raleway',
                   fontSize: 16,
@@ -59,9 +59,9 @@ class HotelBookingSuccessScreen extends StatelessWidget{
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => NavigationNavBar(),
-                      ));
+                        MaterialPageRoute(
+                          builder: (context) => NavigationNavBar(),
+                        ));
                   },
                   child: const Text(
                     'Back to home',

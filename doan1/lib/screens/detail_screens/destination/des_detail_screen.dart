@@ -24,7 +24,7 @@ class DestinationDetailScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Hero(
@@ -47,7 +47,7 @@ class DestinationDetailScreen extends StatelessWidget {
                 IconButton(onPressed: (){
                   Navigator.pop(context);
                 },
-                  icon: Icon(Icons.arrow_back_ios_new),
+                  icon: const Icon(Icons.arrow_back_ios_new),
                   color: Colors.white,),
                 const Spacer(),
                 const Icon(

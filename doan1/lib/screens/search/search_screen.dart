@@ -1,5 +1,4 @@
 import 'package:doan1/widgets/hotel_item.dart';
-import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -8,6 +7,8 @@ import '../../models/tour_model.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
 import '../../widgets/tour_item.dart';
+
+//TODO: Need to build a screen for search result
 
 class SearchScreen extends StatefulWidget {
 

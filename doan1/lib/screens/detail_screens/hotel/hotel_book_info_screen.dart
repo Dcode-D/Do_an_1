@@ -550,7 +550,6 @@ class HotelBookingInfoScreen extends StatelessWidget{
                               context.read<HotelBookingBloc>().add(CheckPayAtHotelEvent(isPayAtHotel: !state.isPayAtHotel));
                             }
                           ),
-                        const SizedBox(width: 15,),
                         Text(
                           'Pay at hotel',
                           style: TextStyle(
@@ -661,7 +660,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         Navigator.push(context, MaterialPageRoute(builder: (context) => HotelBookingSuccessScreen()));
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
+                        primary: Colors.orange,
                         minimumSize: const Size(double.infinity, 50.0),
                         elevation: 0.0,
                         shape: RoundedRectangleBorder(

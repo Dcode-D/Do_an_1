@@ -45,7 +45,6 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build for TourDetailScreen
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -68,47 +67,36 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
                     ),
                   ],
                 ),
-                child: Hero(
-                  tag: widget.type == 1 ? widget.tour.id : widget.tour.name,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                    child: Image(
-                      image: widget.tourImg.image,
-                      fit: BoxFit.cover,
-                    ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  child: Image(
+                    image: widget.tourImg.image,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
               // buttons row
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 40.0),
+                    horizontal: 20.0, vertical: 40.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                      color: Colors.black,
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: const Icon(Icons.search),
-                          iconSize: 30.0,
-                          color: Colors.black,
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        IconButton(
-                          icon: const Icon(FontAwesomeIcons.sortAmountDown),
-                          iconSize: 25.0,
-                          color: Colors.black,
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ],
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.black.withOpacity(0.3)
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                        color: Colors.white,
+                        onPressed: () => Navigator.pop(context),
+                      ),
                     ),
                   ],
                 ),

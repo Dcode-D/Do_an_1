@@ -12,7 +12,7 @@ class AddBankScreen extends StatelessWidget{
           controller: _scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return[
-              SliverAppBar(
+              const SliverAppBar(
                 centerTitle: true,
                 floating: true,
                 pinned: true,

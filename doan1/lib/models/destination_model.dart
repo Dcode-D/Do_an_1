@@ -19,21 +19,21 @@ List<Destination> destinationList = [
   Destination(
       id: "Des1",
       img: "assets/images/destination1.jpg",
-      name: "Đà Lạt",
+      name: "Thành phố Đà Lạt",
       description: "Đà Lạt is a city in Vietnam. It is the capital of Lâm Đồng Province.",
       province: "Lâm Đồng"
   ),
   Destination(
       id: "Des2",
       img: "assets/images/destination2.jpg",
-      name: "Hà Nội",
+      name: "Thành phố Hà Nội",
       description: "Hà Nội is the capital and most populous city of Vietnam.",
       province: "Hà Nội"
   ),
   Destination(
       id: "Des3",
       img: "assets/images/destination3.jpg",
-      name: "Landmark 81",
+      name: "Toà nhà Landmark 81",
       description: "Landmark 81 is a 81-story skyscraper in Ho Chi Minh City, Vietnam.",
       province: "Hồ Chí Minh"
   ),

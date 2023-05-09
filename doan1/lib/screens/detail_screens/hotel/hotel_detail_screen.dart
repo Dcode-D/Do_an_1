@@ -54,53 +54,45 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                         ),
                       ],
                     ),
-                    child: Hero(
-                      tag: widget.type == 1 ? widget.hotel.id : widget.hotel.name,
-                      child: PageView.builder(
-                        controller: listController,
-                          itemCount: widget.hotel.imageUrls.length,
-                          itemBuilder:(context, index) {
-                            return Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(0.0, 8.0),
-                                        blurRadius: 10.0,
-                                      ),
-                                    ],
-                                    image: DecorationImage(
-                                        image: AssetImage(widget.hotel.imageUrls[index]),
-                                        fit: BoxFit.cover
-                                    )
-                                )// image:AssetImage(url),),
-                            );
-                          },
+                    child: PageView.builder(
+                      controller: listController,
+                        itemCount: widget.hotel.imageUrls.length,
+                        itemBuilder:(context, index) {
+                          return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(0.0, 8.0),
+                                      blurRadius: 10.0,
+                                    ),
+                                  ],
+                                  image: DecorationImage(
+                                      image: AssetImage(widget.hotel.imageUrls[index]),
+                                      fit: BoxFit.cover
+                                  )
+                              )// image:AssetImage(url),),
+                          );
+                        },
                     ),
-                  ),
                   ),
                   // buttons row
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 40.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.black.withOpacity(0.3)
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                            color: Colors.white,
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                        ),
-                      ],
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.black.withOpacity(0.3)
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                        color: Colors.white,
+                        onPressed: () => Navigator.pop(context),
+                      ),
                     ),
                   ),
                   // name and province
@@ -139,12 +131,12 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
               const SizedBox(height: 10.0),
               Row(
                 children: [
-                  Icon(FontAwesomeIcons.mapMarkerAlt, size: 18.0, color: Colors.grey),
-                  SizedBox(width: 5.0),
+                  const Icon(FontAwesomeIcons.mapMarkerAlt, size: 18.0, color: Colors.grey),
+                  const SizedBox(width: 5.0),
                   Text(
                     widget.hotel.address,
                     style: GoogleFonts.raleway(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.w500,
                     ),
                   )
@@ -158,7 +150,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              //TODO: Make list of facilities
+              //TODO: Make list of facilities with icon
               GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4, crossAxisSpacing: 8.0, mainAxisSpacing: 0
@@ -205,30 +197,41 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 10.0),
-              ElevatedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                      BlocProvider(
-                        create: (_) => HotelBookingBloc(),
-                          child: HotelBookingInfoScreen())));
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  minimumSize: const Size(double.infinity, 50.0),
-                  elevation: 0.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>
+              BlocProvider(
+                  create: (_) => HotelBookingBloc(),
+                  child: HotelBookingInfoScreen())));
+        },
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+          width: double.infinity,
+          height: 50.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50.0),
+            color: Theme.of(context).primaryColor,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Book Now",
+                style: GoogleFonts.roboto(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
-                child: Center(
-                  child: Text("Book now",
-                    style: GoogleFonts.raleway(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                ),
-              )
+              ),
+              const SizedBox(width: 4.0),
+              const Icon(
+                FontAwesomeIcons.angleDoubleRight,
+                color: Colors.white,
+              ),
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/vehicle_model.dart';
+import '../screens/detail_screens/vehicle/vehicle_rent_detail_screen.dart';
 
 class VehicleItem extends StatelessWidget{
   @override
@@ -24,15 +25,15 @@ class VehicleItem extends StatelessWidget{
     return SizedBox(
       height: type == 1 ? 280 : 300,
       child: GestureDetector(
-        // onTap: () => Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (_) => HotelDetailScreen(
-        //       hotel: hotel,
-        //       hotelImg: hotelImg,
-        //       type: type,
-        //     ),
-        //   ),
-        // ),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => VehicleRentDetailScreen(
+              vehicle: vehicle,
+              vehicleImg: vehicleImg,
+              type: type,
+            ),
+          ),
+        ),
         child: Container(
           margin: const EdgeInsets.all(10.0),
           width: type == 1 ? 240.0 : 260.0,

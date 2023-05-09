@@ -90,7 +90,7 @@ class CardScrollWidget extends StatelessWidget {
                       fit: StackFit.expand,
                       children: <Widget>[
                         Hero(
-                          tag: destinationList[i].description,
+                          tag: destinationList[i].name,
                           child: Image(
                             image: images[i].image,
                             fit: BoxFit.cover,
