@@ -179,7 +179,7 @@ class EditProfileScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.mapMarkerAlt,
                               color: Colors.black,
                               size: 20,
@@ -198,7 +198,7 @@ class EditProfileScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.addressCard,
                               color: Colors.black,
                               size: 20,
@@ -217,7 +217,7 @@ class EditProfileScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.birthdayCake,
                               color: Colors.black,
                               size: 20,
@@ -238,7 +238,7 @@ class EditProfileScreen extends StatelessWidget{
                   ),
       ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Container(
@@ -294,7 +294,7 @@ class EditProfileScreen extends StatelessWidget{
                             ),
                           ]
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const Icon(
@@ -302,9 +302,9 @@ class EditProfileScreen extends StatelessWidget{
                             color: Colors.black,
                             size: 20,
                           ), const SizedBox(width: 20),
-                          Text(
+                          const Text(
                             "Not Linked",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Raleway',

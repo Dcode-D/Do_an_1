@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../BLOC/rent_vehicle/vehicle_rent_bloc.dart';
-import '../hotel/setting_booking/bank_selection_screen.dart';
+import '../../profile/bank/bank_selection_screen.dart';
 import '../hotel/setting_booking/checking_information_screen.dart';
 
 class VehicleRentBookInfoScreen extends StatelessWidget{

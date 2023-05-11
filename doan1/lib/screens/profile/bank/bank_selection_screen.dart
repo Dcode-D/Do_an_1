@@ -1,5 +1,10 @@
+import 'package:doan1/widgets/bank_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../models/bank_account_model.dart';
+import 'add_bank_account.dart';
 
 class BankSelectionScreen extends StatelessWidget {
   const BankSelectionScreen({Key? key}) : super(key: key);
@@ -15,11 +20,11 @@ class BankSelectionScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddBankScreen()));
               },
               icon: const Icon(
-                Icons.check,
-                color: Colors.green,
+                FontAwesomeIcons.add,
+                color: Colors.black,
               ),
             ),
           ],
@@ -32,8 +37,17 @@ class BankSelectionScreen extends StatelessWidget {
               )
           ),
         ),
-      body: Column(
-        )
-      );
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+
+        child: ListView.builder(
+          itemCount: BankAccounts.length,
+          itemBuilder: (context, index){
+            BankAccount bank = BankAccounts[index];
+          return BankItem(bank: bank,);
+        },
+        ),
+      )
+    );
   }
 }

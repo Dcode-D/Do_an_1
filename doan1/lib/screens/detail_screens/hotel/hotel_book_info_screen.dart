@@ -1,5 +1,5 @@
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
-import 'package:doan1/screens/detail_screens/hotel/setting_booking/bank_selection_screen.dart';
+import 'package:doan1/screens/profile/bank/bank_selection_screen.dart';
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/checking_information_screen.dart';
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/date_setting_screen.dart';
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/room_and_quantity_screen.dart';
