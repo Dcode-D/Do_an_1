@@ -77,7 +77,7 @@ class _DestinationCarouselState extends State<DestinationCarousel> {
           ),
         ),
         Stack(
-          clipBehavior: Clip.none,
+          clipBehavior: Clip.antiAlias,
           children: <Widget>[
             CardScrollWidget(
               currentPage: currentPage,

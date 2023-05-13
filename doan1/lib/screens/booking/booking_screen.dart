@@ -36,12 +36,27 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
             pinned: true,
             snap: false,
             backgroundColor: Colors.white,
+            flexibleSpace: Container(
+            decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment(0.8, 1),
+          colors: <Color>[
+          Color(0xffe16b5c),
+          Color(0xfff39060),
+          Color(0xffffb56b),
+          ], // Gradient from https://learnui.design/tools/gradient-generator.html
+          tileMode: TileMode.mirror,
+                ),
+              ),
+            ),
             automaticallyImplyLeading: false,
             elevation: 0,
             title: Text(
-              'Your orders',
+              'Your booking history',
               style: GoogleFonts.roboto(
                 fontSize: 20,
+                color: Colors.white,
                 fontWeight: FontWeight.w600
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:doan1/screens/all/all_hotel_screen.dart';
 import 'package:doan1/widgets/hotel_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +30,9 @@ class HotelCarousel extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => print('See All'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllHotelScreen()));
+                },
                 child: Text(
                   'See All',
                   style: TextStyle(

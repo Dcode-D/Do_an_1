@@ -8,6 +8,7 @@ class AddBankScreen extends StatelessWidget{
   @override
     Widget build(BuildContext context) {
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -34,7 +35,7 @@ class AddBankScreen extends StatelessWidget{
           body: Column(
             children: [
               const SizedBox(height: 30),
-              Text(
+              const Text(
                 'Fill all the data correctly.',
                 style: TextStyle(
                   fontFamily: 'Raleway',
@@ -63,7 +64,7 @@ class AddBankScreen extends StatelessWidget{
                     children:[
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.user,
                               color: Colors.black,
                               size: 20,
@@ -82,7 +83,7 @@ class AddBankScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.bank,
                               color: Colors.black,
                               size: 20,
@@ -101,7 +102,7 @@ class AddBankScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.creditCard,
                               color: Colors.black,
                               size: 20,
@@ -120,7 +121,7 @@ class AddBankScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.creditCard,
                               color: Colors.black,
                               size: 20,
@@ -131,7 +132,7 @@ class AddBankScreen extends StatelessWidget{
                                   border: UnderlineInputBorder(),
                                   labelText: 'Account number',
                                 ),
-                                keyboardType: TextInputType.name,
+                                keyboardType: TextInputType.number,
                                 initialValue: '1231233213',
                               ),
                             ),
@@ -139,7 +140,7 @@ class AddBankScreen extends StatelessWidget{
                       ),
                       Row(
                           children:[
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.calendarAlt,
                               color: Colors.black,
                               size: 20,
@@ -156,7 +157,7 @@ class AddBankScreen extends StatelessWidget{
                             ),
                           ]
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                     ]
                   )
                 ),
@@ -187,7 +188,8 @@ class AddBankScreen extends StatelessWidget{
                         ),
                       )),
                 ),
-              )
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             ],
           ),
         )

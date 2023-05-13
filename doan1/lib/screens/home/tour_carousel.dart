@@ -5,10 +5,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:doan1/widgets/tour_item.dart';
 
 import '../../models/tour_model.dart';
+import '../all/all_tour_screen.dart';
 
 class TourCarousel extends StatelessWidget {
-  final List<Tour> tourList;
-  TourCarousel({Key? key, required this.tourList}) : super(key: key);
 
   final PageController listController = PageController();
 
@@ -30,7 +29,9 @@ class TourCarousel extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => print('See All'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllTourScreen()));
+                },
                 child: Text(
                   'See All',
                   style: TextStyle(
@@ -52,7 +53,7 @@ class TourCarousel extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: tours.length,
             itemBuilder: (BuildContext context, int index) {
-              Tour tour = tourList[index];
+              Tour tour = tours[index];
               Image tourImg = Image.asset(tour.img);
               return TourItem(tour: tour, tourImg: tourImg, type: 1);
             },

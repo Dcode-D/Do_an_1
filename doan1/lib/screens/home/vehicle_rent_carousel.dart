@@ -1,3 +1,4 @@
+import 'package:doan1/screens/all/all_vehicle_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -27,7 +28,9 @@ class VehicleRentCarousel extends StatelessWidget{
                 ),
               ),
               GestureDetector(
-                onTap: () => print('See All'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllVehicleScreen()));
+                },
                 child: Text(
                   'See All',
                   style: TextStyle(

@@ -1,3 +1,6 @@
+import 'package:doan1/screens/all/all_hotel_screen.dart';
+import 'package:doan1/screens/all/all_tour_screen.dart';
+import 'package:doan1/screens/all/all_vehicle_screen.dart';
 import 'package:doan1/screens/home/vehicle_rent_carousel.dart';
 import 'package:doan1/screens/home/hotel_carousel.dart';
 import 'package:doan1/screens/notification/notification_screen.dart';
@@ -141,10 +144,17 @@ class  _HomeScreenState extends State<HomeScreen> {
                               decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(10),
-                        ),
-                              child: IconButton(onPressed: (){},
-                          icon: const Icon(FontAwesomeIcons.flag, color: Colors.white, size: 25,),),
-                      ),
+                                ),
+                              child: IconButton(
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllTourScreen()));
+                                },
+                              icon: const Icon(
+                                FontAwesomeIcons.flag,
+                                color: Colors.white,
+                                size: 25,),
+                                ),
+                              ),
                             const SizedBox(height: 10,),
                               Text(
                               "Tours",
@@ -165,13 +175,20 @@ class  _HomeScreenState extends State<HomeScreen> {
                                 decoration: BoxDecoration(
                                   color: Colors.black.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(10),
+                                  ),
+                                child: IconButton(
+                                  onPressed: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllHotelScreen()));
+                                },
+                                  icon: const Icon(
+                                    FontAwesomeIcons.building,
+                                    color: Colors.white,
+                                    size: 25,),
                                 ),
-                                child: IconButton(onPressed: (){},
-                                  icon: const Icon(FontAwesomeIcons.building, color: Colors.white, size: 25,),),
                               ),
                               const SizedBox(height: 10,),
                               Text(
-                                "Hotel",
+                                "Hotels",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -190,12 +207,18 @@ class  _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.black.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: IconButton(onPressed: (){},
-                                  icon: const Icon(FontAwesomeIcons.car, color: Colors.white, size: 25,),),
+                                child: IconButton(
+                                  onPressed: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllVehicleScreen()));
+                                  },
+                                  icon: const Icon(
+                                    FontAwesomeIcons.car,
+                                    color: Colors.white,
+                                    size: 25,),),
                               ),
                               const SizedBox(height: 10,),
                               Text(
-                                "Car",
+                                "Vehicles",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -214,7 +237,7 @@ class  _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 15,),
             DestinationCarousel(destinationList: destinationList),
             const SizedBox(height: 10,),
-            TourCarousel(tourList: tours),
+            TourCarousel(),
             const SizedBox(height: 10,),
             HotelCarousel(),
             const SizedBox(height: 10,),
