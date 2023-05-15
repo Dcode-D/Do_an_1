@@ -1,4 +1,5 @@
 import 'package:doan1/models/hotel_model.dart';
+import 'package:doan1/screens/booking/detail_booking/booking_hotel_history_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -114,7 +115,9 @@ class HotelBookingItem extends StatelessWidget{
                   ),
                   Spacer(),
                   ElevatedButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookingHotelHistoryScreen()));
+                      },
                       child:
                       Text(
                         'Detail',

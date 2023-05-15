@@ -111,7 +111,7 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: GoogleFonts.raleway().fontFamily,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),
@@ -188,7 +188,7 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
                                 letterSpacing: 1.2,
                                 color: Colors.black,
                               ),
@@ -281,7 +281,7 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: GoogleFonts.raleway().fontFamily,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),

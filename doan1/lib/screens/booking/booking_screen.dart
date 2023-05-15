@@ -1,8 +1,6 @@
 import 'package:doan1/screens/booking/widget_booking/hotel_booking_item.dart';
 import 'package:doan1/screens/booking/widget_booking/tour_booking_item.dart';
 import 'package:doan1/screens/booking/widget_booking/vehicle_booking_item.dart';
-import 'package:doan1/widgets/salomon_bottom_bar.dart';
-import 'package:doan1/widgets/vehicle_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,9 +9,7 @@ import '../../models/hotel_model.dart';
 import '../../models/tour_model.dart';
 import '../../models/vehicle_model.dart';
 import '../../widgets/circle_indicator.dart';
-import '../../widgets/hotel_item.dart';
 import '../../widgets/silver_appbar_delegate.dart';
-import '../../widgets/tour_item.dart';
 
 class BookingScreen extends StatefulWidget {
 
@@ -35,6 +31,19 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
         headerSliverBuilder: (context, value) {
       return [
         SliverAppBar(
+          leading: const Icon(
+            FontAwesomeIcons.planeArrival,
+            color: Colors.white,
+          ),
+            actions: const [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Icon(
+                  FontAwesomeIcons.car,
+                  color: Colors.white,
+                ),
+              ),
+            ],
             centerTitle: true,
             floating: true,
             pinned: true,

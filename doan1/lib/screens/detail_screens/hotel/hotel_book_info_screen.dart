@@ -5,7 +5,6 @@ import 'package:doan1/screens/detail_screens/hotel/setting_booking/date_setting_
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/room_and_quantity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -116,7 +115,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: GoogleFonts.raleway().fontFamily,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         letterSpacing: 1.2,
                         color: Colors.black,
                       ),
@@ -193,7 +192,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: GoogleFonts.raleway().fontFamily,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),
@@ -286,7 +285,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: GoogleFonts.raleway().fontFamily,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         letterSpacing: 1.2,
                         color: Colors.black,
                       ),
@@ -363,7 +362,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: GoogleFonts.raleway().fontFamily,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),

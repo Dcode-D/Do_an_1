@@ -1,3 +1,4 @@
+import 'package:doan1/screens/booking/detail_booking/rent_vehicle_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -112,7 +113,10 @@ class VehicleBookingItem extends StatelessWidget{
                   ),
                   Spacer(),
                   ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => RentVehicleHistoryScreen()));
+                    },
                     child:
                     Text(
                       'Detail',

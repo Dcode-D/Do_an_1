@@ -1,3 +1,4 @@
+import 'package:doan1/screens/booking/detail_booking/booking_hotel_history_screen.dart';
 import 'package:flutter/material.dart';
 
 class TourBookingItem extends StatelessWidget{
@@ -111,7 +112,9 @@ class TourBookingItem extends StatelessWidget{
                   ),
                   Spacer(),
                   ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+
+                    },
                     child:
                     Text(
                       'Detail',
