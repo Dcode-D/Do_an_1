@@ -67,14 +67,17 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
                     ),
                   ],
                 ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ),
-                  child: Image(
-                    image: widget.tourImg.image,
-                    fit: BoxFit.cover,
+                child: Hero(
+                  tag: widget.tour.id,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    child: Image(
+                      image: widget.tourImg.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

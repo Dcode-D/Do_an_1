@@ -16,12 +16,24 @@ class EditProfileScreen extends StatelessWidget{
         headerSliverBuilder: (context,value){
           return [
             SliverAppBar(
+              leading: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              automaticallyImplyLeading: false,
               centerTitle: true,
               floating: true,
               pinned: true,
               snap: true,
               backgroundColor: Colors.white,
-              automaticallyImplyLeading: true,
               title: const Text(
                 'Personal Information',
                 style: TextStyle(

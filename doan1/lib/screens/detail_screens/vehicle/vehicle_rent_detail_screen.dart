@@ -29,53 +29,56 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Stack(
-            children:<Widget>[
-              Container(
-      height: MediaQuery.of(context).size.height * 0.35,
-      width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 6.0,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-        child: Image(
-          image: widget.vehicleImg.image,
-          fit: BoxFit.cover,
-        ),
-      ),
-    ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 40.0),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.black.withOpacity(0.3)
+          Hero(
+            tag: widget.vehicle.id,
+            child: Stack(
+              children:<Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                   ),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    color: Colors.white,
-                    onPressed: () => Navigator.pop(context),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 6.0,
+                    ),
+                  ],
+                ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                    ),
+                    child: Image(
+                      image: widget.vehicleImg.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-            ]
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 40.0),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.black.withOpacity(0.3)
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                      color: Colors.white,
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                ),
+              ]
+            ),
           ),
           const SizedBox(height: 10.0),
           Padding(

@@ -10,6 +10,19 @@ class AllHotelScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
+        ),
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Colors.white,
           centerTitle: true,

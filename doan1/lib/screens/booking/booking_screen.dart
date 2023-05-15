@@ -1,6 +1,10 @@
+import 'package:doan1/screens/booking/widget_booking/hotel_booking_item.dart';
+import 'package:doan1/screens/booking/widget_booking/tour_booking_item.dart';
+import 'package:doan1/screens/booking/widget_booking/vehicle_booking_item.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:doan1/widgets/vehicle_item.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/hotel_model.dart';
@@ -102,9 +106,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
               itemCount: tours.length,
               itemBuilder: (BuildContext context, int index) {
-                Tour tour = tours[index];
-                Image tourImg = Image.asset(tour.img);
-                return TourItem(tour: tour, tourImg: tourImg, type: 2);
+                return TourBookingItem();
               },
             ),
             ListView.builder(
@@ -112,9 +114,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
               itemCount: hotels.length,
               itemBuilder: (BuildContext context, int index) {
-                Hotel hotel = hotels[index];
-                Image hotelImg = Image.asset(hotel.imageUrl);
-                return HotelItem(hotel: hotel, hotelImg: hotelImg, type: 2);
+                return HotelBookingItem();
               },
             ),
             ListView.builder(
@@ -122,9 +122,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
               itemCount: vehicles.length,
               itemBuilder: (BuildContext context, int index) {
-                Vehicle vehicle = vehicles[index];
-                Image vehicleImg = Image.asset(vehicle.imageUrl);
-                return VehicleItem(vehicle: vehicle, vehicleImg: vehicleImg, type: 2);
+                return VehicleBookingItem();
               },
             ),
           ],
