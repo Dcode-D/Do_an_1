@@ -1,4 +1,6 @@
+import 'package:doan1/models/vehicle_model.dart';
 import 'package:doan1/widgets/hotel_item.dart';
+import 'package:doan1/widgets/vehicle_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -19,11 +21,11 @@ class SearchScreen extends StatefulWidget {
   createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen>
-    with SingleTickerProviderStateMixin {
+class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
+
   ScrollController _scrollController = ScrollController();
   final _searchController = TextEditingController();
-  late TabController _tabController = TabController(length: 2, vsync: this);
+  late TabController _tabController = TabController(length: 3, vsync: this);
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +68,16 @@ class _SearchScreenState extends State<SearchScreen>
                       controller: _searchController,
                       decoration: InputDecoration(
                         hintText: 'Search ...',
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontStyle: FontStyle.italic,
                           fontSize: 16,
                         ),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 15, top: 14),
+                        contentPadding: const EdgeInsets.only(left: 15, top: 14),
                         suffixIcon: IconButton(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.search,
                             color: Colors.grey,
                           ),
@@ -130,6 +132,7 @@ class _SearchScreenState extends State<SearchScreen>
                 tabs: const [
                   Tab(text: 'Tour'),
                   Tab(text: 'Hotel'),
+                  Tab(text: 'Vehicle')
                 ],
               ),
             )),
@@ -156,6 +159,16 @@ class _SearchScreenState extends State<SearchScreen>
               Hotel hotel = hotels[index];
               Image hotelImg = Image.asset(hotel.imageUrl);
               return HotelItem(hotel: hotel, hotelImg: hotelImg, type: 2);
+            },
+          ),
+          ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+            itemCount: vehicles.length,
+            itemBuilder: (BuildContext context, int index) {
+              Vehicle vehicle = vehicles[index];
+              Image vehicleImg = Image.asset(vehicle.imageUrl);
+              return VehicleItem(vehicle: vehicle, vehicleImg: vehicleImg, type: 2);
             },
           ),
         ],

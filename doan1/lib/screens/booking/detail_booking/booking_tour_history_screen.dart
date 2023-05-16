@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../detail_screens/hotel/setting_booking/checking_information_screen.dart';
 
-class RentVehicleHistoryScreen extends StatelessWidget {
+class BookingTourHistoryScreen extends StatelessWidget {
+  const BookingTourHistoryScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,7 +116,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                       const SizedBox(height: 10,),
                       InkWell(
                         onTap: (){
-                          //TODO: make navigator to detail vehicle
+                          //TODO: Make navigation to detail tour screen
                         },
                         child: Container(
                           width: double.infinity,
@@ -150,7 +152,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Vehicle 1',
+                                          'Tour 1',
                                           style: TextStyle(
                                             fontSize: 18,
                                             fontFamily: GoogleFonts.raleway().fontFamily,
@@ -161,7 +163,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
-                                          'Vehicle description',
+                                          'Tour description',
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: GoogleFonts.raleway().fontFamily,
@@ -183,10 +185,10 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                 const SizedBox(height: 10,),
                                 Row(
                                   children: [
-                                    const Icon(FontAwesomeIcons.car, size: 20, color: Colors.black,),
+                                    const Icon(FontAwesomeIcons.flag, size: 20, color: Colors.black,),
                                     const SizedBox(width: 15,),
                                     Text(
-                                      'Owner',
+                                      'Tour group',
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontFamily: GoogleFonts.raleway().fontFamily,
@@ -568,5 +570,4 @@ class RentVehicleHistoryScreen extends StatelessWidget {
       ),
     );
   }
-
 }

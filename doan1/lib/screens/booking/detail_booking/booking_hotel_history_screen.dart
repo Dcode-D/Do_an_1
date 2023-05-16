@@ -111,66 +111,93 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10,),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black.withOpacity(0.2),
-                        width:1),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.bed, color: Colors.black, size: 20,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              'Hotel 1',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10,),
-                        Container(
-                          height:1,
-                          width: double.infinity,
-                          color: Colors.black.withOpacity(0.2),
-                        ),
-                        const SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              'Location',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
+                InkWell(
+                  onTap: (){
+                    //TODO: make naviagtion to hotel detail
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black.withOpacity(0.2),
+                          width:1),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
                         ),
                       ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image(
+                                image: AssetImage('assets/images/hotel1.jpg'),
+                                height: 100,
+                                width: 150,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(width: 5,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Hotel 1',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                    'Hotel description',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10,),
+                          Container(
+                            height:1,
+                            width: double.infinity,
+                            color: Colors.black.withOpacity(0.2),
+                          ),
+                          const SizedBox(height: 10,),
+                          Row(
+                            children: [
+                              const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
+                              const SizedBox(width: 15,),
+                              Text(
+                                'Location',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: GoogleFonts.raleway().fontFamily,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
