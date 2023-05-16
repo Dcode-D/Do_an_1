@@ -4,7 +4,11 @@ import 'package:doan1/screens/login/signup_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
-void main() {
+import 'dependency.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(const MyApp());
 }
 

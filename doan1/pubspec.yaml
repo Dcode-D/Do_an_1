@@ -37,11 +37,11 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   salomon_bottom_bar: ^3.3.2
   flutter_lints: ^2.0.0
-  google_fonts: ^2.1.0
+  google_fonts: ^4.0.4
   cupertino_icons: ^1.0.2
   date_format: ^2.0.4
   image_picker: ^0.8.4+4
-  get_it: ^7.2.0
+  get_it: ^7.6.0
   bloc: ^8.1.1
   flutter_typeahead: ^4.3.7
   flutter_bloc: ^8.1.2
@@ -54,10 +54,22 @@ dependencies:
   smooth_star_rating_null_safety: ^1.0.4+2
   dropdown_button2: ^2.1.0
   syncfusion_flutter_datepicker: ^21.2.3
+  injectable: ^2.1.1
+  dio: ^5.1.2
+  logger: ^1.3.0
+  retrofit: ^4.0.1
+  build_runner: ^2.4.3
+  retrofit_generator: ^7.0.0
+  shared_preferences: ^2.1.1
+  event_bus_plus: ^0.6.1
+  synchronized: ^3.1.0
+  json_annotation: ^4.8.1
+  injectable_generator: ^2.1.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.6.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
