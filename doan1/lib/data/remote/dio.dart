@@ -7,7 +7,9 @@ import 'logging_interceptor.dart';
 class DioFactory {
   final String _baseUrl;
 
-  DioFactory(this._baseUrl);
+  DioFactory(this._baseUrl){
+    print("DioFactory: $_baseUrl");
+  }
 
   BaseOptions _createBaseOptions() => BaseOptions(
     baseUrl: _baseUrl,

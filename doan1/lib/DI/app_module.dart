@@ -13,7 +13,7 @@ import '../data/repositories/authenticator.dart';
 abstract class RegisterModule {
   @singleton
   @Named('baseUrl')
-  String get baseUrl => 'localhost:3500';
+  String get baseUrl => "http://localhost:3500";
 
   @singleton
   Logger get logger => Logger(
@@ -30,7 +30,7 @@ abstract class RegisterModule {
   @preResolve
   Future<SharedPreferences> sharedPreferences() => SharedPreferences.getInstance();
 
-  @singleton
+  @lazySingleton
   Dio dio(@Named('baseUrl') String baseUrl, Logger logger) => DioFactory(baseUrl).create(logger);
 
   @singleton
