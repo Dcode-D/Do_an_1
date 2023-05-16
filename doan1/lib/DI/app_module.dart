@@ -13,7 +13,7 @@ import '../data/repositories/authenticator.dart';
 abstract class RegisterModule {
   @singleton
   @Named('baseUrl')
-  String get baseUrl => "http://localhost:3500";
+  String get baseUrl => "http://10.0.2.2:3500";
 
   @singleton
   Logger get logger => Logger(

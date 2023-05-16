@@ -27,7 +27,7 @@ class Authenticator {
     return _appService
         .login(_requestFactory.createLogin(username, password))
         .then((http) async {
-      print(http.data);
+      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return false;
       }
