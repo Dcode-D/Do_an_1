@@ -1,14 +1,9 @@
-import 'package:doan1/BLOC/authentication/authentication_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
-import '../../BLOC/authentication/authentication_bloc.dart';
+class AddSocialDialog extends Dialog{
+  Function addSocial;
 
-class LogOutDialog extends Dialog{
-  Function logout;
-
-  LogOutDialog({required this.logout});
+  AddSocialDialog({required this.addSocial});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +14,8 @@ class LogOutDialog extends Dialog{
       elevation: 0,
       backgroundColor: Colors.transparent,
       content: Container(
-        height: 250,
+        height: 200,
+        width: 450,
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -27,9 +23,7 @@ class LogOutDialog extends Dialog{
         ),
         child: Column(
           children: [
-            Image.asset("assets/icons/icon-sadness.png", width: 100, height: 100),
-            const SizedBox(height: 20),
-            const Text("Are you sure you want to log out?",
+            const Text("Add your social network link.",
                 style: TextStyle(
                   fontFamily: 'Raleway',
                   fontSize: 16,
@@ -38,6 +32,16 @@ class LogOutDialog extends Dialog{
                 )
             ),
             const SizedBox(height: 20),
+            Expanded(
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Add URL',
+                ),
+                keyboardType: TextInputType.emailAddress,
+                initialValue: 'oh',
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -62,18 +66,18 @@ class LogOutDialog extends Dialog{
                   ),
                 ),
                 ElevatedButton(
-                  onPressed:(){
-                    logout();
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AuthenticationPage()));
+                  onPressed: () {
+                    addSocial();
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
+                    primary: Colors.orange,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text("Log Out",
+                  child: const Text("Add",
                       style: TextStyle(
                         fontFamily: 'Raleway',
                         fontSize: 16,
@@ -86,7 +90,7 @@ class LogOutDialog extends Dialog{
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }

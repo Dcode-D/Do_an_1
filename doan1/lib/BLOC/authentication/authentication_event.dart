@@ -6,3 +6,5 @@ class AuthenticateEvent extends AuthenticationEvent{
   String? Username, Password;
   AuthenticateEvent({required this.Username, required this.Password});
 }
+
+class LogoutEvent extends AuthenticationEvent{}

@@ -221,7 +221,7 @@ class DetailTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Book Now",
+                "Add to favorite",
                 style: GoogleFonts.roboto(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,

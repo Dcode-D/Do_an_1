@@ -1,5 +1,4 @@
-import 'package:doan1/screens/profile/bank/add_bank_account.dart';
-import 'package:doan1/widgets/salomon_bottom_bar.dart';
+import 'package:doan1/widgets/dialog/add_social_link_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -10,6 +9,11 @@ class EditProfileScreen extends StatelessWidget{
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
+
+    Function addSocial = () {
+      SmartDialog.showToast("Social link added!");
+    };
+
     return Scaffold(
       body: NestedScrollView(
       controller: _scrollController,
@@ -211,25 +215,6 @@ class EditProfileScreen extends StatelessWidget{
                       Row(
                           children:[
                             const Icon(
-                              FontAwesomeIcons.addressCard,
-                              color: Colors.black,
-                              size: 20,
-                            ), const SizedBox(width: 20),
-                            Expanded(
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  labelText: 'ID Card',
-                                ),
-                                keyboardType: TextInputType.number,
-                                initialValue: '079212312312',
-                              ),
-                            ),
-                          ]
-                      ),
-                      Row(
-                          children:[
-                            const Icon(
                               FontAwesomeIcons.birthdayCake,
                               color: Colors.black,
                               size: 20,
@@ -310,7 +295,7 @@ class EditProfileScreen extends StatelessWidget{
                       Row(
                         children: [
                           const Icon(
-                            FontAwesomeIcons.bank,
+                            FontAwesomeIcons.globe,
                             color: Colors.black,
                             size: 20,
                           ), const SizedBox(width: 20),
@@ -325,10 +310,15 @@ class EditProfileScreen extends StatelessWidget{
                           const Spacer(),
                           ElevatedButton(
                               onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AddBankScreen()));
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext buildContext){
+                                      return AddSocialDialog(addSocial: addSocial);
+                                    });
                               },
                               child: const Text(
-                                  "Add Bank",
+                                  "Add URL",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,

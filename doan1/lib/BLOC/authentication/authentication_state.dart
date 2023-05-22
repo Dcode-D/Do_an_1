@@ -10,7 +10,9 @@ abstract class AuthenticationState {}
 
 class AuthenticationInfoState extends AuthenticationState {
   authenticateStatus isloggedin=authenticateStatus.unAuthorized;
-  AuthenticationInfoState({authenticateStatus authenStatus=authenticateStatus.unAuthorized}) {
+  AuthenticationInfoState(
+      {authenticateStatus authenStatus=authenticateStatus.unAuthorized})
+  {
     this.isloggedin = authenStatus;
   }
 }

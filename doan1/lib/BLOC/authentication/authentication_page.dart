@@ -33,13 +33,13 @@ class AuthenticationPage extends StatelessWidget {
               child: BlocSelector<AuthenticationBloc,AuthenticationInfoState,authenticateStatus>(
                 selector: (state)=>state.isloggedin,
                 builder: (context,state)=>state==authenticateStatus.unAuthorized ?
-                AnimatedSwitcher(
+                const AnimatedSwitcher(
                   duration: Duration(milliseconds: 250),
                     switchInCurve: Curves.easeIn,
                     child: LoginScreen())
                     :
                 AnimatedSwitcher(
-                    duration: Duration(milliseconds: 250),
+                    duration: const Duration(milliseconds: 250),
                     transitionBuilder: (child, Animation<double> animation){
                       return SlideTransition(
                         position: Tween<Offset>(

@@ -13,17 +13,33 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationInfoSta
   AuthenticationBloc() : super(AuthenticationInfoState()) {
     on<AuthenticateEvent>((event, emit) async {
       var authenticator = GetIt.instance.get<Authenticator>();
-      bool success = await authenticator.login(
+      bool loginstate = await authenticator.login(
           event.Username as String, event.Password as String);
       emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorizing));
-      if(true) {
+      if(loginstate) {
         print("Login success");
         emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorized));
       }
-      else {
+      else
+      {
         print("Log in failed");
         emit(AuthenticationInfoState(
             authenStatus: authenticateStatus.unAuthorized));
+        // timer!.cancel();
+      }
+    });
+    on<LogoutEvent>((event, emit) async {
+      var authenticator = GetIt.instance.get<Authenticator>();
+      bool logoutstate = await authenticator.logout();
+      if(logoutstate) {
+        print("Logout success");
+        emit(AuthenticationInfoState(authenStatus: authenticateStatus.unAuthorized));
+      }
+      else
+      {
+        print("Log out failed");
+        emit(AuthenticationInfoState(
+            authenStatus: authenticateStatus.Authorized));
         // timer!.cancel();
       }
     });

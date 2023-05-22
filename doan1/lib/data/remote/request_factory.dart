@@ -7,6 +7,7 @@ class RequestFactory {
     return {
       "username": username,
       "password": password,
+      "device": "mobile"
     };
   }
 }

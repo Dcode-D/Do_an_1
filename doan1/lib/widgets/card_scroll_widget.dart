@@ -68,7 +68,7 @@ class CardScrollWidget extends StatelessWidget {
                         DestinationDetailScreen(
                           destination: destinationList[i],
                           img: images[i],
-                          type: 2,
+                          type: 1,
                         ),
                   ),
                 );

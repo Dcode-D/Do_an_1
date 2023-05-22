@@ -43,4 +43,14 @@ class Authenticator {
       return isSuccess;
     });
   }
+
+  Future<bool> logout() async {
+    return _appService.logout('Bearer '+_sharedPreferences.getString(Preferences.token)!).then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      await _sharedPreferences.remove(Preferences.token);
+      return true;
+    });
+  }
 }

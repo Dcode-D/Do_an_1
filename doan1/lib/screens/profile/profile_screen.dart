@@ -1,8 +1,11 @@
+import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/authentication/authentication_page.dart';
 import 'package:doan1/screens/login/login_screens.dart';
+import 'package:doan1/screens/profile/add_post.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,9 +21,25 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
   @override
   Widget build(BuildContext context) {
+    Function Logout =()=>{
+    context.read<AuthenticationBloc>().add(LogoutEvent())
+  };
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 10),
+        child: FloatingActionButton(
+          elevation: 5,
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPostScreen()));
+          },
+          backgroundColor: Colors.orange,
+          child: const Icon(FontAwesomeIcons.pencil, size: 20, color: Colors.white),
+        ),
+      ),
       body: Stack(
         children:[
           SingleChildScrollView(
@@ -171,9 +190,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                           "Full name",
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w700,
@@ -204,9 +223,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.black.withOpacity(0.3),
                           ),
                           const SizedBox(height: 15),
-                          Text(
+                          const Text(
                             "Address",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w700,
@@ -237,9 +256,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.black.withOpacity(0.3),
                           ),
                           const SizedBox(height: 15),
-                          Text(
-                            "ID Card",
-                            style: const TextStyle(
+                          const Text(
+                            "Date of birth",
+                            style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w700,
@@ -250,12 +269,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                               children:[
                                 const Icon(
-                                  FontAwesomeIcons.idCard,
+                                  FontAwesomeIcons.cakeCandles,
                                   color: Colors.black,
                                   size: 20,
                                 ), const SizedBox(width: 20),
                                 Text(
-                                  "0792********",
+                                  "15/10/2002",
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -292,9 +311,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:[
-                          Text(
+                          const Text(
                             "Email",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w700,
@@ -324,9 +343,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.black.withOpacity(0.3),
                           ),
                           const SizedBox(height: 15),
-                          Text(
+                          const Text(
                             "Phone Number",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w700,
@@ -342,7 +361,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   size: 20,
                                 ), const SizedBox(width: 20),
                                 Text(
-                                  "EngDungMup123@gmail.com",
+                                  "0857335125",
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -357,9 +376,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.black.withOpacity(0.3),
                           ),
                           const SizedBox(height: 15),
-                          Text(
-                            "Bank Account",
-                            style: const TextStyle(
+                          const Text(
+                            "Social Network",
+                            style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w700,
@@ -370,7 +389,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                               children:[
                                 const Icon(
-                                  FontAwesomeIcons.bank,
+                                  FontAwesomeIcons.globe,
                                   color: Colors.black,
                                   size: 20,
                                 ), const SizedBox(width: 20),
@@ -388,7 +407,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
                       child: ElevatedButton(
@@ -401,15 +420,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () {
                             showDialog(
                               context: context,
-                              barrierDismissible: false,
+                              barrierDismissible: true,
                               builder: (BuildContext context) {
-                                return const LogOutDialog();
+                                return LogOutDialog(logout: Logout,);
                               },
                             );
                         },
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               FontAwesomeIcons.signOutAlt,
                               color: Colors.red,
@@ -428,7 +447,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 80),
+                    const SizedBox(height: 80),
                   ]),
               ),
               ]),

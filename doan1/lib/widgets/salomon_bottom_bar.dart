@@ -124,7 +124,7 @@ class Salomon_nav_bar extends StatelessWidget{
                             size: 28.0,
                           ),
                           title: const Text(
-                            'Booking',
+                            'Favorite',
                             style: TextStyle(fontSize: 16),
                           ),
                         ),

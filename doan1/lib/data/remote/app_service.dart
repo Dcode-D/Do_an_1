@@ -13,5 +13,5 @@ abstract class AppService {
   Future<HttpResponse<LoginResponse>> login(@Body() Map<String, dynamic> request);
 
   @GET("/logout")
-  Future<HttpResponse> logout();
+  Future<HttpResponse> logout(@Header('Authorization') String token);
 }

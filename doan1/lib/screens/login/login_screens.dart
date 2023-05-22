@@ -16,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var isPasswordHidden = true;
+  final username = TextEditingController();
+  final password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        child: Image(
+                        child: const Image(
                           image: AssetImage('assets/icons/icon-logo.jpg'),
                           width: 80,
                           height: 80,
@@ -56,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30,left: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 30,left: 5),
                     child: Text(
                       "Let's start\nyour journey",
                       style: TextStyle(
@@ -70,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ]
               ),
-              Spacer(flex: 4),
+              const Spacer(flex: 4),
               Flexible(
                 flex: 13,
                 child: Container(
@@ -88,8 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15,bottom: 10),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 15,bottom: 10),
                           child: Text(
                             "Welcome to our App",
                             style: TextStyle(
@@ -101,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         TextField(
+                          controller: username,
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: TextInputType.text,
                           cursorColor: Colors.black,
@@ -125,6 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 10,
                         ),
                         TextField(
+                          controller: password,
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: isPasswordHidden,
@@ -160,14 +165,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 1,
                           color: Colors.orange,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height:10,
                         ),
-                        Flexible(
+                        const Flexible(
                           flex: 1,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
+                            children: [
                               Text(
                                 "Forgot password?",
                                 style: TextStyle(
@@ -195,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: context.read<AuthenticationBloc>().state == authenticateStatus.unAuthorized ? null : () {
                                 context.read<AuthenticationBloc>().add(
-                                    AuthenticateEvent(Username: "username.text", Password: "password.text")
+                                    AuthenticateEvent(Username: username.text, Password: password.text)
                                 );
                               },
                               child: const Text(
