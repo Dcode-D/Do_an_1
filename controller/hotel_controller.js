@@ -46,6 +46,7 @@ const hotelController = async (req,res)=>{
             "images": imglist,
             "owner": req.user._id,
             "province": req.body.province,
+            "city": req.body.city,
         });
         await hotel.save();
         return res.status(200).send('Hotel information uploaded');
@@ -153,6 +154,10 @@ const getHotelByQueries = async (req,res)=>{
     const queries = req.query;
     const page = req.params.page;
     const province = queries.province;
+    const city = queries.city;
+    const name = queries.name;
+    const owner = queries.owner;
+    const address = queries.address;
     try{
         const query = hotelModel.find({})
         const intpage = parseInt(page);
@@ -161,6 +166,18 @@ const getHotelByQueries = async (req,res)=>{
         }
         if(province) {
             query.where({province: province})
+        }
+        if(city) {
+            query.where({city: city})
+        }
+        if(name) {
+            query.where({name: name})
+        }
+        if(owner) {
+            query.where({owner: owner})
+        }
+        if(address) {
+            query.where({address: address})
         }
         const hotels = await query.skip((intpage - 1) * PAGE_SIZE).limit(PAGE_SIZE).exec();
         return res.status(200).json({status: "success", data: hotels});

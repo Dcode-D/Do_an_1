@@ -72,7 +72,7 @@ const getCarById = async (req, res) => {
 const updateCar = async (req, res) => {
     try {
         const carcheck = await Car.findById(req.params.id);
-        if (carcheck.owner === req.user._id) {
+        if (carcheck.owner.equals(req.user._id)) {
             const car = await Car.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
             res.status(200).json({ car });
         } else {
@@ -87,7 +87,7 @@ const updateCar = async (req, res) => {
 const deleteCar = async (req, res) => {
     try {
         const carcheck = await Car.findById(req.params.id);
-        if (carcheck.owner === req.user._id) {
+        if (carcheck.owner.equals(req.user._id)) {
             const deletedcar = await Car.findByIdAndDelete(req.params.id);
             if(deletedcar.images){
                 deletedcar.images.forEach(async (image)=>{

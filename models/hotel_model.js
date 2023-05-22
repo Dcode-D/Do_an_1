@@ -26,6 +26,10 @@ const HotelSchema = Schema({
     province: {
         type: String,
         require: true,
+    },
+    city:{
+        type: String,
+        require: true,
     }
 })
 

@@ -2,6 +2,7 @@ const path = require("path")
 
 const fileExtLimiter = (allowedExtArray) => {
     return (req, res, next) => {
+        if(!req.files) return next()
         const files = req.files
 
         const fileExtensions = []
