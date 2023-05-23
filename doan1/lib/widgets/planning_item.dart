@@ -21,7 +21,7 @@ class PlanningItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Image desImg = Image.asset(destination.img);
+    Image desImg = Image.asset(destination.images[0]);
 
     return InkWell(
       onTap: () {

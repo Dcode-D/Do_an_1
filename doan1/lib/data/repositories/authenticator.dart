@@ -53,4 +53,25 @@ class Authenticator {
       return true;
     });
   }
+
+  Future<bool> register(String username, String password, String email, String firstname, String lastname,String phone, String address,int gender) async {
+    return _appService
+        .register(_requestFactory.createRegister(username, password, email, firstname, lastname, phone, address, gender))
+        .then((http) async {
+      print(http.response.statusCode);
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      bool isSuccess = false;
+
+      isSuccess = http.data.token.isNotEmpty;
+
+      if (isSuccess) {
+        var token = http.data.token;
+        await _sharedPreferences.setString(Preferences.token, token);
+        _logger.i("New token received: $token");
+      }
+      return isSuccess;
+    });
+  }
 }

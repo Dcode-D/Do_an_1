@@ -1,3 +1,4 @@
+import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/screens/all/all_hotel_screen.dart';
 import 'package:doan1/screens/all/all_tour_screen.dart';
 import 'package:doan1/screens/all/all_vehicle_screen.dart';
@@ -7,6 +8,7 @@ import 'package:doan1/screens/notification/notification_screen.dart';
 import 'package:doan1/screens/profile/edit_profile_screen.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -53,7 +55,12 @@ class  _HomeScreenState extends State<HomeScreen> {
                         children: [
                             InkWell(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                    BlocProvider(
+                                      create: (_) => EditProfileBloc(),
+                                      child: EditProfileScreen(),
+                                    )
+                                ));
                               },
                               child: Container(
                                 height: 40,

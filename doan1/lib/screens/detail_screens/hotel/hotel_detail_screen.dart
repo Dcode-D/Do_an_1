@@ -106,7 +106,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                   controller: listController,
                   count: widget.hotel.imageUrls.length,
                   effect: const ExpandingDotsEffect(
-                    activeDotColor: Color(0xFF8a8a8a),
+                    activeDotColor: Colors.orange,
                     dotColor: Color(0xFFababab),
                     dotHeight: 4.8,
                     dotWidth: 6,
@@ -208,7 +208,8 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>
               BlocProvider(
                   create: (_) => HotelBookingBloc(),
-                  child: HotelBookingInfoScreen())));
+                  child: HotelBookingInfoScreen())
+          ));
         },
         child: Container(
           margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),

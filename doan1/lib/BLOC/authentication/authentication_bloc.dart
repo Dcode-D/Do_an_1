@@ -43,5 +43,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationInfoSta
         // timer!.cancel();
       }
     });
+
   }
 }

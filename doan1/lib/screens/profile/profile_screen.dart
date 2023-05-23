@@ -1,5 +1,6 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/authentication/authentication_page.dart';
+import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/screens/login/login_screens.dart';
 import 'package:doan1/screens/profile/add_post.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
@@ -155,7 +156,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             InkWell(
                               onTap: (){
                                 Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => EditProfileScreen()),);
+                                  MaterialPageRoute(builder: (context) =>
+                                      BlocProvider(
+                                          create: (_) => EditProfileBloc(),
+                                          child: EditProfileScreen(),
+                                      )
+                                  ));
                               },
                               child: Container(
                                 width: 50,

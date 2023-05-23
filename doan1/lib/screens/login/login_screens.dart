@@ -1,3 +1,4 @@
+import 'package:doan1/screens/login/forgot_password_screen.dart';
 import 'package:doan1/screens/login/signup_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 438,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.85),
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
                     border: Border.all(
                       color: Colors.black.withOpacity(0.2),
                       width: 1,
@@ -168,17 +169,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height:10,
                         ),
-                        const Flexible(
+                        Flexible(
                           flex: 1,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                "Forgot password?",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontStyle: FontStyle.italic,
-                                  decoration: TextDecoration.underline,
+                              InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+                                  );
+                                },
+                                child: Text(
+                                  "Forgot password?",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontStyle: FontStyle.italic,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 20),
@@ -198,11 +207,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
-                              onPressed: context.read<AuthenticationBloc>().state == authenticateStatus.unAuthorized ? null : () {
-                                context.read<AuthenticationBloc>().add(
-                                    AuthenticateEvent(Username: username.text, Password: password.text)
-                                );
-                              },
+                              onPressed:username.text.isEmpty || password.text.isEmpty?
+                                    (){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          "Please enter username and password",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );}
+                                  : () {
+                                    context.read<AuthenticationBloc>().add(
+                                        AuthenticateEvent(Username: username.text, Password: password.text));
+                                  },
                               child: const Text(
                                 "Sign in",
                                 style: TextStyle(
@@ -220,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Don't have an account?",
                                 style: TextStyle(
                                   color: Colors.black,

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/tour_model.dart';
-import '../../tourgroup_screen/choose_tourgroup_screen.dart';
 
 class DetailTab extends StatelessWidget {
   final Tour tour;
@@ -202,12 +201,7 @@ class DetailTab extends StatelessWidget {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChooseTourGroupScreen(tour: tour),
-            ),
-          );
+
         },
         child: Container(
           margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),

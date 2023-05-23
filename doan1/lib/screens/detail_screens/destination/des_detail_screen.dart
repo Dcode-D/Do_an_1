@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../models/destination_model.dart';
 
@@ -21,6 +22,7 @@ class DestinationDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PageController listController = PageController();
     return Scaffold(
       body: Stack(
         children: [
@@ -29,11 +31,19 @@ class DestinationDetailScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             child: Hero(
               tag: type == 1 ? destination.name : destination.description,
-              child: Image(
-                width: double.infinity,
-                height: double.infinity,
-                image: img.image,
-                fit: BoxFit.cover,
+              child: PageView.builder(
+                controller: listController,
+                itemCount: destination.images.length,
+                itemBuilder:(context, index) {
+                  return Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(destination.images[index]),
+                              fit: BoxFit.cover
+                          )
+                      )// image:AssetImage(url),),
+                  );
+                },
               ),
             ),
           ),
@@ -62,51 +72,67 @@ class DestinationDetailScreen extends StatelessWidget {
             left: 20.0,
             right: 20,
             bottom: 40,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.black.withOpacity(0.2),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    destination.name,
-                    style: GoogleFonts.playfairDisplay(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.2,
-                        color: Colors.white),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.black.withOpacity(0.2),
                   ),
-                  const SizedBox(height: 10),
-                  Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.location_pin,
-                        color: Colors.white,
-                        size: 24,
-                      ),
                       Text(
-                        destination.province,
+                        destination.name,
+                        style: GoogleFonts.playfairDisplay(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.2,
+                            color: Colors.white),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_pin,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                          Text(
+                            destination.province,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        destination.description,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    destination.description,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w300,
-                    ),
+                ),
+                const SizedBox(height: 5),
+                SmoothPageIndicator(
+                  controller: listController,
+                  count: destination.images.length,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Colors.orange,
+                    dotColor: Color(0xFFababab),
+                    dotHeight: 6,
+                    dotWidth: 6,
+                    spacing: 4.8,
                   ),
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ],

@@ -14,7 +14,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   var isPasswordHidden = true;
-  var isPasswordHidden1 = true;
+  var isPasswordConfirmHidden = true;
+  var isPolicyChecked = false;
   final List<String> genders = [
     'Male',
     'Female',
@@ -347,7 +348,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: TextField(
                         textAlignVertical: TextAlignVertical.center,
                         keyboardType: TextInputType.visiblePassword,
-                        obscureText: isPasswordHidden1,
+                        obscureText: isPasswordConfirmHidden,
                         cursorColor: Colors.black,
                         style: const TextStyle(
                           fontSize: 18,
@@ -362,7 +363,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              isPasswordHidden1
+                              isPasswordConfirmHidden
                                   ? FontAwesomeIcons.eyeSlash
                                   : FontAwesomeIcons.eye,
                               size: 20,
@@ -370,7 +371,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             onPressed: () {
                               setState(() {
-                                isPasswordHidden1 = !isPasswordHidden1;
+                                isPasswordConfirmHidden = !isPasswordConfirmHidden;
                               });
                             },
                           ),
@@ -415,29 +416,82 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     const SizedBox(height: 15,),
-                    SizedBox(
-                      width: 250,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                    Row(
+                      children: [
+                        const SizedBox(width: 20,),
+                        Checkbox(
+                          value: isPolicyChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              isPolicyChecked = value!;
+                            });
+                          },
                         ),
-                        onPressed: () {
-                        //TODO: Add functionality sign up
-                        },
-                        child: const Text(
-                          "Sign up",
+                        const Text(
+                          "I agree with our terms and policy.",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 16,
                             fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                "Cancel",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              onPressed: () {
+                              //TODO: Add functionality sign up
+                              },
+                              child: const Text(
+                                "Sign up",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    const SizedBox(height: 10,),
                   ],
                 ),
               ),

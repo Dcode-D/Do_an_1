@@ -31,7 +31,7 @@ class _DestinationCarouselState extends State<DestinationCarousel> {
     super.initState();
 
     for (var destination in widget.destinationList) {
-      final img = Image.asset(destination.img);
+      final img = Image.asset(destination.images[0]);
       images.add(img);
     }
   }

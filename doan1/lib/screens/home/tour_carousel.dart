@@ -63,7 +63,7 @@ class TourCarousel extends StatelessWidget {
             controller: listController,
             count: (tours.length/2).round(),
             effect: const ExpandingDotsEffect(
-              activeDotColor: Color(0xFF8a8a8a),
+              activeDotColor: Colors.orange,
               dotColor: Color(0xFFababab),
               dotHeight: 4.8,
               dotWidth: 6,
