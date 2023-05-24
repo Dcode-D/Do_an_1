@@ -2,7 +2,7 @@ import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/authentication/authentication_page.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/screens/login/login_screens.dart';
-import 'package:doan1/screens/profile/add_post.dart';
+import 'package:doan1/screens/profile/create_post_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: FloatingActionButton(
           elevation: 5,
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPostScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePostScreen()));
           },
           backgroundColor: Colors.orange,
           child: const Icon(FontAwesomeIcons.pencil, size: 20, color: Colors.white),

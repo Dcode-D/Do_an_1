@@ -43,6 +43,28 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationInfoSta
         // timer!.cancel();
       }
     });
-
+    on<RegisterEvent>((event,emit) async {
+      var authenticator = GetIt.instance.get<Authenticator>();
+      bool registerstate = await authenticator.register(
+          event.Username as String,
+          event.Password as String,
+          event.Email as String,
+          event.FirstName as String,
+          event.LastName as String,
+          event.Phone as String,
+          "",
+          event.Gender as int);
+      if(registerstate) {
+        print("Register success");
+        emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorized));
+      }
+      else
+      {
+        print("Register failed");
+        emit(AuthenticationInfoState(
+            authenStatus: authenticateStatus.unAuthorized));
+        // timer!.cancel();
+      }
+    });
   }
 }

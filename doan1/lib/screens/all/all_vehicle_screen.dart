@@ -43,7 +43,7 @@ class AllVehicleScreen extends StatelessWidget{
             itemCount: vehicles.length,
             itemBuilder: (BuildContext context, int index){
               Vehicle vehicle = vehicles[index];
-              Image vehicleImg = Image.asset(vehicle.imageUrl);
+              Image vehicleImg = Image.asset(vehicle.imageUrls[0]);
               return VehicleItemForAll(vehicle: vehicle, vehicleImg: vehicleImg);
             }
         ),

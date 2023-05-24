@@ -54,7 +54,7 @@ class VehicleItemForAll extends StatelessWidget{
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         image: DecorationImage(
-                            image: AssetImage(vehicle.imageUrl),
+                            image: AssetImage(vehicle.imageUrls[0]),
                             fit: BoxFit.cover
                         )
                     ),

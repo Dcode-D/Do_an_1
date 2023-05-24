@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Enter username or email",
+                            hintText: "Enter username",
                             prefixIcon: Icon(
                               FontAwesomeIcons.userAlt,
                               size: 20,
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 1,
                           color: Colors.orange,
                           ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextField(
@@ -235,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        Spacer(flex: 3),
+                        const Spacer(flex: 3),
                         Flexible(
                           flex: 2,
                           child: Row(
@@ -277,7 +277,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   Route _CreateRouteToSignUp() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const SignUpScreen(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+      BlocProvider(
+          create: (_) => AuthenticationBloc(),
+          child: SignUpScreen()),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

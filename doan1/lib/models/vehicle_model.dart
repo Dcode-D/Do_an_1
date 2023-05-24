@@ -1,7 +1,7 @@
 
 class Vehicle{
   String id;
-  String imageUrl;
+  List<String> imageUrls;
   String name;
   String address;
   String description;
@@ -11,7 +11,7 @@ class Vehicle{
 
   Vehicle({
     required this.id,
-    required this.imageUrl,
+    required this.imageUrls,
     required this.name,
     required this.address,
     required this.description,
@@ -24,7 +24,10 @@ class Vehicle{
 List<Vehicle> vehicles = [
   Vehicle(
       id: 'v0',
-      imageUrl: 'assets/images/car0.jpg',
+      imageUrls: [
+        'assets/images/car0.jpg',
+        'assets/images/car1.jpg',
+      ],
       name: '2021 Mercedes-AMG GLE53',
       address: 'Thành phố Hồ Chí Minh',
       description: 'Xe có 7 chỗ có thể chứa 4 vali, có số tự động',
@@ -34,7 +37,9 @@ List<Vehicle> vehicles = [
   ),
   Vehicle(
       id: 'v1',
-      imageUrl: 'assets/images/car1.jpg',
+      imageUrls: [
+        'assets/images/car1.jpg',
+        'assets/images/car0.jpg',],
       name: 'The 2019 Volvo XC40',
       address: 'Thành phố Đà Lạt',
       description: 'Xe có 4 chỗ có thể chứa 4 vali, có số tự động',
@@ -43,7 +48,8 @@ List<Vehicle> vehicles = [
       type: 'car'
   ),Vehicle(
       id: 'v2',
-      imageUrl: 'assets/images/bike2.jpg',
+      imageUrls: [
+        'assets/images/bike2.jpg'],
       name: 'BMW S1000RR 2022',
       address: 'Vĩnh Long',
       description: 'Xe có 2 chỗ và có hỗ trợ nón bảo hiểm',

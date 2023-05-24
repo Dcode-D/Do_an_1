@@ -100,7 +100,7 @@ class VehicleItem extends StatelessWidget{
                   child: Image(
                     height: type == 1 ? 180.0 : 185.0,
                     width: type == 1 ? 220.0 : 260.0,
-                    image: AssetImage(vehicle.imageUrl),
+                    image: AssetImage(vehicle.imageUrls[0]),
                     fit: BoxFit.cover,
                   ),
                 ),
