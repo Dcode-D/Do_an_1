@@ -143,4 +143,73 @@ const uploadArticle = async (req, res) => {
     }
 }
 
-module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, uploadArticle };
+
+//require file upload middleware
+const updateArticleInfo = async (req, res) => {
+    try {
+        const articleid = req.params.id;
+        const article = await Article.findById(articleid);
+        if(!article) return res.status(404).json({status: "error", message: "Article not found"});
+        if(article.publishBy.equals(req.user._id)){
+            return res.status(401).json({status: "error", message: "You are not authorized to update this article"});
+        }
+        const {title, city, province, address, referenceName, shortDescription} = req.body;
+        if(title) article.title = title;
+        if(city) article.city = city;
+        if(province) article.province = province;
+        if(address) article.address = address;
+        if(referenceName) article.referenceName = referenceName;
+        if(shortDescription) article.shortDescription = shortDescription;
+        if(req.files){
+            const currentimg = await FileModel.findById(article.image);
+            if(currentimg){
+                fs.unlinkSync(currentimg.path)
+                const newimg = req.files[0];
+                const filename = Date.now().toString() + newimg.name;
+                currentimg.path = path.join(__dirname, '../upload/images', filename);
+                newimg.mv(currentimg.path, (err) => {
+                    if (err) return res.status(500).json({status: "error", message: err})
+                })
+                currentimg.name = filename;
+                await currentimg.save();
+            }
+        }
+        await article.save();
+        return res.status(200).json({status: "success", message: "Article updated successfully"});
+    }catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+const updateArticle = async (req, res) => {
+    try {
+        const articleid = req.params.id;
+        const article = await Article.findById(articleid);
+        if(!article) return res.status(404).json({status: "error", message: "Article not found"});
+        if(article.publishBy.equals(req.user._id)){
+            return res.status(401).json({status: "error", message: "You are not authorized to update this article"});
+        }
+        const content = article.article;
+        const contentfile = await FileModel.findById(content);
+        if(!contentfile) return res.status(404).json({status: "error", message: "Article content not found"});
+        if(req.files){
+            const newart = req.files[0];
+            const filename = Date.now().toString() + newart.name;
+            contentfile.path = path.join(__dirname, '../upload/files', filename);
+            newart.mv(contentfile.path, (err) => {
+                if (err) return res.status(500).json({status: "error", message: err})
+            })
+            await contentfile.save();
+            return res.status(200).json({status: "success", message: "Article updated successfully"});
+        }
+        else {
+            return res.status(400).json({status: "error", message: "No file found"});
+        }
+    }catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, uploadArticle, updateArticleInfo, updateArticle };
