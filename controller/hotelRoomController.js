@@ -57,18 +57,24 @@ const uploadHotelRoom = async (req,res)=>{
             console.log("invalid hotel id");
             return res.status(400).json({status: "error", message: "Invalid hotel id"});
         }
-        const hotelRoom = new hotelRoomModel({
-            "number": req.body.number,
-            "hotel": req.params.hotel,
-            "adultCapacity": req.body.adultCapacity,
-            "childrenCapacity": req.body.childrenCapacity,
-            "price": req.body.price,
-            "checkInHour": req.body.checkInHour,
-            "checkInMinute": req.body.checkInMinute,
-            "checkOutHour": req.body.checkOutHour,
-            "checkOutMinute": req.body.checkOutMinute,
-        });
-        await hotelRoom.save();
+        const hotelRoomlist = req.body.hotelRooms;
+        if(!hotelRoomlist||hotelRoomlist.length===0){
+            return res.status(400).json({status: "error", message: "No hotel room information"});
+        }
+        for(let htr of hotelRoomlist) {
+            const hotelRoom = new hotelRoomModel({
+                "number": htr.number,
+                "hotel": htr.hotel,
+                "adultCapacity": htr.adultCapacity,
+                "childrenCapacity": htr.childrenCapacity,
+                "price": htr.price,
+                "checkInHour": htr.checkInHour,
+                "checkInMinute": htr.checkInMinute,
+                "checkOutHour": htr.checkOutHour,
+                "checkOutMinute": htr.checkOutMinute,
+            });
+            await hotelRoom.save();
+        }
         res.status(200).send('Hotel room information uploaded');
     }catch (e){
         console.log(e.message);
