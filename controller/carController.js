@@ -18,7 +18,7 @@ const createCar = async (req, res) => {
                 const fileModel = new FileModel({
                     "name": filename,
                     "path": filepath,
-                    "description": req.body.description,
+                    "description": "",
                     "attachedId": req.body.attachedId,
                     "publishBy": req.user._id,
                 });
@@ -31,7 +31,7 @@ const createCar = async (req, res) => {
         }
         req.body.images = imglist;
         const car = await Car.create({...req.body, images: imglist, owner: req.user._id });
-        res.status(201).json({ car });
+        res.status(200).json({ car });
     } catch(error) {
         console.error(error);
         res.status(500).json({ error: 'Server Error' });
@@ -90,10 +90,11 @@ const deleteCar = async (req, res) => {
         if (carcheck.owner.equals(req.user._id)) {
             const deletedcar = await Car.findByIdAndDelete(req.params.id);
             if(deletedcar.images){
-                deletedcar.images.forEach(async (image)=>{
+                for (const image of deletedcar.images) {
                     const filetodelete = await FileModel.findByIdAndDelete(image);
+                    filetodelete.remove();
                     fs.unlinkSync(filetodelete.path);
-                })
+                }
             }
             res.json({ message: 'Car deleted successfully' });
         }
@@ -134,6 +135,7 @@ const updateCarImage = async (req,res)=>{
                 }
 
                 car.images = [...car.images, ...imglist];
+                await car.save();
                 return res.status(200).send('Hotel image uploaded');
             }
             else {
@@ -147,7 +149,7 @@ const updateCarImage = async (req,res)=>{
         return res.status(503).json({status: "error", message: e.message});
     }
 }
-
+//body require imageId
 const deleteCarImage = async (req,res)=>{
     try {
         if (req.params.id) {

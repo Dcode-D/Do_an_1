@@ -65,18 +65,14 @@
                 formData.append(myFiles.item(key).name, myFiles.item(key))
             })
 
-            formData.append("name", "Star hotel");
-            formData.append("description","Huge hotel with 1000 rooms");
-            formData.append("address","20 Trang bom street");
-            formData.append("province","Vung tau");
-            formData.append("number",100);
-            formData.append("attachedId","642d98ebd702733681bf6995");
-            // formData.append("number",402)
-            // formData.append("price",1000000)
-            // formData.append("adultCapacity",2)
-            // formData.append("childrenCapacity",2)
+            formData.append("licensePlate", "12312");
+            formData.append("brand","BMW");
+            formData.append("seats","10");
+            formData.append("pricePerDay","1000000");
+            formData.append("color","red");
+            formData.append("description","some shit");
 
-            fetch('http://localhost:3500/legal_doc', {
+            fetch('http://localhost:3500/car', {
                 method: 'POST',
                 body: formData,
                 headers:{
