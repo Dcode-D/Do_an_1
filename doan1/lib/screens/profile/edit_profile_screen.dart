@@ -387,8 +387,8 @@ class EditProfileScreen extends StatelessWidget{
                                     suffixIcon: IconButton(
                                         icon: Icon(
                                           state.isPassWordVisible
-                                              ? FontAwesomeIcons.eyeSlash
-                                              : FontAwesomeIcons.eye,
+                                              ? FontAwesomeIcons.eye
+                                              : FontAwesomeIcons.eyeSlash,
                                           size: 20,
                                           color: Colors.black54,
                                         ),
@@ -399,7 +399,7 @@ class EditProfileScreen extends StatelessWidget{
                                     ),
                                   ),
                                   keyboardType: TextInputType.visiblePassword,
-                                  obscureText: state.isPassWordVisible,
+                                  obscureText: !state.isPassWordVisible,
                                   initialValue: 'dungbeo1510',
                                 ),
                               ),
@@ -420,8 +420,8 @@ class EditProfileScreen extends StatelessWidget{
                                     suffixIcon: IconButton(
                                       icon: Icon(
                                         state.isPassWordConfirmVisible
-                                            ? FontAwesomeIcons.eyeSlash
-                                            : FontAwesomeIcons.eye,
+                                            ? FontAwesomeIcons.eye
+                                            : FontAwesomeIcons.eyeSlash,
                                         size: 20,
                                         color: Colors.black54,
                                       ),
@@ -432,7 +432,7 @@ class EditProfileScreen extends StatelessWidget{
                                     ),
                                   ),
                                   keyboardType: TextInputType.visiblePassword,
-                                  obscureText: state.isPassWordConfirmVisible,
+                                  obscureText: !state.isPassWordConfirmVisible,
                                   initialValue: 'dungbeo1510',
                                 ),
                               ),
@@ -442,6 +442,62 @@ class EditProfileScreen extends StatelessWidget{
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:15),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white.withOpacity(0.3),
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.3),
+                      ),
+                    ),
+                    child:
+                    Row(
+                      children: [
+                        const Icon(
+                          FontAwesomeIcons.idCard,
+                          color: Colors.black,
+                          size: 20,
+                        ), const SizedBox(width: 20),
+                        const Text(
+                          "Not Linked",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Raleway',
+                            color: Colors.black,),
+                        ),
+                        const Spacer(),
+                        ElevatedButton(
+                            onPressed: (){
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext buildContext){
+                                    return AddSocialDialog(addSocial: addSocial);
+                                  });
+                            },
+                            child: const Text(
+                              "Upload files",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Raleway',
+                                color: Colors.black,),
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
               ],
           ),
             )

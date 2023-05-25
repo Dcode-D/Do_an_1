@@ -1,13 +1,10 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
-import 'package:doan1/BLOC/authentication/authentication_page.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
-import 'package:doan1/screens/login/login_screens.dart';
 import 'package:doan1/screens/profile/create_post_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
-import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,18 +26,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
     context.read<AuthenticationBloc>().add(LogoutEvent())
   };
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 10),
-        child: FloatingActionButton(
-          elevation: 5,
-          onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePostScreen()));
-          },
+        padding: const EdgeInsets.symmetric(vertical: 65, horizontal: 10),
+        child: SpeedDial(
+          animatedIcon: AnimatedIcons.add_event,
+          animatedIconTheme: const IconThemeData(size: 22.0),
           backgroundColor: Colors.orange,
-          child: const Icon(FontAwesomeIcons.pencil, size: 20, color: Colors.white),
-        ),
+          visible: true,
+          curve: Curves.bounceIn,
+          children: [
+            SpeedDialChild(
+              child: const Icon(Icons.post_add),
+              backgroundColor: Colors.orange,
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePostScreen())),
+              label: 'Create Post',
+              labelStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500),
+              labelBackgroundColor: Colors.orange,
+            ),
+            SpeedDialChild(
+              child: const Icon(Icons.sell_rounded),
+              backgroundColor: Colors.orange,
+              onTap: () {},
+              label: 'Create Service',
+              labelStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500),
+              labelBackgroundColor: Colors.orange,
+            ),
+          ],),
       ),
+      // Padding(
+      //   padding: const EdgeInsets.symmetric(vertical: 65, horizontal: 10),
+      //   child: FloatingActionButton(
+      //     elevation: 5,
+      //     onPressed: (){
+      //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePostScreen()));
+      //     },
+      //     backgroundColor: Colors.orange,
+      //     child: const Icon(FontAwesomeIcons.pencil, size: 20, color: Colors.white),
+      //   ),
+      // ),
       body: Stack(
         children:[
           SingleChildScrollView(
@@ -152,16 +180,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Row(
-                          children: [
+                          children:[
+                            InkWell(
+                              onTap: (){
+                                //TODO: Add favorite page
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white.withOpacity(0.3),
+                                ),
+                                child: const Icon(
+                                  FontAwesomeIcons.heart,
+                                  color: Colors.orange,
+                                  size: 28,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
                             InkWell(
                               onTap: (){
                                 Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) =>
-                                      BlocProvider(
+                                    MaterialPageRoute(builder: (context) =>
+                                        BlocProvider(
                                           create: (_) => EditProfileBloc(),
                                           child: EditProfileScreen(),
-                                      )
-                                  ));
+                                        )
+                                    ));
                               },
                               child: Container(
                                 width: 50,
@@ -175,10 +220,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   color: Colors.orange,
                                 ),
                               ),
-                            ),
-                          ],
-                        )],
-                    ),
+                            )
+                          ]),
+                      ],),
                     const SizedBox(height: 20),
                     Container(
                       width: MediaQuery.of(context).size.width,

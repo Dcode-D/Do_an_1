@@ -5,15 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../BLOC/rent_vehicle/vehicle_rent_bloc.dart';
 import '../hotel/setting_booking/checking_information_screen.dart';
 
 class VehicleRentBookInfoScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:BlocBuilder<VehicleRentBloc,VehicleRentState>(
-        builder: (context,state) => SingleChildScrollView(
+      body:SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -418,26 +416,6 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                           ),
                         ),
                         const SizedBox(height: 20,),
-                        Row(
-                            children: [
-                              Checkbox(
-                                  value: state.needDriver,
-                                  onChanged: (checked) {
-                                    context.read<VehicleRentBloc>().add(CheckNeedDriverEvent(needDriver: !state.needDriver));
-                                  }
-                              ),
-                              Text(
-                                'Need driver ?',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: GoogleFonts.raleway().fontFamily,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 1.2,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ]),
-                        const SizedBox(height: 20,),
                         Container(
                           height: 1,
                           width: double.infinity,
@@ -556,7 +534,6 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                 ),
               ]),
         ),
-      ),
     );
   }
 

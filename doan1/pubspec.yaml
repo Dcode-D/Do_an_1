@@ -65,6 +65,7 @@ dependencies:
   synchronized: ^3.1.0
   json_annotation: ^4.8.1
   injectable_generator: ^2.1.5
+  flutter_speed_dial: ^7.0.0
 
 dev_dependencies:
   flutter_test:

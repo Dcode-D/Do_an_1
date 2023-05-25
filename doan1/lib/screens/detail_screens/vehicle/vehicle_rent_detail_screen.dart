@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../BLOC/rent_vehicle/vehicle_rent_bloc.dart';
 
 class VehicleRentDetailScreen extends StatefulWidget{
   final Vehicle vehicle;
@@ -184,9 +183,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
       InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>
-              BlocProvider(
-                  create: (_) => VehicleRentBloc(),
-                  child: VehicleRentBookInfoScreen())));
+              VehicleRentBookInfoScreen()));
         },
         child: Container(
           margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
@@ -200,7 +197,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Add to favorite",
+                "Book now",
                 style: GoogleFonts.roboto(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,

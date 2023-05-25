@@ -1,5 +1,4 @@
 import 'package:doan1/screens/booking/widget_booking/hotel_booking_item.dart';
-import 'package:doan1/screens/booking/widget_booking/tour_booking_item.dart';
 import 'package:doan1/screens/booking/widget_booking/vehicle_booking_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,7 +21,7 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
-  late TabController _tabController = TabController(length: 3, vsync: this);
+  late final TabController _tabController = TabController(length: 2, vsync: this);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +97,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                   radius: 4,
                 ),
                 tabs: const [
-                  Tab(text: 'Tour'),
+
                   Tab(text: 'Hotel'),
                   Tab(text: 'Vehicle',)
                 ],
@@ -110,14 +109,6 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
           controller: _tabController,
           children: [
             //TODO: Need to do list of orders
-            ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-              itemCount: tours.length,
-              itemBuilder: (BuildContext context, int index) {
-                return TourBookingItem();
-              },
-            ),
             ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),

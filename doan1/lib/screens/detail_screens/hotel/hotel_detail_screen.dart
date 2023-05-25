@@ -220,7 +220,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Add to favorite",
+                "Book now",
                 style: GoogleFonts.roboto(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
