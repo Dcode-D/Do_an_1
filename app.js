@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const io = require('./socketio/io');
 const passport = require('./middleware/passport_auth');
 
 var indexRouter = require('./routes/index');
@@ -36,6 +37,9 @@ app.use('/avatar', require('./routes/avatars'));
 app.get('/upload_ui', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
 });
+app.get('/socket_ui', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'sockettest.html'));
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,4 +57,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = {app, io};

@@ -4,7 +4,7 @@ const carModel = require('../models/carServiceModel');
 
 const createDateBooking = async (req, res) => {
     try {
-        const check = await dateBookingModel.find({bookingDate: req.body.date, attachedService: req.body.service});
+        const check = await dateBookingModel.find({bookingDate: req.body.date, attachedService: req.body.service, suspended: false});
         const checkhotel = hotelModel.findById(req.body.service)
         const checkCar = carModel.findById(req.body.service)
         if(!checkhotel && !checkCar) return res.status(404).json({status: "error", message: "Service not found"});
@@ -13,7 +13,8 @@ const createDateBooking = async (req, res) => {
             bookingDate: req.body.date,
             attachedService: req.body.attachedService,
             user: req.user._id,
-            note: req.body.note
+            note: req.body.note,
+            type: req.body.type //hotel or car
         });
         await dateBooking.save();
         return res.status(200).json({status: "success", message: "Date booking created"});

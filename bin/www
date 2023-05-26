@@ -4,9 +4,12 @@
  * Module dependencies.
  */
 require('dotenv').config();
-var app = require('../app');
+var {app,io} = require('../app');
 var debug = require('debug')('server-do-an-1:server');
 var http = require('http');
+const passport = require('../middleware/passport_auth');
+const jwtBlacklist = require('../middleware/jwt_blacklist');
+const socketio = require('socket.io');
 
 /**
  * Get port from environment and store in Express.
@@ -24,6 +27,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+io.attach(server);
 
 //if database connection success then server online
 mongoose.connection.once('open',()=>{

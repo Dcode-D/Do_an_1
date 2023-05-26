@@ -24,6 +24,11 @@ const DateBookingSchema = Schema({
     suspended:{
         type: Boolean,
         default: false,
+    },
+    type:{
+        type: String,
+        enum: ['car', 'hotel'],
+        require: true,
     }
 })
 
