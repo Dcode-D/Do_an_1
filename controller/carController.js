@@ -40,7 +40,7 @@ const createCar = async (req, res) => {
 //apply params are page, maxPrice, minPrice,
 const getCar = async (req, res) => {
     try {
-        const {page, maxPrice, minPrice,} = req.query;
+        const {page, maxPrice, minPrice,color, brand, seats, owner} = req.query;
         const carQuery = Car.find({})
         if(maxPrice) {
             carQuery.where('pricePerDay').lte(maxPrice)
@@ -51,8 +51,20 @@ const getCar = async (req, res) => {
         if(page){
             carQuery.skip((page-1)*10).limit(10)
         }
+        if(color) {
+            carQuery.where('color').equals(color)
+        }
+        if(brand) {
+            carQuery.where('brand').equals(brand)
+        }
+        if(seats) {
+            carQuery.where('seats').equals(seats)
+        }
+        if(owner) {
+            carQuery.where('owner').equals(owner)
+        }
         const cars = await carQuery.exec();
-        res.status(200).json({ cars });
+        res.status(200).json({data: cars });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server Error' });
@@ -62,7 +74,7 @@ const getCar = async (req, res) => {
 const getCarById = async (req, res) => {
     try {
         const car = await Car.findById(req.params.id);
-        res.status(200).json({ car });
+        res.status(200).json({data: car });
     } catch(error) {
         console.error(error);
         res.status(500).json({ error: 'Server Error' });

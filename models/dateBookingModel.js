@@ -16,6 +16,14 @@ const DateBookingSchema = Schema({
     },
     note:{
         type: String,
+    },
+    approved:{
+        type: Boolean,
+        default: false,
+    },
+    suspended:{
+        type: Boolean,
+        default: false,
     }
 })
 

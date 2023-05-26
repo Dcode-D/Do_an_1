@@ -6,6 +6,7 @@ const carSchema = Schema({
         type: String,
         require: true,
         notnull: true,
+        unique: true,
     },
     brand: {
         type: String,

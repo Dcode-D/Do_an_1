@@ -9,25 +9,21 @@ const AvatarFileExt = FileUploadExt(['.jpg', '.png', '.jpeg']);
 //require file upload middleware
 const uploadAvatar = async (req, res) => {
     try{
-        if (req.user._id.equals(avatar.user)) {
-            if(!req.files){
-                console.log('No files were uploaded.');
-                return  res.status(400).send('No files were uploaded.');
-            }
-            const files = req.files;
-            const filename = Date.now().toString() + files[0].name;
-            const filepath = path.join(__dirname, '../upload/avatars', filename)
-            await files[0].mv(filepath, (err) => {
-                if (err) return res.status(500).json({status: "error", message: err})
-            })
-            const newAvatar = new AvatarModel({
-                user : req.user._id,
-                path : filepath,
-            });
-            await newAvatar.save();
-        } else {
-            return res.status(400).json({status: "error", message: "Not allowed"});
+        if(!req.files){
+            console.log('No files were uploaded.');
+            return  res.status(400).send('No files were uploaded.');
         }
+        const files = req.file;
+        const filename = Date.now().toString() + files.name;
+        const filepath = path.join(__dirname, '../upload/avatars', filename)
+        await files.mv(filepath, (err) => {
+            if (err) return res.status(500).json({status: "error", message: err})
+        })
+        const newAvatar = new AvatarModel({
+            user : req.user._id,
+            path : filepath,
+        });
+        await newAvatar.save();
     }
     catch (e) {
         console.log(e.message);
@@ -85,9 +81,9 @@ const updateAvatar = async (req, res) => {
         if (req.user._id.equals(avatar.user)) {
             fs.unlinkSync(avatar.path);
             const files = req.files;
-            const newfilename = Date.now().toString() + files[0].name;
+            const newfilename = Date.now().toString() + files.name;
             const newfilepath = path.join(__dirname, '../upload/avatars', newfilename)
-            await files[0].mv(newfilepath, (err) => {
+            await files.mv(newfilepath, (err) => {
                 if (err) return res.status(500).json({status: "error", message: err})
             })
             avatar.path = newfilepath;
