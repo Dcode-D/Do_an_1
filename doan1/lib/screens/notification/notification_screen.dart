@@ -1,6 +1,7 @@
 import 'package:doan1/models/notification_model.dart';
 import 'package:doan1/widgets/notification_item.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NotificationInfoScreen extends StatelessWidget{
   const NotificationInfoScreen({super.key});
@@ -25,14 +26,12 @@ class NotificationInfoScreen extends StatelessWidget{
         elevation: 0,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Notification',
-          style: TextStyle(
-            fontFamily: 'Raleway',
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
+          style: GoogleFonts.raleway(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.w600)
         ),
       ),
       body: Padding(

@@ -1,6 +1,7 @@
 import 'package:doan1/screens/detail_screens/vehicle/vehicle_rent_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/vehicle_model.dart';
@@ -88,12 +89,12 @@ class VehicleItemForAll extends StatelessWidget{
                       alignment: Alignment.center,
                       child: Text(
                         vehicle.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 28.0,
+                        style: GoogleFonts.raleway(
+                          fontSize: 25.0,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 1.2,
-                        ),
+                          color: Colors.white,
+                        )
                       ),
                     ),),
                   Positioned(

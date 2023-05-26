@@ -33,7 +33,7 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                       'Booking Info',
                       style: GoogleFonts.raleway(
                         fontSize: 24,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
                         color: Colors.black,
                       ),

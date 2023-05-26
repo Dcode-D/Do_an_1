@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../detail_screens/hotel/setting_booking/checking_information_screen.dart';
+import '../../../detail_screens/hotel/setting_booking/checking_information_screen.dart';
 
-class RentVehicleHistoryScreen extends StatelessWidget {
+class VehicleCheckBookingDetailScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +75,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: InkWell(
                             onTap:(){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckInformationScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CheckInformationScreen()));
                             },
                             child: Row(
                               children: [
@@ -488,25 +489,54 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                         color: Colors.black.withOpacity(0.2),
                       ),
                       const SizedBox(height: 20,),
-                      ElevatedButton(
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.orange,
-                          minimumSize: const Size(double.infinity, 50.0),
-                          elevation: 0.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: (){
+                                //TODO: Cancle booking function
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey,
+                                minimumSize: const Size(double.infinity, 50.0),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text("Cancle",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Center(
-                          child: Text("Return to home",
-                            style: GoogleFonts.raleway(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                            ),),
-                        ),
+                          const SizedBox(width: 20,),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: (){
+                                //TODO: Confirm booking function
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.orange,
+                                minimumSize: const Size(double.infinity, 50.0),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text("Confirm",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 20,),
                     ]),
@@ -515,5 +545,4 @@ class RentVehicleHistoryScreen extends StatelessWidget {
       ),
     );
   }
-
 }

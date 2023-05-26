@@ -66,7 +66,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
             elevation: 0,
             title: Text(
               'Your booking history',
-              style: GoogleFonts.roboto(
+              style: GoogleFonts.raleway(
                 fontSize: 20,
                 color: Colors.white,
                 fontWeight: FontWeight.w600

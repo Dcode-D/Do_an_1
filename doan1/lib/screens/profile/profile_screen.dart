@@ -2,6 +2,7 @@ import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/screens/profile/create_post_screen.dart';
 import 'package:doan1/screens/profile/create_service_screen.dart';
+import 'package:doan1/screens/profile/favorite_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'check_booking/check_booking_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -29,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 65, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 10),
         child: SpeedDial(
           animatedIcon: AnimatedIcons.add_event,
           animatedIconTheme: const IconThemeData(size: 22.0),
@@ -52,6 +54,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundColor: Colors.orange,
               onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateServiceScreen())),
               label: 'Create Service',
+              labelStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500),
+              labelBackgroundColor: Colors.orange,
+            ),
+            SpeedDialChild(
+              child: const Icon(FontAwesomeIcons.checkCircle),
+              backgroundColor: Colors.orange,
+              onTap: ()
+              => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CheckBookingScreen())),
+              label: 'Check booking',
               labelStyle: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500),
@@ -173,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children:[
                             InkWell(
                               onTap: (){
-                                //TODO: Add favorite page
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => FavoriteScreen()));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -466,22 +479,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             );
                         },
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.signOutAlt,
                               color: Colors.red,
                               size: 20,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               "Sign Out",
-                              style: TextStyle(
+                              style: GoogleFonts.raleway(
                                 fontSize: 20,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w700,
-                              ),
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,)
                             ),
                           ],
                         ),

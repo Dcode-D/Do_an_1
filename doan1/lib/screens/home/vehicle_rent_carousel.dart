@@ -23,7 +23,7 @@ class VehicleRentCarousel extends StatelessWidget{
                 'Vehicle rent',
                 style: GoogleFonts.raleway(
                   fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   letterSpacing: 1.5,
                 ),
               ),
@@ -33,12 +33,12 @@ class VehicleRentCarousel extends StatelessWidget{
                 },
                 child: Text(
                   'See All',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16.0,
+                  style: GoogleFonts.raleway(
+                    fontSize: 20,
+                    color: Colors.orange,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1.0,
-                  ),
+                  )
                 ),
               ),
 

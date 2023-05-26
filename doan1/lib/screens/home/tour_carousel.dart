@@ -24,7 +24,7 @@ class TourCarousel extends StatelessWidget {
                 'Top Tours',
                 style: GoogleFonts.raleway(
                   fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   letterSpacing: 1.5,
                 ),
               ),
@@ -34,12 +34,12 @@ class TourCarousel extends StatelessWidget {
                 },
                 child: Text(
                   'See All',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.0,
-                  ),
+                  style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      color: Colors.orange,
+                      letterSpacing: 1.0,
+                      fontWeight: FontWeight.w600
+                  )
                 ),
               ),
             ],

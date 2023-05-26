@@ -41,14 +41,12 @@ class EditProfileScreen extends StatelessWidget{
                 pinned: true,
                 snap: true,
                 backgroundColor: Colors.white,
-                title: const Text(
+                title: Text(
                   'Personal Information',
-                  style: TextStyle(
-                    color: Colors.black,
+                  style: GoogleFonts.raleway(
                     fontSize: 20,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                  ),
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,)
                 ),
                 actions: [
                   Padding(

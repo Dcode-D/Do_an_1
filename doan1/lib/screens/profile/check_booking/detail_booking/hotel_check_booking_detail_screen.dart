@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../detail_screens/hotel/setting_booking/checking_information_screen.dart';
+import '../../../detail_screens/hotel/setting_booking/checking_information_screen.dart';
 
-class BookingHotelHistoryScreen extends StatelessWidget {
-  const BookingHotelHistoryScreen({Key? key}) : super(key: key);
-
+class HotelCheckBookingDetailScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,66 +36,65 @@ class BookingHotelHistoryScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-          child: Column(
+            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Personal Information',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: GoogleFonts.raleway().fontFamily,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1.2,
-                    color: Colors.black,
-                  ),
+              Text(
+              'Personal Information',
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: GoogleFonts.raleway().fontFamily,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 1.2,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Container(
+              height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black.withOpacity(0.2),
+                    width:1),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 6.0,
+                  ),],
                 ),
-                const SizedBox(height: 10,),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black.withOpacity(0.2),
-                        width:1),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: InkWell(
+                  onTap:(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CheckInformationScreen()));
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(FontAwesomeIcons.user, size: 20, color: Colors.black,),
+                      const SizedBox(width: 15,),
+                      Text(
+                        'Check',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: GoogleFonts.raleway().fontFamily,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 1.2,
+                          color: Colors.black,
+                        ),
                       ),
+                      const Spacer(),
+                      const Icon(FontAwesomeIcons.arrowRight,
+                        size: 20,
+                        color: Colors.black,),
                     ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: InkWell(
-                      onTap:(){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CheckInformationScreen()));
-                      },
-                      child: Row(
-                        children: [
-                          const Icon(FontAwesomeIcons.user, size: 20, color: Colors.black,),
-                          const SizedBox(width: 15,),
-                          Text(
-                            'Check',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: GoogleFonts.raleway().fontFamily,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 1.2,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const Spacer(),
-                          const Icon(FontAwesomeIcons.arrowRight,
-                            size: 20,
-                            color: Colors.black,),
-                        ],
-                      ),
-                    ),
-                  ),
                 ),
+              ),
+              ),
                 const SizedBox(height: 20,),
                 Text(
                   'Hotel',
@@ -453,26 +450,6 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20,),
-                Row(
-                    children: [
-                      // Checkbox(
-                      //     value: state.isPayAtHotel,
-                      //     onChanged: (checked) {
-                      //       context.read<HotelBookingBloc>().add(CheckPayAtHotelEvent(isPayAtHotel: !state.isPayAtHotel));
-                      //     }
-                      // ),
-                      Text(
-                        'Pay at hotel',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: GoogleFonts.raleway().fontFamily,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1.2,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ]),
-                const SizedBox(height: 20,),
                 Container(
                   height: 1,
                   width: double.infinity,
@@ -566,30 +543,60 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                   color: Colors.black.withOpacity(0.2),
                 ),
                 const SizedBox(height: 20,),
-                ElevatedButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    minimumSize: const Size(double.infinity, 50.0),
-                    elevation: 0.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.grey,
+                          minimumSize: const Size(double.infinity, 50.0),
+                          elevation: 0.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text("Cancle",
+                            style: GoogleFonts.raleway(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w600,
+                            ),),
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text("Return to home",
-                      style: GoogleFonts.raleway(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700,
-                      ),),
-                  ),
+                    const SizedBox(width: 20,),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.orange,
+                          minimumSize: const Size(double.infinity, 50.0),
+                          elevation: 0.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text("Confirm",
+                            style: GoogleFonts.raleway(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w600,
+                            ),),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20,),
-              ]),
-        ),
-      )
+              ],
+            )
+        )
+      ),
     );
   }
 }

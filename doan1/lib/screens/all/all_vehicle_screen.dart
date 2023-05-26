@@ -1,5 +1,6 @@
 import 'package:doan1/screens/all/all_widget/vehicle_item_for_all.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/vehicle_model.dart';
 
@@ -25,14 +26,13 @@ class AllVehicleScreen extends StatelessWidget{
           elevation: 0,
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text(
+          title: Text(
             'Vehicle for you',
-            style: TextStyle(
-              fontFamily: 'Raleway',
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
+            style: GoogleFonts.raleway(
+                fontSize: 20,
+                color: Colors.black,
+                fontWeight: FontWeight.w600
+            )
           ),
         ),
       body: Padding(

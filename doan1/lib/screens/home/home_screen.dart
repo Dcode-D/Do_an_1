@@ -131,12 +131,11 @@ class  _HomeScreenState extends State<HomeScreen> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Where's your\nnext destination?",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: GoogleFonts.raleway(
+                            fontSize: 40,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600
+                        )
                       ),
                     ),
                     const SizedBox(height: 20,),
@@ -165,12 +164,11 @@ class  _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(height: 10,),
                               Text(
                               "Tours",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: GoogleFonts.raleway(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600
+                              )
                             ),
                             ],),
                           const Spacer(),
@@ -196,12 +194,11 @@ class  _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 10,),
                               Text(
                                 "Hotels",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                style: GoogleFonts.raleway(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600
+                                )
                               ),
                             ],),
                           const Spacer(),
@@ -226,12 +223,11 @@ class  _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 10,),
                               Text(
                                 "Vehicles",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: GoogleFonts.sourceSansPro().fontFamily,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                style: GoogleFonts.raleway(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600
+                                )
                               ),
                             ],),
                         ],),

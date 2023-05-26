@@ -112,134 +112,191 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                 ),
               ),
             ),
-            Row(
-              children: [
-                Text(
-                  widget.hotel.name,
-                  style: GoogleFonts.raleway(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const Spacer(),
-                Text("${widget.hotel.price}\$/Night",
-                  style: GoogleFonts.raleway(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w500,),),
-              ],
-            ),
-            const SizedBox(height: 10.0),
-            Row(
-              children: [
-                const Icon(FontAwesomeIcons.mapMarkerAlt, size: 18.0, color: Colors.grey),
-                const SizedBox(width: 5.0),
-                Text(
-                  widget.hotel.address,
-                  style: GoogleFonts.raleway(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              "Hotel facilities",
-              style: GoogleFonts.raleway(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            //TODO: Make list of facilities with icon
-            GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, crossAxisSpacing: 8.0, mainAxisSpacing: 0
-                ),
-                itemCount: widget.hotel.hotelFacilities.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(width: 1,
-                              color: Colors.grey.withOpacity(0.5)),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0.0, 2.0),
-                          blurRadius: 5.0,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        widget.hotel.name,
+                        style: GoogleFonts.raleway(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w700,
                         ),
-                      ],
+                      ),
+                      const Spacer(),
+                      Text("${widget.hotel.price}\$/Night",
+                        style: GoogleFonts.raleway(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,),),
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      const Icon(FontAwesomeIcons.mapMarkerAlt, size: 18.0, color: Colors.grey),
+                      const SizedBox(width: 5.0),
+                      Text(
+                        widget.hotel.address,
+                        style: GoogleFonts.raleway(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    "Hotel facilities",
+                    style: GoogleFonts.raleway(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildIconForFacilities(widget.hotel.hotelFacilities[index]),
-                        const SizedBox(height: 5.0),
-                        Text(
-                          widget.hotel.hotelFacilities[index],
-                          style: GoogleFonts.raleway(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
+                  ),
+                  GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4, crossAxisSpacing: 8.0, mainAxisSpacing: 0
+                      ),
+                      itemCount: widget.hotel.hotelFacilities.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(width: 1,
+                                color: Colors.grey.withOpacity(0.5)),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(0.0, 2.0),
+                                blurRadius: 5.0,
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildIconForFacilities(widget.hotel.hotelFacilities[index]),
+                              const SizedBox(height: 5.0),
+                              Text(
+                                widget.hotel.hotelFacilities[index],
+                                style: GoogleFonts.raleway(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                  const SizedBox(height: 10,),
+                  Text("Description",
+                    style: GoogleFonts.raleway(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                    ),),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    widget.hotel.description,
+                    style: GoogleFonts.raleway(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
                     ),
-                  );
-            }),
-            const SizedBox(height: 10,),
-            Text("Description",
-              style: GoogleFonts.raleway(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w700,
-              ),),
-            const SizedBox(height: 10.0),
-            Text(
-              widget.hotel.description,
-              style: GoogleFonts.raleway(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
+                  ),
+                ],
               ),
-            ),
+            )
           ],
         ),
       ),
-      bottomNavigationBar: InkWell(
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>
-              BlocProvider(
-                  create: (_) => HotelBookingBloc(),
-                  child: HotelBookingInfoScreen())
-          ));
-        },
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
-          width: double.infinity,
-          height: 50.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50.0),
-            color: Theme.of(context).primaryColor,
+      bottomNavigationBar: Row(
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                  BlocProvider(
+                      create: (_) => HotelBookingBloc(),
+                      child: HotelBookingInfoScreen())
+              ));
+            },
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 50.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.0),
+                color: Theme.of(context).primaryColor,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 5.0,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Book now",
+                    style: GoogleFonts.roboto(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 4.0),
+                  const Icon(
+                    FontAwesomeIcons.angleDoubleRight,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Book now",
-                style: GoogleFonts.roboto(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
+          InkWell(
+            onTap: () {
+              //TODO: add to favorite function
+            },
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+              width: MediaQuery.of(context).size.width * 0.32,
+              height: 50.0,
+              decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50.0),
+              color: Theme.of(context).primaryColor,
+              boxShadow: const [
+                BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0.0, 2.0),
+                blurRadius: 5.0,
                 ),
+              ],
+            ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Favorite",
+                    style: GoogleFonts.roboto(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 4.0),
+                  const Icon(
+                    FontAwesomeIcons.solidHeart,
+                    color: Colors.white,
+                  ),
+                ],
               ),
-              const SizedBox(width: 4.0),
-              const Icon(
-                FontAwesomeIcons.angleDoubleRight,
-                color: Colors.white,
-              ),
-            ],
-          ),
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -40,7 +40,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
             'Create Service',
             style: GoogleFonts.raleway(
               fontSize: 20,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               color: Colors.black,
             ),
@@ -334,7 +334,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                           },
                         ),
                       ],
-                    ) : Container(),
+                    ) : const SizedBox(),
                 selectedValue == 'Vehicle' ?
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -478,7 +478,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                           },
                         ),
                       ],
-                    ) : Container(),
+                    ) : const SizedBox(),
               ]),
           ),
         ),

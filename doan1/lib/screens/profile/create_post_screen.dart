@@ -42,7 +42,7 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
             'Create Post',
             style: GoogleFonts.raleway(
               fontSize: 20,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               color: Colors.black,
             ),

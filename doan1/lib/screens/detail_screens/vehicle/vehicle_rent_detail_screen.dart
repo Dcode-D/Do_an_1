@@ -180,38 +180,75 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
         ],
       ),
       bottomNavigationBar:
-      InkWell(
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>
-              VehicleRentBookInfoScreen()));
-        },
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
-          width: double.infinity,
-          height: 50.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50.0),
-            color: Theme.of(context).primaryColor,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Book now",
-                style: GoogleFonts.roboto(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
+      Row(
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                  VehicleRentBookInfoScreen()));
+            },
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+              width: MediaQuery.of(context).size.width*0.6,
+              height: 50.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.0),
+                color: Theme.of(context).primaryColor,
               ),
-              const SizedBox(width: 4.0),
-              const Icon(
-                FontAwesomeIcons.angleDoubleRight,
-                color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Book now",
+                    style: GoogleFonts.roboto(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 4.0),
+                  const Icon(
+                    FontAwesomeIcons.angleDoubleRight,
+                    color: Colors.white,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                  VehicleRentBookInfoScreen()));
+            },
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+              width: MediaQuery.of(context).size.width*0.32,
+              height: 50.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.0),
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Favorite",
+                    style: GoogleFonts.roboto(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 4.0),
+                  const Icon(
+                    FontAwesomeIcons.solidHeart,
+                    color: Colors.white,
+                  ),
+                ],),
+            ),
+          ),
+        ],
       ),
     );
   }
