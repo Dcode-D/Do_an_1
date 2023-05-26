@@ -172,14 +172,19 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                         ),
                       ],
                     ),
-                    child: Center(
-                      child: Text(
-                        widget.hotel.hotelFacilities[index],
-                        style: GoogleFonts.raleway(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildIconForFacilities(widget.hotel.hotelFacilities[index]),
+                        const SizedBox(height: 5.0),
+                        Text(
+                          widget.hotel.hotelFacilities[index],
+                          style: GoogleFonts.raleway(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   );
             }),
@@ -237,5 +242,35 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
         ),
       ),
     );
+  }
+    Icon _buildIconForFacilities(String index) {
+    switch (index) {
+      case 'Wifi':
+        return const Icon(FontAwesomeIcons.wifi, size: 18.0, color: Colors.grey);
+      case 'Pool':
+        return const Icon(FontAwesomeIcons.swimmingPool, size: 18.0, color: Colors.grey);
+      case 'Ultility':
+        return const Icon(FontAwesomeIcons.utensils, size: 18.0, color: Colors.grey);
+      case 'Bed':
+        return const Icon(FontAwesomeIcons.bed, size: 18.0, color: Colors.grey);
+      case 'Bathroom':
+        return const Icon(FontAwesomeIcons.bath, size: 18.0, color: Colors.grey);
+      case 'Car':
+        return const Icon(FontAwesomeIcons.car, size: 18.0, color: Colors.grey);
+      case 'Gym':
+        return const Icon(FontAwesomeIcons.dumbbell, size: 18.0, color: Colors.grey);
+      case 'Bar':
+        return const Icon(FontAwesomeIcons.wineGlassAlt, size: 18.0, color: Colors.grey);
+      case 'TV':
+        return const Icon(FontAwesomeIcons.tv, size: 18.0, color: Colors.grey);
+      case 'Air conditioner':
+        return const Icon(FontAwesomeIcons.thermometerHalf, size: 18.0, color: Colors.grey);
+      case 'Smoking':
+        return const Icon(FontAwesomeIcons.smoking, size: 18.0, color: Colors.grey);
+      case 'Pet':
+        return const Icon(FontAwesomeIcons.dog, size: 18.0, color: Colors.grey);
+      default:
+        return const Icon(FontAwesomeIcons.add, size: 18.0, color: Colors.grey);
+    }
   }
 }

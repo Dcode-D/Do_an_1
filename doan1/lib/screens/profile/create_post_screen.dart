@@ -13,7 +13,7 @@ class CreatePostScreen extends StatefulWidget{
 }
 
 class _CreatePostScreenState extends State<CreatePostScreen>{
-  final List<String> genderItems = [
+  final List<String> PostTypes = [
     'Destination',
     'Tour',
   ];
@@ -25,6 +25,7 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        centerTitle: true,
         elevation: 0,
         leading: IconButton(
           onPressed: () {
@@ -40,8 +41,8 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
           child: Text(
             'Create Post',
             style: GoogleFonts.raleway(
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
               letterSpacing: 1.2,
               color: Colors.black,
             ),
@@ -64,7 +65,6 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
           ),
         ],
       ),
-      //TODO: CREATE POST BODY HERE
       body:Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -103,7 +103,7 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
                           'Nguyen Huy Tri Dung',
                           style: GoogleFonts.raleway(
                             fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),
@@ -125,7 +125,7 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
                               'Select type of post',
                               style: TextStyle(fontSize: 14),
                             ),
-                            items: genderItems
+                            items: PostTypes
                                 .map((item) => DropdownMenuItem<String>(
                               value: item,
                               child: Text(

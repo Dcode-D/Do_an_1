@@ -1,6 +1,7 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/screens/profile/create_post_screen.dart';
+import 'package:doan1/screens/profile/create_service_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SpeedDialChild(
               child: const Icon(Icons.sell_rounded),
               backgroundColor: Colors.orange,
-              onTap: () {},
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateServiceScreen())),
               label: 'Create Service',
               labelStyle: const TextStyle(
                   color: Colors.white,
@@ -58,17 +59,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],),
       ),
-      // Padding(
-      //   padding: const EdgeInsets.symmetric(vertical: 65, horizontal: 10),
-      //   child: FloatingActionButton(
-      //     elevation: 5,
-      //     onPressed: (){
-      //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePostScreen()));
-      //     },
-      //     backgroundColor: Colors.orange,
-      //     child: const Icon(FontAwesomeIcons.pencil, size: 20, color: Colors.white),
-      //   ),
-      // ),
       body: Stack(
         children:[
           SingleChildScrollView(
