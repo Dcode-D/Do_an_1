@@ -31,7 +31,8 @@ app.use('/dateBooking',require('./routes/dateBooking'));
 app.use('/rating',require('./routes/rating'));
 app.use('/car',require('./routes/car'));
 app.use('/legal_doc',require('./routes/confidentialFiles'));
-app.use('article', require('./routes/article'));
+app.use('/article', require('./routes/article'));
+app.use('/avatar', require('./routes/avatars'));
 app.get('/upload_ui', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
 });

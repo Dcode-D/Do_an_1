@@ -56,7 +56,7 @@ const hotelController = async (req,res)=>{
     }
 }
 
-const updateHotelImage = async (req,res)=>{
+const uploadHotelImage = async (req,res)=>{
     try {
         if (req.params.id) {
             let hotel = await hotelModel.findOne({_id: req.params.id});
@@ -236,4 +236,44 @@ const deleteHotel = async (req, res) => {
     }
 }
 
-module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, updateHotelImage, deleteHotel, deleteHotelImage};
+//imageId required in the body
+const updateHotelImage = async (req, res) => {
+    try{
+        const id = req.params.id;
+        const imageId = req.body.imageId;
+        if(!id){
+            return res.status(400).json({status: "error", message: "No hotel id"});
+        }
+        const hotel = await hotelModel.findById(id);
+        if(!hotel||!hotel.owner.equals(req.user._id)){
+            return res.status(403).json({status: "error", message: "Not permitted"});
+        }
+        const files = req.files;
+        if(!files){
+            return res.status(400).json({status: "error", message: "No image file"});
+        }
+        const file = files[0];
+        if(!hotel.images.includes(imageId)){
+            return res.status(400).json({status: "error", message: "No image id"});
+        }
+        const filemodel = FileModel.findById(imageId);
+        if(!filemodel){
+            return res.status(404).json({status: "error", message: "Not found"});
+        }
+        const newfilename = Date.now() + file.name;
+        const newfilepath = path.join(__dirname, '../public/images/', newfilename);
+        await file.mv(newfilepath, (err)=>{
+            if(err){
+                console.log(err);
+                return res.status(503).json({status: "error", message: err.message});
+            }
+        });
+        filemodel.path = newfilepath;
+        await filemodel.save();
+    }catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, uploadHotelImage, deleteHotel, deleteHotelImage, updateHotelImage};

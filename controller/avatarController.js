@@ -77,4 +77,42 @@ const deleteAvatar = async (req, res) => {
     }
 }
 
-module.exports = { uploadAvatar, getAvatarInfo, getAvatar, deleteAvatar };
+const updateAvatar = async (req, res) => {
+    const avatarid = req.params.id;
+    try {
+        const avatar = await AvatarModel.findOne({_id: avatarid});
+        if (!avatar) return res.status(404).json({status: "error", message: "Not found"});
+        if (req.user._id.equals(avatar.user)) {
+            fs.unlinkSync(avatar.path);
+            const files = req.files;
+            const newfilename = Date.now().toString() + files[0].name;
+            const newfilepath = path.join(__dirname, '../upload/avatars', newfilename)
+            await files[0].mv(newfilepath, (err) => {
+                if (err) return res.status(500).json({status: "error", message: err})
+            })
+            avatar.path = newfilepath;
+            avatar.createdDate = Date.now();
+            await avatar.save();
+        }
+    }
+    catch (e){
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+const getAvatarByUserId = async (req, res) => {
+    const userid = req.params.id;
+    try {
+        const avatar = await AvatarModel.find({user: userid});
+        if (!avatar) return res.status(404).json({status: "error", message: "Not found"});
+        const listavaid = avatar.map((ava) => ava._id);
+        return res.status(200).json({status: "success", data: listavaid});
+    }
+    catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+module.exports = { uploadAvatar, getAvatarInfo, getAvatar, deleteAvatar, updateAvatar,getAvatarByUserId, AvatarFileExt };

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel, getHotelByQueries,updateHotelInfo,updateHotelImage,deleteHotel,deleteHotelImage} = require('../controller/hotel_controller');
+const {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel, getHotelByQueries,updateHotelInfo,uploadHotelImage,deleteHotel,deleteHotelImage,updateHotelImage} = require('../controller/hotel_controller');
 const {uploadHotelRoom,getHotelRoom,deleteHotelRoom,updateHotelRoom} = require('../controller/hotelRoomController');
 const authen = require('../middleware/utils_auth');
 const {
@@ -18,15 +18,12 @@ router.use(authen);
 router.post('/', [fileUploadMiddleware, fileExtLimiterMiddleware, hotelController]);
 router.post('/:hotel/room',uploadHotelRoom)
 router.put('/:id', updateHotelInfo);
-router.put('/update_img/:id', [fileUploadMiddleware, fileExtLimiterMiddleware, updateHotelImage]);
+router.post('/upload_img/:id', [fileUploadMiddleware, fileExtLimiterMiddleware, uploadHotelImage]);
 router.put('/:hotel/room/:id',updateHotelRoom)
 router.delete('/:hotel/room/:id',deleteHotelRoom)
 router.delete('/:id', deleteHotel);
 router.delete('/delete_img/:id', deleteHotelImage);
-
-//upload legal document
-router.post('/legal_doc/:id',[fileUploadMiddleware, confidentialFilesExtOptions, uploadConfidentialFiles]);
-router.get('/legal_doc/:id', getConfidentialFilesById);
-router.delete('/legal_doc/:id', deleteConfidentialFiles);
+//require imageId in body
+router.put('/update_img/:id', [fileUploadMiddleware, fileExtLimiterMiddleware, updateHotelImage])
 
 module.exports = router;

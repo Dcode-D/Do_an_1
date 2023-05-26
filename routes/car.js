@@ -22,9 +22,5 @@ router.delete('/:id', deleteCar);
 router.put('/update_img/:id',[fileUploadMiddleware, carFilesExtOptions ,updateCarImage]);
 router.delete('/delete_img/:id', deleteCarImage);
 
-//upload legal document
-router.post('/legal_doc/:id',[fileUploadMiddleware, confidentialFilesExtOptions, uploadConfidentialFiles]);
-router.get('/legal_doc/:id', getConfidentialFilesById);
-router.delete('/legal_doc/:id', deleteConfidentialFiles);
 
 module.exports = router;
