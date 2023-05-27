@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -9,13 +10,17 @@
 <br>
 <button onclick="sendMessage()">Send message</button>
 
-<!-- Imports Socket.IO client library from CDN. Pay attention, the
-    version of the client lib must match the version of the NPM package
-    `socket.io` that is used in the Node.js backend. -->
+<!-- Imports Socket.IO client library from CDN. The version of the
+    client lib must match the version of the NPM package used in the
+    Node.js backend -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
 <script>
     // Initiates the Socket.IO connection to the Node.js backend
-    const socket = io.connect();
+    const socket = io.connect('', {
+        extraHeaders: {
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDAxIiwibmFtZSI6ImFkbWluIiwiaWF0IjoxNTE2MDQ0NDQ0fQ.aWj5grFWJwcsbgxNJ7HdfL5PUfD8fMh9GwXutuR86GE",
+        },
+    });
 
     socket.on('connect', () => {
         log('Connected to server');

@@ -35,10 +35,10 @@ app.use('/legal_doc',require('./routes/confidentialFiles'));
 app.use('/article', require('./routes/article'));
 app.use('/avatar', require('./routes/avatars'));
 app.get('/upload_ui', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
+    return  res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
 });
 app.get('/socket_ui', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'sockettest.html'));
+    return res.sendFile(path.join(__dirname, 'views', 'sockettest.html'));
 })
 
 // catch 404 and forward to error handler

@@ -29,6 +29,7 @@ const register_controller= async (req,res)=>{
         return res.status(200).json({"message":result._id})
     }catch (err){
         if(err)
+            console.log(err.message)
             return res.status(503).json({"message":err.message})
     }
 }
