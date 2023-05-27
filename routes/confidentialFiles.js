@@ -8,7 +8,7 @@ router.use(auth);
 //upload legal document
 router.post('/',[FileUpload, confidentialFilesExtOptions, uploadConfidentialFiles]);
 router.get('/list', getCredentialIdList);
-router.get('/:id', getConfidentialFilesById);
-router.delete('/:id', deleteConfidentialFiles);
+router.get('/id/:id', getConfidentialFilesById);
+router.delete('/id/:id', deleteConfidentialFiles);
 
 module.exports = router;

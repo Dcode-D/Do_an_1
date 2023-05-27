@@ -10,8 +10,8 @@ const {
     deleteConfidentialFiles
 } = require("../controller/confidentialFileController");
 
-router.get('/:id', getHotel);
-router.get('/:page',getHotelByQueries)
+router.get('/id/:id', getHotel);
+router.get('/page/:page',getHotelByQueries)
 //pass in query: day -> get only available room for that day
 router.get('/:hotel/room',getHotelRoom)
 router.use(authen);
