@@ -18,7 +18,7 @@ class RequestFactory {
       "email": email,
       "firstname": firstname,
       "lastname": lastname,
-      "phone": phone,
+      "phonenumber": phone,
       "address": address,
       "gender": gender
     };

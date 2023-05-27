@@ -2,16 +2,17 @@ part of 'authentication_bloc.dart';
 enum authenticateStatus{
   Authorizing,
   Authorized,
-  unAuthorized
+  unAuthorized,
+  Activate,
 }
 
 @immutable
 abstract class AuthenticationState {}
 
 class AuthenticationInfoState extends AuthenticationState {
-  authenticateStatus isloggedin=authenticateStatus.unAuthorized;
+  authenticateStatus isloggedin=authenticateStatus.Activate;
   AuthenticationInfoState(
-      {authenticateStatus authenStatus=authenticateStatus.unAuthorized})
+      {authenticateStatus authenStatus=authenticateStatus.Activate})
   {
     this.isloggedin = authenStatus;
   }

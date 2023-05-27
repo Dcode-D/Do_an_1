@@ -23,6 +23,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
+
+
   @override
   Widget build(BuildContext context) {
     Function Logout =()=>{
@@ -206,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) =>
                                         BlocProvider(
-                                          create: (_) => EditProfileBloc(),
+                                          create: (_) => EditProfileBloc(context),
                                           child: EditProfileScreen(),
                                         )
                                     ));

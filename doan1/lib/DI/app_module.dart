@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:doan1/data/remote/app_service.dart';
+import 'package:doan1/data/repositories/user_repo.dart';
 import 'package:event_bus_plus/event_bus_plus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
@@ -41,4 +42,10 @@ abstract class RegisterModule {
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
       Authenticator(logger, sharedPreferences, appService, requestFactory, eventBus);
+
+  @singleton
+  UserRepo userRepo(Logger logger,
+      SharedPreferences sharedPreferences,
+      AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
+      UserRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
 }

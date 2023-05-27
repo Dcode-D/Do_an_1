@@ -17,4 +17,7 @@ abstract class AppService {
 
   @POST("/register")
   Future<HttpResponse> register(@Body() Map<String, dynamic> request);
+
+  @GET("/user/full")
+  Future<HttpResponse<BaseResponse>> getUser(@Header('Authorization') String token);
 }

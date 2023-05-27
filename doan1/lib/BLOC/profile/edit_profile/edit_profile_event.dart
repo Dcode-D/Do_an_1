@@ -13,3 +13,7 @@ class CheckPasswordConfirmVisibilityEvent extends EditProfileEvent{
   CheckPasswordConfirmVisibilityEvent({required this.isPassWordConfirmVisible});
 }
 
+class getProfileEvent extends EditProfileEvent{
+}
+
+

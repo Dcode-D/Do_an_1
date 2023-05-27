@@ -1,7 +1,9 @@
+import 'package:doan1/BLOC/register/register_bloc.dart';
 import 'package:doan1/screens/login/forgot_password_screen.dart';
 import 'package:doan1/screens/login/signup_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../BLOC/authentication/authentication_bloc.dart';
@@ -220,7 +222,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         backgroundColor: Colors.red,
                                       ),
                                     );}
-                                  : () {
+                                  :
+                                    () {
                                     context.read<AuthenticationBloc>().add(
                                         AuthenticateEvent(Username: username.text, Password: password.text));
                                   },
@@ -278,9 +281,45 @@ class _LoginScreenState extends State<LoginScreen> {
   Route _CreateRouteToSignUp() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-      BlocProvider(
-          create: (_) => AuthenticationBloc(),
-          child: SignUpScreen()),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<RegisterBloc>(create: (context) => RegisterBloc(),),
+        ],
+        child: BlocListener<RegisterBloc, RegisterInfoState>(
+            listenWhen: (previous, current) => previous.registerStatus != current.registerStatus,
+            listener:(context,state){
+              if (state.registerStatus == RegisterStatus.Success){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      "Sign up success.",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                print("listener triggered "+state.registerStatus.toString());
+              }
+              if (state.registerStatus == RegisterStatus.InvalidInfo){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      "Invalid information.",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                print("listener triggered "+state.registerStatus.toString());
+              }
+            },
+            child: SignUpScreen(),
+        ),
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

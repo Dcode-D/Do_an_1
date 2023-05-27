@@ -1,8 +1,7 @@
-import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
+import 'package:doan1/BLOC/register/register_bloc.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -35,7 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<AuthenticationBloc,AuthenticationState>(
+      body: BlocBuilder<RegisterBloc,RegisterInfoState>(
         builder: (context,state) => Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
@@ -497,7 +496,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onPressed: () {
                                 //TODO: Add functionality sign up
                                   isPolicyChecked || (_passwordController.text != _passwordConfirmController.text) || selectedValue == '' ?
-                                  context.read<AuthenticationBloc>().add(
+                                  context.read<RegisterBloc>().add(
                                     RegisterEvent(
                                         Username: _usernameController.text,
                                         Password: _passwordController.text,

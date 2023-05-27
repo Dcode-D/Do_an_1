@@ -16,6 +16,7 @@ class DioFactory {
     receiveTimeout: const Duration(seconds:5),
     sendTimeout: const Duration(seconds:5),
     connectTimeout: const Duration(seconds:5),
+    validateStatus: (status) => status != null && (status >= 200 && status < 300),
   );
 
   Dio create(Logger logger) => Dio(_createBaseOptions())

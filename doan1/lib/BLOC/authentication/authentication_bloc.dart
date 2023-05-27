@@ -1,5 +1,6 @@
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:doan1/dependency.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -13,57 +14,43 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationInfoSta
   AuthenticationBloc() : super(AuthenticationInfoState()) {
     on<AuthenticateEvent>((event, emit) async {
       var authenticator = GetIt.instance.get<Authenticator>();
-      bool loginstate = await authenticator.login(
-          event.Username as String, event.Password as String);
-      emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorizing));
-      if(loginstate) {
-        print("Login success");
-        emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorized));
-      }
-      else
+      try
       {
+        bool loginstate = await authenticator.login(
+            event.Username as String, event.Password as String);
+        emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorizing));
+        if(loginstate) {
+          print("Login success");
+          emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorized));
+        }
+      }
+      catch(e)
+      {
+        if(e is DioError){
+          print(e.response!.data);
+        }
         print("Log in failed");
         emit(AuthenticationInfoState(
             authenStatus: authenticateStatus.unAuthorized));
-        // timer!.cancel();
       }
     });
     on<LogoutEvent>((event, emit) async {
       var authenticator = GetIt.instance.get<Authenticator>();
-      bool logoutstate = await authenticator.logout();
-      if(logoutstate) {
-        print("Logout success");
-        emit(AuthenticationInfoState(authenStatus: authenticateStatus.unAuthorized));
+
+      try{
+        bool logoutstate = await authenticator.logout();
+        if(logoutstate) {
+          print("Logout success");
+          emit(AuthenticationInfoState(authenStatus: authenticateStatus.Activate));
+        }
       }
-      else
-      {
+      catch(e){
+        if(e is DioError){
+          print(e.response!.data);
+        }
         print("Log out failed");
         emit(AuthenticationInfoState(
             authenStatus: authenticateStatus.Authorized));
-        // timer!.cancel();
-      }
-    });
-    on<RegisterEvent>((event,emit) async {
-      var authenticator = GetIt.instance.get<Authenticator>();
-      bool registerstate = await authenticator.register(
-          event.Username as String,
-          event.Password as String,
-          event.Email as String,
-          event.FirstName as String,
-          event.LastName as String,
-          event.Phone as String,
-          "",
-          event.Gender as int);
-      if(registerstate) {
-        print("Register success");
-        emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorized));
-      }
-      else
-      {
-        print("Register failed");
-        emit(AuthenticationInfoState(
-            authenStatus: authenticateStatus.unAuthorized));
-        // timer!.cancel();
       }
     });
   }

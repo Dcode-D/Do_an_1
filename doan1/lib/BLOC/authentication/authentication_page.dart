@@ -17,28 +17,56 @@ class AuthenticationPage extends StatelessWidget {
               BlocProvider<AuthenticationBloc>(create: (context) => AuthenticationBloc(),),
             ],
             child: BlocListener<AuthenticationBloc, AuthenticationInfoState>(
+              listenWhen: (previous, current) => previous.isloggedin != current.isloggedin,
               listener: (context,state){
+                if(state.isloggedin == authenticateStatus.Activate) {
+                  SmartDialog.dismiss();
+                  print("listener triggered "+state.isloggedin.toString());
+                }
                 if (state.isloggedin == authenticateStatus.unAuthorized) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Wrong username or password.",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
                   SmartDialog.dismiss();
                   print("listener triggered "+state.isloggedin.toString());
                 }
                 if (state.isloggedin == authenticateStatus.Authorizing) {
+                  SmartDialog.showLoading(msg: "Logging in...");
                   print("listener triggered "+state.isloggedin.toString());
                 }
                 if (state.isloggedin == authenticateStatus.Authorized) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Login success.",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                   SmartDialog.dismiss();
                   print("listener triggered "+state.isloggedin.toString());
                 }
               },
               child: BlocSelector<AuthenticationBloc,AuthenticationInfoState,authenticateStatus>(
                 selector: (state)=>state.isloggedin,
-                builder: (context,state)=>state==authenticateStatus.unAuthorized ?
+                builder: (context,state)=> state == authenticateStatus.Activate || state == authenticateStatus.unAuthorized ?
                 const AnimatedSwitcher(
                   duration: Duration(milliseconds: 250),
                     switchInCurve: Curves.easeIn,
                     child: LoginScreen())
                     :
-                AnimatedSwitcher(
+                  AnimatedSwitcher(
                     duration: const Duration(milliseconds: 250),
                     transitionBuilder: (child, Animation<double> animation){
                       return SlideTransition(
