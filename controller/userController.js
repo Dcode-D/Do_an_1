@@ -21,8 +21,9 @@ const getUserInforById = async (req, res) => {
 }
 
 //require user auth
-const getUserFullUserInfoById = async (req, res) => {
+const getUserFullUserInfo= async (req, res) => {
     try {
+        console.log(req.user);
         if(!req.user){
             return res.status(401).json({"message": "Unauthorized"});
         }
@@ -41,4 +42,4 @@ const getUserFullUserInfoById = async (req, res) => {
     }
 }
 
-module.exports = {getUserInforById, getUserFullUserInfoById}
+module.exports = {getUserInforById, getUserFullUserInfo}
