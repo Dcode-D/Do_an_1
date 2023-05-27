@@ -1,4 +1,5 @@
 const UserModel = require("../models/user_model");
+const bcrypt = require("bcrypt");
 
 const getUserInforById = async (req, res) => {
     const {id} = req.params;
@@ -41,10 +42,10 @@ const getUserFullUserInfo= async (req, res) => {
     }
 }
 
-//update address, phone, email, firstname, lastname, phonenumber
+//update address, phone, email, firstname, lastname, phonenumber,password
 const updateUser = async (req, res) => {
     try {
-        const {address, phone, email, firstname, lastname, phonenumber} = req.body;
+        const {address, phone, email, firstname, lastname, phonenumber, password} = req.body;
         if(!req.user){
             return res.status(401).json({"message": "Unauthorized"});
         }
@@ -72,6 +73,13 @@ const updateUser = async (req, res) => {
         }
         if(phonenumber){
             user.phonenumber = phonenumber;
+        }
+        if(password){
+            if(password.length<8){
+                return res.status(400).json({"message": "Password too short"});
+            }
+            const hashedpassword = await bcrypt.hash(password,10);
+            user.password = hashedpassword;
         }
         await user.save();
         return res.status(200).json({data: user});
