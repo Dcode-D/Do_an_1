@@ -4,15 +4,16 @@ part 'base_response.g.dart';
 
 @JsonSerializable()
 class BaseResponse {
-  final int code;
 
-  final String message;
+  final String? message;
+  final String? status;
 
 
   final Map<String, dynamic>? data;
 
   BaseResponse(
-      {required this.code,
+      {
+        required this.status,
         required this.message,
         required this.data});
 
