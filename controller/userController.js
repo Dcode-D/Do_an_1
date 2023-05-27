@@ -22,17 +22,16 @@ const getUserInforById = async (req, res) => {
 
 //require user auth
 const getUserFullUserInfoById = async (req, res) => {
-    const {id} = req.params;
     try {
         if(!req.user){
             return res.status(401).json({"message": "Unauthorized"});
         }
-        if(req.user._id.toString() !== id){
-            return res.status(401).json({"message": "Unauthorized"});
-        }
-        const user = await  UserModel.findById(id);
+        const user = await  UserModel.findById(req.user._id);
         if(!user){
             return res.status(404).json({"message": "User not found"});
+        }
+        if(!req.user._id.equals(user._id)){
+            return res.status(401).json({"message": "Unauthorized"});
         }
         return res.status(200).json({data: user});
     }
