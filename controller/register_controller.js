@@ -5,12 +5,15 @@ const register_controller= async (req,res)=>{
     const emailregex = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     const phoneregex = new RegExp("([\\D]+)");
     if(!email||!emailregex.test(email)){
+        console.log("Bad email")
         return res.status(503).json({"message":"Bad email"});
     }
     if(!phonenumber||phoneregex.test(phonenumber)){
+        console.log("Bad phone number")
         return  res.status(503).json({"message":"Bad phone number"});
     }
     if(!password||password.length<8){
+        console.log("Password too short")
         return  res.status(503).json({"message":"Password too short"});
     }
     const hashedpassword = await bcrypt.hash(password,10);
