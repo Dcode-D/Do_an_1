@@ -119,7 +119,7 @@ const deleteCar = async (req, res) => {
     }
 }
 
-const updateCarImage = async (req,res)=>{
+const uploadCarImage = async (req,res)=>{
     try {
         if (req.params.id) {
             let car = await Car.findOne({_id: req.params.id});
@@ -149,6 +149,58 @@ const updateCarImage = async (req,res)=>{
                 car.images = [...car.images, ...imglist];
                 await car.save();
                 return res.status(200).send('Hotel image uploaded');
+            }
+            else {
+                return res.status(400).json({status: "error", message: "No image uploaded"});
+            }
+        } else {
+            return res.status(400).json({status: "error", message: "No car id"});
+        }
+    }catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+//require imageId in body
+const updateCarImage = async (req,res)=>{
+    try {
+        if (req.params.id) {
+            let car = await Car.findOne({_id: req.params.id});
+            if(!car||!car.owner.equals(req.user._id)){
+                return res.status(403).json({status: "error", message: "Not permitted"});
+            }
+            if (req.body.imageId) {
+                const imageId = req.body.imageId;
+                const index = car.images.indexOf(imageId);
+                if (index > -1) {
+                    const filetoDelete = await FileModel.findById(imageId);
+                    if(filetoDelete){
+                        const uri = filetoDelete.path;
+                        fs.unlinkSync(uri)
+                        await filetoDelete.deleteOne();
+                    }
+                    const files = req.files;
+                    const filename = Date.now().toString() + files.name;
+                    const filepath = path.join(__dirname, '../upload/images', filename)
+                    const fileModel = new FileModel({
+                        "name": filename,
+                        "path": filepath,
+                        "description": req.body.description,
+                        "attachedId": req.body.attachedId,
+                        "publishBy": req.user._id,
+                    });
+                    await fileModel.save();
+                    await files.mv(filepath, (err) => {
+                        if (err) return res.status(500).json({status: "error", message: err})
+                    })
+                    car.images[index] = fileModel._id;
+                    await car.save();
+                    return res.status(200).send('Hotel image uploaded');
+                }
+                else {
+                    return res.status(400).json({status: "error", message: "No image found"});
+                }
             }
             else {
                 return res.status(400).json({status: "error", message: "No image uploaded"});
@@ -197,4 +249,4 @@ const deleteCarImage = async (req,res)=>{
 }
 
 
-module.exports = {createCar, getCar, getCarById, updateCar, deleteCar, updateCarImage, deleteCarImage, carFilesExtOptions};
+module.exports = {createCar, getCar, getCarById, updateCar, deleteCar, uploadCarImage, deleteCarImage, carFilesExtOptions, updateCarImage};

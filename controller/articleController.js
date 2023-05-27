@@ -15,8 +15,8 @@ const createArticle = async (req, res) => {
             console.log('No files were uploaded.');
             return  res.status(400).send('No files were uploaded.');
         }
-        const files = req.files;
-        const filename = Date.now().toString() + files[0].name;
+        const file = req.files;
+        const filename = Date.now().toString() + file.name;
         const filepath = path.join(__dirname, '../upload/files', filename)
         const fileModel = new FileModel({
             "name": filename,
@@ -26,7 +26,7 @@ const createArticle = async (req, res) => {
             "publishBy": req.user._id,
         });
         await fileModel.save();
-        await files[0].mv(filepath, (err) => {
+        await file.mv(filepath, (err) => {
             if (err) return res.status(500).json({status: "error", message: err})
         })
         let imgfile = fileModel._id;
@@ -81,6 +81,21 @@ const getArticleById = async (req, res) => {
     }
 }
 
+const getArticleContent = async (req, res) => {
+    try{
+        const articleid = req.params.id;
+        const article = await Article.findById(articleid);
+        if(!article) return res.status(404).json({status: "error", message: "Article not found"});
+        const articleFile = await FileModel.findById(article.article);
+        if(!articleFile) return res.status(404).json({status: "error", message: "Article file not found"});
+        return res.status(200).sendFile(articleFile.path);
+    }
+    catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
 const deleteArticle = async (req, res) => {
     try {
         const articleid = req.params.id;
@@ -120,8 +135,8 @@ const uploadArticle = async (req, res) => {
             console.log('No files were uploaded.');
             return  res.status(400).send('No files were uploaded.');
         }
-        const files = req.files;
-        const filename = Date.now().toString() + files[0].name;
+        const file = req.files;
+        const filename = Date.now().toString() + file.name;
         const filepath = path.join(__dirname, '../upload/files', filename)
         const fileModel = new FileModel({
             "name": filename,
@@ -131,7 +146,7 @@ const uploadArticle = async (req, res) => {
             "publishBy": req.user._id,
         });
         await fileModel.save();
-        await files[0].mv(filepath, (err) => {
+        await file.mv(filepath, (err) => {
             if (err) return res.status(500).json({status: "error", message: err})
         })
         let imgfile = fileModel._id;
@@ -164,7 +179,7 @@ const updateArticleInfo = async (req, res) => {
             const currentimg = await FileModel.findById(article.image);
             if(currentimg){
                 fs.unlinkSync(currentimg.path)
-                const newimg = req.files[0];
+                const newimg = req.file;
                 const filename = Date.now().toString() + newimg.name;
                 currentimg.path = path.join(__dirname, '../upload/images', filename);
                 newimg.mv(currentimg.path, (err) => {
@@ -194,7 +209,7 @@ const updateArticle = async (req, res) => {
         const contentfile = await FileModel.findById(content);
         if(!contentfile) return res.status(404).json({status: "error", message: "Article content not found"});
         if(req.files){
-            const newart = req.files[0];
+            const newart = req.file;
             const filename = Date.now().toString() + newart.name;
             contentfile.path = path.join(__dirname, '../upload/files', filename);
             newart.mv(contentfile.path, (err) => {
@@ -212,4 +227,4 @@ const updateArticle = async (req, res) => {
     }
 }
 
-module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, uploadArticle, updateArticleInfo, updateArticle };
+module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, uploadArticle, updateArticleInfo, updateArticle, getArticleContent };

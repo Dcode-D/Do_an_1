@@ -252,7 +252,7 @@ const updateHotelImage = async (req, res) => {
         if(!files){
             return res.status(400).json({status: "error", message: "No image file"});
         }
-        const file = files[0];
+        const file = files;
         if(!hotel.images.includes(imageId)){
             return res.status(400).json({status: "error", message: "No image id"});
         }

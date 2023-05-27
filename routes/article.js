@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const fileUpload = require('../middleware/fileUpload')
-const {createArticle,articleFileExt , deleteArticle, getArticleById, getArticle, articleImageExt, uploadArticle, updateArticle, updateArticleInfo} = require('../controller/articleController');
+const {createArticle,articleFileExt , deleteArticle, getArticleById, getArticle, articleImageExt, uploadArticle, updateArticle, updateArticleInfo, getArticleContent} = require('../controller/articleController');
 const auth = require('../middleware/utils_auth')
 
 router.get('/:id', getArticleById)
+// router.get('/content/:id', getArticleContent)
 //can apply queries to get article
 router.get('/page/:page', getArticle)
 router.use(auth)
