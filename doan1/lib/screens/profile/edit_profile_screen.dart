@@ -16,14 +16,13 @@ class EditProfileScreen extends StatelessWidget{
     Function addSocial = () {
       SmartDialog.showToast("Social link added!");
     };
+    var bloc = context.read<EditProfileBloc>();
+    bloc.add(getProfileEvent());
 
     return Scaffold(
       body: BlocBuilder<EditProfileBloc,EditProfileState>(
         builder: (context,state) =>
-            FutureBuilder<User?>(
-              future: context.read<EditProfileBloc>().getUser(),
-              builder: (context,snapshot) =>
-                  snapshot.hasData ?
+                  bloc.user !=null?
               NestedScrollView(
                 controller: _scrollController,
                 headerSliverBuilder: (context,value){
@@ -532,7 +531,6 @@ class EditProfileScreen extends StatelessWidget{
               color: Colors.orange,
                   ),
                 ),
-        ),
       ),
     );
   }
