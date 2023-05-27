@@ -10,7 +10,7 @@ class LoggerInterceptor extends Interceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     final options = err.requestOptions;
     final requestPath = '${options.baseUrl}${options.path}';
-    _logger.e('${options.method} request => $requestPath'); // Debug log
+    _logger.e('${options.method} request => $requestPath : ${err.response?.data}'); // Debug log
     _logger.d('Error: ${err.error}, Message: ${err.message}'); // Error log
     return super.onError(err, handler);
   }
