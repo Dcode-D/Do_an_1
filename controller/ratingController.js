@@ -47,10 +47,12 @@ const deleteRating = async (req, res) => {
 const getRatings = async (req, res) => {
     try {
         const dbquery = ratingModel.find({});
+        const page = parseInt(req.query.page);
         const queries = req.query;
         if(queries.service) dbquery.where({service: queries.service});
         if(queries.user) dbquery.where({user: queries.user});
         if(queries.rating) dbquery.where({rating: queries.rating});
+        if(page) dbquery.skip(10*(page-1)).limit(10);
         const ratings = await dbquery.exec();
         return res.status(200).json({status: "success", data: ratings});
     } catch (e) {
