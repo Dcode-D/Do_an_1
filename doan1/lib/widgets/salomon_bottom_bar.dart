@@ -8,17 +8,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../BLOC/navigation/navigation_bloc.dart';
+import '../BLOC/profile/profile_view/profile_bloc.dart';
 
 class NavigationNavBar extends StatelessWidget{
   int current_tab = 0;
   late var tabs = [
-  const HomeScreen(),
-  const SearchScreen(),
-  const BookingScreen(),
-  const ProfileScreen(),
+    HomeScreen(),
+   SearchScreen(),
+   BookingScreen(),
+    ProfileScreen(),
   ];
+
+
   @override
 Widget build(BuildContext context){
+    var bloc = context.read<ProfileBloc>();
+    bloc.add(getProfileScreenEvent());
     return Builder(builder: (context)=>
         BlocProvider(create: (context) => NavigationBloc(),
             child:  BlocBuilder<NavigationBloc, NavigationInfoState>(
@@ -36,7 +41,7 @@ Widget build(BuildContext context){
             )
         ));
   }
-  StatefulWidget findSelectedIndex(NavigationInfoState state) {
+  Widget findSelectedIndex(NavigationInfoState state) {
     if ( state.selectedIndex == 0 ) {
       return HomeScreen();
     } else if(state.selectedIndex == 1 ) {

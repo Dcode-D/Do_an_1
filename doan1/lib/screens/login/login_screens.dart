@@ -300,13 +300,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundColor: Colors.green,
                   ),
                 );
+                Navigator.of(context).pop();
                 print("listener triggered "+state.registerStatus.toString());
               }
               if (state.registerStatus == RegisterStatus.InvalidInfo){
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
-                      "Invalid information.",
+                      "Invalid information or policy unchecked.",
                       style: TextStyle(
                         fontSize: 18,
                       ),

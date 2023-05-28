@@ -28,9 +28,9 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
         centerTitle: true,
         elevation: 0,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () =>
+            Navigator.pop(context)
+          ,
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,

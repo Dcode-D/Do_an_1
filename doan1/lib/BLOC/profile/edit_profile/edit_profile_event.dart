@@ -13,7 +13,24 @@ class CheckPasswordConfirmVisibilityEvent extends EditProfileEvent{
   CheckPasswordConfirmVisibilityEvent({required this.isPassWordConfirmVisible});
 }
 
-class getProfileEvent extends EditProfileEvent{
+class CheckInformationEvent extends EditProfileEvent{
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  CheckInformationEvent({required this.formKey});
+}
+
+class EditProfileEventSubmit extends EditProfileEvent{
+  bool updateSuccess = false;
+  String? Username, Password, Address, Email, FirstName, LastName, Phone;
+  int? Gender;
+  EditProfileEventSubmit({
+    required this.Username,
+    required this.Password,
+    required this.Address,
+    required this.Email,
+    required this.FirstName,
+    required this.LastName,
+    required this.Phone,
+    required this.Gender});
 }
 
 

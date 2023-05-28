@@ -20,4 +20,7 @@ abstract class AppService {
 
   @GET("/user/full")
   Future<HttpResponse<BaseResponse>> getUser(@Header('Authorization') String token);
+
+  @PUT("/user/update")
+  Future<HttpResponse> updateUser(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
 }

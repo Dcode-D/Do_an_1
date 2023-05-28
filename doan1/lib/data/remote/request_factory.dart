@@ -11,7 +11,7 @@ class RequestFactory {
     };
   }
 
-    createRegister(String username, String password,String email, String firstname, String lastname,String phone, String address,int gender) {
+  createRegister(String username, String password,String email, String firstname, String lastname,String phone, String address,int gender) {
     return {
       "username": username,
       "password": password,
@@ -23,4 +23,17 @@ class RequestFactory {
       "gender": gender
     };
   }
+
+    updateUser(String username, String password,String email, String firstname, String lastname,String phone, String address,int gender){
+      return {
+        "username": username,
+        "password": password,
+        "email": email,
+        "firstname": firstname,
+        "lastname": lastname,
+        "phonenumber": phone,
+        "address": address,
+        "gender": gender
+      };
+   }
 }

@@ -1,3 +1,4 @@
+import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class AuthenticationPage extends StatelessWidget {
           MultiBlocProvider(
             providers: [
               BlocProvider<AuthenticationBloc>(create: (context) => AuthenticationBloc(),),
+              BlocProvider<ProfileBloc>(create: (context)=> ProfileBloc(context))
             ],
             child: BlocListener<AuthenticationBloc, AuthenticationInfoState>(
               listenWhen: (previous, current) => previous.isloggedin != current.isloggedin,

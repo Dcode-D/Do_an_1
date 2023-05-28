@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:doan1/data/model/user.dart';
 import 'package:logger/logger.dart';
 import 'package:event_bus_plus/res/event_bus.dart';
+import 'package:retrofit/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../remote/app_service.dart';
@@ -31,4 +32,19 @@ class UserRepo{
       }
     });
   }
+
+  Future<bool> updateUser(String username, String password, String email, String firstname, String lastname,String phone, String address,int gender) async {
+    return _appService
+        .register(_requestFactory.updateUser(username, password, email, firstname, lastname, phone, address, gender))
+        .then((http) async {
+      print(http.response.statusCode);
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
 }

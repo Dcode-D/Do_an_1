@@ -40,7 +40,7 @@ dependencies:
   google_fonts: ^4.0.4
   cupertino_icons: ^1.0.2
   date_format: ^2.0.4
-  image_picker: ^0.8.4+4
+  image_picker: ^0.8.7+5
   get_it: ^7.6.0
   bloc: ^8.1.1
   flutter_typeahead: ^4.3.7

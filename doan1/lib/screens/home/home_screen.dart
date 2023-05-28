@@ -12,22 +12,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../data/model/user.dart';
 import '../../models/destination_model.dart';
 import '../../models/notification_model.dart';
 import '../../models/tour_model.dart';
 import 'destination_carousel.dart';
 import 'tour_carousel.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
 
-  @override
-    createState() => _HomeScreenState();
-}
-
-class  _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var bloc = context.read<ProfileBloc>();
+    bloc.add(getProfileScreenEvent());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -58,7 +57,7 @@ class  _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) =>
                                     BlocProvider(
                                       create: (_) => EditProfileBloc(context),
-                                      child: EditProfileScreen(),
+                                      child: EditProfileScreen(user: bloc.user),
                                     )
                                 ));
                               },
