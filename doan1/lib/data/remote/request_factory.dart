@@ -24,10 +24,9 @@ class RequestFactory {
     };
   }
 
-    updateUser(String username, String password,String email, String firstname, String lastname,String phone, String address,int gender){
+    updateUser(String username,String email, String firstname, String lastname,String phone, String address,int gender){
       return {
         "username": username,
-        "password": password,
         "email": email,
         "firstname": firstname,
         "lastname": lastname,
@@ -36,4 +35,9 @@ class RequestFactory {
         "gender": gender
       };
    }
+  updateUserPassWord(String password){
+    return {
+      "password": password,
+    };
+  }
 }

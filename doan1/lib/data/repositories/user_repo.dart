@@ -33,9 +33,27 @@ class UserRepo{
     });
   }
 
-  Future<bool> updateUser(String username, String password, String email, String firstname, String lastname,String phone, String address,int gender) async {
+  Future<bool> updateUser(String username, String email, String firstname, String lastname,String phone, String address,int gender) async {
     return _appService
-        .register(_requestFactory.updateUser(username, password, email, firstname, lastname, phone, address, gender))
+        .updateUser(
+        'Bearer '+_sharedPreferences.getString('token')!
+          ,_requestFactory.updateUser(username, email, firstname, lastname, phone, address, gender))
+        .then((http) async {
+      print(http.response.statusCode);
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool> changePassWord(String password) async {
+    return _appService
+        .updateUser(
+        'Bearer '+_sharedPreferences.getString('token')!
+          ,_requestFactory.updateUserPassWord(password))
         .then((http) async {
       print(http.response.statusCode);
       if (http.response.statusCode != 200) {

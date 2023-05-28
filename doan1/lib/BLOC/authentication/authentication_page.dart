@@ -15,7 +15,7 @@ class AuthenticationPage extends StatelessWidget {
           (context)=>
           MultiBlocProvider(
             providers: [
-              BlocProvider<AuthenticationBloc>(create: (context) => AuthenticationBloc(),),
+              BlocProvider<AuthenticationBloc>(create: (context) => AuthenticationBloc()),
               BlocProvider<ProfileBloc>(create: (context)=> ProfileBloc(context))
             ],
             child: BlocListener<AuthenticationBloc, AuthenticationInfoState>(

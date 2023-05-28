@@ -11,35 +11,30 @@ import '../../../data/repositories/user_repo.dart';
 part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
-class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  User? user = null;
-  EditProfileBloc(BuildContext context) : super(EditProfileState(isPassWordVisible: false,
-      isPassWordConfirmVisible: false, formKey: GlobalKey<FormState>(), updateSuccess: false)) {
+class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
+  EditProfileBloc(BuildContext context) : super(EditProfileInfoState(isPassWordVisible: false,
+      isPassWordConfirmVisible: false, formKey: GlobalKey<FormState>(), updateSuccess: EditProfileStatus.initial)) {
     on<CheckPasswordVisibilityEvent>((event, emit) => emit(
-        EditProfileState(
-            isPassWordVisible: event.isPassWordVisible,
+        EditProfileInfoState(
+            isPassWordVisible: !state.isPassWordVisible,
             isPassWordConfirmVisible: state.isPassWordConfirmVisible,
-            formKey: state.formKey,
-            updateSuccess: state.updateSuccess)));
+            formKey: state.formKey,)));
 
     on<CheckPasswordConfirmVisibilityEvent>((event, emit) => emit(
-        EditProfileState(
+        EditProfileInfoState(
             isPassWordVisible: state.isPassWordVisible,
-            isPassWordConfirmVisible: event.isPassWordConfirmVisible,
-            formKey: state.formKey,
-            updateSuccess: state.updateSuccess)));
+            isPassWordConfirmVisible: !state.isPassWordConfirmVisible,
+            formKey: state.formKey,)));
+
     on<CheckInformationEvent>((event, emit) => emit(
-        EditProfileState(
-            isPassWordVisible: state.isPassWordVisible,
-            isPassWordConfirmVisible: state.isPassWordConfirmVisible,
-            formKey: event.formKey,
-            updateSuccess: state.updateSuccess)));
+        EditProfileInfoState(
+            formKey: state.formKey,)));
+
     on<EditProfileEventSubmit>((event, emit) async {
         var userRepo = GetIt.instance.get<UserRepo>();
         try{
           bool updateState = await userRepo.updateUser(
               event.Username as String,
-              event.Password as String,
               event.Email as String,
               event.FirstName as String,
               event.LastName as String,
@@ -48,14 +43,30 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
               event.Gender as int);
           if(updateState) {
             print("Update success");
-            emit(EditProfileState(isPassWordVisible: state.isPassWordVisible,
-                isPassWordConfirmVisible: state.isPassWordConfirmVisible,
-                formKey: state.formKey, updateSuccess: true));
+            emit(EditProfileInfoState(formKey: state.formKey, updateSuccess: EditProfileStatus.success));
+            emit(EditProfileInfoState(formKey: state.formKey, updateSuccess: EditProfileStatus.initial));
           }
         }
         catch(e){
           print(e);
+          emit(EditProfileInfoState(formKey: state.formKey, updateSuccess: EditProfileStatus.failure));
         }
+    });
+
+    on<EditProfileEventSubmitPassword>((event, emit) async {
+      var userRepo = GetIt.instance.get<UserRepo>();
+      try{
+        bool updateState = await userRepo.changePassWord(event.Password as String);
+        if(updateState) {
+          print("Update success");
+          emit(EditProfileInfoState(formKey: state.formKey, updateSuccess: EditProfileStatus.success));
+          emit(EditProfileInfoState(formKey: state.formKey, updateSuccess: EditProfileStatus.initial));
+        }
+      }
+      catch(e){
+        print(e);
+        emit(EditProfileInfoState(formKey: state.formKey, updateSuccess: EditProfileStatus.failure));
+      }
     });
   }
 

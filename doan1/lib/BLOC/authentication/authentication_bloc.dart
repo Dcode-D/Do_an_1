@@ -30,8 +30,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationInfoSta
           print(e.response!.data);
         }
         print("Log in failed");
-        emit(AuthenticationInfoState(
-            authenStatus: authenticateStatus.unAuthorized));
+        emit(AuthenticationInfoState(authenStatus: authenticateStatus.unAuthorized));
       }
     });
     on<LogoutEvent>((event, emit) async {

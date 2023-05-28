@@ -1,9 +1,31 @@
+import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
+import 'package:doan1/screens/profile/edit_profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../data/model/user.dart';
+
 class UpdateInfoDialog extends StatelessWidget{
+  String firstName;
+  String lastName;
+  String email;
+  String address;
+  String userName;
+  String phone;
+  int gender;
+
+  UpdateInfoDialog({
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.address,
+    required this.userName,
+    required this.phone,
+    required this.gender
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +69,7 @@ class UpdateInfoDialog extends StatelessWidget{
                 ),
                 child: TextButton(
                   onPressed: (){
-                    SmartDialog.dismiss();
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'No',
@@ -76,7 +98,15 @@ class UpdateInfoDialog extends StatelessWidget{
                 ),
                 child: TextButton(
                   onPressed: (){
-                    SmartDialog.dismiss();
+                    context.read<EditProfileBloc>().add(EditProfileEventSubmit(
+                      FirstName: firstName,
+                      LastName: lastName,
+                      Email: email,
+                      Address: address,
+                      Username: userName,
+                      Phone: phone,
+                      Gender: gender
+                    ));
                   },
                   child: Text(
                     'Yes',

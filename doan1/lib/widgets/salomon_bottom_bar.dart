@@ -22,8 +22,6 @@ class NavigationNavBar extends StatelessWidget{
 
   @override
 Widget build(BuildContext context){
-    var bloc = context.read<ProfileBloc>();
-    bloc.add(getProfileScreenEvent());
     return Builder(builder: (context)=>
         BlocProvider(create: (context) => NavigationBloc(),
             child:  BlocBuilder<NavigationBloc, NavigationInfoState>(
