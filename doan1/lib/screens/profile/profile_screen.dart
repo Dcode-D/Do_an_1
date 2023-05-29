@@ -16,17 +16,17 @@ import 'check_booking/check_booking_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  User? user;
-  String? imagePath;
 
-  ProfileScreen({super.key, this.user,this.imagePath});
+  ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Logout()=>{
     context.read<AuthenticationBloc>().add(LogoutEvent())
     };
-
+    User? user = context.read<ProfileBloc>().user;
+    String? imagePath = context.read<ProfileBloc>().path;
+    ProfileBloc bloc = context.read<ProfileBloc>();
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
       user != null ?
@@ -192,11 +192,15 @@ class ProfileScreen extends StatelessWidget {
                                 onTap: (){
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) =>
+                                      BlocProvider.value(
+                                          value: bloc,
+                                        child:
                                           BlocProvider(
                                             create: (_) => EditProfileBloc(context),
-                                            child: EditProfileScreen(user: user!),
+                                            child: EditProfileScreen(),
                                           )
-                                      ));
+                                      ))
+                                  );
                                 },
                                 child: Container(
                                   width: 50,

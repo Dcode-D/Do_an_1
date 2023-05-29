@@ -28,10 +28,10 @@ Widget build(BuildContext context){
                       body:IndexedStack(
                       index: state.selectedIndex,
                       children:[
-                        HomeScreen(user: bloc.user,imagePath: bloc.path,),
+                        HomeScreen(),
                         SearchScreen(),
                         BookingScreen(),
-                        ProfileScreen(user: bloc.user,imagePath: bloc.path,),
+                        ProfileScreen(),
                       ]
                   ),
                       bottomNavigationBar: Salomon_nav_bar(),

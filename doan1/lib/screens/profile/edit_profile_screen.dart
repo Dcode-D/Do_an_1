@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
+import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/widgets/dialog/add_avatar_image_dialog.dart';
 import 'package:doan1/widgets/dialog/add_social_link_dialog.dart';
 import 'package:doan1/widgets/dialog/change_password_dialog.dart';
@@ -16,21 +17,19 @@ import '../../data/model/user.dart';
 import '../../widgets/dialog/update_info_dialog.dart';
 
 class EditProfileScreen extends StatefulWidget{
-  final User? user;
-  EditProfileScreen({Key? key, required this.user}) : super(key: key);
+  EditProfileScreen({Key? key}) : super(key: key);
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState(user: user);
+  _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen>{
   final ScrollController _scrollController = ScrollController();
 
-  User? user;
-  _EditProfileScreenState({Key? key, required this.user}) : super();
+  _EditProfileScreenState({Key? key}) : super();
   @override
   Widget build(BuildContext context) {
     File? image;
-
+    User? user = BlocProvider.of<ProfileBloc>(context).user;
     Future pickImageFromGallery() async {
       try{
         final picker = ImagePicker();
@@ -63,12 +62,12 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
       }
     }
 
-    final _emailController = TextEditingController(text: user!.email);
-    final _firstnameController = TextEditingController(text: user!.firstname);
-    final _lastnameController = TextEditingController(text: user!.lastname);
-    final _addressController = TextEditingController(text: user!.address);
-    final _usernameController = TextEditingController(text: user!.username);
-    final _phoneController = TextEditingController(text: user!.phonenumber);
+    final _emailController = TextEditingController(text: user?.email);
+    final _firstnameController = TextEditingController(text: user?.firstname);
+    final _lastnameController = TextEditingController(text: user?.lastname);
+    final _addressController = TextEditingController(text: user?.address);
+    final _usernameController = TextEditingController(text: user?.username);
+    final _phoneController = TextEditingController(text: user?.phonenumber);
 
     addSocial() {
       SmartDialog.showToast("Social link added!");
@@ -76,7 +75,10 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
 
     var bloc = BlocProvider.of<EditProfileBloc>(context);
     return Scaffold(
-      body: BlocListener<EditProfileBloc,EditProfileInfoState>(
+      body:
+      BlocBuilder<ProfileBloc, ProfileState>(
+  builder: (context, state) {
+    return BlocListener<EditProfileBloc,EditProfileInfoState>(
         bloc: bloc,
         listenWhen: (previous, current) => previous.updateSuccess != current.updateSuccess,
         listener: (context,state){
@@ -639,11 +641,13 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                     ),
                   ),
         ),
-      ),
+      );
+  },
+),
     );
   }
   String ChangeGenderValue(int? selectedValue){
     return selectedValue == 1 ? 'Male' : 'Female';
   }
-  
+
 }
