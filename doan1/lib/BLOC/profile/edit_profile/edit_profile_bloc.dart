@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:get_it/get_it.dart';
 
@@ -73,5 +75,65 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
       }
     });
 
+    on<EditProfileEventgetAvatarFromCamera>((event, emit) async {
+      try{
+        image = await pickImageFromCamera();
+        if(image != null) {
+          print("Get image success");
+          emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.success));
+          emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.initial));
+        }
+      }
+      catch(e){
+        print(e);
+        emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.failure));
+      }
+    });
+
+    on<EditProfileEventgetAvatarFromGallery>((event, emit) async {
+      try{
+        image = await pickImageFromGallery();
+        if(image != null) {
+          print("Get image success");
+          emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.success));
+          emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.initial));
+        }
+      }
+      catch(e){
+        print(e);
+        emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.failure));
+      }
+    });
+  }
+  Future<File?> pickImageFromGallery() async {
+    try{
+      final picker = ImagePicker();
+      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        if (pickedFile != null) {
+          image = File(pickedFile.path);
+          return image;
+        } else {
+          print('No image selected.');
+          return null;
+        }
+    } on PlatformException catch(e){
+      print("Failed to pick image: $e");
+    }
+  }
+
+  Future<File?> pickImageFromCamera() async {
+    try{
+      final picker = ImagePicker();
+      final pickedFile = await picker.getImage(source: ImageSource.camera);
+        if (pickedFile != null) {
+          image = File(pickedFile.path);
+          return image;
+        } else {
+          print('No image selected.');
+          return null;
+        }
+    } on PlatformException catch(e){
+      print("Failed to pick image: $e");
+    }
   }
 }

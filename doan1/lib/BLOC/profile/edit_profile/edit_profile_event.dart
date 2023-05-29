@@ -30,4 +30,12 @@ class EditProfileEventSubmitPassword extends EditProfileEvent{
     required this.Password});
 }
 
+class EditProfileEventgetAvatarFromCamera extends EditProfileEvent{
+}
+
+class EditProfileEventgetAvatarFromGallery extends EditProfileEvent{
+}
+
+
+
 

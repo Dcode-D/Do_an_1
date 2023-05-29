@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) =>
                                       BlocProvider(
                                         create: (_) => EditProfileBloc(context),
-                                        child: EditProfileScreen(user: user),
+                                        child: EditProfileScreen(user: user, path: imagePath,),
                                       )
                                   ));
                                 },

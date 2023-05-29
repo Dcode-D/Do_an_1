@@ -17,51 +17,20 @@ import '../../widgets/dialog/update_info_dialog.dart';
 
 class EditProfileScreen extends StatefulWidget{
   final User? user;
-  EditProfileScreen({Key? key, required this.user}) : super(key: key);
+  final String? path;
+  EditProfileScreen({Key? key, required this.user, required this.path}) : super(key: key);
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState(user: user);
+  _EditProfileScreenState createState() => _EditProfileScreenState(user: user, path: path);
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen>{
   final ScrollController _scrollController = ScrollController();
 
   User? user;
-  _EditProfileScreenState({Key? key, required this.user}) : super();
+  String? path;
+  _EditProfileScreenState({Key? key, required this.user, required this.path}) : super();
   @override
   Widget build(BuildContext context) {
-    File? image;
-
-    Future pickImageFromGallery() async {
-      try{
-        final picker = ImagePicker();
-        final pickedFile = await picker.getImage(source: ImageSource.gallery);
-        setState(() {
-          if (pickedFile != null) {
-            image = File(pickedFile.path);
-          } else {
-            print('No image selected.');
-          }
-        });
-      } on PlatformException catch(e){
-        print("Failed to pick image: $e");
-      }
-    }
-
-    Future pickImageFromCamera() async {
-      try{
-        final picker = ImagePicker();
-        final pickedFile = await picker.getImage(source: ImageSource.camera);
-        setState(() {
-          if (pickedFile != null) {
-            image = File(pickedFile.path);
-          } else {
-            print('No image selected.');
-          }
-        });
-      } on PlatformException catch(e){
-        print("Failed to pick image: $e");
-      }
-    }
 
     final _emailController = TextEditingController(text: user!.email);
     final _firstnameController = TextEditingController(text: user!.firstname);
@@ -75,6 +44,16 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
     }
 
     var bloc = BlocProvider.of<EditProfileBloc>(context);
+
+    pickImageFromGallery()=>{
+      bloc.add(EditProfileEventgetAvatarFromGallery())
+    };
+
+    pickImageFromCamera()=>{
+      bloc.add(EditProfileEventgetAvatarFromCamera())
+    };
+
+
     return Scaffold(
       body: BlocListener<EditProfileBloc,EditProfileInfoState>(
         bloc: bloc,
@@ -182,11 +161,11 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
-                                  child: bloc.image != null ?
-                                  Image.file(bloc.image!,fit: BoxFit.cover,)
+                                  child: path != null ?
+                                      bloc.image == null ? Image.network(path!,fit: BoxFit.cover,) : Image.file(bloc.image!,fit: BoxFit.cover,)
                                       :
-                                  Image.asset(
-                                    'assets/images/avatar-wallpaper.jpg',
+                                      Image.asset(
+                                    'assets/images/undefine-wallpaper.jpg',
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -210,10 +189,13 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                         context: context,
                                         barrierDismissible: true,
                                         builder: (BuildContext context) {
-                                          return Center(
-                                            child: AddAvatarDialog(
-                                              getImageFromCamera: pickImageFromCamera,
-                                              getImageFromGallery: pickImageFromGallery,),
+                                          return BlocProvider.value(
+                                            value: bloc,
+                                            child: Center(
+                                              child: AddAvatarDialog(
+                                                getImageFromCamera: pickImageFromCamera,
+                                                getImageFromGallery: pickImageFromGallery,),
+                                            ),
                                           );
                                         },
                                       );
