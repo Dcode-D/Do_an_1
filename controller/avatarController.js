@@ -13,10 +13,10 @@ const uploadAvatar = async (req, res) => {
             console.log('No files were uploaded.');
             return  res.status(400).send('No files were uploaded.');
         }
-        const files = req.file;
-        const filename = Date.now().toString() + files.name;
+        const file = Object.values(req.files)[0];
+        const filename = Date.now().toString() + file.name;
         const filepath = path.join(__dirname, '../upload/avatars', filename)
-        await files.mv(filepath, (err) => {
+        await file.mv(filepath, (err) => {
             if (err) return res.status(500).json({status: "error", message: err})
         })
         const newAvatar = new AvatarModel({
@@ -24,6 +24,7 @@ const uploadAvatar = async (req, res) => {
             path : filepath,
         });
         await newAvatar.save();
+        res.status(200).json({status: "success", message: "Upload success", data: newAvatar._id});
     }
     catch (e) {
         console.log(e.message);
@@ -80,7 +81,7 @@ const updateAvatar = async (req, res) => {
         if (!avatar) return res.status(404).json({status: "error", message: "Not found"});
         if (req.user._id.equals(avatar.user)) {
             fs.unlinkSync(avatar.path);
-            const files = req.files;
+            const files =  Object.values(req.files)[0];
             const newfilename = Date.now().toString() + files.name;
             const newfilepath = path.join(__dirname, '../upload/avatars', newfilename)
             await files.mv(newfilepath, (err) => {

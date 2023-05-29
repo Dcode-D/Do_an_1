@@ -149,9 +149,6 @@ const uploadArticle = async (req, res) => {
         await file.mv(filepath, (err) => {
             if (err) return res.status(500).json({status: "error", message: err})
         })
-        let imgfile = fileModel._id;
-        article.image = imgfile;
-        await article.save();
     }catch (e) {
         console.log(e.message);
         return res.status(503).json({status: "error", message: e.message});

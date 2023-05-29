@@ -65,14 +65,14 @@
                 formData.append(myFiles.item(key).name, myFiles.item(key))
             })
 
-            formData.append("licensePlate", "123s12");
+            formData.append("licensePlate", "12093ahsdu");
             formData.append("brand","BMW");
             formData.append("seats","10");
             formData.append("pricePerDay","1000000");
             formData.append("color","red");
             formData.append("description","some shit");
 
-            fetch('http://localhost:3500/car', {
+            fetch('http://localhost:3500/avatar', {
                 method: 'POST',
                 body: formData,
                 headers:{
