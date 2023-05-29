@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
-      bloc.user !=null ?
+      bloc.user != null ?
       Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Padding(
@@ -85,10 +85,10 @@ class ProfileScreen extends StatelessWidget {
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
                     ),
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/avatar-wallpaper.jpg'),
-                      fit: BoxFit.cover,
-                    ),
+                      image: DecorationImage(
+                        image: NetworkImage(bloc.path!),
+                        fit: BoxFit.cover,
+                      ),
                   ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -119,9 +119,9 @@ class ProfileScreen extends StatelessWidget {
                           children: [
                             Text(
                               bloc.user!.firstname + " " + bloc.user!.lastname,
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.raleway(
                                 fontSize: 30,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
                             ),
@@ -134,31 +134,16 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  bloc.user!.email,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.white,
-                                  ),
+                                    bloc.user!.email,
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    )
                                 ),
                               ],
                             ),
                           ],
-                        ),
-                        InkWell(
-                          onTap: (){},
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white.withOpacity(0.3),
-                            ),
-                            child: const Image(
-                              image: AssetImage('assets/icons/icon-camera.png'),
-                              color: Colors.white,
-                            ),
-                          ),
                         ),
                       ],
                     ),
@@ -175,9 +160,9 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           Text(
                             "Personal Information",
-                            style: GoogleFonts.playfairDisplay(
+                            style: GoogleFonts.raleway(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               color: Theme.of(context).primaryColor,
                             ),
                           ),
@@ -340,9 +325,9 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       Text(
                         "Contact",
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.raleway(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                           color: Theme.of(context).primaryColor,
                         ),
                       ),

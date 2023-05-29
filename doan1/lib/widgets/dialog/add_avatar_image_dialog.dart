@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddAvatarDialog extends StatelessWidget{
+  Function getImageFromGallery;
+  Function getImageFromCamera;
+
+  AddAvatarDialog({required this.getImageFromGallery, required this.getImageFromCamera});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,6 +55,7 @@ class AddAvatarDialog extends StatelessWidget{
                   ),
                   child: TextButton(
                     onPressed: (){
+                      getImageFromCamera();
                       Navigator.pop(context);
                     },
                     child: Text(
@@ -77,7 +85,8 @@ class AddAvatarDialog extends StatelessWidget{
                   ),
                   child: TextButton(
                     onPressed: (){
-                      //TODO: Add image function here
+                      getImageFromGallery();
+                      Navigator.pop(context);
                     },
                     child: Text(
                       'Gallery',
@@ -96,5 +105,15 @@ class AddAvatarDialog extends StatelessWidget{
       ),
     );
   }
-
+  /// Get from gallery
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+    }
+  }
 }

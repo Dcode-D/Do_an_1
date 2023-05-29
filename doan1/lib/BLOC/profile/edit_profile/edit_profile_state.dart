@@ -10,10 +10,12 @@ class EditProfileInfoState extends EditProfileState {
   bool isPassWordVisible = false;
   bool isPassWordConfirmVisible = false;
   EditProfileStatus updateSuccess = EditProfileStatus.initial;
+  EditProfileStatus getImageSuccess = EditProfileStatus.initial;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
     EditProfileInfoState({
     bool isPassWordVisible = false,
     bool isPassWordConfirmVisible = false,
+    EditProfileStatus getImageSuccess = EditProfileStatus.initial,
     EditProfileStatus updateSuccess = EditProfileStatus.initial,
     required GlobalKey<FormState> formKey
     })
@@ -21,6 +23,7 @@ class EditProfileInfoState extends EditProfileState {
     this.isPassWordVisible = isPassWordVisible;
     this.isPassWordConfirmVisible = isPassWordConfirmVisible;
     this.updateSuccess = updateSuccess;
+    this.getImageSuccess = getImageSuccess;
     this.formKey = formKey;
   }
 }

@@ -1,23 +1,67 @@
+import 'dart:io';
+
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/widgets/dialog/add_avatar_image_dialog.dart';
 import 'package:doan1/widgets/dialog/add_social_link_dialog.dart';
 import 'package:doan1/widgets/dialog/change_password_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../data/model/user.dart';
 import '../../widgets/dialog/update_info_dialog.dart';
 
-class EditProfileScreen extends StatelessWidget{
+class EditProfileScreen extends StatefulWidget{
+  final User? user;
+  EditProfileScreen({Key? key, required this.user}) : super(key: key);
+  @override
+  _EditProfileScreenState createState() => _EditProfileScreenState(user: user);
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen>{
   final ScrollController _scrollController = ScrollController();
 
   User? user;
-  EditProfileScreen({Key? key, required this.user}) : super(key: key);
+  _EditProfileScreenState({Key? key, required this.user}) : super();
   @override
   Widget build(BuildContext context) {
+    File? image;
+
+    Future pickImageFromGallery() async {
+      try{
+        final picker = ImagePicker();
+        final pickedFile = await picker.getImage(source: ImageSource.gallery);
+        setState(() {
+          if (pickedFile != null) {
+            image = File(pickedFile.path);
+          } else {
+            print('No image selected.');
+          }
+        });
+      } on PlatformException catch(e){
+        print("Failed to pick image: $e");
+      }
+    }
+
+    Future pickImageFromCamera() async {
+      try{
+        final picker = ImagePicker();
+        final pickedFile = await picker.getImage(source: ImageSource.camera);
+        setState(() {
+          if (pickedFile != null) {
+            image = File(pickedFile.path);
+          } else {
+            print('No image selected.');
+          }
+        });
+      } on PlatformException catch(e){
+        print("Failed to pick image: $e");
+      }
+    }
 
     final _emailController = TextEditingController(text: user!.email);
     final _firstnameController = TextEditingController(text: user!.firstname);
@@ -42,6 +86,9 @@ class EditProfileScreen extends StatelessWidget{
           }
           if(state.updateSuccess == EditProfileStatus.failure){
             SmartDialog.showToast("Update failed!");
+          }
+          if(state.getImageSuccess == EditProfileStatus.success){
+            SmartDialog.showToast("Get image success!");
           }
         },
         child: BlocBuilder<EditProfileBloc,EditProfileInfoState>(
@@ -104,7 +151,6 @@ class EditProfileScreen extends StatelessWidget{
                                   );
                                 });
                               }
-
                             },
                             icon: const Icon(
                               Icons.check,
@@ -136,7 +182,10 @@ class EditProfileScreen extends StatelessWidget{
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
-                                  child: Image.asset(
+                                  child: bloc.image != null ?
+                                  Image.file(bloc.image!,fit: BoxFit.cover,)
+                                      :
+                                  Image.asset(
                                     'assets/images/avatar-wallpaper.jpg',
                                     fit: BoxFit.cover,
                                   ),
@@ -157,9 +206,17 @@ class EditProfileScreen extends StatelessWidget{
                                   ),
                                   child: IconButton(
                                     onPressed: () {
-                                      SmartDialog.show(builder: (context){
-                                        return AddAvatarDialog();
-                                      });
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (BuildContext context) {
+                                          return Center(
+                                            child: AddAvatarDialog(
+                                              getImageFromCamera: pickImageFromCamera,
+                                              getImageFromGallery: pickImageFromGallery,),
+                                          );
+                                        },
+                                      );
                                     },
                                     icon: const Icon(
                                       Icons.camera_alt,

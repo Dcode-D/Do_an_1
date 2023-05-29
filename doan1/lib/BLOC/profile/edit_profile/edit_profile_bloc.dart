@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,6 +14,8 @@ part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
+  User? user;
+  File? image;
   EditProfileBloc(BuildContext context) : super(EditProfileInfoState(isPassWordVisible: false,
       isPassWordConfirmVisible: false, formKey: GlobalKey<FormState>(), updateSuccess: EditProfileStatus.initial)) {
     on<CheckPasswordVisibilityEvent>((event, emit) => emit(
@@ -68,6 +72,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
         emit(EditProfileInfoState(formKey: state.formKey, updateSuccess: EditProfileStatus.failure));
       }
     });
-  }
 
+  }
 }

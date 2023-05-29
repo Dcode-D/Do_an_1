@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:doan1/data/model/user.dart';
 import 'package:logger/logger.dart';
@@ -65,4 +66,17 @@ class UserRepo{
     });
   }
 
+  Future<List<String>?> getListAvatarId(String id) async {
+    return _appService
+        .getListAvatarId(id)
+        .then((http) async {
+      print(http.response.statusCode);
+      if (http.response.statusCode != 200) {
+        return [];
+      }
+      else{
+        return http.data.data;
+      }
+    });
+  }
 }

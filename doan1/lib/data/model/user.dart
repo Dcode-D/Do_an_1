@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:doan1/data/model/remote/avatar_file_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:doan1/data/model/remote/base_response.dart';
 
@@ -38,5 +41,16 @@ extension UserExtension on BaseResponse {
     if(this.data == null)
       return null;
     return User.fromJson(this.data!);
+  }
+}
+
+extension UserFileExtension on AvatarResponse{
+  List<String>? toListString(){
+    var list = this.data!;
+    if(list == null)
+      return null;
+    List<String> rs = List<String>.from(list);
+    print(rs);
+    return rs;
   }
 }

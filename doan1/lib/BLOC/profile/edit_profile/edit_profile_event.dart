@@ -3,14 +3,11 @@ part of 'edit_profile_bloc.dart';
 @immutable
 abstract class EditProfileEvent{}
 
-class CheckPasswordVisibilityEvent extends EditProfileEvent{
-}
+class CheckPasswordVisibilityEvent extends EditProfileEvent{}
 
-class CheckPasswordConfirmVisibilityEvent extends EditProfileEvent{
-}
+class CheckPasswordConfirmVisibilityEvent extends EditProfileEvent{}
 
-class CheckInformationEvent extends EditProfileEvent{
-}
+class CheckInformationEvent extends EditProfileEvent{}
 
 class EditProfileEventSubmit extends EditProfileEvent{
   var updateSuccess = EditProfileStatus.initial;

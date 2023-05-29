@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:doan1/data/model/remote/avatar_file_response.dart';
 import 'package:doan1/data/model/remote/login_response.dart';
 import '../model/remote/base_response.dart';
 import 'package:retrofit/retrofit.dart';
@@ -23,4 +24,8 @@ abstract class AppService {
 
   @PUT("/user/update")
   Future<HttpResponse> updateUser(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
+
+  @GET("/avatar/list/{id}")
+  Future<HttpResponse<AvatarResponse>> getListAvatarId(@Path('id') String id);
+
 }
