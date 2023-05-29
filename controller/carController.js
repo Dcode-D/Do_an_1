@@ -180,7 +180,7 @@ const updateCarImage = async (req,res)=>{
                         fs.unlinkSync(uri)
                         await filetoDelete.deleteOne();
                     }
-                    const files = req.files;
+                    const files = Object.values(req.files)[0];
                     const filename = Date.now().toString() + files.name;
                     const filepath = path.join(__dirname, '../upload/images', filename)
                     const fileModel = new FileModel({

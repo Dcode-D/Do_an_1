@@ -15,7 +15,7 @@ const createArticle = async (req, res) => {
             console.log('No files were uploaded.');
             return  res.status(400).send('No files were uploaded.');
         }
-        const file = req.files;
+        const file = Object.values(req.files)[0];
         const filename = Date.now().toString() + file.name;
         const filepath = path.join(__dirname, '../upload/files', filename)
         const fileModel = new FileModel({
@@ -135,7 +135,7 @@ const uploadArticle = async (req, res) => {
             console.log('No files were uploaded.');
             return  res.status(400).send('No files were uploaded.');
         }
-        const file = req.files;
+        const file = Object.values(req.files)[0];
         const filename = Date.now().toString() + file.name;
         const filepath = path.join(__dirname, '../upload/files', filename)
         const fileModel = new FileModel({
@@ -206,8 +206,9 @@ const updateArticle = async (req, res) => {
         const contentfile = await FileModel.findById(content);
         if(!contentfile) return res.status(404).json({status: "error", message: "Article content not found"});
         if(req.files){
-            const newart = req.file;
+            const newart = Object.values(req.files)[0];
             const filename = Date.now().toString() + newart.name;
+            fs.unlinkSync(contentfile.path)
             contentfile.path = path.join(__dirname, '../upload/files', filename);
             newart.mv(contentfile.path, (err) => {
                 if (err) return res.status(500).json({status: "error", message: err})

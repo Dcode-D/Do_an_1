@@ -248,7 +248,7 @@ const updateHotelImage = async (req, res) => {
         if(!hotel||!hotel.owner.equals(req.user._id)){
             return res.status(403).json({status: "error", message: "Not permitted"});
         }
-        const files = req.files;
+        const files = Object.values(req.files)[0];
         if(!files){
             return res.status(400).json({status: "error", message: "No image file"});
         }

@@ -61,10 +61,14 @@ const uploadHotelRoom = async (req,res)=>{
         if(!hotelRoomlist||hotelRoomlist.length===0){
             return res.status(400).json({status: "error", message: "No hotel room information"});
         }
+        if(!req.user._id.equals(hotel[0].owner)){
+            console.log("invalid hotel id");
+            return res.status(400).json({status: "error", message: "Invalid hotel id"});
+        }
         for(let htr of hotelRoomlist) {
             const hotelRoom = new hotelRoomModel({
                 "number": htr.number,
-                "hotel": htr.hotel,
+                "hotel": req.params.hotel,
                 "adultCapacity": htr.adultCapacity,
                 "childrenCapacity": htr.childrenCapacity,
                 "price": htr.price,
