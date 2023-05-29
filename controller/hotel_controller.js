@@ -158,7 +158,11 @@ const getHotelByQueries = async (req,res)=>{
     const name = queries.name;
     const owner = queries.owner;
     const address = queries.address;
+    const maxprice = queries.maxprice;
+    const minprice = queries.minprice;
     try{
+        let minlist = [];
+        let maxlist = [];
         const query = hotelModel.find({})
         const intpage = parseInt(page);
         if(intpage < 1) {
@@ -178,6 +182,17 @@ const getHotelByQueries = async (req,res)=>{
         }
         if(address) {
             query.where({address: address})
+        }
+        if(minprice) {
+            minlist = await hotelRoomModel.find({price: {$gte: minprice}}).select('hotel');
+        }
+        if(maxprice) {
+            maxlist = await hotelRoomModel.find({price: {$lte: maxprice}}).select('hotel');
+        }
+
+        const selectlist = [...minlist, ...maxlist];
+        if(minprice||maxprice) {
+            query.where({_id: {$in: selectlist}});
         }
         const hotels = await query.skip((intpage - 1) * PAGE_SIZE).limit(PAGE_SIZE).exec();
         return res.status(200).json({status: "success", data: hotels});
