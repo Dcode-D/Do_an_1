@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -17,11 +18,12 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
   String? path;
   ProfileBloc(BuildContext context): super(ProfileState(getUserSuccess: false)){
     on<getProfileScreenEvent>((event, emit) async {
+      var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
       user = await getUser();
       if(user != null){
         var userRepo = GetIt.instance.get<UserRepo>();
         var images = await userRepo.getListAvatarId(user!.id);
-        path = 'http://10.0.2.2:3500/avatar/${images!.last}';
+        path = '$baseUrl/avatar/${images!.last}';
         emit(ProfileState(getUserSuccess: true));
       }
     });

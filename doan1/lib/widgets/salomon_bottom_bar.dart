@@ -12,16 +12,12 @@ import '../BLOC/profile/profile_view/profile_bloc.dart';
 
 class NavigationNavBar extends StatelessWidget{
   int current_tab = 0;
-  late var tabs = [
-    HomeScreen(),
-   SearchScreen(),
-   BookingScreen(),
-    ProfileScreen(),
-  ];
-
 
   @override
 Widget build(BuildContext context){
+    var bloc = context.read<ProfileBloc>();
+    bloc.add(getProfileScreenEvent());
+
     return Builder(builder: (context)=>
         BlocProvider(create: (context) => NavigationBloc(),
             child:  BlocBuilder<NavigationBloc, NavigationInfoState>(
@@ -31,7 +27,12 @@ Widget build(BuildContext context){
                       extendBody: true,
                       body:IndexedStack(
                       index: state.selectedIndex,
-                      children:tabs
+                      children:[
+                        HomeScreen(user: bloc.user,imagePath: bloc.path,),
+                        SearchScreen(),
+                        BookingScreen(),
+                        ProfileScreen(user: bloc.user,imagePath: bloc.path,),
+                      ]
                   ),
                       bottomNavigationBar: Salomon_nav_bar(),
                     );

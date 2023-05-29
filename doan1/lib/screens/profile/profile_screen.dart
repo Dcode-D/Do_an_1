@@ -11,22 +11,25 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../data/model/user.dart';
 import 'check_booking/check_booking_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
+  User? user;
+  String? imagePath;
+
+  ProfileScreen({super.key, this.user,this.imagePath});
 
   @override
   Widget build(BuildContext context) {
     Logout()=>{
     context.read<AuthenticationBloc>().add(LogoutEvent())
     };
-    var bloc = context.read<ProfileBloc>();
-    bloc.add(getProfileScreenEvent());
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
-      bloc.user != null ?
+      user != null ?
       Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Padding(
@@ -81,12 +84,12 @@ class ProfileScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.5,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
                     ),
                       image: DecorationImage(
-                        image: NetworkImage(bloc.path!),
+                        image: NetworkImage(imagePath!),
                         fit: BoxFit.cover,
                       ),
                   ),
@@ -118,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              bloc.user!.firstname + " " + bloc.user!.lastname,
+                              "${user!.firstname} ${user!.lastname}",
                               style: GoogleFonts.raleway(
                                 fontSize: 30,
                                 fontWeight: FontWeight.w600,
@@ -134,7 +137,7 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                    bloc.user!.email,
+                                    user!.email,
                                     style: GoogleFonts.raleway(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -191,7 +194,7 @@ class ProfileScreen extends StatelessWidget {
                                       MaterialPageRoute(builder: (context) =>
                                           BlocProvider(
                                             create: (_) => EditProfileBloc(context),
-                                            child: EditProfileScreen(user: bloc.user!),
+                                            child: EditProfileScreen(user: user!),
                                           )
                                       ));
                                 },
@@ -245,7 +248,7 @@ class ProfileScreen extends StatelessWidget {
                               size: 20,
                               ), const SizedBox(width: 20),
                                 Text(
-                                  bloc.user!.firstname + " " + bloc.user!.lastname,
+                                  "${user!.firstname} ${user!.lastname}",
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -278,7 +281,7 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    bloc.user!.address,
+                                    user!.address,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -365,7 +368,7 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    bloc.user!.email,
+                                    user!.email,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -398,7 +401,7 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    bloc.user!.phonenumber,
+                                    user!.phonenumber,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
