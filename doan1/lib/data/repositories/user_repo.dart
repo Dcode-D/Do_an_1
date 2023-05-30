@@ -82,13 +82,10 @@ class UserRepo{
   }
 
   Future<bool> updateAvatar(File file) async {
-    final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path),
-    });
     return _appService
         .updateAvatar(
         'Bearer '+_sharedPreferences.getString('token')!
-          ,_requestFactory.updateAvatar(formData))
+          ,file)
         .then((http) async {
       print(http.response.statusCode);
       if (http.response.statusCode != 200) {

@@ -31,7 +31,6 @@ abstract class AppService {
   Future<HttpResponse<AvatarResponse>> getListAvatarId(@Path('id') String id);
 
   @POST("/avatar/")
-  @FormUrlEncoded()
-  Future<dynamic> updateAvatar(@Header('Authorization') String token, @Part() Map<String,dynamic>? file);
-
+  @MultiPart()
+  Future<dynamic> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
 }
