@@ -8,13 +8,11 @@ import 'package:doan1/screens/home/vehicle_rent_carousel.dart';
 import 'package:doan1/screens/home/hotel_carousel.dart';
 import 'package:doan1/screens/notification/notification_screen.dart';
 import 'package:doan1/screens/profile/edit_profile_screen.dart';
-import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../data/model/user.dart';
 import '../../models/destination_model.dart';
 import '../../models/notification_model.dart';
 import 'destination_carousel.dart';
@@ -30,7 +28,6 @@ class HomeScreen extends StatelessWidget {
       BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state)=>
           BlocBuilder<HomeBloc,HomeState>(
           builder: (context,state) =>
-          context.read<ProfileBloc>().user != null ?
           Scaffold(
             body: SingleChildScrollView(
               child: Column(
@@ -81,12 +78,11 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       ),
                                       child:
-                                      context.read<ProfileBloc>().path != null ?
+                                      profileBloc.path != null ?
                                         CircleAvatar(
                                         radius: 40,
                                         backgroundImage:
-                                        NetworkImage(context.read<ProfileBloc>().path!)
-                                        )
+                                        NetworkImage(context.read<ProfileBloc>().path!))
                                           :
                                           const CircleAvatar(
                                           radius: 40,
@@ -265,11 +261,6 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             )
-          ) :
-          const Center(
-            child: CircularProgressIndicator(
-              color: Colors.black,
-            ),
           )
         )
       );

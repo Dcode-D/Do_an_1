@@ -76,10 +76,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
     });
 
     on<EditProfileEventgetAvatarFromCamera>((event, emit) async {
+      var userRepo = GetIt.instance.get<UserRepo>();
       try{
         image = await pickImageFromCamera();
-        if(image != null) {
-          print("Get image success");
+        bool updateImageState = await userRepo.updateAvatar(image!);
+        if(image != null && updateImageState) {
+          print("Get and update image success");
           emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.success));
           emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.initial));
         }
@@ -91,10 +93,13 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
     });
 
     on<EditProfileEventgetAvatarFromGallery>((event, emit) async {
+      var userRepo = GetIt.instance.get<UserRepo>();
+
       try{
         image = await pickImageFromGallery();
-        if(image != null) {
-          print("Get image success");
+        bool updateImageState = await userRepo.updateAvatar(image!);
+        if(image != null && updateImageState) {
+          print("Get and update image success");
           emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.success));
           emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.initial));
         }
@@ -104,6 +109,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
         emit(EditProfileInfoState(formKey: state.formKey, getImageSuccess: EditProfileStatus.failure));
       }
     });
+
   }
   Future<File?> pickImageFromGallery() async {
     try{

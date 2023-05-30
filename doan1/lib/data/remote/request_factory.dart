@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -39,6 +42,12 @@ class RequestFactory {
   updateUserPassWord(String password){
     return {
       "password": password,
+    };
+  }
+
+  updateAvatar(FormData path){
+    return {
+      "file": path,
     };
   }
 }

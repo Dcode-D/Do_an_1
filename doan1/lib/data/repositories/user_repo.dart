@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:doan1/data/model/user.dart';
 import 'package:logger/logger.dart';
 import 'package:event_bus_plus/res/event_bus.dart';
@@ -76,6 +77,25 @@ class UserRepo{
       }
       else{
         return http.data.data;
+      }
+    });
+  }
+
+  Future<bool> updateAvatar(File file) async {
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(file.path),
+    });
+    return _appService
+        .updateAvatar(
+        'Bearer '+_sharedPreferences.getString('token')!
+          ,_requestFactory.updateAvatar(formData))
+        .then((http) async {
+      print(http.response.statusCode);
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
       }
     });
   }

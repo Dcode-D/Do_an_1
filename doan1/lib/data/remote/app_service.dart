@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:doan1/data/model/remote/avatar_file_response.dart';
 import 'package:doan1/data/model/remote/login_response.dart';
@@ -27,5 +29,9 @@ abstract class AppService {
 
   @GET("/avatar/list/{id}")
   Future<HttpResponse<AvatarResponse>> getListAvatarId(@Path('id') String id);
+
+  @POST("/avatar/")
+  @FormUrlEncoded()
+  Future<dynamic> updateAvatar(@Header('Authorization') String token, @Part() Map<String,dynamic>? file);
 
 }

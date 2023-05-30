@@ -28,57 +28,35 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
   _EditProfileScreenState({Key? key}) : super();
   @override
   Widget build(BuildContext context) {
-    File? image;
-    User? user = BlocProvider.of<ProfileBloc>(context).user;
-    Future pickImageFromGallery() async {
-      try{
-        final picker = ImagePicker();
-        final pickedFile = await picker.getImage(source: ImageSource.gallery);
-        setState(() {
-          if (pickedFile != null) {
-            image = File(pickedFile.path);
-          } else {
-            print('No image selected.');
-          }
-        });
-      } on PlatformException catch(e){
-        print("Failed to pick image: $e");
-      }
-    }
 
-    Future pickImageFromCamera() async {
-      try{
-        final picker = ImagePicker();
-        final pickedFile = await picker.getImage(source: ImageSource.camera);
-        setState(() {
-          if (pickedFile != null) {
-            image = File(pickedFile.path);
-          } else {
-            print('No image selected.');
-          }
-        });
-      } on PlatformException catch(e){
-        print("Failed to pick image: $e");
-      }
-    }
+    ProfileBloc profileBloc = context.read<ProfileBloc>();
 
-    final _emailController = TextEditingController(text: user?.email);
-    final _firstnameController = TextEditingController(text: user?.firstname);
-    final _lastnameController = TextEditingController(text: user?.lastname);
-    final _addressController = TextEditingController(text: user?.address);
-    final _usernameController = TextEditingController(text: user?.username);
-    final _phoneController = TextEditingController(text: user?.phonenumber);
+    final _emailController = TextEditingController(text: profileBloc.user?.email);
+    final _firstnameController = TextEditingController(text: profileBloc.user?.firstname);
+    final _lastnameController = TextEditingController(text: profileBloc.user?.lastname);
+    final _addressController = TextEditingController(text: profileBloc.user?.address);
+    final _usernameController = TextEditingController(text: profileBloc.user?.username);
+    final _phoneController = TextEditingController(text: profileBloc.user?.phonenumber);
 
     addSocial() {
       SmartDialog.showToast("Social link added!");
     }
 
     var bloc = BlocProvider.of<EditProfileBloc>(context);
+
+    pickImageFromCamera(){
+      bloc.add(EditProfileEventgetAvatarFromCamera());
+    }
+
+    pickImageFromGallery(){
+      bloc.add(EditProfileEventgetAvatarFromGallery());
+    }
+
     return Scaffold(
       body:
       BlocBuilder<ProfileBloc, ProfileState>(
-  builder: (context, state) {
-    return BlocListener<EditProfileBloc,EditProfileInfoState>(
+        builder: (context, state) {
+        return BlocListener<EditProfileBloc,EditProfileInfoState>(
         bloc: bloc,
         listenWhen: (previous, current) => previous.updateSuccess != current.updateSuccess,
         listener: (context,state){
@@ -89,13 +67,10 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
           if(state.updateSuccess == EditProfileStatus.failure){
             SmartDialog.showToast("Update failed!");
           }
-          if(state.getImageSuccess == EditProfileStatus.success){
-            SmartDialog.showToast("Get image success!");
-          }
         },
         child: BlocBuilder<EditProfileBloc,EditProfileInfoState>(
           builder: (context,state) =>
-                    user != null ?
+          profileBloc.user != null ?
                 Form(
                   key:state.formKey,
                   child: NestedScrollView(
@@ -147,7 +122,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                           address: _addressController.text,
                                           userName: _usernameController.text,
                                           phone: _phoneController.text,
-                                          gender: user!.gender,
+                                          gender: profileBloc.user!.gender,
                                     ),
                                       ),
                                   );
@@ -212,10 +187,13 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                         context: context,
                                         barrierDismissible: true,
                                         builder: (BuildContext context) {
-                                          return Center(
-                                            child: AddAvatarDialog(
-                                              getImageFromCamera: pickImageFromCamera,
-                                              getImageFromGallery: pickImageFromGallery,),
+                                          return BlocProvider.value(
+                                            value: bloc,
+                                            child: Center(
+                                              child: AddAvatarDialog(
+                                                getImageFromCamera: pickImageFromCamera,
+                                                getImageFromGallery: pickImageFromGallery,),
+                                            ),
                                           );
                                         },
                                       );
@@ -338,7 +316,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                  ),
                                  const SizedBox(width: 10),
                                  Text(
-                                   ChangeGenderValue(user!.gender),
+                                   ChangeGenderValue(profileBloc.user!.gender),
                                    style: GoogleFonts.raleway(
                                      fontSize: 16,
                                      fontWeight: FontWeight.w400,
