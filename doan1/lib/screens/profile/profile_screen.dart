@@ -24,12 +24,10 @@ class ProfileScreen extends StatelessWidget {
     Logout()=>{
     context.read<AuthenticationBloc>().add(LogoutEvent())
     };
-    User? user = context.read<ProfileBloc>().user;
-    String? imagePath = context.read<ProfileBloc>().path;
     ProfileBloc bloc = context.read<ProfileBloc>();
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
-      user != null ?
+
       Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Padding(
@@ -89,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                       bottomRight: Radius.circular(30),
                     ),
                       image: DecorationImage(
-                        image: NetworkImage(imagePath!),
+                        image: bloc.path !=null? NetworkImage(bloc.path as String): NetworkImage(""),
                         fit: BoxFit.cover,
                       ),
                   ),
@@ -121,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${user!.firstname} ${user!.lastname}",
+                              bloc.user!=null?"${bloc.user!.firstname} ${bloc.user!.lastname}":"loading...",
                               style: GoogleFonts.raleway(
                                 fontSize: 30,
                                 fontWeight: FontWeight.w600,
@@ -137,7 +135,7 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                    user!.email,
+                                    bloc.user!=null?bloc.user!.email:"loading...",
                                     style: GoogleFonts.raleway(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -252,7 +250,7 @@ class ProfileScreen extends StatelessWidget {
                               size: 20,
                               ), const SizedBox(width: 20),
                                 Text(
-                                  "${user!.firstname} ${user!.lastname}",
+                                  bloc.user!=null?"${bloc.user!.firstname} ${bloc.user!.lastname}":"loading...",
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -285,7 +283,7 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    user!.address,
+                                    bloc.user!=null?bloc.user!.address:"loading...",
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -372,7 +370,7 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    user!.email,
+                                    bloc.user!=null?bloc.user!.email:"loading...",
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -405,7 +403,7 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    user!.phonenumber,
+                                    bloc.user!=null?bloc.user!.phonenumber:"loading...",
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -497,12 +495,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           ])
       )
-          :
-      const Center(
-        child: CircularProgressIndicator(
-          color: Colors.orange,
-        ),
-      ),
+
     );
   }
 }
