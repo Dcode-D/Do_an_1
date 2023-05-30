@@ -19,6 +19,7 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
   ProfileBloc(BuildContext context): super(ProfileState(getUserSuccess: false)){
     on<getProfileScreenEvent>((event, emit) async {
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
+      emit(ProfileState(getUserSuccess: false));
       user = await getUser();
       if(user != null){
         var userRepo = GetIt.instance.get<UserRepo>();

@@ -58,7 +58,6 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
         builder: (context, state) {
         return BlocListener<EditProfileBloc,EditProfileInfoState>(
         bloc: bloc,
-        listenWhen: (previous, current) => previous.updateSuccess != current.updateSuccess,
         listener: (context,state){
           if(state.updateSuccess == EditProfileStatus.success){
             SmartDialog.showToast("Update success!");
@@ -66,6 +65,9 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
           }
           if(state.updateSuccess == EditProfileStatus.failure){
             SmartDialog.showToast("Update failed!");
+          }
+          if(state.getImageSuccess == EditProfileStatus.success){
+            profileBloc.add(getProfileScreenEvent());
           }
         },
         child: BlocBuilder<EditProfileBloc,EditProfileInfoState>(

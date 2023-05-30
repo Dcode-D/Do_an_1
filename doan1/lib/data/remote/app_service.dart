@@ -32,5 +32,5 @@ abstract class AppService {
 
   @POST("/avatar/")
   @MultiPart()
-  Future<dynamic> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
+  Future<HttpResponse> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
 }
