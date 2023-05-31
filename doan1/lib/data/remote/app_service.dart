@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:doan1/data/model/remote/avatar_file_response.dart';
+import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:doan1/data/model/remote/login_response.dart';
 import '../model/remote/base_response.dart';
 import 'package:retrofit/retrofit.dart';
@@ -35,5 +36,5 @@ abstract class AppService {
   Future<HttpResponse> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
 
   @GET("/car/")
-  Future<HttpResponse<BaseResponse>> getListCar();
+  Future<HttpResponse<ListModelResponse>> getListCar();
 }

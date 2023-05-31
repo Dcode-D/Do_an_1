@@ -2,21 +2,23 @@
 import 'dart:io';
 
 import 'package:doan1/data/model/remote/base_response.dart';
+import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'vehicle.g.dart';
 
 @JsonSerializable()
 class Vehicle{
-  final String id;
-  final String licensePlate;
-  final String brand;
-  final int seats;
-  final int pricePerDay;
-  final String color;
-  final String description;
-  final List<String> images;
-  final String owner;
+  final String? id;
+  final String? licensePlate;
+  final String? brand;
+  final int? seats;
+  final int? pricePerDay;
+  final String? color;
+  final String? description;
+  final List<String>? images;
+  final String? owner;
+
 
   Vehicle(
     this.id,
@@ -36,18 +38,15 @@ class Vehicle{
   Map<String, dynamic> toJson() => _$VehicleToJson(this);
 }
 
-extension VehicleExtension on BaseResponse{
+extension VehicleExtension on ListModelResponse{
   List<Vehicle>? toListVehicle(){
-    if(this.data == null)
-      return null;
-    var list = this.data!['data'];
-    if(list == null)
+    if(this.data.length == 0)
       return null;
     List<Vehicle> rs = [];
-    for(var item in list){
+    for(Map<String, dynamic> item in this.data){
       rs.add(Vehicle.fromJson(item));
     }
-    print(rs);
+    print("List vehicle: $rs");
     return rs;
   }
 }

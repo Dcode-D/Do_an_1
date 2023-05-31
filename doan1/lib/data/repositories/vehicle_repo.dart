@@ -20,7 +20,6 @@ class VehicleRepo{
     return _appService
         .getListCar()
         .then((http) async {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return null;
       }
