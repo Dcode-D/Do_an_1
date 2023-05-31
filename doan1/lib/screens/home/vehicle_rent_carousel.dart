@@ -1,17 +1,20 @@
+import 'package:doan1/BLOC/widget_item/car_item/car_item_bloc.dart';
 import 'package:doan1/screens/all/all_vehicle_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../models/vehicle_model.dart';
+import '../../BLOC/screen/home/home_bloc.dart';
+import '../../data/model/vehicle.dart';
 import '../../widgets/vehicle_item.dart';
 
 class VehicleRentCarousel extends StatelessWidget{
-  VehicleRentCarousel({Key? key}) : super(key: key);
   final PageController listController = PageController();
 
   @override
   Widget build(BuildContext context) {
+    var homeBloc = context.read<HomeBloc>();
     return Column(
       children: <Widget>[
         Padding(
@@ -51,17 +54,20 @@ class VehicleRentCarousel extends StatelessWidget{
             physics: const BouncingScrollPhysics(),
             controller: listController,
             scrollDirection: Axis.horizontal,
-            itemCount: vehicles.length,
+            itemCount: homeBloc.listVehicle!.length,
             itemBuilder: (BuildContext context, int index) {
-              Vehicle vehicle = vehicles[index];
-              Image vehicleImg = Image.asset(vehicle.imageUrls[0]);
-              return VehicleItem(vehicle: vehicle, vehicleImg: vehicleImg, type: 1);
+              Vehicle vehicle = homeBloc.listVehicle![index];
+              var carItemBloc = context.read<CarItemBloc>();
+              carItemBloc.add(GetCarItemEvent(vehicle: vehicle));
+              return BlocProvider(
+                create: (_) => CarItemBloc(),
+                  child: VehicleItem(type: 1));
             },
           ),
         ),
         SmoothPageIndicator(
           controller: listController,
-          count: (vehicles.length/2).round(),
+          count: (homeBloc.listVehicle!.length/2).round(),
           effect: const ExpandingDotsEffect(
             activeDotColor: Colors.orange,
             dotColor: Color(0xFFababab),

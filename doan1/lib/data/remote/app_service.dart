@@ -35,6 +35,9 @@ abstract class AppService {
   @MultiPart()
   Future<HttpResponse> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
 
+  @GET("/car/page")
+  Future<HttpResponse<int>> getCarMaxPage();
+
   @GET("/car/")
-  Future<HttpResponse<ListModelResponse>> getListCar();
+  Future<HttpResponse<ListModelResponse>> getListCarFromPage(@Query("page") int page);
 }

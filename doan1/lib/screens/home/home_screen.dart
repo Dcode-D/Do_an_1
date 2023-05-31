@@ -1,6 +1,7 @@
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/home/home_bloc.dart';
+import 'package:doan1/BLOC/widget_item/car_item/car_item_bloc.dart';
 import 'package:doan1/screens/all/all_hotel_screen.dart';
 import 'package:doan1/screens/all/all_tour_screen.dart';
 import 'package:doan1/screens/all/all_vehicle_screen.dart';
@@ -24,6 +25,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var scrollController = ScrollController();
     ProfileBloc profileBloc = context.read<ProfileBloc>();
     HomeBloc homeBloc = context.read<HomeBloc>();
     homeBloc.add(GetVehicleForScreenEvent());
@@ -33,6 +35,7 @@ class HomeScreen extends StatelessWidget {
           builder: (context,state) =>
           Scaffold(
             body: SingleChildScrollView(
+              controller: scrollController,
               child: Column(
                 children: [
                   Container(
@@ -259,7 +262,11 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10,),
                   HotelCarousel(),
                   const SizedBox(height: 10,),
-                  VehicleRentCarousel(),
+                  BlocProvider<HomeBloc>.value(
+                    value: homeBloc,
+                      child: BlocProvider(
+                        create: (_) => CarItemBloc(),
+                          child: VehicleRentCarousel())),
                   const SizedBox(height: 80),
                 ],
               ),

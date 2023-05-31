@@ -10,12 +10,13 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent,HomeState>{
   List<Vehicle>? listVehicle;
+  int page = 1;
 
   HomeBloc() : super(HomeState(getVehicleSuccess: false)){
 
     on<GetVehicleForScreenEvent>((event, emit) async {
       emit(HomeState(getVehicleSuccess: false));
-      listVehicle = await getVehicle();
+      listVehicle = await getVehicle(page);
       if(listVehicle != null){
         emit(HomeState(getVehicleSuccess: true));
       }
@@ -24,10 +25,10 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
       }
     });
   }
-  Future<List<Vehicle>?> getVehicle() async {
+  Future<List<Vehicle>?> getVehicle(int page) async {
     var vehicleRepo = GetIt.instance.get<VehicleRepo>();
     try {
-      listVehicle = await vehicleRepo.getVehicle();
+      listVehicle = await vehicleRepo.getVehicle(page);
       return listVehicle;
     }
     catch(e){

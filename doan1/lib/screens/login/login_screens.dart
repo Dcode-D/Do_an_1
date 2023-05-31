@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 flex: 13,
                 child: Container(
                   width: double.infinity,
-                  height: 438,
+                  height: 450,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.85),
                     borderRadius: const BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),

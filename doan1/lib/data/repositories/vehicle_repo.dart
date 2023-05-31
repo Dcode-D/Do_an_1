@@ -16,9 +16,9 @@ class VehicleRepo{
   VehicleRepo(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
-  Future<List<Vehicle>?> getVehicle() async {
+  Future<List<Vehicle>?> getVehicle(int page) async {
     return _appService
-        .getListCar()
+        .getListCarFromPage(page)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;

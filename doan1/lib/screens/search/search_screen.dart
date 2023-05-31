@@ -161,16 +161,16 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
               return HotelItem(hotel: hotel, hotelImg: hotelImg, type: 2);
             },
           ),
-          ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-            itemCount: vehicles.length,
-            itemBuilder: (BuildContext context, int index) {
-              Vehicle vehicle = vehicles[index];
-              Image vehicleImg = Image.asset(vehicle.imageUrls[0]);
-              return VehicleItem(vehicle: vehicle, vehicleImg: vehicleImg, type: 2);
-            },
-          ),
+          // ListView.builder(
+          //   physics: const BouncingScrollPhysics(),
+          //   padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+          //   itemCount: vehicles.length,
+          //   itemBuilder: (BuildContext context, int index) {
+          //     Vehicle vehicle = vehicles[index];
+          //     Image vehicleImg = Image.asset(vehicle.imageUrls[0]);
+          //     return VehicleItem(vehicle: vehicle, vehicleImg: vehicleImg, type: 2);
+          //   },
+          // ),
         ],
       )
       ),
