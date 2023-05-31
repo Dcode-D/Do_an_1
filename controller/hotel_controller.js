@@ -16,6 +16,39 @@ const fileUploadMiddleware = fileUpload({
 
 const fileExtLimiterMiddleware = fileExtLimiter(['.jpg', '.png', '.jpeg', '.gif']);
 
+const getMaxPage = async (req,res)=>{
+    try {
+        const {maxPrice,minPrice} = req.query;
+        let maxprice, minprice;
+        let minlist = [], maxlist = [];
+        if (maxPrice) {
+            maxprice = parseInt(maxPrice);
+            delete req.query.maxPrice;
+        }
+        if(minPrice){
+            minprice = parseInt(minPrice);
+            delete req.query.minPrice;
+        }
+        const query = hotelModel.countDocuments(req.query);
+        if(minprice) {
+            minlist = await hotelRoomModel.find({price: {$gte: minprice}}).select('hotel');
+        }
+        if(maxprice) {
+            maxlist = await hotelRoomModel.find({price: {$lte: maxprice}}).select('hotel');
+        }
+        const selectlist = [...minlist, ...maxlist];
+        if(minprice||maxprice){
+            const hotelList = selectlist.map(hotel=>hotel.hotel);
+            query.where('_id').in(hotelList);
+        }
+        const maxPage = await query.exec();
+        res.status(200).json({data:Math.ceil(maxPage/10)});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({status: "error", message: error});
+    }
+}
+
 
 const hotelController = async (req,res)=>{
     try {
@@ -149,6 +182,7 @@ const getHotel = async (req,res)=>{
     }
 }
 
+
 const getHotelByQueries = async (req,res)=>{
     const PAGE_SIZE = 10;
     const queries = req.query;
@@ -158,8 +192,8 @@ const getHotelByQueries = async (req,res)=>{
     const name = queries.name;
     const owner = queries.owner;
     const address = queries.address;
-    const maxprice = queries.maxprice;
-    const minprice = queries.minprice;
+    const maxprice = queries.maxPrice;
+    const minprice = queries.minPrice;
     try{
         let minlist = [];
         let maxlist = [];
@@ -291,4 +325,4 @@ const updateHotelImage = async (req, res) => {
     }
 }
 
-module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, uploadHotelImage, deleteHotel, deleteHotelImage, updateHotelImage};
+module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, uploadHotelImage, deleteHotel, deleteHotelImage, updateHotelImage, getMaxPage};

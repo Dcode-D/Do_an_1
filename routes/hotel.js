@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel, getHotelByQueries,updateHotelInfo,uploadHotelImage,deleteHotel,deleteHotelImage,updateHotelImage} = require('../controller/hotel_controller');
+const {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel, getHotelByQueries,updateHotelInfo,uploadHotelImage,deleteHotel,deleteHotelImage,updateHotelImage,getMaxPage} = require('../controller/hotel_controller');
 const {uploadHotelRoom,getHotelRoom,deleteHotelRoom,updateHotelRoom} = require('../controller/hotelRoomController');
 const authen = require('../middleware/utils_auth');
 const {
@@ -11,6 +11,7 @@ const {
 } = require("../controller/confidentialFileController");
 
 router.get('/id/:id', getHotel);
+router.get('/page', getMaxPage);
 router.get('/page/:page',getHotelByQueries)
 //pass in query: day -> get only available room for that day
 router.get('/:hotel/room',getHotelRoom)

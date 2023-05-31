@@ -61,5 +61,20 @@ const getRatings = async (req, res) => {
     }
 }
 
+const getMaxPage = async (req, res) => {
+    try {
+        const dbquery = ratingModel.find({});
+        const queries = req.query;
+        if(queries.service) dbquery.where({service: queries.service});
+        if(queries.user) dbquery.where({user: queries.user});
+        if(queries.rating) dbquery.where({rating: queries.rating});
+        const ratings = await dbquery.exec();
+        return res.status(200).json({status: "success", data: Math.ceil(ratings.length/10)});
+    } catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
 
-module.exports = {createRating, updateRating, deleteRating, getRatings}
+
+module.exports = {createRating, updateRating, deleteRating, getRatings, getMaxPage}

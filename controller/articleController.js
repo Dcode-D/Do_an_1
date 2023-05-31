@@ -51,6 +51,23 @@ const createArticle = async (req, res) => {
     }
 }
 
+const getMaxPage = async (req, res) => {
+    try {
+        const {id, city, province, referenceName, publishBy} = req.query;
+        const query = Article.countDocuments();
+        if (id) query.where('_id').equals(id);
+        if (city) query.where('city').equals(city);
+        if (province) query.where('province').equals(province);
+        if (referenceName) query.where('referenceName').equals(referenceName);
+        if (publishBy) query.where('publishBy').equals(publishBy);
+        const articles = await query.exec();
+        return res.status(200).json({status: "success", data: Math.ceil(articles / 10)});
+    }catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
 const getArticle = async (req, res) => {
     try {
         const {page} = req.params;
@@ -225,4 +242,4 @@ const updateArticle = async (req, res) => {
     }
 }
 
-module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, uploadArticle, updateArticleInfo, updateArticle, getArticleContent };
+module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, uploadArticle, updateArticleInfo, updateArticle, getArticleContent, getMaxPage };

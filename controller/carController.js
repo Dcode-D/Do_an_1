@@ -6,6 +6,27 @@ const fileExtLimiter = require("../middleware/file_ext_limiter");
 
 
 const carFilesExtOptions = fileExtLimiter(['.jpg', '.png', '.jpeg', '.gif']);
+const getMaxPage = async (req, res) => {
+    try {
+        let maxprice, minprice;
+        if(req.query.maxPrice){
+            maxprice = req.query.maxPrice;
+            delete req.query.maxPrice;
+        }
+        if(req.query.minPrice){
+            minprice = req.query.minPrice;
+            delete req.query.minPrice;
+        }
+        const query = Car.countDocuments(req.query);
+        if(maxprice) query.where('price').lte(maxprice);
+        if(minprice) query.where('price').gte(minprice);
+        const maxPage = await query.exec();
+        res.status(200).json({data: Math.ceil(maxPage/10) });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: "error", message: error });
+    }
+}
 //require login
 const createCar = async (req, res) => {
     try {
@@ -249,4 +270,4 @@ const deleteCarImage = async (req,res)=>{
 }
 
 
-module.exports = {createCar, getCar, getCarById, updateCar, deleteCar, uploadCarImage, deleteCarImage, carFilesExtOptions, updateCarImage};
+module.exports = {createCar, getCar, getCarById, updateCar, deleteCar, uploadCarImage, deleteCarImage, carFilesExtOptions, updateCarImage, getMaxPage};
