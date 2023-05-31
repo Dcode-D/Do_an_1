@@ -28,7 +28,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
   Future<List<Vehicle>?> getVehicle(int page) async {
     var vehicleRepo = GetIt.instance.get<VehicleRepo>();
     try {
-      listVehicle = await vehicleRepo.getVehicle(page);
+      listVehicle = await vehicleRepo.getListVehicle(page);
       return listVehicle;
     }
     catch(e){

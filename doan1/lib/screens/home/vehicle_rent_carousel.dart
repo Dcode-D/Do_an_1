@@ -15,6 +15,12 @@ class VehicleRentCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var homeBloc = context.read<HomeBloc>();
+    void _ListListener(){
+      if(listController.page == homeBloc.listVehicle!.length-1)  {
+        //TODO: add more data event
+      }
+    }
+    listController.addListener(_ListListener);
     return Column(
       children: <Widget>[
         Padding(
@@ -62,11 +68,28 @@ class VehicleRentCarousel extends StatelessWidget {
                 itemCount: homeBloc.listVehicle!.length ,
                 itemBuilder:(BuildContext context, int index) {
                   Vehicle vehicle = homeBloc.listVehicle![index];
-                  var carItemBloc = context.read<CarItemBloc>();
-                  carItemBloc.add(GetCarItemEvent(vehicle: vehicle));
-                  return BlocProvider<CarItemBloc>.value(
-                      value: carItemBloc,
-                      child: VehicleItem(type: 1));
+                  if (index < homeBloc.listVehicle!.length) {
+                    return BlocProvider<HomeBloc>.value(
+                      value: homeBloc,
+                      child: BlocProvider<CarItemBloc>(
+                          create: (_) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),
+                          child: VehicleItem(type: 1)),
+                    );
+                  }
+                  else
+                  {
+                    return Center(
+                      child: Text(
+                          'Loading more...',
+                          style: GoogleFonts.raleway(
+                            fontSize: 20,
+                            color: Colors.grey,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.0,
+                          )),
+                    );
+                  }
                 },
               )
               : const CircularProgressIndicator()

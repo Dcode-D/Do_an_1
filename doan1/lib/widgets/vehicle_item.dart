@@ -16,8 +16,6 @@ class VehicleItem extends StatelessWidget{
       required this.type
     }) : super(key: key);
 
-    final formatCurrency = NumberFormat("#,###");
-
   @override
   Widget build(BuildContext context){
     var carItemBloc = context.read<CarItemBloc>();
@@ -26,16 +24,17 @@ class VehicleItem extends StatelessWidget{
       => SizedBox(
         height: type == 1 ? 280 : 300,
         child: GestureDetector(
-          onTap: () {},
-          // => Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (_) => VehicleRentDetailScreen(
-          //       vehicle: vehicle,
-          //       vehicleImg: vehicleImg,
-          //       type: type,
-          //     ),
-          //   ),
-          // ),
+          onTap: ()
+          => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => BlocProvider<CarItemBloc>.value(
+                value: carItemBloc,
+                child: VehicleRentDetailScreen(
+                  type: type,
+                ),
+              ),
+            ),
+          ),
           child: Container(
             margin: const EdgeInsets.all(10.0),
             width: type == 1 ? 240.0 : 260.0,
@@ -97,15 +96,17 @@ class VehicleItem extends StatelessWidget{
                       ),
                     ],
                   ),
-                  child: ClipRRect(
+                  child:
+                  carItemBloc.vehicle!=null ?
+                  ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image(
                       height: type == 1 ? 180.0 : 185.0,
                       width: type == 1 ? 220.0 : 260.0,
-                      image: NetworkImage(carItemBloc.vehicle!=null? carItemBloc.listImage![0]: ""),
+                      image: NetworkImage(carItemBloc.vehicle!=null ? carItemBloc.listImage![0]: ""),
                       fit: BoxFit.cover,
                     ),
-                  ),
+                  ): const Center(child: CircularProgressIndicator()),
                 ),
               ],
             ),

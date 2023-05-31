@@ -8,12 +8,18 @@ import '../../models/hotel_model.dart';
 
 
 class HotelCarousel extends StatelessWidget {
-  HotelCarousel({Key? key}) : super(key: key);
 
   final PageController listController = PageController();
 
   @override
   Widget build(BuildContext context) {
+    // void _ListListener(){
+    //   if(listController.page == homeBloc.listVehicle!.length-1)  {
+    //     //TODO: add more data event
+    //   }
+    // }
+    // listController.addListener(_ListListener);
+
     return Column(
       children: <Widget>[
         Padding(

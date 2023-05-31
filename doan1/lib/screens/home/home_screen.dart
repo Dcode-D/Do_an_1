@@ -264,9 +264,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10,),
                   BlocProvider<HomeBloc>.value(
                     value: homeBloc,
-                      child: BlocProvider(
-                        create: (_) => CarItemBloc(),
-                          child: VehicleRentCarousel())),
+                      child: VehicleRentCarousel()),
                   const SizedBox(height: 80),
                 ],
               ),
@@ -275,4 +273,5 @@ class HomeScreen extends StatelessWidget {
         )
       );
   }
+
 }

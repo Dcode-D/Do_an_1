@@ -25,8 +25,6 @@ class VehicleItemForAll extends StatelessWidget{
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => VehicleRentDetailScreen(
-              vehicle: vehicle,
-              vehicleImg: vehicleImg,
               type: 1,
             ),
           ),
