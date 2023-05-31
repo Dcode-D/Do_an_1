@@ -4,6 +4,6 @@ part of 'car_item_bloc.dart';
 abstract class CarItemEvent{}
 
 class GetCarItemEvent extends CarItemEvent{
-  Vehicle vehicle;
+  Vehicle? vehicle;
   GetCarItemEvent({required this.vehicle});
 }

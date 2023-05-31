@@ -58,7 +58,7 @@ class VehicleItem extends StatelessWidget{
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Text(
-                            carItemBloc.vehicle!.brand ?? 'Unknown',
+                            carItemBloc.vehicle!=null? carItemBloc.vehicle!.brand as String :"loading...",
                             style: TextStyle(
                               fontSize: type == 1 ? 18.0 : 20.0,
                               fontWeight: FontWeight.w600,
@@ -67,14 +67,14 @@ class VehicleItem extends StatelessWidget{
                           ),
                           const SizedBox(height: 2.0),
                           Text(
-                            carItemBloc.vehicle!.licensePlate ?? 'Unknown',
+                            carItemBloc.vehicle!=null? carItemBloc.vehicle!.licensePlate as String :"loading...",
                             style: const TextStyle(
                               color: Colors.grey,
                             ),
                           ),
                           const SizedBox(height: 2.0),
                           Text(
-                            '${formatCurrency.format(carItemBloc.vehicle!.pricePerDay??"Unkow")}\$ / day',
+                            carItemBloc.vehicle!=null? carItemBloc.vehicle!.pricePerDay.toString() :"loading...",
                             style: TextStyle(
                               fontSize: type == 1 ? 18.0 : 20.0,
                               fontWeight: FontWeight.w600,
@@ -102,7 +102,7 @@ class VehicleItem extends StatelessWidget{
                     child: Image(
                       height: type == 1 ? 180.0 : 185.0,
                       width: type == 1 ? 220.0 : 260.0,
-                      image: NetworkImage(carItemBloc.vehicle!.images![0]),
+                      image: NetworkImage(carItemBloc.vehicle!=null? carItemBloc.listImage![0]: ""),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -114,6 +114,4 @@ class VehicleItem extends StatelessWidget{
       ),
     );
   }
-
-
 }

@@ -13,15 +13,19 @@ class CarItemBloc extends Bloc<CarItemEvent,CarItemState>{
   Vehicle? vehicle;
   List<String>? listImage;
   CarItemBloc() : super(CarItemState(getCarItemSuccess: false)){
-
+    listImage = [];
     on<GetCarItemEvent>((event, emit) async {
+      if(event.vehicle == null|| event.vehicle!.images == null){
+        emit(CarItemState(getCarItemSuccess: false));
+        return;
+      }
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
       emit(CarItemState(getCarItemSuccess: false));
       vehicle = event.vehicle;
       for (var item in vehicle!.images!){
         listImage!.add('$baseUrl/files/${item}');
       }
-      if(vehicle != null && listImage != null){
+      if(vehicle != null){
         emit(CarItemState(getCarItemSuccess: true));
       }
       else{

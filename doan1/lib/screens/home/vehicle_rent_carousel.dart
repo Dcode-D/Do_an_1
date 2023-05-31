@@ -9,7 +9,7 @@ import '../../BLOC/screen/home/home_bloc.dart';
 import '../../data/model/vehicle.dart';
 import '../../widgets/vehicle_item.dart';
 
-class VehicleRentCarousel extends StatelessWidget{
+class VehicleRentCarousel extends StatelessWidget {
   final PageController listController = PageController();
 
   @override
@@ -32,52 +32,67 @@ class VehicleRentCarousel extends StatelessWidget{
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllVehicleScreen()));
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => AllVehicleScreen()));
                 },
                 child: Text(
-                  'See All',
-                  style: GoogleFonts.raleway(
-                    fontSize: 20,
-                    color: Colors.orange,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.0,
-                  )
+                    'See All',
+                    style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.0,
+                    )
                 ),
               ),
 
             ],
           ),
         ),
-        SizedBox(
-          height: 300.0,
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            controller: listController,
-            scrollDirection: Axis.horizontal,
-            itemCount: homeBloc.listVehicle!.length,
-            itemBuilder: (BuildContext context, int index) {
-              Vehicle vehicle = homeBloc.listVehicle![index];
-              var carItemBloc = context.read<CarItemBloc>();
-              carItemBloc.add(GetCarItemEvent(vehicle: vehicle));
-              return BlocProvider(
-                create: (_) => CarItemBloc(),
-                  child: VehicleItem(type: 1));
-            },
-          ),
+        BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            return SizedBox(
+              height: 300.0,
+              child:
+              state.getVehicleSuccess == true?
+              ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                controller: listController,
+                scrollDirection: Axis.horizontal,
+                itemCount: homeBloc.listVehicle!.length ,
+                itemBuilder:(BuildContext context, int index) {
+                  Vehicle vehicle = homeBloc.listVehicle![index];
+                  var carItemBloc = context.read<CarItemBloc>();
+                  carItemBloc.add(GetCarItemEvent(vehicle: vehicle));
+                  return BlocProvider<CarItemBloc>.value(
+                      value: carItemBloc,
+                      child: VehicleItem(type: 1));
+                },
+              )
+              : const CircularProgressIndicator()
+              ,
+            );
+          },
         ),
-        SmoothPageIndicator(
-          controller: listController,
-          count: (homeBloc.listVehicle!.length/2).round(),
-          effect: const ExpandingDotsEffect(
-            activeDotColor: Colors.orange,
-            dotColor: Color(0xFFababab),
-            dotHeight: 4.8,
-            dotWidth: 6,
-            spacing: 4.8,
-          ),
+        BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if(state.getVehicleSuccess == false)
+              return const CircularProgressIndicator();
+            else
+              return SmoothPageIndicator(
+                controller: listController,
+                count: (homeBloc.listVehicle!.length / 2).round(),
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: Colors.orange,
+                  dotColor: Color(0xFFababab),
+                  dotHeight: 4.8,
+                  dotWidth: 6,
+                  spacing: 4.8,
+                ),
+              );
+          },
         ),
       ],
     );
   }
-
 }

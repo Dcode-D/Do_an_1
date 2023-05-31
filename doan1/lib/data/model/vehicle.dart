@@ -21,6 +21,7 @@ class Vehicle{
 
 
   Vehicle(
+    @JsonKey(name: '_id')
     this.id,
     this.licensePlate,
     this.brand,
