@@ -33,4 +33,7 @@ abstract class AppService {
   @POST("/avatar/")
   @MultiPart()
   Future<HttpResponse> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
+
+  @GET("/car/")
+  Future<HttpResponse<BaseResponse>> getListCar();
 }

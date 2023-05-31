@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../data/model/vehicle.dart';
 import '../../models/destination_model.dart';
 import '../../models/notification_model.dart';
 import 'destination_carousel.dart';
@@ -24,6 +25,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProfileBloc profileBloc = context.read<ProfileBloc>();
+    HomeBloc homeBloc = context.read<HomeBloc>();
+    homeBloc.add(GetVehicleForScreenEvent());
     return
       BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state)=>
           BlocBuilder<HomeBloc,HomeState>(

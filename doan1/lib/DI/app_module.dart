@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data/remote/dio.dart';
 import '../data/remote/request_factory.dart';
 import '../data/repositories/authenticator.dart';
+import '../data/repositories/vehicle_repo.dart';
 
 @module
 abstract class RegisterModule {
@@ -48,4 +49,10 @@ abstract class RegisterModule {
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
       UserRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+
+  @singleton
+  VehicleRepo vehicleRepo(Logger logger,
+      SharedPreferences sharedPreferences,
+      AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
+      VehicleRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
 }

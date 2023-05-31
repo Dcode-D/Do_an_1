@@ -4,3 +4,5 @@ part of 'home_bloc.dart';
 abstract class HomeEvent {}
 
 class GetUserForScreenEvent extends HomeEvent {}
+
+class GetVehicleForScreenEvent extends HomeEvent {}
