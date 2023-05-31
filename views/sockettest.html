@@ -13,12 +13,12 @@
 <!-- Imports Socket.IO client library from CDN. The version of the
     client lib must match the version of the NPM package used in the
     Node.js backend -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
 <script>
     // Initiates the Socket.IO connection to the Node.js backend
     const socket = io.connect('', {
         extraHeaders: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDAxIiwibmFtZSI6ImFkbWluIiwiaWF0IjoxNTE2MDQ0NDQ0fQ.aWj5grFWJwcsbgxNJ7HdfL5PUfD8fMh9GwXutuR86GE",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmd0cmkiLCJpZCI6IjY0MWFkMzgyZTI3ODA5Y2M4OTFmMGViOCIsImRldmljZSI6ImxhcHRvcCIsImlhdCI6MTY4NTUwMDIwNSwiZXhwIjoxNjg1NTg2NjA1fQ.w0rfT41SpOUDxBQuRoumTdZO0nw8pDXf5KKN2IJnK4A",
         },
     });
 
@@ -30,6 +30,9 @@
     })
     socket.on('diconnect', () => {
         log('Disconnected from server');
+    });
+    socket.on('error', (error) => {
+        log(error);
     });
 
     function log(message) {
