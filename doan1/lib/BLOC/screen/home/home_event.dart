@@ -5,4 +5,4 @@ abstract class HomeEvent {}
 
 class GetUserForScreenEvent extends HomeEvent {}
 
-class GetVehicleForScreenEvent extends HomeEvent {}
+class GetDataForScreenEvent extends HomeEvent {}

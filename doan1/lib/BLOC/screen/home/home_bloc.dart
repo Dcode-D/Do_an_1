@@ -3,25 +3,29 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
+import '../../../data/model/hotel.dart';
 import '../../../data/model/vehicle.dart';
+import '../../../data/repositories/hotel_repo.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent,HomeState>{
   List<Vehicle>? listVehicle;
+  List<Hotel>? listHotel;
   int page = 1;
 
-  HomeBloc() : super(HomeState(getVehicleSuccess: false)){
+  HomeBloc() : super(HomeState(getDataSuccess: false)){
 
-    on<GetVehicleForScreenEvent>((event, emit) async {
-      emit(HomeState(getVehicleSuccess: false));
+    on<GetDataForScreenEvent>((event, emit) async {
+      emit(HomeState(getDataSuccess: false));
       listVehicle = await getVehicle(page);
-      if(listVehicle != null){
-        emit(HomeState(getVehicleSuccess: true));
+      listHotel = await getHotel(page);
+      if(listVehicle != null && listHotel != null){
+        emit(HomeState(getDataSuccess: true));
       }
       else{
-        emit(HomeState(getVehicleSuccess: false));
+        emit(HomeState(getDataSuccess: false));
       }
     });
   }
@@ -30,6 +34,18 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
     try {
       listVehicle = await vehicleRepo.getListVehicle(page);
       return listVehicle;
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<List<Hotel>?> getHotel(int page) async {
+    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    try {
+      var listHotel = await hotelRepo.getListHotel(page);
+      return listHotel;
     }
     catch(e){
       print(e);

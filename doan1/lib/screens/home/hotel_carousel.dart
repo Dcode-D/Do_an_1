@@ -1,10 +1,13 @@
+import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
+import 'package:doan1/data/model/hotel.dart';
 import 'package:doan1/screens/all/all_hotel_screen.dart';
 import 'package:doan1/widgets/hotel_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../models/hotel_model.dart';
+import '../../BLOC/screen/home/home_bloc.dart';
 
 
 class HotelCarousel extends StatelessWidget {
@@ -13,6 +16,7 @@ class HotelCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var homeBloc = context.read<HomeBloc>();
     // void _ListListener(){
     //   if(listController.page == homeBloc.listVehicle!.length-1)  {
     //     //TODO: add more data event
@@ -53,30 +57,45 @@ class HotelCarousel extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 300.0,
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            controller: listController,
-            scrollDirection: Axis.horizontal,
-            itemCount: hotels.length,
-            itemBuilder: (BuildContext context, int index) {
-              Hotel hotel = hotels[index];
-              Image hotelImg = Image.asset(hotel.imageUrl);
-              return HotelItem(hotel: hotel, hotelImg: hotelImg, type: 1);
-            },
+        BlocBuilder<HomeBloc, HomeState>(
+          builder:(context,state)=>
+              SizedBox(
+                height: 310.0,
+                child:
+                state.getDataSuccess == true?
+                ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                controller: listController,
+                scrollDirection: Axis.horizontal,
+                itemCount: homeBloc.listHotel!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Hotel hotel = homeBloc.listHotel![index];
+                  return BlocProvider<HomeBloc>.value(
+                    value: homeBloc,
+                    child: BlocProvider<HotelItemBloc>(
+                      create: (context)=>HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
+                        child: HotelItem( type: 1)),
+                  );
+                }
+                ):const Center(child: CircularProgressIndicator(),
+            ),
           ),
         ),
-        SmoothPageIndicator(
-          controller: listController,
-          count: (hotels.length/2).round(),
-          effect: const ExpandingDotsEffect(
-            activeDotColor: Colors.orange,
-            dotColor: Color(0xFFababab),
-            dotHeight: 4.8,
-            dotWidth: 6,
-            spacing: 4.8,
-          ),
+        BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) =>
+            state.getDataSuccess == true?
+            SmoothPageIndicator(
+            controller: listController,
+            count: (homeBloc.listHotel!.length/2).round()+1,
+            effect: const ExpandingDotsEffect(
+              activeDotColor: Colors.orange,
+              dotColor: Color(0xFFababab),
+              dotHeight: 4.8,
+              dotWidth: 6,
+              spacing: 4.8,
+            ),
+          ) :
+            const CircularProgressIndicator()
         ),
       ],
     );

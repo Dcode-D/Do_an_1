@@ -27,8 +27,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var scrollController = ScrollController();
     ProfileBloc profileBloc = context.read<ProfileBloc>();
-    HomeBloc homeBloc = context.read<HomeBloc>();
-    homeBloc.add(GetVehicleForScreenEvent());
+    HomeBloc homeBloc = context.read<HomeBloc>()..add(GetDataForScreenEvent());
     return
       BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state)=>
           BlocBuilder<HomeBloc,HomeState>(
@@ -260,7 +259,9 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10,),
                   TourCarousel(),
                   const SizedBox(height: 10,),
-                  HotelCarousel(),
+                  BlocProvider<HomeBloc>.value(
+                    value: homeBloc,
+                      child: HotelCarousel()),
                   const SizedBox(height: 10,),
                   BlocProvider<HomeBloc>.value(
                     value: homeBloc,

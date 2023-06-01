@@ -60,7 +60,7 @@ class VehicleRentCarousel extends StatelessWidget {
             return SizedBox(
               height: 300.0,
               child:
-              state.getVehicleSuccess == true?
+              state.getDataSuccess == true?
               ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 controller: listController,
@@ -76,8 +76,7 @@ class VehicleRentCarousel extends StatelessWidget {
                           child: VehicleItem(type: 1)),
                     );
                   }
-                  else
-                  {
+                  else {
                     return Center(
                       child: Text(
                           'Loading more...',
@@ -99,12 +98,12 @@ class VehicleRentCarousel extends StatelessWidget {
         ),
         BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            if(state.getVehicleSuccess == false)
+            if(state.getDataSuccess == false) {
               return const CircularProgressIndicator();
-            else
+            } else {
               return SmoothPageIndicator(
                 controller: listController,
-                count: (homeBloc.listVehicle!.length / 2).round(),
+                count: (homeBloc.listVehicle!.length/2).round()+1,
                 effect: const ExpandingDotsEffect(
                   activeDotColor: Colors.orange,
                   dotColor: Color(0xFFababab),
@@ -113,6 +112,7 @@ class VehicleRentCarousel extends StatelessWidget {
                   spacing: 4.8,
                 ),
               );
+            }
           },
         ),
       ],

@@ -26,8 +26,6 @@ class HotelItemForAll extends StatelessWidget{
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => HotelDetailScreen(
-              hotel: hotel,
-              hotelImg: hotelImg,
               type: 1,
             ),
           ),

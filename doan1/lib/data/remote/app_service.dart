@@ -43,4 +43,7 @@ abstract class AppService {
 
   @GET("/car/{id}")
   Future<HttpResponse<BaseResponse>> getCarById(@Path('id') String id);
+
+  @GET("/hotel/page/{page}")
+  Future<HttpResponse<ListModelResponse>> getListHotelFromPage(@Query('page') int page);
 }
