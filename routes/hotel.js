@@ -1,14 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel, getHotelByQueries,updateHotelInfo,uploadHotelImage,deleteHotel,deleteHotelImage,updateHotelImage,getMaxPage} = require('../controller/hotel_controller');
+const {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel, getHotelByQueries,updateHotelInfo,uploadHotelImage,deleteHotel,deleteHotelImage,updateHotelImage,getMaxPage, deleteFacilities} = require('../controller/hotel_controller');
 const {uploadHotelRoom,getHotelRoom,deleteHotelRoom,updateHotelRoom} = require('../controller/hotelRoomController');
 const authen = require('../middleware/utils_auth');
-const {
-    confidentialFilesExtOptions,
-    uploadConfidentialFiles,
-    getConfidentialFilesById,
-    deleteConfidentialFiles
-} = require("../controller/confidentialFileController");
 
 router.get('/id/:id', getHotel);
 router.get('/page', getMaxPage);
@@ -24,6 +18,8 @@ router.put('/:hotel/room/:id',updateHotelRoom)
 router.delete('/:hotel/room/:id',deleteHotelRoom)
 router.delete('/:id', deleteHotel);
 router.delete('/delete_img/:id', deleteHotelImage);
+//provide the hotel id and the facility id
+router.delete('/facility/:hotel/:id', deleteFacilities);
 //require imageId in body
 router.put('/update_img/:id', [fileUploadMiddleware, fileExtLimiterMiddleware, updateHotelImage])
 
