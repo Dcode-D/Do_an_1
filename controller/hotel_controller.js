@@ -271,7 +271,12 @@ const getHotelByQueries = async (req,res)=>{
             query.where({_id: {$in: facilist}});
         }
         const hotels = await query.skip((intpage - 1) * PAGE_SIZE).limit(PAGE_SIZE).exec();
-        return res.status(200).json({status: "success", data: hotels});
+        const returnlist = [];
+        for(const hotel of hotels){
+            const facilities = await facilityModel.find({service: hotel._id, type: "hotel"});
+            returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: facilities});
+        }
+        return res.status(200).json({status: "success", data: returnlist});
 
     }catch (e) {
         console.log(e.message);
