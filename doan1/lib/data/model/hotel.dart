@@ -12,6 +12,7 @@ class Hotel {
   final String? owner;
   final String? description;
   final List<String>? images;
+  final List<String>? facilities;
   final String? province;
   final String? city;
   Hotel(
@@ -21,6 +22,7 @@ class Hotel {
     this.owner,
     this.description,
     this.images,
+    this.facilities,
     this.province,
     this.city
   );

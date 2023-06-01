@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../BLOC/profile/profile_view/profile_bloc.dart';
+import '../BLOC/screen/home/home_bloc.dart';
 import '../models/hotel_model.dart';
 
 class HotelItem extends StatelessWidget{
@@ -20,6 +22,7 @@ class HotelItem extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     var hotelItemBloc = context.read<HotelItemBloc>();
+    var profileBloc = context.read<ProfileBloc>();
     return BlocBuilder<HotelItemBloc,HotelItemState>(
       builder:(context,state) =>
       SizedBox(
@@ -29,8 +32,11 @@ class HotelItem extends StatelessWidget{
           =>
               Navigator.of(context).push(
               MaterialPageRoute(
-              builder: (_) => BlocProvider<HotelItemBloc>.value(
-                value: hotelItemBloc,
+              builder: (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(value: profileBloc),
+                  BlocProvider.value(value: hotelItemBloc),
+                ],
                 child: HotelDetailScreen(
                   type: type,
                 ),

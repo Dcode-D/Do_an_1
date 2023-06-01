@@ -1,4 +1,5 @@
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
+import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/checking_information_screen.dart';
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/date_setting_screen.dart';
 import 'package:doan1/screens/detail_screens/hotel/setting_booking/room_and_quantity_screen.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../BLOC/profile/profile_view/profile_bloc.dart';
 import 'hotel_booking_success.dart';
 
 
@@ -14,6 +16,9 @@ class HotelBookingInfoScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    var profileBloc = context.read<ProfileBloc>();
+    var hotelItemBloc = context.read<HotelItemBloc>();
+    var hotelBookingBloc = context.read<HotelBookingBloc>();
     return Scaffold(
       body: BlocBuilder<HotelBookingBloc,HotelBookingState>(
         builder: (context,state) => SingleChildScrollView(
@@ -82,7 +87,12 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: InkWell(
                           onTap:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckInformationScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            BlocProvider<ProfileBloc>.value(
+                              value: profileBloc,
+                              child: const CheckInformationScreen())
+                              )
+                            );
                           },
                           child: Row(
                             children: [
@@ -144,7 +154,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                                 const Icon(FontAwesomeIcons.bed, color: Colors.black, size: 20,),
                                 const SizedBox(width: 15,),
                                 Text(
-                                  'Hotel 1',
+                                  hotelItemBloc.hotel!.name!,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: GoogleFonts.raleway().fontFamily,
@@ -166,14 +176,16 @@ class HotelBookingInfoScreen extends StatelessWidget{
                               children: [
                                 const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
                                 const SizedBox(width: 15,),
-                                Text(
-                                  'Location',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: GoogleFonts.raleway().fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.2,
-                                    color: Colors.black,
+                                Flexible(
+                                  child: Text(
+                                    hotelItemBloc.hotel!.address!,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ],

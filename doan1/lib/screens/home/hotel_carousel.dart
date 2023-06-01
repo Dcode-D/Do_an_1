@@ -1,3 +1,4 @@
+import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 import 'package:doan1/data/model/hotel.dart';
 import 'package:doan1/screens/all/all_hotel_screen.dart';
@@ -17,6 +18,7 @@ class HotelCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var homeBloc = context.read<HomeBloc>();
+    var profileBloc = context.read<ProfileBloc>();
     // void _ListListener(){
     //   if(listController.page == homeBloc.listVehicle!.length-1)  {
     //     //TODO: add more data event
@@ -70,8 +72,11 @@ class HotelCarousel extends StatelessWidget {
                 itemCount: homeBloc.listHotel!.length,
                 itemBuilder: (BuildContext context, int index) {
                   Hotel hotel = homeBloc.listHotel![index];
-                  return BlocProvider<HomeBloc>.value(
-                    value: homeBloc,
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider<HomeBloc>.value(value: homeBloc),
+                      BlocProvider<ProfileBloc>.value(value: profileBloc),
+                    ],
                     child: BlocProvider<HotelItemBloc>(
                       create: (context)=>HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
                         child: HotelItem( type: 1)),

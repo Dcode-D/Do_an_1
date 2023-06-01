@@ -10,6 +10,7 @@ import '../data/remote/dio.dart';
 import '../data/remote/request_factory.dart';
 import '../data/repositories/authenticator.dart';
 import '../data/repositories/hotel_repo.dart';
+import '../data/repositories/hotelroom_repo.dart';
 import '../data/repositories/vehicle_repo.dart';
 
 @module
@@ -62,4 +63,10 @@ abstract class RegisterModule {
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
       HotelRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+
+  @singleton
+  HotelRoomRepo hotelRoomRepo(Logger logger,
+      SharedPreferences sharedPreferences,
+      AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
+      HotelRoomRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
 }

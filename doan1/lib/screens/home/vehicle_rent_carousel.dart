@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../BLOC/screen/home/home_bloc.dart';
 import '../../data/model/vehicle.dart';
 import '../../widgets/vehicle_item.dart';
@@ -15,6 +16,7 @@ class VehicleRentCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var homeBloc = context.read<HomeBloc>();
+    var profileBloc = context.read<ProfileBloc>();
     void _ListListener(){
       if(listController.page == homeBloc.listVehicle!.length-1)  {
         //TODO: add more data event
@@ -69,8 +71,15 @@ class VehicleRentCarousel extends StatelessWidget {
                 itemBuilder:(BuildContext context, int index) {
                   Vehicle vehicle = homeBloc.listVehicle![index];
                   if (index < homeBloc.listVehicle!.length) {
-                    return BlocProvider<HomeBloc>.value(
-                      value: homeBloc,
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider<ProfileBloc>.value(
+                          value: profileBloc,
+                        ),
+                        BlocProvider<HomeBloc>.value(
+                          value: homeBloc,
+                        ),
+                      ],
                       child: BlocProvider<CarItemBloc>(
                           create: (_) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),
                           child: VehicleItem(type: 1)),

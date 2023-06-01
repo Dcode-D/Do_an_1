@@ -259,12 +259,26 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10,),
                   TourCarousel(),
                   const SizedBox(height: 10,),
-                  BlocProvider<HomeBloc>.value(
-                    value: homeBloc,
+                  MultiBlocProvider(
+                    providers: [
+                      BlocProvider<HomeBloc>.value(
+                        value: homeBloc,
+                      ),
+                      BlocProvider<ProfileBloc>.value(
+                        value: profileBloc,
+                      ),
+                    ],
                       child: HotelCarousel()),
                   const SizedBox(height: 10,),
-                  BlocProvider<HomeBloc>.value(
-                    value: homeBloc,
+                  MultiBlocProvider(
+                    providers: [
+                      BlocProvider<HomeBloc>.value(
+                        value: homeBloc,
+                      ),
+                      BlocProvider<ProfileBloc>.value(
+                        value: profileBloc,
+                      ),
+                    ],
                       child: VehicleRentCarousel()),
                   const SizedBox(height: 80),
                 ],

@@ -1,3 +1,4 @@
+import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/screens/detail_screens/vehicle/vehicle_booking_success.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,11 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../BLOC/widget_item/car_item/car_item_bloc.dart';
 import '../hotel/setting_booking/checking_information_screen.dart';
 
 class VehicleRentBookInfoScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    var profileBloc = context.read<ProfileBloc>();
+    var carItemBloc = context.read<CarItemBloc>();
     return Scaffold(
       body:SingleChildScrollView(
           child: Column(
@@ -77,7 +81,10 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: InkWell(
                               onTap:(){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckInformationScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                BlocProvider<ProfileBloc>.value(
+                                    value: profileBloc,
+                                    child: const CheckInformationScreen())));
                               },
                               child: Row(
                                 children: [
@@ -136,10 +143,10 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(FontAwesomeIcons.bed, color: Colors.black, size: 20,),
+                                    const Icon(FontAwesomeIcons.car, color: Colors.black, size: 20,),
                                     const SizedBox(width: 15,),
                                     Text(
-                                      'Hotel 1',
+                                      carItemBloc.vehicle!.brand!,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontFamily: GoogleFonts.raleway().fontFamily,
@@ -159,10 +166,10 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                                 const SizedBox(height: 10,),
                                 Row(
                                   children: [
-                                    const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
+                                    const Icon(Icons.event_seat_rounded, size: 20, color: Colors.black,),
                                     const SizedBox(width: 15,),
                                     Text(
-                                      'Location',
+                                      carItemBloc.vehicle!.seats!.toString(),
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontFamily: GoogleFonts.raleway().fontFamily,

@@ -7,6 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+
 
 class VehicleRentDetailScreen extends StatefulWidget{
   final int type;
@@ -25,6 +27,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
   @override
   Widget build(BuildContext context) {
     var carItemBloc = context.read<CarItemBloc>();
+    var profileBloc = context.read<ProfileBloc>();
     return BlocBuilder<CarItemBloc,CarItemState>(
       builder: (context,state) =>
       Scaffold(
@@ -167,7 +170,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                   const SizedBox(height: 10.0),
                   Row(
                     children: [
-                      const Icon(FontAwesomeIcons.chair, size: 18.0, color: Colors.grey),
+                      const Icon(Icons.event_seat_rounded, size: 18.0, color: Colors.grey),
                       const SizedBox(width: 10.0),
                       Text(
                         carItemBloc.vehicle!.seats!.toString(),
@@ -188,7 +191,12 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                    VehicleRentBookInfoScreen()));
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(value: carItemBloc),
+                        BlocProvider.value(value: profileBloc),
+                      ],
+                        child: VehicleRentBookInfoScreen())));
               },
               child: Container(
                 margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
@@ -222,7 +230,12 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                    VehicleRentBookInfoScreen()));
+                    MultiBlocProvider(
+                        providers: [
+                          BlocProvider<CarItemBloc>.value(value: carItemBloc),
+                          BlocProvider<ProfileBloc>.value(value: profileBloc),
+                        ],
+                        child: VehicleRentBookInfoScreen())));
               },
               child: Container(
                 margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),

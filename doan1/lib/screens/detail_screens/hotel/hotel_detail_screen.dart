@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
+import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 import 'package:doan1/screens/detail_screens/hotel/hotel_book_info_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
   @override
   Widget build(BuildContext context) {
     var hotelItemBloc = context.read<HotelItemBloc>();
+    var proFileBloc = context.read<ProfileBloc>();
     return BlocBuilder<HotelItemBloc,HotelItemState>(
       builder: (context,state)=>
         Scaffold(
@@ -152,51 +154,56 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                     ),
                     const SizedBox(height: 10.0),
                     //TODO: add facilities list
-                    // Text(
-                    //   "Hotel facilities",
-                    //   style: GoogleFonts.raleway(
-                    //     fontSize: 20.0,
-                    //     fontWeight: FontWeight.w700,
-                    //   ),
-                    // ),
-                    // GridView.builder(
-                    //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    //         crossAxisCount: 4, crossAxisSpacing: 8.0, mainAxisSpacing: 0
-                    //     ),
-                    //     itemCount: widget.hotel.hotelFacilities.length,
-                    //     shrinkWrap: true,
-                    //     itemBuilder: (context, index) {
-                    //       return Container(
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(10.0),
-                    //           border: Border.all(width: 1,
-                    //               color: Colors.grey.withOpacity(0.5)),
-                    //           color: Colors.white,
-                    //           boxShadow: const [
-                    //             BoxShadow(
-                    //               color: Colors.black26,
-                    //               offset: Offset(0.0, 2.0),
-                    //               blurRadius: 5.0,
-                    //             ),
-                    //           ],
-                    //         ),
-                    //         child: Column(
-                    //           mainAxisAlignment: MainAxisAlignment.center,
-                    //           children: [
-                    //             _buildIconForFacilities(widget.hotel.hotelFacilities[index]),
-                    //             const SizedBox(height: 5.0),
-                    //             Text(
-                    //               widget.hotel.hotelFacilities[index],
-                    //               style: GoogleFonts.raleway(
-                    //                 fontSize: 16.0,
-                    //                 fontWeight: FontWeight.w500,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     }),
-                    // const SizedBox(height: 10,),
+                    hotelItemBloc.hotel!.facilities!.isEmpty ? Container() :
+                    Column(
+                      children: [
+                        Text(
+                          "Hotel facilities",
+                          style: GoogleFonts.raleway(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        GridView.builder(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4, crossAxisSpacing: 8.0, mainAxisSpacing: 0
+                            ),
+                            itemCount: hotelItemBloc.hotel!.facilities!.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(width: 1,
+                                      color: Colors.grey.withOpacity(0.5)),
+                                  color: Colors.white,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(0.0, 2.0),
+                                      blurRadius: 5.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _buildIconForFacilities(hotelItemBloc.hotel!.facilities![index]),
+                                    const SizedBox(height: 5.0),
+                                    Text(
+                                      hotelItemBloc.hotel!.facilities![index],
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      ],
+                    ),
+                    const SizedBox(height: 10,),
                     Text("Description",
                       style: GoogleFonts.raleway(
                         fontSize: 20.0,
@@ -223,8 +230,16 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                    BlocProvider(
-                        create: (_) => HotelBookingBloc(),
+                    MultiBlocProvider(
+                        providers: [
+                          BlocProvider<ProfileBloc>.value(
+                              value: proFileBloc),
+                          BlocProvider<HotelBookingBloc>(
+                              create: (context) => HotelBookingBloc()),
+                          BlocProvider<HotelItemBloc>.value(
+                            value: hotelItemBloc,
+                          )
+                        ],
                         child: HotelBookingInfoScreen())
                 ));
               },
