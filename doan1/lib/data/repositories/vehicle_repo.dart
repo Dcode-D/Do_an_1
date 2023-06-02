@@ -41,4 +41,17 @@ class VehicleRepo{
       }
     });
   }
+
+  Future<List<Vehicle>?> getListVehicleByBrand(String brand) async{
+    return _appService
+        .getListCarByBrand(brand)
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toListVehicle();
+      }
+    });
+  }
 }
