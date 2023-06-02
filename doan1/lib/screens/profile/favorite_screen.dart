@@ -111,7 +111,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
                   itemBuilder: (BuildContext context, int index){
                     Hotel hotel = hotels[index];
                     Image hotelImg = Image.asset(hotel.imageUrl);
-                    return HotelItemForAll(hotel: hotel, hotelImg: hotelImg);
+                    return HotelItemForAll();
                   }
               ),
             ),

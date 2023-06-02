@@ -74,7 +74,7 @@ class HotelItem extends StatelessWidget{
                           ),
                           const SizedBox(height: 2.0),
                           Text(
-                            hotelItemBloc.hotel!=null? hotelItemBloc.hotel!.address as String :"loading...",
+                            hotelItemBloc.hotel!=null? '${hotelItemBloc.hotel!.province!}, ${hotelItemBloc.hotel!.city}' :"loading...",
                             style: const TextStyle(
                               color: Colors.grey,
                             ),

@@ -12,6 +12,8 @@ class VehicleItem extends StatelessWidget{
   @override
     final int type;
 
+    final formatCurrency = NumberFormat("#,###");
+
     VehicleItem({
       Key? key,
       required this.type
@@ -78,7 +80,7 @@ class VehicleItem extends StatelessWidget{
                           ),
                           const SizedBox(height: 2.0),
                           Text(
-                            carItemBloc.vehicle!=null? carItemBloc.vehicle!.pricePerDay.toString() :"loading...",
+                            carItemBloc.vehicle!=null? '${formatCurrency.format(carItemBloc.vehicle!.pricePerDay)} \$ / day' :"loading...",
                             style: TextStyle(
                               fontSize: type == 1 ? 18.0 : 20.0,
                               fontWeight: FontWeight.w600,

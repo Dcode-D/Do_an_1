@@ -44,7 +44,13 @@ class HotelCarousel extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllHotelScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                  MultiBlocProvider(
+                      providers: [
+                        BlocProvider<HomeBloc>.value(value: homeBloc),
+                        BlocProvider<ProfileBloc>.value(value: profileBloc),
+                      ],
+                      child: AllHotelScreen())));
                 },
                 child: Text(
                   'See All',

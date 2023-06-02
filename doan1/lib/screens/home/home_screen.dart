@@ -107,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                       child: IconButton(onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationInfoScreen()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationInfoScreen()));
                                       },
                                           icon: const Icon(
                                             FontAwesomeIcons.solidBell,
@@ -129,9 +129,8 @@ class HomeScreen extends StatelessWidget {
                                               child: Center(
                                                 child: Text(
                                                     notifications.length.toString(),
-                                                    style: const TextStyle(
+                                                    style: GoogleFonts.raleway(
                                                       color: Colors.white,
-                                                      fontFamily: 'raleway',
                                                       fontSize: 12,
                                                       fontWeight: FontWeight.w700,
                                                     )
@@ -200,7 +199,17 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       child: IconButton(
                                         onPressed: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AllHotelScreen()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                              MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider<HomeBloc>.value(
+                                                    value: homeBloc,
+                                                  ),
+                                                  BlocProvider<ProfileBloc>.value(
+                                                    value: profileBloc,
+                                                  ),
+                                                ],
+                                                  child: AllHotelScreen())));
                                       },
                                         icon: const Icon(
                                           FontAwesomeIcons.building,
@@ -230,7 +239,17 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       child: IconButton(
                                         onPressed: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AllVehicleScreen()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                              MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider<HomeBloc>.value(
+                                                    value: homeBloc,
+                                                  ),
+                                                  BlocProvider<ProfileBloc>.value(
+                                                    value: profileBloc,
+                                                  ),
+                                                ],
+                                                  child: AllVehicleScreen())));
                                         },
                                         icon: const Icon(
                                           FontAwesomeIcons.car,
