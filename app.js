@@ -36,6 +36,7 @@ app.use('/article', require('./routes/article'));
 app.use('/avatar', require('./routes/avatars'));
 app.use('/user', require('./routes/user'));
 app.use('/favorite', require('./routes/favorite'));
+app.use('/tour', require('./routes/tour'));
 app.get('/upload_ui', (req, res) => {
     return  res.sendFile(path.join(__dirname, 'views', 'uploadView.html'));
 });

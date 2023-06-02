@@ -5,3 +5,9 @@ const {createTour, deleteTour, getTourList, getTour, updateTour} = require('../c
 
 router.get('/id/:id', getTour);
 router.get('/page/:page', getTourList);
+router.use(auth);
+router.post('/', createTour);
+router.put('/:id', updateTour);
+router.delete('/:id', deleteTour);
+
+module.exports = router;
