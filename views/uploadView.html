@@ -65,14 +65,17 @@
                 formData.append(myFiles.item(key).name, myFiles.item(key))
             })
 
-            formData.append("licensePlate", "12093ahsdu");
-            formData.append("brand","BMW");
+            formData.append("licensePlate", "8888");
+            formData.append("brand","Audi");
             formData.append("seats","10");
             formData.append("pricePerDay","1000000");
             formData.append("color","red");
+            formData.append("province","HCM");
+            formData.append("city","Quan 1");
+            formData.append("address","123 Nguyen Hue");
             formData.append("description","some shit");
 
-            fetch('http://localhost:3500/avatar', {
+            fetch('http://localhost:3500/car', {
                 method: 'POST',
                 body: formData,
                 headers:{

@@ -41,5 +41,17 @@ const carSchema = Schema({
         require: true,
         notnull: true,
     },
+    province: {
+        type: String,
+        require: true,
+    },
+    city: {
+        type: String,
+        require: true,
+    },
+    address: {
+        type: String,
+        require: true,
+    }
 });
 module.exports = mongoose.model('Car', carSchema);

@@ -61,7 +61,7 @@ const createCar = async (req, res) => {
 //apply params are page, maxPrice, minPrice,
 const getCar = async (req, res) => {
     try {
-        const {page, maxPrice, minPrice,color, brand, seats, owner} = req.query;
+        const {page, maxPrice, minPrice,color, brand, seats, owner, province, city, address} = req.query;
         const carQuery = Car.find({})
         if(maxPrice) {
             carQuery.where('pricePerDay').lte(maxPrice)
@@ -83,6 +83,15 @@ const getCar = async (req, res) => {
         }
         if(owner) {
             carQuery.where('owner').equals(owner)
+        }
+        if(province) {
+            carQuery.where('province').equals(province)
+        }
+        if(city) {
+            carQuery.where('city').equals(city)
+        }
+        if(address) {
+            carQuery.where('address').equals(address)
         }
         const cars = await carQuery.exec();
         res.status(200).json({data: cars });
