@@ -274,7 +274,12 @@ const getHotelByQueries = async (req,res)=>{
         const returnlist = [];
         for(const hotel of hotels){
             const facilities = await facilityModel.find({service: hotel._id, type: "hotel"});
-            returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: facilities});
+            const maxprice = await hotelRoomModel.find({hotel: hotel._id}).sort({price: -1}).limit(1);
+            const minprice = await hotelRoomModel.find({hotel: hotel._id}).sort({price: 1}).limit(1);
+            if(maxprice.length >0 && minprice.length >0)
+                returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: facilities, maxPrice: maxprice[0].price, minPrice: minprice[0].price});
+            else
+                returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: facilities});
         }
         return res.status(200).json({status: "success", data: returnlist});
 
