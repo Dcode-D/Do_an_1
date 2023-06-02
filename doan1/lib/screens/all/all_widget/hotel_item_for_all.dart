@@ -11,7 +11,10 @@ import '../../../BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 
 class HotelItemForAll extends StatelessWidget{
 
+  final int type;
+
   HotelItemForAll({
+    required this.type,
     Key? key,
   }) : super(key: key);
 
@@ -35,7 +38,7 @@ class HotelItemForAll extends StatelessWidget{
                   BlocProvider.value(value: hotelItemBloc),
                 ],
                 child: HotelDetailScreen(
-                  type: 1,
+                  type: type,
                 ),
               ),
             ),
@@ -58,7 +61,7 @@ class HotelItemForAll extends StatelessWidget{
                 tag: hotelItemBloc.hotel!.id.toString(),
                 child: Stack(
                   children: <Widget>[
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width,
                       child: FadeInImage(
@@ -89,14 +92,13 @@ class HotelItemForAll extends StatelessWidget{
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.orange,
                         ),
-                        child: const Text(
+                        child: Text(
                           'Hotel',
-                          style: TextStyle(
+                          style: GoogleFonts.raleway(
                             color: Colors.white,
-                            fontFamily: 'Raleway',
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                          ),
+                          )
                         ),
                       ),
                     ),
@@ -133,8 +135,9 @@ class HotelItemForAll extends StatelessWidget{
                                 '${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)}\$ / night':'?',
                                 style: GoogleFonts.raleway(
                                   fontSize: 16,
-                                  color: Colors.white,
                                   fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.2,
+                                  color: Colors.white,
                                 )
                               ),
                             ],
@@ -173,7 +176,7 @@ class HotelItemForAll extends StatelessWidget{
         ),
       )
               :
-          const CircularProgressIndicator()
+          const Center(child: CircularProgressIndicator())
     );
   }
 }

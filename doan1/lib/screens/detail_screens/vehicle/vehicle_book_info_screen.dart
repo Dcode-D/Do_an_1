@@ -166,7 +166,7 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                                 const SizedBox(height: 10,),
                                 Row(
                                   children: [
-                                    const Icon(Icons.event_seat_rounded, size: 20, color: Colors.black,),
+                                    const Icon(Icons.airline_seat_legroom_extra_sharp, size: 20, color: Colors.black,),
                                     const SizedBox(width: 15,),
                                     Text(
                                       carItemBloc.vehicle!.seats!.toString(),

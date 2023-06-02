@@ -30,6 +30,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
     var profileBloc = context.read<ProfileBloc>();
     return BlocBuilder<CarItemBloc,CarItemState>(
       builder: (context,state) =>
+      carItemBloc.vehicle != null ?
       Scaffold(
         body: Column(
           children: <Widget>[
@@ -110,6 +111,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                 ),
               ),
             ),
+            const SizedBox(height: 10.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
@@ -117,18 +119,24 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 280,
-                        child: Text(
-                          carItemBloc.vehicle!.brand!,
-                          style: GoogleFonts.raleway(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w700,
-                          ),
+                      Flexible(
+                        flex: 5,
+                        child: Row(
+                          children:[
+                            const Icon(Icons.directions_car, size: 25.0, color: Colors.grey),
+                            const SizedBox(width: 10.0),
+                            Text(
+                              carItemBloc.vehicle!.brand!,
+                              style: GoogleFonts.raleway(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ]
                         ),
                       ),
                       Flexible(
-                        flex: 3,
+                        flex: 5,
                         child: Text("${carItemBloc.vehicle!.pricePerDay!.toString()}\$/Day",
                           style: GoogleFonts.raleway(
                             fontSize: 20.0,
@@ -139,12 +147,36 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                   const SizedBox(height: 10.0),
                   Row(
                     children: [
-                      const Icon(FontAwesomeIcons.info, size: 18.0, color: Colors.grey),
+                      const Icon(Icons.airline_seat_legroom_extra_sharp, size: 25.0, color: Colors.grey),
+                      const SizedBox(width: 10.0),
+                      Text(
+                        '${carItemBloc.vehicle!.seats!} Seats',
+                        style: GoogleFonts.raleway(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        carItemBloc.vehicle!.color!,
+                        style: GoogleFonts.raleway(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(width: 10.0),
+                      const Icon(FontAwesomeIcons.paintBrush, size: 25.0, color: Colors.grey),
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on, size: 25.0, color: Colors.grey),
                       const SizedBox(width: 10.0),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width-48,
+                        width: MediaQuery.of(context).size.width*0.8,
                         child: Text(
-                          carItemBloc.vehicle!.description!,
+                          carItemBloc.vehicle!.address!,
                           style: GoogleFonts.raleway(
                             fontSize: 20.0,
                             fontWeight: FontWeight.w400,
@@ -156,31 +188,21 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                   const SizedBox(height: 10.0),
                   Row(
                     children: [
-                      const Icon(FontAwesomeIcons.paintBrush, size: 18.0, color: Colors.grey),
+                      const Icon(FontAwesomeIcons.info, size: 25.0, color: Colors.grey),
                       const SizedBox(width: 10.0),
-                      Text(
-                        carItemBloc.vehicle!.color!,
-                        style: GoogleFonts.raleway(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w400,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width*0.8,
+                        child: Text(
+                          carItemBloc.vehicle!.description!,
+                          style: GoogleFonts.raleway(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10.0),
-                  Row(
-                    children: [
-                      const Icon(Icons.event_seat_rounded, size: 18.0, color: Colors.grey),
-                      const SizedBox(width: 10.0),
-                      Text(
-                        carItemBloc.vehicle!.seats!.toString(),
-                        style: GoogleFonts.raleway(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),],
+                ],
               ),
             ),
           ],
@@ -266,7 +288,8 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
             ),
           ],
         ),
-      ),
+      ):
+      const Center(child: CircularProgressIndicator())
     );
   }
 

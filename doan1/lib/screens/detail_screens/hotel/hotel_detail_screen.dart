@@ -42,10 +42,6 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                       height: MediaQuery.of(context).size.height * 0.45,
                       width: MediaQuery.of(context).size.width,
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
-                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black26,
@@ -60,7 +56,9 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                           itemBuilder:(context, index) {
                             return Container(
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),),
                                     boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,

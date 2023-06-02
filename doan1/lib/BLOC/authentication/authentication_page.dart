@@ -1,4 +1,6 @@
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
 import 'package:doan1/BLOC/screen/home/home_bloc.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +20,9 @@ class AuthenticationPage extends StatelessWidget {
             providers: [
               BlocProvider<AuthenticationBloc>(create: (context) => AuthenticationBloc()),
               BlocProvider<ProfileBloc>(create: (context)=> ProfileBloc(context)),
-              BlocProvider<HomeBloc>(create: (context) => HomeBloc())
+              BlocProvider<HomeBloc>(create: (context) => HomeBloc()),
+              BlocProvider<AllHotelBloc>(create: (context) => AllHotelBloc()),
+              BlocProvider<AllVehicleBloc>(create: (context) => AllVehicleBloc())
             ],
             child: BlocListener<AuthenticationBloc, AuthenticationInfoState>(
               listenWhen: (previous, current) => previous.isloggedin != current.isloggedin,

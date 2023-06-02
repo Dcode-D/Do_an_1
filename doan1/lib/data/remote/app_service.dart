@@ -38,6 +38,9 @@ abstract class AppService {
   @GET("/car/page")
   Future<HttpResponse<int>> getCarMaxPage();
 
+  @GET("/hotel/page")
+  Future<HttpResponse<int>> getHotelMaxPage();
+
   @GET("/car/")
   Future<HttpResponse<ListModelResponse>> getListCarFromPage(@Query("page") int page);
 

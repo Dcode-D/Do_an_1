@@ -102,32 +102,30 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
                     return TourItemForAll(tour: tour, tourImg: tourImg,);
                   }),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  controller: listController,
-                  itemCount: hotels.length,
-                  itemBuilder: (BuildContext context, int index){
-                    Hotel hotel = hotels[index];
-                    Image hotelImg = Image.asset(hotel.imageUrl);
-                    return HotelItemForAll();
-                  }
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  controller: listController,
-                  itemCount: vehicles.length,
-                  itemBuilder: (BuildContext context, int index){
-                    Vehicle vehicle = vehicles[index];
-                    Image vehicleImg = Image.asset(vehicle.imageUrls[0]);
-                    return VehicleItemForAll(vehicle: vehicle, vehicleImg: vehicleImg);
-                  }
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15),
+            //   child: ListView.builder(
+            //       physics: const BouncingScrollPhysics(),
+            //       controller: listController,
+            //       itemCount: hotels.length,
+            //       itemBuilder: (BuildContext context, int index){
+            //         Hotel hotel = hotels[index];
+            //         return HotelItemForAll(type: 1,);
+            //       }
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15),
+            //   child: ListView.builder(
+            //       physics: const BouncingScrollPhysics(),
+            //       controller: listController,
+            //       itemCount: vehicles.length,
+            //       itemBuilder: (BuildContext context, int index){
+            //         Vehicle vehicle = vehicles[index];
+            //         return VehicleItemForAll(type: 1,);
+            //       }
+            //   ),
+            // )
           ],
         ),
       )

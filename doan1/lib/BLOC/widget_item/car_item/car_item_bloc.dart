@@ -15,7 +15,7 @@ class CarItemBloc extends Bloc<CarItemEvent,CarItemState>{
   CarItemBloc() : super(CarItemState(getCarItemSuccess: false)){
     listImage = [];
     on<GetCarItemEvent>((event, emit) async {
-      if(event.vehicle == null|| event.vehicle!.images == null){
+      if(event.vehicle == null){
         emit(CarItemState(getCarItemSuccess: false));
         return;
       }

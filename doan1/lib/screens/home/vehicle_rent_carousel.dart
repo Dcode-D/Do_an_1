@@ -1,3 +1,4 @@
+import 'package:doan1/BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
 import 'package:doan1/BLOC/widget_item/car_item/car_item_bloc.dart';
 import 'package:doan1/screens/all/all_vehicle_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,10 @@ class VehicleRentCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var homeBloc = context.read<HomeBloc>();
+    var allVehicleBloc = context.read<AllVehicleBloc>();
     var profileBloc = context.read<ProfileBloc>();
     void _ListListener(){
-      if(listController.page == homeBloc.listVehicle!.length-1)  {
+      if(listController.page == allVehicleBloc.listVehicle!.length-1)  {
         //TODO: add more data event
       }
     }
@@ -41,7 +42,14 @@ class VehicleRentCarousel extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => AllVehicleScreen()));
+                      builder: (context) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider<AllVehicleBloc>.value(
+                              value: allVehicleBloc),
+                          BlocProvider<ProfileBloc>.value(
+                              value: profileBloc),
+                        ],
+                          child: AllVehicleScreen())));
                 },
                 child: Text(
                     'See All',
@@ -57,27 +65,27 @@ class VehicleRentCarousel extends StatelessWidget {
             ],
           ),
         ),
-        BlocBuilder<HomeBloc, HomeState>(
+        BlocBuilder<AllVehicleBloc, AllVehicleState>(
           builder: (context, state) {
             return SizedBox(
               height: 300.0,
               child:
-              state.getDataSuccess == true?
+              state.getListVehicleSuccess == true?
               ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 controller: listController,
                 scrollDirection: Axis.horizontal,
-                itemCount: homeBloc.listVehicle!.length ,
+                itemCount: allVehicleBloc.listVehicle!.length ,
                 itemBuilder:(BuildContext context, int index) {
-                  Vehicle vehicle = homeBloc.listVehicle![index];
-                  if (index < homeBloc.listVehicle!.length) {
+                  Vehicle vehicle = allVehicleBloc.listVehicle![index];
+                  if (index < allVehicleBloc.listVehicle!.length) {
                     return MultiBlocProvider(
                       providers: [
                         BlocProvider<ProfileBloc>.value(
                           value: profileBloc,
                         ),
-                        BlocProvider<HomeBloc>.value(
-                          value: homeBloc,
+                        BlocProvider<AllVehicleBloc>.value(
+                          value: allVehicleBloc,
                         ),
                       ],
                       child: BlocProvider<CarItemBloc>(
@@ -100,19 +108,19 @@ class VehicleRentCarousel extends StatelessWidget {
                   }
                 },
               )
-              : const CircularProgressIndicator()
+              : const Center(child: CircularProgressIndicator())
               ,
             );
           },
         ),
-        BlocBuilder<HomeBloc, HomeState>(
+        BlocBuilder<AllVehicleBloc, AllVehicleState>(
           builder: (context, state) {
-            if(state.getDataSuccess == false) {
+            if(state.getListVehicleSuccess == false) {
               return const CircularProgressIndicator();
             } else {
               return SmoothPageIndicator(
                 controller: listController,
-                count: (homeBloc.listVehicle!.length/2).round()+1,
+                count: (allVehicleBloc.listVehicle!.length/2).round()+1,
                 effect: const ExpandingDotsEffect(
                   activeDotColor: Colors.orange,
                   dotColor: Color(0xFFababab),

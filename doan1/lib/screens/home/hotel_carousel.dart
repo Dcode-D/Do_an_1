@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
 import '../../BLOC/screen/home/home_bloc.dart';
 
 
@@ -17,7 +18,7 @@ class HotelCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var homeBloc = context.read<HomeBloc>();
+    var allHotelBloc = context.read<AllHotelBloc>();
     var profileBloc = context.read<ProfileBloc>();
     // void _ListListener(){
     //   if(listController.page == homeBloc.listVehicle!.length-1)  {
@@ -47,7 +48,7 @@ class HotelCarousel extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) =>
                   MultiBlocProvider(
                       providers: [
-                        BlocProvider<HomeBloc>.value(value: homeBloc),
+                        BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
                         BlocProvider<ProfileBloc>.value(value: profileBloc),
                       ],
                       child: AllHotelScreen())));
@@ -65,22 +66,22 @@ class HotelCarousel extends StatelessWidget {
             ],
           ),
         ),
-        BlocBuilder<HomeBloc, HomeState>(
+        BlocBuilder<AllHotelBloc, AllHotelState>(
           builder:(context,state)=>
               SizedBox(
                 height: 310.0,
                 child:
-                state.getDataSuccess == true?
+                state.getListHotelSuccess == true?
                 ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 controller: listController,
                 scrollDirection: Axis.horizontal,
-                itemCount: homeBloc.listHotel!.length,
+                itemCount: allHotelBloc.listHotel!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Hotel hotel = homeBloc.listHotel![index];
+                  Hotel hotel = allHotelBloc.listHotel![index];
                   return MultiBlocProvider(
                     providers: [
-                      BlocProvider<HomeBloc>.value(value: homeBloc),
+                      BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
                       BlocProvider<ProfileBloc>.value(value: profileBloc),
                     ],
                     child: BlocProvider<HotelItemBloc>(
@@ -92,12 +93,12 @@ class HotelCarousel extends StatelessWidget {
             ),
           ),
         ),
-        BlocBuilder<HomeBloc, HomeState>(
+        BlocBuilder<AllHotelBloc, AllHotelState>(
           builder: (context, state) =>
-            state.getDataSuccess == true?
+            state.getListHotelSuccess == true?
             SmoothPageIndicator(
             controller: listController,
-            count: (homeBloc.listHotel!.length/2).round()+1,
+            count: (allHotelBloc.listHotel!.length/2).round()+1,
             effect: const ExpandingDotsEffect(
               activeDotColor: Colors.orange,
               dotColor: Color(0xFFababab),

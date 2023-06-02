@@ -16,6 +16,19 @@ class VehicleRepo{
   VehicleRepo(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
+  Future<int?> getMaxPage() async {
+    return _appService
+        .getCarMaxPage()
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toInt();
+      }
+    });
+  }
+
   Future<List<Vehicle>?> getListVehicle(int page) async {
     return _appService
         .getListCarFromPage(page)

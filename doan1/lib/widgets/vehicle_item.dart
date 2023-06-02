@@ -73,7 +73,7 @@ class VehicleItem extends StatelessWidget{
                           ),
                           const SizedBox(height: 2.0),
                           Text(
-                            carItemBloc.vehicle!=null? carItemBloc.vehicle!.licensePlate as String :"loading...",
+                            carItemBloc.vehicle!=null? '${carItemBloc.vehicle!.province!}, ${carItemBloc.vehicle!.city}' :"loading...",
                             style: const TextStyle(
                               color: Colors.grey,
                             ),
@@ -112,7 +112,7 @@ class VehicleItem extends StatelessWidget{
                       width: type == 1 ? 220.0 : 260.0,
                       imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                       image:
-                      NetworkImage(carItemBloc.vehicle!=null && carItemBloc.listImage!.length>0 ? carItemBloc.listImage![0]: ""),
+                      NetworkImage(carItemBloc.vehicle!=null && carItemBloc.listImage!.isNotEmpty ? carItemBloc.listImage![0]: ""),
                       placeholder: const AssetImage('assets/images/loading.gif'),
                       fit: BoxFit.cover,
                     ),

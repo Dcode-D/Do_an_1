@@ -16,6 +16,19 @@ class HotelRepo{
   HotelRepo(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
+  Future<int?> getMaxPage() async {
+    return _appService
+        .getHotelMaxPage()
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data;
+      }
+    });
+  }
+
   Future<List<Hotel>?> getListHotel(int page) async {
     return _appService
         .getListHotelFromPage(page)

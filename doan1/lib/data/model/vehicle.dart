@@ -9,6 +9,7 @@ part 'vehicle.g.dart';
 
 @JsonSerializable()
 class Vehicle{
+  @JsonKey(name: '_id')
   final String? id;
   final String? licensePlate;
   final String? brand;
@@ -16,6 +17,9 @@ class Vehicle{
   final int? pricePerDay;
   final String? color;
   final String? description;
+  final String? address;
+  final String? province;
+  final String? city;
   final List<String>? images;
   final String? owner;
 
@@ -29,6 +33,9 @@ class Vehicle{
     this.pricePerDay,
     this.color,
     this.description,
+    this.address,
+    this.province,
+    this.city,
     this.images,
     this.owner
   );
