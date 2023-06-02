@@ -17,7 +17,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   HotelItemBloc() : super(HotelItemState(getHotelItemSuccess: false)){
     listImage = [];
     on<GetHotelItemEvent>((event,emit)async{
-      if(event.hotel == null|| event.hotel!.images == null){
+      if(event.hotel == null){
         emit(HotelItemState(getHotelItemSuccess: false));
         return;
       }

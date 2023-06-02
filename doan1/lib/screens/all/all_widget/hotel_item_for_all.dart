@@ -21,9 +21,10 @@ class HotelItemForAll extends StatelessWidget{
   Widget build(BuildContext context) {
     var hotelItemBloc = context.read<HotelItemBloc>();
     var profileBloc = context.read<ProfileBloc>();
-    return hotelItemBloc.hotel != null ?
-    BlocBuilder<HotelItemBloc,HotelItemState>(
+    return
+      BlocBuilder<HotelItemBloc,HotelItemState>(
       builder: (context,state) =>
+      hotelItemBloc.hotel != null ?
           GestureDetector(
             onTap: (){
           Navigator.of(context).push(
@@ -60,14 +61,22 @@ class HotelItemForAll extends StatelessWidget{
                     Container(
                       height: MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image:DecorationImage(
+                      child: FadeInImage(
+                        placeholder: const AssetImage('assets/images/loading.gif'),
                               image: NetworkImage(hotelItemBloc.hotel!=null && hotelItemBloc.listImage!.isNotEmpty ? hotelItemBloc.listImage![0]: ""),
-                              fit: BoxFit.cover
+                              fit: BoxFit.cover,
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                            child: Icon(
+                              FontAwesomeIcons.image,
+                              color: Colors.grey,
+                              size: 50,
+                            ),
+                          );
+                        }
                           )
                       ),
-                    ),
+
                     Positioned(
                       top: 10.0,
                       left: 10.0,
@@ -162,8 +171,9 @@ class HotelItemForAll extends StatelessWidget{
               )
           ),
         ),
-      ),
-    ) :
-        const CircularProgressIndicator();
+      )
+              :
+          const CircularProgressIndicator()
+    );
   }
 }
