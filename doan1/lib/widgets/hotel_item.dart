@@ -80,13 +80,14 @@ class HotelItem extends StatelessWidget{
                             ),
                           ),
                           const SizedBox(height: 2.0),
-                          // Text(
-                          //   '${formatCurrency.format(int.parse(hotel.price))}\$ / night',
-                          //   style: TextStyle(
-                          //     fontSize: type == 1 ? 18.0 : 20.0,
-                          //     fontWeight: FontWeight.w600,
-                          //   ),
-                          // ),
+                          Text(
+                              hotelItemBloc.hotel?.maxPrice !=null && hotelItemBloc.hotel?.minPrice !=null?
+                            '${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)}\$ / night':'?',
+                            style: TextStyle(
+                              fontSize: type == 1 ? 18.0 : 20.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -108,12 +109,21 @@ class HotelItem extends StatelessWidget{
                   hotelItemBloc.hotel != null?
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image(
-                      height: type == 1 ? 180.0 : 185.0,
-                      width: type == 1 ? 220.0 : 260.0,
-                      image: NetworkImage(hotelItemBloc.hotel!=null ? hotelItemBloc.listImage![0]: ""),
-                      fit: BoxFit.cover,
-                    ),
+                    child:
+                          FadeInImage(
+                            height: type == 1 ? 180.0 : 185.0,
+                            width: type == 1 ? 220.0 : 260.0,
+                            imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                              return SizedBox(
+                                  width: type == 1 ? 220.0 : 260.0,
+                                  height: type == 1 ? 180.0 : 185.0,
+                                  child: const Center(child: Icon(Icons.error)));
+                            },
+                            image:
+                        NetworkImage(hotelItemBloc.hotel!=null && hotelItemBloc.listImage!.length>0 ? hotelItemBloc.listImage![0]: ""),
+                            placeholder: const AssetImage('assets/images/loading.gif'),
+                            fit: BoxFit.cover,
+                          ),
                   ):
                       const Center(child: CircularProgressIndicator()),
                 ),

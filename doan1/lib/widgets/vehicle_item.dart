@@ -105,10 +105,13 @@ class VehicleItem extends StatelessWidget{
                   carItemBloc.vehicle!=null ?
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image(
+                    child: FadeInImage(
                       height: type == 1 ? 180.0 : 185.0,
                       width: type == 1 ? 220.0 : 260.0,
-                      image: NetworkImage(carItemBloc.vehicle!=null ? carItemBloc.listImage![0]: ""),
+                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                      image:
+                      NetworkImage(carItemBloc.vehicle!=null && carItemBloc.listImage!.length>0 ? carItemBloc.listImage![0]: ""),
+                      placeholder: const AssetImage('assets/images/loading.gif'),
                       fit: BoxFit.cover,
                     ),
                   ): const Center(child: CircularProgressIndicator()),

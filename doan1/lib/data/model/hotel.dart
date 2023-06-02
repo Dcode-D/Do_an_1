@@ -12,19 +12,24 @@ class Hotel {
   final String? owner;
   final String? description;
   final List<String>? images;
-  final List<String>? facilities;
+  final List<Map<String,dynamic>>? facilities;
+  final double? maxPrice;
+  final double? minPrice;
   final String? province;
   final String? city;
-  Hotel(
-    this.id,
-    this.name,
-    this.address,
-    this.owner,
+  Hotel({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.owner,
     this.description,
-    this.images,
+    required this.images,
     this.facilities,
-    this.province,
-    this.city
+    required this.province,
+    required this.city,
+    this.maxPrice,
+    this.minPrice
+  }
   );
 
   factory Hotel.fromJson(Map<String, dynamic> json) =>
