@@ -73,10 +73,10 @@ const getCar = async (req, res) => {
             carQuery.skip((page-1)*10).limit(10)
         }
         if(color) {
-            carQuery.where('color').equals(color)
+            carQuery.where('color', new RegExp(color, 'i'))
         }
         if(brand) {
-            carQuery.where('brand').equals(brand)
+            carQuery.where('brand', new RegExp(brand, 'i'))
         }
         if(seats) {
             carQuery.where('seats').equals(seats)
@@ -85,13 +85,13 @@ const getCar = async (req, res) => {
             carQuery.where('owner').equals(owner)
         }
         if(province) {
-            carQuery.where('province').equals(province)
+            carQuery.where('province', new RegExp(province, 'i'))
         }
         if(city) {
-            carQuery.where('city').equals(city)
+            carQuery.where('city', new RegExp(city, 'i'))
         }
         if(address) {
-            carQuery.where('address').equals(address)
+            carQuery.where('address', new RegExp(address, 'i'))
         }
         const cars = await carQuery.exec();
         res.status(200).json({data: cars });

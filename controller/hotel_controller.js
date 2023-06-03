@@ -238,19 +238,19 @@ const getHotelByQueries = async (req,res)=>{
             return res.status(400).json({status: "error", message: "Invalid page number"});
         }
         if(province) {
-            query.where({province: province})
+            query.where('province', new RegExp(province, 'i'))
         }
         if(city) {
-            query.where({city: city})
+            query.where('city', new RegExp(city, 'i'))
         }
         if(name) {
-            query.where({name: name})
+            query.where('name', new RegExp(name, 'i'))
         }
         if(owner) {
             query.where({owner: owner})
         }
         if(address) {
-            query.where({address: address})
+            query.where('address', new RegExp(address, 'i'))
         }
         if(minprice) {
             minlist = await hotelRoomModel.find({price: {$gte: minprice}}).select('hotel');
