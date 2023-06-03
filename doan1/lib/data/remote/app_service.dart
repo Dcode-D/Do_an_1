@@ -50,7 +50,7 @@ abstract class AppService {
   @GET("/car?brand={brand}")
   Future<HttpResponse<ListModelResponse>> getListCarByBrand(@Path('brand') String brand);
 
-  @GET("/hotel?name={name}")
+  @GET("/hotel/page/1?name={name}")
   Future<HttpResponse<ListModelResponse>> getListHotelByName(@Path('name') String name);
 
   @GET("/hotel/page/{page}")
