@@ -41,7 +41,7 @@ abstract class AppService {
   @GET("/hotel/page")
   Future<HttpResponse<int>> getHotelMaxPage();
 
-  @GET("/car?page={page}&limit=10")
+  @GET("/car?page={page}")
   Future<HttpResponse<ListModelResponse>> getListCarFromPage(@Path("page") int page);
 
   @GET("/car/{id}")
@@ -49,6 +49,9 @@ abstract class AppService {
 
   @GET("/car?brand={brand}")
   Future<HttpResponse<ListModelResponse>> getListCarByBrand(@Path('brand') String brand);
+
+  @GET("/hotel?name={name}")
+  Future<HttpResponse<ListModelResponse>> getListHotelByName(@Path('name') String name);
 
   @GET("/hotel/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListHotelFromPage(@Query('page') int page);

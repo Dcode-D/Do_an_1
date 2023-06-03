@@ -6,6 +6,6 @@ abstract class SearchEvent {}
 class GetInitialData extends SearchEvent {}
 
 class GetDataForSearch extends SearchEvent {
-  final String brand;
-  GetDataForSearch({required this.brand});
+  final String searchText;
+  GetDataForSearch({required this.searchText});
 }

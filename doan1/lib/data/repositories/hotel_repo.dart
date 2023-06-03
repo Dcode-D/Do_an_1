@@ -29,6 +29,19 @@ class HotelRepo{
     });
   }
 
+  Future<List<Hotel>?> getListHotelByName(String name) async{
+    return _appService
+        .getListHotelByName(name)
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toListHotel();
+      }
+    });
+  }
+
   Future<List<Hotel>?> getListHotel(int page) async {
     return _appService
         .getListHotelFromPage(page)
