@@ -6,6 +6,7 @@ import 'package:doan1/widgets/vehicle_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../data/model/hotel.dart';
@@ -153,10 +154,11 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                 )),
             ];
       },
-          body: searchBloc.listVehicle != null && searchBloc.listHotel != null ?
+          body:
           TabBarView(
             controller: _tabController,
             children: [
+
               ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
@@ -167,6 +169,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
               return TourItem(tour: tour, tourImg: tourImg, type: 2);
                 },
               ),
+              searchBloc.listHotel != null ?
               ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
@@ -182,7 +185,17 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         create: (context) => HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
                           child: HotelItem(type: 2)));
                 },
-              ),
+              ) :
+                  Center(
+                    child: Text('Don\'t found any hotel that like your search',
+                    textAlign: TextAlign.center,
+                    style : GoogleFonts.raleway(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey
+                    )),
+                  ),
+              searchBloc.listVehicle != null ?
               ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
@@ -198,15 +211,23 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),
                           child: VehicleItem(type: 2)));
                 },
+              ) :
+              Center(
+                child: Text('Don\'t found any vehicle that like your search',
+                textAlign: TextAlign.center,
+                style : GoogleFonts.raleway(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey
+                )),
               ),
             ],
-          ):
-          const Center(
-            child: CircularProgressIndicator(),
-            ),
+          ),
           ),
         ),
       )
     );
   }
+
+  ocBuilder({required ListView Function(dynamic context, dynamic state) builder}) {}
 }

@@ -17,8 +17,8 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
       emit(SearchState(getData: SearchStatus.initial));
 
       listVehicle = await getVehicleByBrand(event.searchText);
-      // listHotel = await getHotelByName(event.searchText);
-      if(listVehicle != null){
+      listHotel = await getHotelByName(event.searchText);
+      if(listVehicle != null && listHotel != null){
         emit(SearchState(getData: SearchStatus.success));
       }
       else{

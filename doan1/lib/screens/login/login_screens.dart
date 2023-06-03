@@ -108,6 +108,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         TextField(
                           controller: username,
+                          onSubmitted:(value){
+                            value.isEmpty || password.text.isEmpty?
+                                (){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "Please enter username and password",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );}
+                                :
+                                () {
+                              context.read<AuthenticationBloc>().add(
+                                  AuthenticateEvent(Username: value, Password: password.text));
+                            };
+                          },
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: TextInputType.text,
                           cursorColor: Colors.black,
@@ -133,6 +153,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         TextField(
                           controller: password,
+                          onSubmitted:(value){
+                            username.text.isEmpty || value.isEmpty?
+                                (){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "Please enter username and password",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );}
+                                :
+                                () {
+                              context.read<AuthenticationBloc>().add(
+                                  AuthenticateEvent(Username: username.text, Password: value));
+                            };
+                          },
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: isPasswordHidden,
@@ -183,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
                                   );
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Forgot password?",
                                   style: TextStyle(
                                     color: Colors.black,
@@ -192,14 +232,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                             ],
                           ),
                         ),
                         const Spacer(flex: 2),
                         Flexible(
                           flex: 3,
-                          child: Container(
+                          child: SizedBox(
                             width: 250,
                             height: 50,
                             child: ElevatedButton(
@@ -318,7 +358,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 print("listener triggered "+state.registerStatus.toString());
               }
             },
-            child: SignUpScreen(),
+            child: const SignUpScreen(),
         ),
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
