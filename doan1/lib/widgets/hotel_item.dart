@@ -26,7 +26,7 @@ class HotelItem extends StatelessWidget{
     return BlocBuilder<HotelItemBloc,HotelItemState>(
       builder:(context,state) =>
       SizedBox(
-        height: type == 1 ? 280 : 320,
+        height: type == 1 ? 280 : 300,
         child: GestureDetector(
           onTap: ()
           =>
@@ -58,6 +58,13 @@ class HotelItem extends StatelessWidget{
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 6.0,
+                        ),
+                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),

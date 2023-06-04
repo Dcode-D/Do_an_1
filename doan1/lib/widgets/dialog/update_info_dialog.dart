@@ -9,23 +9,13 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../data/model/user.dart';
 
 class UpdateInfoDialog extends StatelessWidget{
-  String firstName;
-  String lastName;
-  String email;
-  String address;
-  String userName;
-  String phone;
-  int gender;
+  Function updateProfileSubmit;
 
   UpdateInfoDialog({
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.address,
-    required this.userName,
-    required this.phone,
-    required this.gender
-  });
+    Key? key,
+    required this.updateProfileSubmit
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -98,15 +88,8 @@ class UpdateInfoDialog extends StatelessWidget{
                 ),
                 child: TextButton(
                   onPressed: (){
-                    context.read<EditProfileBloc>().add(EditProfileEventSubmit(
-                      FirstName: firstName,
-                      LastName: lastName,
-                      Email: email,
-                      Address: address,
-                      Username: userName,
-                      Phone: phone,
-                      Gender: gender
-                    ));
+                    updateProfileSubmit();
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'Yes',

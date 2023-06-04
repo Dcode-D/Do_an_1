@@ -31,12 +31,12 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
 
     ProfileBloc profileBloc = context.read<ProfileBloc>();
 
-    final _emailController = TextEditingController(text: profileBloc.user?.email);
-    final _firstnameController = TextEditingController(text: profileBloc.user?.firstname);
-    final _lastnameController = TextEditingController(text: profileBloc.user?.lastname);
-    final _addressController = TextEditingController(text: profileBloc.user?.address);
-    final _usernameController = TextEditingController(text: profileBloc.user?.username);
-    final _phoneController = TextEditingController(text: profileBloc.user?.phonenumber);
+    final emailController = TextEditingController(text: profileBloc.user?.email);
+    final firstnameController = TextEditingController(text: profileBloc.user?.firstname);
+    final lastnameController = TextEditingController(text: profileBloc.user?.lastname);
+    final addressController = TextEditingController(text: profileBloc.user?.address);
+    final usernameController = TextEditingController(text: profileBloc.user?.username);
+    final phoneController = TextEditingController(text: profileBloc.user?.phonenumber);
 
     addSocial() {
       SmartDialog.showToast("Social link added!");
@@ -50,6 +50,18 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
 
     pickImageFromGallery(){
       bloc.add(EditProfileEventgetAvatarFromGallery());
+    }
+
+    updateProfile(){
+      bloc.add(EditProfileEventSubmit(
+          FirstName: firstnameController.text,
+          LastName: lastnameController.text,
+          Email: emailController.text,
+          Address: addressController.text,
+          Username: usernameController.text,
+          Phone: phoneController.text,
+          Gender: bloc.user!.gender,
+      ));
     }
 
     return Scaffold(
@@ -111,23 +123,13 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                           child: IconButton(
                             onPressed: (){
                               if (context.read<EditProfileBloc>().state.formKey.currentState!.validate()) {
-
                                 showDialog(context: context,
                                     builder: (_){
-                                    return BlocProvider.value(
-                                      value: BlocProvider.of<EditProfileBloc>(context),
-                                      child: Center(
-                                        child: UpdateInfoDialog(
-                                          firstName: _firstnameController.text,
-                                          lastName: _lastnameController.text,
-                                          email: _emailController.text,
-                                          address: _addressController.text,
-                                          userName: _usernameController.text,
-                                          phone: _phoneController.text,
-                                          gender: profileBloc.user!.gender,
+                                    return Center(
+                                      child: UpdateInfoDialog(
+                                        updateProfileSubmit: updateProfile,
                                     ),
-                                      ),
-                                  );
+                                    );
                                 });
                               }
                             },
@@ -237,7 +239,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                   Expanded(
                                     child: BlocBuilder<EditProfileBloc,EditProfileState>(
                                       builder: (context,state) => TextFormField(
-                                        controller: _firstnameController,
+                                        controller: firstnameController,
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return 'Please enter your first name';
@@ -264,7 +266,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                     Expanded(
                                       child: BlocBuilder<EditProfileBloc,EditProfileState>(
                                         builder: (context,state) => TextFormField(
-                                          controller: _lastnameController,
+                                          controller: lastnameController,
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return 'Please enter your last name';
@@ -290,7 +292,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                     ), const SizedBox(width: 20),
                                     Expanded(
                                       child: TextFormField(
-                                        controller: _addressController,
+                                        controller: addressController,
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return 'Please enter your address';
@@ -376,7 +378,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                     ), const SizedBox(width: 20),
                                     Expanded(
                                       child: TextFormField(
-                                        controller: _emailController,
+                                        controller: emailController,
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return 'Please enter your email';
@@ -401,7 +403,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                     ), const SizedBox(width: 20),
                                     Expanded(
                                       child: TextFormField(
-                                        controller: _phoneController,
+                                        controller: phoneController,
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return 'Please enter your phone number';
@@ -490,7 +492,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                     ), const SizedBox(width: 20),
                                     Expanded(
                                       child: TextFormField(
-                                        controller: _usernameController,
+                                        controller: usernameController,
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return 'Please enter your username';

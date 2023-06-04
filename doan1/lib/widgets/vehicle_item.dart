@@ -50,13 +50,20 @@ class VehicleItem extends StatelessWidget{
               alignment: Alignment.topCenter,
               children: <Widget>[
                 Positioned(
-                  bottom: 0.0,
+                  bottom: 10,
                   child: Container(
                     height: type == 1 ? 120.0 : 150.0,
                     width: type == 1 ? 240.0 : 320.0,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 6.0,
+                        ),
+                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),

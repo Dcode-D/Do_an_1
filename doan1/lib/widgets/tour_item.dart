@@ -22,7 +22,7 @@ class TourItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: type == 1 ? 320 : 350,
+      height: type == 1 ? 300 : 330,
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
@@ -48,6 +48,13 @@ class TourItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0.0, 2.0),
+                        blurRadius: 6.0,
+                      ),
+                    ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),

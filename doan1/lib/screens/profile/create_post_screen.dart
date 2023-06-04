@@ -33,11 +33,11 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
           create: (BuildContext context) => PostsBloc(),
         ),
       ],
-  child: Builder(
-    builder: (context) {
-      return BlocBuilder<ProfileBloc, ProfileState>(
-  builder: (context, state) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+          return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             centerTitle: true,
