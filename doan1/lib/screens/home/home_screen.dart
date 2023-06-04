@@ -2,7 +2,6 @@ import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
 import 'package:doan1/BLOC/screen/home/home_bloc.dart';
-import 'package:doan1/BLOC/widget_item/car_item/car_item_bloc.dart';
 import 'package:doan1/screens/all/all_hotel_screen.dart';
 import 'package:doan1/screens/all/all_tour_screen.dart';
 import 'package:doan1/screens/all/all_vehicle_screen.dart';
@@ -15,9 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../BLOC/screen/all_screen/all_article/article_bloc.dart';
 import '../../BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
-import '../../data/model/vehicle.dart';
-import '../../models/destination_model.dart';
 import '../../models/notification_model.dart';
 import 'destination_carousel.dart';
 import 'tour_carousel.dart';
@@ -29,9 +27,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var scrollController = ScrollController();
     ProfileBloc profileBloc = context.read<ProfileBloc>();
-    HomeBloc homeBloc = context.read<HomeBloc>()..add(GetDataForScreenEvent());
-    AllHotelBloc allHotelBloc = context.read<AllHotelBloc>()..add(GetHotelListEvent());
-    AllVehicleBloc allVehicleBloc = context.read<AllVehicleBloc>()..add(GetVehicleListEvent());
+    AllHotelBloc allHotelBloc = context.read<AllHotelBloc>();
+    AllVehicleBloc allVehicleBloc = context.read<AllVehicleBloc>();
+    ArticleBloc articleBloc = context.read<ArticleBloc>();
     return
       BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state)=>
           BlocBuilder<HomeBloc,HomeState>(
@@ -277,7 +275,9 @@ class HomeScreen extends StatelessWidget {
                     )
                     ),
                   const SizedBox(height: 15,),
-                  DestinationCarousel(destinationList: destinationList),
+                  BlocProvider<ArticleBloc>.value(
+                    value: articleBloc,
+                      child: DestinationCarousel()),
                   const SizedBox(height: 10,),
                   TourCarousel(),
                   const SizedBox(height: 10,),

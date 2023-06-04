@@ -1,4 +1,5 @@
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
 import 'package:doan1/BLOC/screen/home/home_bloc.dart';
@@ -21,10 +22,11 @@ class AuthenticationPage extends StatelessWidget {
             providers: [
               BlocProvider<AuthenticationBloc>(create: (context) => AuthenticationBloc()),
               BlocProvider<ProfileBloc>(create: (context)=> ProfileBloc(context)),
-              BlocProvider<HomeBloc>(create: (context) => HomeBloc()),
+              BlocProvider<HomeBloc>(create: (context) => HomeBloc()..add(GetDataForScreenEvent())),
               BlocProvider<SearchBloc>(create: (context)=> SearchBloc()..add(GetInitialData())),
-              BlocProvider<AllHotelBloc>(create: (context) => AllHotelBloc()),
-              BlocProvider<AllVehicleBloc>(create: (context) => AllVehicleBloc())
+              BlocProvider<AllHotelBloc>(create: (context) => AllHotelBloc()..add(GetHotelListEvent())),
+              BlocProvider<AllVehicleBloc>(create: (context) => AllVehicleBloc()..add(GetVehicleListEvent())),
+              BlocProvider<ArticleBloc>(create: (context)=> ArticleBloc()..add(GetArticleData())),
             ],
             child: BlocListener<AuthenticationBloc, AuthenticationInfoState>(
               listenWhen: (previous, current) => previous.isloggedin != current.isloggedin,

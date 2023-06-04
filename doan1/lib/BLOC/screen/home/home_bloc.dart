@@ -1,3 +1,4 @@
+import 'package:doan1/data/model/article.dart';
 import 'package:doan1/data/repositories/vehicle_repo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -21,6 +22,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
       emit(HomeState(getDataSuccess: false));
       listVehicle = await getVehicle(page);
       listHotel = await getHotel(page);
+
       if(listVehicle != null && listHotel != null){
         emit(HomeState(getDataSuccess: true));
       }
@@ -52,4 +54,5 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
       return null;
     }
   }
+
 }
