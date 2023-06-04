@@ -74,9 +74,9 @@ const getArticle = async (req, res) => {
         const {id, city, province, referenceName, publishBy} = req.query;
         const query = Article.find();
         if (id) query.where('_id').equals(id);
-        if (city) query.where('city').equals(city);
-        if (province) query.where('province').equals(province);
-        if (referenceName) query.where('referenceName').equals(referenceName);
+        if (city) query.where('city', new RegExp(city, 'i') );
+        if (province) query.where('province', new RegExp(province, 'i') );
+        if (referenceName) query.where('referenceName', new RegExp(referenceName, 'i') );
         if (publishBy) query.where('publishBy').equals(publishBy);
         const articles = await query.skip((page - 1) * 10).exec();
         return res.status(200).json({status: "success", data: articles});

@@ -41,15 +41,15 @@ const getTourList = async (req, res) => {
         const query = TourModel.find();
         let articlesList = [];
         if(province){
-            const articles = await ArticleModel.find({province: province});
+            const articles = await ArticleModel.find().where('province', new RegExp(province, 'i'));
             articlesList.push(...articles);
         }
         if(city){
-            const articles = await ArticleModel.find({city: city});
+            const articles = await ArticleModel.find().where('city', new RegExp(city, 'i'));
             articlesList.push(...articles);
         }
         if(referenceName){
-            const articles = await ArticleModel.find({referenceName: referenceName});
+            const articles = await ArticleModel.find().where('referenceName', new RegExp(referenceName, 'i'));
             articlesList.push(...articles);
         }
         if(articlesList.length > 0){
