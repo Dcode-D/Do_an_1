@@ -2,9 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:doan1/Utils/get_places.dart';
+import 'package:doan1/data/Preferences.dart';
+import 'package:doan1/data/repositories/articale_repo.dart';
+import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:doan1/Utils/pick_files.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http_parser/http_parser.dart';
 
 part 'posts_event.dart';
 part 'posts_state.dart';
@@ -12,6 +18,9 @@ part 'posts_state.dart';
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   var listImages = <File>[];
   PostsBloc() : super(PostsInitial()) {
+    final sharedPrefs = GetIt.instance.get<SharedPreferences>();
+    final token ="Bearer "+ (sharedPrefs.getString(Preferences.token) as String) ;
+    final articleRepo = GetIt.instance.get<ArticleRepo>();
     on<PostsEvent>((event, emit) {
     });
     on<AddImageEvent>((event, emit) async {
@@ -33,6 +42,23 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     on<GetProvinceEvent>((event, emit) async {
       var listProvince = await GetPlaces.getProvince();
       emit(PostsProvinceState(listProvince));
+    });
+    on<GetDistrictEvent>((event, emit) async {
+      var listDistrict = await GetPlaces.getDistrict(event.provinceCode);
+      emit(PostsDistrictState(listDistrict));
+    });
+    on<GetWardEvent>((event, emit) async {
+      var listWard = await GetPlaces.getWard(event.districtCode, event.provinceCode);
+      emit(PostsWardState(listWard));
+    });
+    on<RemoveImageEvent>((event, emit) async {
+      listImages.removeAt(event.index);
+      emit(PostsImageState(listImages));
+    });
+    on<CreatePostEvent>((event, emit) async {
+
+      final rs = await articleRepo.createPost(token as String, event.title, event.description, event.address, event.province, event.district, event.referenceName, listImages);
+      emit(PostCreatePostsState(rs));
     });
   }
 }

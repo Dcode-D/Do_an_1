@@ -26,3 +26,13 @@ class GetWardEvent extends PostsEvent {
   final int provinceCode;
   GetWardEvent(this.districtCode, this.provinceCode);
 }
+
+class CreatePostEvent extends PostsEvent{
+  final String title;
+  final String description;
+  final String address;
+  final String province;
+  final String district;
+  final String referenceName;
+  CreatePostEvent({required this.title,required this.description,required this.address,required this.province,required this.district,required this.referenceName});
+}

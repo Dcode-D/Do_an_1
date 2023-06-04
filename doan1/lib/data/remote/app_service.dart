@@ -67,4 +67,18 @@ abstract class AppService {
 
   @GET("/article/page/")
   Future<HttpResponse<int>> getArticleMaxPage();
+
+  @POST("/article/")
+  @MultiPart()
+  Future<HttpResponse> createArticle(
+      {
+        @Header('Authorization') required String token,
+        @Part(name: "title") required String title,
+        @Part(name: "description") required String description,
+        @Part(name: "address") required String address,
+        @Part(name: "province") required String province,
+        @Part(name: "city") required String district,
+        @Part(name: "referenceName") required String referenceName,
+        @Part(name: "files") required List<File> files
+      });
 }

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:doan1/data/model/article.dart';
 import 'package:event_bus_plus/res/event_bus.dart';
 import 'package:logger/logger.dart';
@@ -49,6 +52,17 @@ class ArticleRepo {
       }
       else{
         return http.data.toListIdArticle();
+      }
+    });
+  }
+
+  Future<bool> createPost(String token, String title, String description, String address, String province, String district, String referenceName, List<File> files) async {
+    return _appService.createArticle(title: title, description: description, address: address, province :province, district: district, referenceName: referenceName, token: token, files: files).then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
       }
     });
   }

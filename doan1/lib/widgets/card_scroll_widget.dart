@@ -98,7 +98,7 @@ class CardScrollWidget extends StatelessWidget {
                             child:FadeInImage(
                               imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                               image:
-                              NetworkImage(articleBloc.listArticle != null ? '$baseUrl/files/${articleBloc.listArticle![i].images![0]}': ""),
+                              NetworkImage(articleBloc.listArticle != null ? '$baseUrl/files/${articleBloc.listArticle![i].images![0]['_id']}': ""),
                               placeholder: const AssetImage('assets/images/loading.gif'),
                               fit: BoxFit.cover,
                             ),

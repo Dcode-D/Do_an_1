@@ -16,11 +16,16 @@ class PostsProvinceState extends PostsState {
 }
 
 class PostsDistrictState extends PostsState {
-  final List<Map<String,dynamic>> listDistrict;
+  final List<Map> listDistrict;
   PostsDistrictState(this.listDistrict);
 }
 
 class PostsWardState extends PostsState {
-  final List<Map<String,dynamic>> listWard;
+  final List<Map> listWard;
   PostsWardState(this.listWard);
+}
+
+class PostCreatePostsState extends PostsState {
+  final bool success;
+  PostCreatePostsState(this.success);
 }
