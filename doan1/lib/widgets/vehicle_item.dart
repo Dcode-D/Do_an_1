@@ -80,7 +80,7 @@ class VehicleItem extends StatelessWidget{
                           ),
                           const SizedBox(height: 2.0),
                           Text(
-                            carItemBloc.vehicle!=null? '${carItemBloc.vehicle!.province!}, ${carItemBloc.vehicle!.city}' :"loading...",
+                            carItemBloc.vehicle!=null? '${carItemBloc.vehicle!.province}, ${carItemBloc.vehicle!.city}' :"loading...",
                             style: const TextStyle(
                               color: Colors.grey,
                             ),

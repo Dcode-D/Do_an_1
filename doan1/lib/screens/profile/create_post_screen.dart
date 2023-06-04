@@ -30,7 +30,7 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
     return MultiBlocProvider(
       providers: [
         BlocProvider<PostsBloc>(
-          create: (BuildContext context) => PostsBloc(),
+          create: (BuildContext context) => PostsBloc()..add(GetProvinceEvent()),
         ),
       ],
       child: Builder(
@@ -162,6 +162,9 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
                                 onChanged: (value) {
                                   setState(() {
                                     selectedValue = value.toString();
+                                    if(selectedValue == "Destination"){
+                                      context.read<PostsBloc>().add(GetProvinceEvent());
+                                    }
                                   });
                                 },
                                 onSaved: (value) {
@@ -306,35 +309,93 @@ class _CreatePostScreenState extends State<CreatePostScreen>{
                         ),
                         const SizedBox(height: 10,),
                         //image selected list
-                        SizedBox(
-                          height: 200,
-                          child: BlocBuilder<PostsBloc, PostsState>(
-                            buildWhen: (previous, current) {
-                              return current is PostsImageState|| current is PostsInitial;
-                            },
-                                        builder: (context, state) {
-                                          return
-                                          state is PostsInitial?
-                                          const Text("No image selected"):
-                                           GridView.builder(
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 4,
-                                              crossAxisSpacing: 8.0,
-                                              mainAxisSpacing: 8.0,
-                                            ),
-                                            itemCount: (state as PostsImageState).listImages.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Image.file(
-                                                (state as PostsImageState).listImages[index],
-                                                fit: BoxFit.cover,
+                        SingleChildScrollView(
+                          child: SizedBox(
+                            height: 200,
+                              child: BlocBuilder<PostsBloc, PostsState>(
+                                buildWhen: (previous, current) {
+                                  return current is PostsImageState|| current is PostsInitial;
+                                },
+                                            builder: (context, state) {
+                                              return
+                                              state is PostsInitial?
+                                              const Text("No image selected"):
+                                               GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 4,
+                                                  crossAxisSpacing: 8.0,
+                                                  mainAxisSpacing: 8.0,
+                                                ),
+                                                itemCount: context.read<PostsBloc>().listImages.length,
+                                                itemBuilder: (BuildContext context,
+                                                    int index) {
+                                                  return Image.file(
+                                                    context.read<PostsBloc>().listImages[index],
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
                                               );
                                             },
-                                          );
-                                        },
-                                      ),
+                                          ),
+                            ),
+                        ),
+                        
+
+                        //Province List
+                        BlocBuilder<PostsBloc,PostsState>(
+                            buildWhen: (previous, current) {
+                              return current is PostsProvinceState || current is PostsInitial;
+                            },
+                            builder: (context, state) {
+                          return state is PostsProvinceState ?
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Province',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              DropdownButtonFormField<Map>(
+                                decoration: InputDecoration(
+                                  hintText: 'Province',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                items: (state as PostsProvinceState).listProvince
+                                    .map((item) => DropdownMenuItem<Map>(
+                                  value: item,
+                                  child: Text(
+                                    item['name'],
+                                    style: const TextStyle(
+                                      fontSize: 14,
                                     ),
+                                  ),
+                                ))
+                                    .toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select province';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  context.read<PostsBloc>().add(GetDistrictEvent(value?['code']));
+                                },
+                                onSaved: (value) {
+                                  context.read<PostsBloc>().add(GetDistrictEvent(value?['code']));
+                                },
+                              ),
+                            ],
+                          ) : const CircularProgressIndicator();
+                        }),
                       ],
                     ) : Container(),
                     const SizedBox(height: 10,),

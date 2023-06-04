@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:doan1/Utils/getPlaces.dart';
 import 'package:meta/meta.dart';
 import 'package:doan1/Utils/pick_files.dart';
 
@@ -28,6 +29,10 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           emit(PostsImageState(listImages));
         }
       }
+    });
+    on<GetProvinceEvent>((event, emit) async {
+      var listProvince = await GetPlaces.getProvince();
+      emit(PostsProvinceState(listProvince));
     });
   }
 }
