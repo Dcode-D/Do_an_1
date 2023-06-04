@@ -58,4 +58,13 @@ abstract class AppService {
 
   @GET("/hotel/{id}/room")
   Future<HttpResponse<ListModelResponse>> getListHotelRoomById(@Path('id') String id);
+
+  @GET("/article/page/{page}")
+  Future<HttpResponse<ListModelResponse>> getListIdArticleFromPage(@Path('page') int page);
+
+  @GET("/article/{id}")
+  Future<HttpResponse<BaseResponse>> getArticleById(@Path('id') String id);
+
+  @GET("/article/page/")
+  Future<HttpResponse<int>> getArticleMaxPage();
 }
