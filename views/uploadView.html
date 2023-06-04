@@ -65,17 +65,23 @@
                 formData.append(myFiles.item(key).name, myFiles.item(key))
             })
 
-            formData.append("licensePlate", "8888");
-            formData.append("brand","Audi");
-            formData.append("seats","10");
-            formData.append("pricePerDay","1000000");
-            formData.append("color","red");
-            formData.append("province","HCM");
-            formData.append("city","Quan 1");
-            formData.append("address","123 Nguyen Hue");
-            formData.append("description","some shit");
+            // formData.append("licensePlate", "8888");
+            // formData.append("brand","Audi");
+            // formData.append("seats","10");
+            // formData.append("pricePerDay","1000000");
+            // formData.append("color","red");
+            // formData.append("province","HCM");
+            // formData.append("city","Quan 1");
+            // formData.append("address","123 Nguyen Hue");
+            // formData.append("description","some shit");
+            formData.append("title","New dia diem du lich")
+            formData.append("province","Lam dong")
+            formData.append("city","Bao Loc")
+            formData.append("referenceName","tiem tra thang chill")
+            formData.append("description","Chill vaiz lun")
+            formData.append("address","P2")
 
-            fetch('http://localhost:3500/car', {
+            fetch('http://localhost:3500/article', {
                 method: 'POST',
                 body: formData,
                 headers:{

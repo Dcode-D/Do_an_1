@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {getFilesById} = require('../controller/filesController');
+const {getFilesById, deleteFile, updateFile} = require('../controller/filesController');
 const utils_auth = require("../middleware/utils_auth");
 const fileUpload = require("express-fileupload");
 const path = require("path");
@@ -7,6 +7,7 @@ const FileModel = require("../models/files_model");
 
 router.get('/:id', getFilesById);
 router.use(utils_auth);
+router.delete('/:id', deleteFile);
 router.use(fileUpload({
     limit: { fileSize: 50 * 1024 * 1024 },
     useTempFiles: true,
@@ -46,4 +47,5 @@ router.post('/', async (req, res) => {
         return res.sendStatus(503);
     }
 });
+router.put('/:id', updateFile);
 module.exports = router;
