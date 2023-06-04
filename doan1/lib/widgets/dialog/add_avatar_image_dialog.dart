@@ -6,15 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddAvatarDialog extends StatelessWidget{
+class ImagePickingDialog extends StatelessWidget{
   Function getImageFromGallery;
   Function getImageFromCamera;
+  String title;
 
-  AddAvatarDialog({required this.getImageFromGallery, required this.getImageFromCamera});
+  ImagePickingDialog({required this.getImageFromGallery, required this.getImageFromCamera, required this.title});
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EditProfileBloc,EditProfileInfoState>(
-      builder: (context,state) =>
+    return
       Container(
         height: 260,
         width: MediaQuery.of(context).size.width*0.8,
@@ -27,7 +27,7 @@ class AddAvatarDialog extends StatelessWidget{
           child: Column(
             children: [
               Text(
-                'Please add your best avatar image',
+                title,
                 textAlign: TextAlign.center,
                 softWrap: true,
                 style: GoogleFonts.raleway(
@@ -108,7 +108,6 @@ class AddAvatarDialog extends StatelessWidget{
             ],
           ),
         ),
-      ),
     );
   }
 }

@@ -41,7 +41,14 @@ class ProfileScreen extends StatelessWidget {
               SpeedDialChild(
                 child: const Icon(Icons.post_add),
                 backgroundColor: Colors.orange,
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePostScreen())),
+                onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_) =>
+                    BlocProvider<ProfileBloc>.value(
+                        value: BlocProvider.of<ProfileBloc>(context),
+                        child:
+                    CreatePostScreen()
+                    )
+                )
+                ),
                 label: 'Create Post',
                 labelStyle: const TextStyle(
                     color: Colors.white,

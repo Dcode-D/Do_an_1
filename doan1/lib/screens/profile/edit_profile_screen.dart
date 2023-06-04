@@ -189,13 +189,11 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                         context: context,
                                         barrierDismissible: true,
                                         builder: (BuildContext context) {
-                                          return BlocProvider.value(
-                                            value: bloc,
-                                            child: Center(
-                                              child: AddAvatarDialog(
-                                                getImageFromCamera: pickImageFromCamera,
-                                                getImageFromGallery: pickImageFromGallery,),
-                                            ),
+                                          return Center(
+                                            child: ImagePickingDialog(
+                                              title: 'Please add your best avatar image',
+                                              getImageFromCamera: pickImageFromCamera,
+                                              getImageFromGallery: pickImageFromGallery,),
                                           );
                                         },
                                       );
