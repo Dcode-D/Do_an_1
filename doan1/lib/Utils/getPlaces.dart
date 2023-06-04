@@ -11,17 +11,23 @@ class GetPlaces {
     return result;
   }
 
-  static Future<List<Map<String,dynamic>>> getDistrict(int provinceCode) async{
+  static Future<List<Map>> getDistrict(int provinceCode) async{
     final dio = Dio();
-    final Response<List<Map<String,dynamic>>> response = await dio.get('https://provinces.open-api.vn/api/d/search/?p=$provinceCode&q=*');
-    final result = response.data?.map((e) => {"name":e["name"],"code":e["code"]}).toList();
-    return result ?? [];
+    final response = await dio.get('https://provinces.open-api.vn/api/d/search/?p=$provinceCode&q=*');
+    List<Map> result = [];
+    for(var item in response.data){
+      result.add({"name":item["name"],"code":item["code"]});
+    }
+    return result;
   }
 
-  static Future<List<Map<String,dynamic>>> getWard(int districtCode, int provinceCode) async{
+  static Future<List<Map>> getWard(int districtCode, int provinceCode) async{
     final dio = Dio();
-    final Response<List<Map<String,dynamic>>> response = await dio.get('https://provinces.open-api.vn/api/w/search/?d=$districtCode&p=$provinceCode&q=*');
-    final result = response.data?.map((e) => {"name":e["name"],"code":e["code"]}).toList();
-    return result ?? [];
+    final response = await dio.get('https://provinces.open-api.vn/api/w/search/?d=$districtCode&p=$provinceCode&q=*');
+    List<Map> result = [];
+    for(var item in response.data){
+      result.add({"name":item["name"],"code":item["code"]});
+    }
+    return result ;
   }
 }
