@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:doan1/Utils/getPlaces.dart';
+import 'package:doan1/Utils/get_places.dart';
 import 'package:meta/meta.dart';
 import 'package:doan1/Utils/pick_files.dart';
 

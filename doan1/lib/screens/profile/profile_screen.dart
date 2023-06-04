@@ -3,6 +3,7 @@ import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/screens/profile/create_post_screen.dart';
 import 'package:doan1/screens/profile/create_service_screen.dart';
+import 'package:doan1/screens/profile/create_tour_screen.dart';
 import 'package:doan1/screens/profile/favorite_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,17 @@ class ProfileScreen extends StatelessWidget {
                 labelBackgroundColor: Colors.orange,
               ),
               SpeedDialChild(
+                child: const Icon(FontAwesomeIcons.flag),
+                backgroundColor: Colors.orange,
+                onTap: ()
+                => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateTourScreen())),
+                label: 'Create tour',
+                labelStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+                labelBackgroundColor: Colors.orange,
+              ),
+              SpeedDialChild(
                 child: const Icon(Icons.sell_rounded),
                 backgroundColor: Colors.orange,
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateServiceScreen())),
@@ -76,6 +88,7 @@ class ProfileScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500),
                 labelBackgroundColor: Colors.orange,
               ),
+
             ],),
         ),
         body: Stack(
