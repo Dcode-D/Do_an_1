@@ -1,0 +1,55 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:bloc/bloc.dart';
+import 'package:doan1/data/repositories/hotel_repo.dart';
+import 'package:get_it/get_it.dart';
+import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../Utils/pick_files.dart';
+import '../../../data/Preferences.dart';
+
+part 'hotel_creation_event.dart';
+part 'hotel_creation_state.dart';
+
+class HotelCreationBloc extends Bloc<HotelCreationEvent, HotelCreationState> {
+  var listImages = <File>[];
+  HotelCreationBloc() : super(HotelCreationInitial()) {
+    final hotelRepo = GetIt.instance.get<HotelRepo>();
+    on<HotelCreationEvent>((event, emit) {
+    });
+    on<HotelCreationImageEvent>((event, emit) async {
+      if(event.method == ImageMethod.camera){
+        var image = await FilesPicking.pickImageFromCamera();
+        if(image != null){
+          listImages.add(image);
+          emit(HotelCreationImageState(listImages));
+        }
+      }
+      else if(event.method == ImageMethod.gallery){
+        var image = await FilesPicking.pickImageFromGallery();
+        if(image != null){
+          listImages.add(image);
+          emit(HotelCreationImageState(listImages));
+        }
+      }
+    });
+    on<HotelCreationRemoveImgEvent>((event, emit) async {
+      listImages.removeAt(event.index);
+      emit(HotelCreationImageState(listImages));
+    });
+
+    on<HotelCreationPostEvent>((event, emit) async {
+      final rs = await hotelRepo.createHotel(
+        event.name,
+        event.description,
+        event.address,
+        event.province,
+        event.district,
+        listImages,
+      );
+      emit(HotelCreationPostState(rs));
+    });
+  }
+}
