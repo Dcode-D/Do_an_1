@@ -2,21 +2,32 @@ const dateBookingModel = require('../models/dateBookingModel');
 const hotelModel = require('../models/hotel_model');
 const carModel = require('../models/carServiceModel');
 
+//pass in dateBooking, type, service list in the body
 const createDateBooking = async (req, res) => {
     try {
-        const check = await dateBookingModel.find({bookingDate: req.body.date, attachedService: req.body.service, suspended: false});
-        const checkhotel = hotelModel.findById(req.body.service)
-        const checkCar = carModel.findById(req.body.service)
-        if(!checkhotel && !checkCar) return res.status(404).json({status: "error", message: "Service not found"});
-        if (check.length>0) return res.status(400).json({status: "error", message: "Date booking already exists"});
-        const dateBooking = new dateBookingModel({
-            bookingDate: req.body.date,
-            attachedService: req.body.attachedService,
-            user: req.user._id,
-            note: req.body.note,
-            type: req.body.type //hotel or car
-        });
-        await dateBooking.save();
+        const {listDateBooking,type, service} = req.body;
+        const checkhotel = hotelModel.findById(service)
+        const checkCar = carModel.findById(service)
+        if (!checkhotel && !checkCar) return res.status(404).json({status: "error", message: "Service not found"});
+        for(const booking of listDateBooking){
+            const check = await dateBookingModel.find({
+                bookingDate: booking.bookingDate,
+                attachedService: booking.attachedService,
+                suspended: false,
+                type: type
+            });
+            if(check.length > 0) return res.status(400).json({status: "error", message: "Date booking already exists"});
+        }
+        for (const booking of listDateBooking) {
+            const dateBooking = new dateBookingModel({
+                bookingDate: booking.bookingDate,
+                attachedService: booking.attachedService,
+                user: req.user._id,
+                note: booking.note,
+                type: type //hotel or car
+            });
+            await dateBooking.save();
+        }
         return res.status(200).json({status: "success", message: "Date booking created"});
     } catch (e) {
         console.log(e.message);
@@ -115,6 +126,44 @@ const getBookingsOfUser = async (req, res) => {
     }
 }
 
+const getDateBookingOfHotel = async (req, res) => {
+    try{
+        const hotel = req.params.hotel;
+        const {bookingDate, approved, suspended} = req.query;
+        const query = dateBookingModel.find({attachedService: hotel, type: "hotel"});
+        if(bookingDate)
+            query.where({bookingDate: bookingDate});
+        if(approved)
+            query.where({approved: approved});
+        if(suspended)
+            query.where({suspended: suspended});
+        const datebookings = await query.exec();
+        return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
+    }catch (e){
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+const getDateBookingOfCar = async (req, res) => {
+    try{
+        const car = req.params.car;
+        const {bookingDate, approved, suspended} = req.query;
+        const query = dateBookingModel.find({attachedService: car, type: "car"});
+        if(bookingDate)
+            query.where({bookingDate: bookingDate});
+        if(approved)
+            query.where({approved: approved});
+        if(suspended)
+            query.where({suspended: suspended});
+        const datebookings = await query.exec();
+        return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
+    }catch (e){
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
 const getBookingById = async (req, res) => {
     try{
         const booking = await dateBookingModel.findById(req.params.id);
@@ -129,4 +178,4 @@ const getBookingById = async (req, res) => {
     }
 }
 
-module.exports={createDateBooking,deleteDateBooking, approveDateBooking, rejectDateBooking, getBookingsOfUser, getBookingById};
+module.exports={createDateBooking,deleteDateBooking, approveDateBooking, rejectDateBooking, getBookingsOfUser, getBookingById, getDateBookingOfHotel, getDateBookingOfCar};

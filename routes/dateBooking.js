@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {createDateBooking,deleteDateBooking,approveDateBooking,rejectDateBooking,getBookingById,getBookingsOfUser} = require('../controller/dateBookingController');
+const {createDateBooking,deleteDateBooking,approveDateBooking,rejectDateBooking,getBookingById,getBookingsOfUser, getDateBookingOfHotel, getDateBookingOfCar} = require('../controller/dateBookingController');
 const authen = require('../middleware/utils_auth');
 
 
@@ -10,4 +10,6 @@ router.post('/',createDateBooking)
 router.delete('/:id',deleteDateBooking)
 router.get('/:id/approve',approveDateBooking)
 router.get('/:id/reject',rejectDateBooking)
+router.get('/hotel/:hotel',getDateBookingOfHotel)
+router.get('/car/:car',getDateBookingOfCar)
 module.exports = router;
