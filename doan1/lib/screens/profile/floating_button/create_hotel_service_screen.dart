@@ -1,3 +1,4 @@
+import 'package:doan1/screens/profile/floating_button/create_hotel_room_screen.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,6 +48,11 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                 }
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CreateHotelRoomScreen(),
+                  ),
+                );
               },
               icon: const Icon(
                 FontAwesomeIcons.add,
@@ -169,7 +175,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                         ),
                         const SizedBox(height: 10,),
                         Text(
-                          'Hotel price',
+                          'Price',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -198,7 +204,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                           },
                         ),
                         const SizedBox(height: 10,),
-                        Text('Hotel Address',
+                        Text('Address',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -226,7 +232,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                           },
                         ),
                         const SizedBox(height: 10,),
-                        Text('Hotel Province',
+                        Text('Province',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -254,7 +260,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                           },
                         ),
                         const SizedBox(height: 10,),
-                        Text('Hotel City',
+                        Text('City',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -282,7 +288,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                           },
                         ),
                         const SizedBox(height: 10,),
-                        Text('Hotel Facilities',
+                        Text('Facilities',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -320,7 +326,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                           ),
                         ),
                         const SizedBox(height: 10,),
-                        Text('Hotel Description',
+                        Text('Description',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -347,150 +353,6 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                         const SizedBox(height: 10,),
                       ],
                     )
-                // selectedValue == 'Vehicle' ?
-                //     Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Text(
-                //           'Vehicle name',
-                //           style: GoogleFonts.raleway(
-                //             fontSize: 18,
-                //             fontWeight: FontWeight.w400,
-                //             letterSpacing: 1.2,
-                //             color: Colors.black,
-                //           ),
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         TextFormField(
-                //           decoration: InputDecoration(
-                //             prefixIcon: const Icon(
-                //               FontAwesomeIcons.car,
-                //               color: Colors.black45,
-                //             ),
-                //             hintText: 'Enter vehicle name',
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(5),
-                //             ),
-                //           ),
-                //           validator: (value) {
-                //             if (value!.isEmpty) {
-                //               return 'Please enter vehicle name';
-                //             }
-                //             return null;
-                //           },
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         Text('Please add some images of your vehicle',
-                //           style: GoogleFonts.raleway(
-                //             fontSize: 13,
-                //             fontWeight: FontWeight.w400,
-                //             fontStyle: FontStyle.italic,
-                //             letterSpacing: 1.2,
-                //             color: Colors.orange,
-                //           ),
-                //         ),
-                //         SizedBox(
-                //           height: 200,
-                //           child: GridView.builder(
-                //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                //               crossAxisCount: 4,
-                //               crossAxisSpacing: 8.0,
-                //               mainAxisSpacing: 8.0,
-                //             ),
-                //             itemCount: destinationList[0].images.length,
-                //             itemBuilder: (BuildContext context, int index) {
-                //               return Image.asset(
-                //                 destinationList[0].images[index],
-                //                 fit: BoxFit.cover,
-                //               );
-                //             },
-                //           ),
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         Text(
-                //           'Vehicle price',
-                //           style: GoogleFonts.raleway(
-                //             fontSize: 18,
-                //             fontWeight: FontWeight.w400,
-                //             letterSpacing: 1.2,
-                //             color: Colors.black,
-                //           ),
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         TextFormField(
-                //           initialValue:' / Day',
-                //           decoration: InputDecoration(
-                //             prefixIcon: const Icon(
-                //               FontAwesomeIcons.dollarSign,
-                //               color: Colors.black45,
-                //             ),
-                //             hintText: 'Enter vehicle price',
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(5),
-                //             ),
-                //           ),
-                //           validator: (value) {
-                //             if (value!.isEmpty) {
-                //               return 'Please enter vehicle price';
-                //             }
-                //             return null;
-                //           },
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         Text('Vehicle Address',
-                //           style: GoogleFonts.raleway(
-                //             fontSize: 18,
-                //             fontWeight: FontWeight.w400,
-                //             letterSpacing: 1.2,
-                //             color: Colors.black,
-                //           ),
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         TextFormField(
-                //           decoration: InputDecoration(
-                //             prefixIcon: const Icon(
-                //               FontAwesomeIcons.mapMarkerAlt,
-                //               color: Colors.black45,
-                //             ),
-                //             hintText: 'Enter vehicle address',
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(5),
-                //             ),
-                //           ),
-                //           validator: (value) {
-                //             if (value!.isEmpty) {
-                //               return 'Please enter vehicle address';
-                //             }
-                //             return null;
-                //           },
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         Text('Vehicle Description',
-                //           style: GoogleFonts.raleway(
-                //             fontSize: 18,
-                //             fontWeight: FontWeight.w400,
-                //             letterSpacing: 1.2,
-                //             color: Colors.black,
-                //           ),
-                //         ),
-                //         const SizedBox(height: 10,),
-                //         TextFormField(
-                //           maxLines: 5,
-                //           decoration: InputDecoration(
-                //             hintText: 'Enter vehicle description',
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(5),
-                //             ),
-                //           ),
-                //           validator: (value) {
-                //             if (value!.isEmpty) {
-                //               return 'Please enter vehicle description';
-                //             }
-                //             return null;
-                //           },
-                //         ),
-                //       ],
-                //     ) : const SizedBox(),
               ]),
           ),
         ),

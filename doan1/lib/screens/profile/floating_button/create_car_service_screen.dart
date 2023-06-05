@@ -171,7 +171,7 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen>{
                         ),
                         const SizedBox(height: 10,),
                         Text(
-                          'Vehicle price',
+                          'Price',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -199,7 +199,65 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen>{
                           },
                         ),
                         const SizedBox(height: 10,),
-                        Text('Vehicle Address',
+                        Text(
+                          'Seats',
+                          style: GoogleFonts.raleway(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 10,),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(
+                              FontAwesomeIcons.dollarSign,
+                              color: Colors.black45,
+                            ),
+                            hintText: 'Enter vehicle seats',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter vehicle seats';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10,),
+                        Text(
+                          'License plate',
+                          style: GoogleFonts.raleway(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 10,),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(
+                              FontAwesomeIcons.dollarSign,
+                              color: Colors.black45,
+                            ),
+                            hintText: 'Enter vehicle license plate',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter vehicle license plate';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10,),
+                        Text('Address',
                           style: GoogleFonts.raleway(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -222,6 +280,60 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen>{
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter vehicle address';
+                            }
+                            return null;
+                          },
+                        ),
+                        Text('Province',
+                          style: GoogleFonts.raleway(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 10,),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(
+                              FontAwesomeIcons.mapMarkerAlt,
+                              color: Colors.black45,
+                            ),
+                            hintText: 'Enter vehicle\'s province',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter vehicle\'s province';
+                            }
+                            return null;
+                          },
+                        ),
+                        Text('City',
+                          style: GoogleFonts.raleway(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 10,),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(
+                              FontAwesomeIcons.mapMarkerAlt,
+                              color: Colors.black45,
+                            ),
+                            hintText: 'Enter vehicle\'s city',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter vehicle\'s city';
                             }
                             return null;
                           },
