@@ -13,19 +13,6 @@ class RemoveImageEvent extends PostsEvent {
   RemoveImageEvent(this.index);
 }
 
-//handle getting places
-class GetProvinceEvent extends PostsEvent {}
-
-class GetDistrictEvent extends PostsEvent {
-  final int provinceCode;
-  GetDistrictEvent(this.provinceCode);
-}
-
-class GetWardEvent extends PostsEvent {
-  final int districtCode;
-  final int provinceCode;
-  GetWardEvent(this.districtCode, this.provinceCode);
-}
 
 class CreatePostEvent extends PostsEvent{
   final String title;

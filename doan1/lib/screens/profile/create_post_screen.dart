@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doan1/BLOC/components/places_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/models/destination_model.dart';
 import 'package:doan1/widgets/dialog/add_avatar_image_dialog.dart';
@@ -36,7 +37,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       providers: [
         BlocProvider<PostsBloc>(
           create: (BuildContext context) =>
-              PostsBloc()..add(GetProvinceEvent()),
+              PostsBloc(),
         ),
       ],
       child: Builder(builder: (context) {
@@ -333,84 +334,90 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     ),
                                   ),
                                 ),
+                                BlocProvider<PlacesBloc>(
+                                  create: (context) => PlacesBloc()..add(GetProvinceEvent()),
+                                child:
                                 //Province List
-                                BlocBuilder<PostsBloc, PostsState>(
-                                    buildWhen: (previous, current) {
-                                  return current is PostsProvinceState ||
-                                      current is PostsInitial;
-                                }, builder: (context, state) {
-                                  return state is PostsProvinceState
-                                      ? Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Province',
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                letterSpacing: 1.2,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            DropdownButtonFormField<Map>(
-                                              decoration: InputDecoration(
-                                                hintText: 'Province',
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
+                                Column(
+                                  children: [
+                                    BlocBuilder<PlacesBloc, PlacesState>(
+                                        buildWhen: (previous, current) {
+                                      return current is PlaceProvinceState ||
+                                          current is PlacesInitial;
+                                    }, builder: (context, state) {
+                                      return state is PlaceProvinceState
+                                          ? Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Province',
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700,
+                                                    letterSpacing: 1.2,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                              items:
-                                                  (state as PostsProvinceState)
-                                                      .listProvince
-                                                      .map((item) =>
-                                                          DropdownMenuItem<Map>(
-                                                            value: item,
-                                                            child: Text(
-                                                              item['name'],
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                              ),
-                                                            ),
-                                                          ))
-                                                      .toList(),
-                                              validator: (value) {
-                                                if (value == null) {
-                                                  return 'Please select province';
-                                                }
-                                                return null;
-                                              },
-                                              onChanged: (value) {
-                                                context.read<PostsBloc>().add(
-                                                    GetDistrictEvent(
-                                                        value?['code']));
-                                                provinceCode = value?['code'];
-                                                provinceName = value?['name'];
-                                              },
-                                              onSaved: (value) {
-                                                context.read<PostsBloc>().add(
-                                                    GetDistrictEvent(
-                                                        value?['code']));
-                                                provinceCode = value?['code'];
-                                                provinceName = value?['name'];
-                                              },
-                                            ),
-                                          ],
-                                        )
-                                      : const CircularProgressIndicator();
-                                }),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                DropdownButtonFormField<Map>(
+                                                  decoration: InputDecoration(
+                                                    hintText: 'Province',
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(5),
+                                                    ),
+                                                  ),
+                                                  items:
+                                                      (state as PlaceProvinceState)
+                                                          .listProvince
+                                                          .map((item) =>
+                                                              DropdownMenuItem<Map>(
+                                                                value: item,
+                                                                child: Text(
+                                                                  item['name'],
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize: 14,
+                                                                  ),
+                                                                ),
+                                                              ))
+                                                          .toList(),
+                                                  validator: (value) {
+                                                    if (value == null) {
+                                                      return 'Please select province';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  onChanged: (value) {
+                                                    context.read<PlacesBloc>().add(
+                                                        GetDistrictEvent(
+                                                            value?['code']));
+                                                    provinceCode = value?['code'];
+                                                    provinceName = value?['name'];
+                                                  },
+                                                  onSaved: (value) {
+                                                    context.read<PlacesBloc>().add(
+                                                        GetDistrictEvent(
+                                                            value?['code']));
+                                                    provinceCode = value?['code'];
+                                                    provinceName = value?['name'];
+                                                  },
+                                                ),
+                                              ],
+                                            )
+                                          : const CircularProgressIndicator();
+                                    }),
+
                                 //District List
-                                BlocBuilder<PostsBloc, PostsState>(
+                                BlocBuilder<PlacesBloc, PlacesState>(
                                     buildWhen: (previous, current) {
-                                  return current is PostsDistrictState ||
-                                      current is PostsInitial;
+                                  return current is PlaceDistrictState ||
+                                      current is PlacesInitial;
                                 }, builder: (context, state) {
-                                  return state is PostsDistrictState
+                                  return state is PlaceDistrictState
                                       ?
                                       //Real district list
                                       Column(
@@ -439,7 +446,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                               ),
                                               value: state.listDistrict[0],
                                               items:
-                                                  (state as PostsDistrictState)
+                                                  (state as PlaceDistrictState)
                                                       .listDistrict
                                                       .map((item) =>
                                                           DropdownMenuItem<Map>(
@@ -460,16 +467,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                                 return null;
                                               },
                                               onChanged: (value) {
-                                                context.read<PostsBloc>().add(
-                                                    GetWardEvent(value?['code'],
-                                                        provinceCode));
                                                 districtCode = value?['code'];
                                                 districtName = value?['name'];
                                               },
                                               onSaved: (value) {
-                                                context.read<PostsBloc>().add(
-                                                    GetWardEvent(value?['code'],
-                                                        provinceCode));
                                                 districtCode = value?['code'];
                                                 districtName = value?['name'];
                                               },
@@ -492,6 +493,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                           },
                                         );
                                 }),
+                                  ],
+                                ),
+                                ),
                                 Text(
                                   "Address",
                                   style: GoogleFonts.raleway(

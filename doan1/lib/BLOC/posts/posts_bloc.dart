@@ -39,24 +39,11 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         }
       }
     });
-    on<GetProvinceEvent>((event, emit) async {
-      var listProvince = await GetPlaces.getProvince();
-      emit(PostsProvinceState(listProvince));
-    });
-    on<GetDistrictEvent>((event, emit) async {
-      var listDistrict = await GetPlaces.getDistrict(event.provinceCode);
-      emit(PostsDistrictState(listDistrict));
-    });
-    on<GetWardEvent>((event, emit) async {
-      var listWard = await GetPlaces.getWard(event.districtCode, event.provinceCode);
-      emit(PostsWardState(listWard));
-    });
     on<RemoveImageEvent>((event, emit) async {
       listImages.removeAt(event.index);
       emit(PostsImageState(listImages));
     });
     on<CreatePostEvent>((event, emit) async {
-
       final rs = await articleRepo.createPost(token as String, event.title, event.description, event.address, event.province, event.district, event.referenceName, listImages);
       emit(PostCreatePostsState(rs));
     });
