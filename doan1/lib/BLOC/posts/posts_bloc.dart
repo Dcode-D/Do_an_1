@@ -44,7 +44,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       emit(PostsImageState(listImages));
     });
     on<CreatePostEvent>((event, emit) async {
-      final rs = await articleRepo.createPost(token as String, event.title, event.description, event.address, event.province, event.district, event.referenceName, listImages);
+      final rs = await articleRepo.createPost(token, event.title, event.description, event.address, event.province, event.district, event.referenceName, listImages);
       emit(PostCreatePostsState(rs));
     });
   }

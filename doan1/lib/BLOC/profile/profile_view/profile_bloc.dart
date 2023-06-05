@@ -14,8 +14,7 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
   User? user;
-  File? image;
-  String? path;
+  String? image;
   ProfileBloc(BuildContext context): super(ProfileState(getUserSuccess: false)){
     on<getProfileScreenEvent>((event, emit) async {
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
@@ -24,7 +23,7 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
       if(user != null){
         var userRepo = GetIt.instance.get<UserRepo>();
         var images = await userRepo.getListAvatarId(user!.id);
-        path = '$baseUrl/avatar/${images!.last}';
+        image = '$baseUrl/avatar/${images!.last}';
         emit(ProfileState(getUserSuccess: true));
       }
     });

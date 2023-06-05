@@ -25,16 +25,16 @@ class PlanningItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DestinationDetailScreen(
-              destination: destination,
-              img: desImg,
-              type: 1,
-            ),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => DestinationDetailScreen(
+        //       destination: destination,
+        //       img: desImg,
+        //       type: 1,
+        //     ),
+        //   ),
+        // );
       },
       child: Stack(
         children: <Widget>[
