@@ -19,6 +19,12 @@ const RatingSchema = Schema({
     },
     comment: {
         type: String,
+    },
+    type:{
+        type: String,
+        require: true,
+        notnull: true,
+        enum: ['hotel', 'car', 'tour', 'article']
     }
 })
 

@@ -6,7 +6,8 @@ const createRating = async (req, res) => {
             rating: req.body.rating,
             comment: req.body.comment,
             user: req.user._id,
-            service: req.body.service
+            service: req.body.service,
+            type: req.body.type
         });
         await rating.save();
         return res.status(200).json({status: "success", message: "Rating created"});
@@ -76,5 +77,22 @@ const getMaxPage = async (req, res) => {
     }
 }
 
+//pass in the type and service id
+const getGeneralRating = async (req, res) => {
+    try{
+        const dbquery = ratingModel.find({type: req.params.type, service: req.params.service});
+        const ratings = await dbquery.exec();
+        let total = 0;
+        for(let i = 0; i < ratings.length; i++){
+            total += ratings[i].rating;
+        }
+        return res.status(200).json({status: "success", data: total/ratings.length});
+    }
+    catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
 
-module.exports = {createRating, updateRating, deleteRating, getRatings, getMaxPage}
+
+module.exports = {createRating, updateRating, deleteRating, getRatings, getMaxPage, getGeneralRating}
