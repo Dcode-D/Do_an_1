@@ -4,7 +4,7 @@ part of 'article_item_bloc.dart';
 abstract class ArticleItemEvent {}
 
 class GetArticleItemData extends ArticleItemEvent{
-  Article article;
+  Article? article;
   GetArticleItemData({required this.article});
 }
 

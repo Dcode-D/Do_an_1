@@ -21,8 +21,7 @@ class DestinationCarousel extends StatefulWidget {
 }
 
 class _DestinationCarouselState extends State<DestinationCarousel> {
-  var currentPage = 3.0;
-  List<Image> images = [];
+  var currentPage = 4.0;
   @override
   void initState() {
     super.initState();

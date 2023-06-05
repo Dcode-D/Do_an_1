@@ -1,9 +1,10 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
-import 'package:doan1/screens/profile/create_post_screen.dart';
-import 'package:doan1/screens/profile/create_service_screen.dart';
-import 'package:doan1/screens/profile/create_tour_screen.dart';
+import 'package:doan1/screens/profile/floating_button/create_car_service_screen.dart';
+import 'package:doan1/screens/profile/floating_button/create_post_screen.dart';
+import 'package:doan1/screens/profile/floating_button/create_hotel_service_screen.dart';
+import 'package:doan1/screens/profile/floating_button/create_tour_screen.dart';
 import 'package:doan1/screens/profile/favorite_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,11 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Logout()=>{
-    context.read<AuthenticationBloc>().add(LogoutEvent())
+      context.read<AuthenticationBloc>().add(LogoutEvent())
     };
+
     ProfileBloc bloc = context.read<ProfileBloc>();
+
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
 
@@ -45,12 +48,11 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_) =>
                     BlocProvider<ProfileBloc>.value(
                         value: BlocProvider.of<ProfileBloc>(context),
-                        child:
-                    CreatePostScreen()
+                        child: CreatePostScreen()
                     )
                 )
                 ),
-                label: 'Create Post',
+                label: 'Create post',
                 labelStyle: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500),
@@ -60,7 +62,12 @@ class ProfileScreen extends StatelessWidget {
                 child: const Icon(FontAwesomeIcons.flag),
                 backgroundColor: Colors.orange,
                 onTap: ()
-                => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateTourScreen())),
+                => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
+                    BlocProvider<ProfileBloc>.value(
+                      value: BlocProvider.of<ProfileBloc>(context),
+                        child: CreateTourScreen())
+                )
+                ),
                 label: 'Create tour',
                 labelStyle: const TextStyle(
                     color: Colors.white,
@@ -68,10 +75,20 @@ class ProfileScreen extends StatelessWidget {
                 labelBackgroundColor: Colors.orange,
               ),
               SpeedDialChild(
-                child: const Icon(Icons.sell_rounded),
+                child: const Icon(FontAwesomeIcons.hotel),
                 backgroundColor: Colors.orange,
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateServiceScreen())),
-                label: 'Create Service',
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreateHotelServiceScreen())),
+                label: 'Create hotel service',
+                labelStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+                labelBackgroundColor: Colors.orange,
+              ),
+              SpeedDialChild(
+                child: const Icon(FontAwesomeIcons.car),
+                backgroundColor: Colors.orange,
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreateCarServiceScreen())),
+                label: 'Create car service',
                 labelStyle: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500),
@@ -81,14 +98,24 @@ class ProfileScreen extends StatelessWidget {
                 child: const Icon(FontAwesomeIcons.checkCircle),
                 backgroundColor: Colors.orange,
                 onTap: ()
-                => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CheckBookingScreen())),
+                => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CheckBookingScreen())),
                 label: 'Check booking',
                 labelStyle: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500),
                 labelBackgroundColor: Colors.orange,
               ),
-
+              SpeedDialChild(
+                child: const Icon(FontAwesomeIcons.businessTime),
+                backgroundColor: Colors.orange,
+                onTap: () {},
+                // => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CheckBookingScreen())),
+                label: 'Manage service',
+                labelStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+                labelBackgroundColor: Colors.orange,
+              ),
             ],),
         ),
         body: Stack(
@@ -97,7 +124,7 @@ class ProfileScreen extends StatelessWidget {
               scrollDirection: Axis.vertical,
               child: Column(
                 children:[
-                  bloc.path!=null ?
+                  bloc.image != null ?
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.5,
@@ -114,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
                           height: MediaQuery.of(context).size.height / 2.5,
                           imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                           image:
-                          NetworkImage(bloc.path!=null ? bloc.path as String:""),
+                          NetworkImage(bloc.image!=null ? bloc.image as String:""),
                           placeholder: const AssetImage('assets/images/loading.gif'),
                           fit: BoxFit.cover,
                         ),
@@ -206,6 +233,23 @@ class ProfileScreen extends StatelessWidget {
                             children:[
                               InkWell(
                                 onTap: (){
+
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white.withOpacity(0.3),
+                                  ),
+                                  child: const Icon(
+                                    FontAwesomeIcons.solidNewspaper,
+                                    color: Colors.orange,
+                                    size: 28,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              InkWell(
+                                onTap: (){
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => FavoriteScreen()));
                                 },
                                 child: Container(
@@ -220,7 +264,7 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 15),
                               InkWell(
                                 onTap: (){
                                   Navigator.push(context,
@@ -236,15 +280,14 @@ class ProfileScreen extends StatelessWidget {
                                   );
                                 },
                                 child: Container(
-                                  width: 50,
-                                  height: 30,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white.withOpacity(0.3),
                                   ),
-                                  child: const Image(
-                                    image: AssetImage('assets/icons/icon-edit.png'),
+                                  child: const Icon(
+                                    FontAwesomeIcons.edit,
                                     color: Colors.orange,
+                                    size: 30,
                                   ),
                                 ),
                               )

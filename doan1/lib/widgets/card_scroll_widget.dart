@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
+import 'package:doan1/BLOC/widget_item/article_item/article_item_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,10 +15,9 @@ const cardAspectRatio = 12.0 / 16.0;
 const widgetAspectRatio = cardAspectRatio * 1.2 ;
 
 class CardScrollWidget extends StatelessWidget {
-
-  var currentPage;
+  final double currentPage;
   var padding = 10.0;
-  var verticalInset = 20.0;
+  var verticalInset = 10;
   var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
 
   CardScrollWidget({super.key,
@@ -65,17 +65,21 @@ class CardScrollWidget extends StatelessWidget {
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         DestinationDetailScreen(
-                  //           destination: destinationList[i],
-                  //           img: images[i],
-                  //           type: 1,
-                  //         ),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          BlocProvider<ArticleBloc>.value(
+                            value: articleBloc,
+                            child: BlocProvider<ArticleItemBloc>(
+                              create: (context) => ArticleItemBloc()..add(GetArticleItemData(article: articleBloc.listArticle![i])),
+                              child: const DestinationDetailScreen(
+                                type: 1,
+                              ),
+                            ),
+                          ),
+                    ),
+                  );
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16.0),

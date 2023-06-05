@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../BLOC/posts/posts_bloc.dart';
+import '../../../BLOC/posts/posts_bloc.dart';
 
 class CreatePostScreen extends StatefulWidget {
   @override
@@ -52,7 +52,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             if(state is PostCreatePostsState){
               if(state.success) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     backgroundColor: Colors.green,
                     content: Text("Posted successfully!"),
                   ),
@@ -61,7 +61,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               }
               else{
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     backgroundColor: Colors.red,
                     content: Text("Something went wrong!"),
                   ),
@@ -148,29 +148,43 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                         width: 2,
                                       ),
                                     ),
-                                    child: CircleAvatar(
-                                      radius: 40,
-                                      backgroundImage: AssetImage(
-                                          "assets/images/avatar-wallpaper.jpg"),
-                                    ),
+                                    child:
+                                        context.read<ProfileBloc>().image !=
+                                                null
+                                            ? ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                                child: Image.network(
+                                                  context
+                                                      .read<ProfileBloc>()
+                                                      .image!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 40,
+                                                backgroundImage: AssetImage(
+                                                    "assets/images/undefine-wallpaper.jpg"),
+                                              ),
                                   ),
                                 ),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                  context.read<ProfileBloc>().user?.username !=
-                                          null
-                                      ? context
-                                          .read<ProfileBloc>()
-                                          .user!
-                                          .username
-                                      : "User name",
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.2,
-                                    color: Colors.black,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10),
+                                  child: Text(
+                                    context.read<ProfileBloc>().user?.firstname != null &&
+                                        context.read<ProfileBloc>().user?.lastname != null ?
+                                    "${context.read<ProfileBloc>().user!.firstname} ${context.read<ProfileBloc>().user!.lastname}"
+                                        : "Firstname Lastname",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                                 const Spacer(),
@@ -235,7 +249,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Text(

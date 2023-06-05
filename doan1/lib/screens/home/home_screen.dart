@@ -85,11 +85,11 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       ),
                                       child:
-                                      profileBloc.path != null ?
+                                      profileBloc.image != null ?
                                         CircleAvatar(
                                         radius: 40,
                                         backgroundImage:
-                                        NetworkImage(context.read<ProfileBloc>().path!))
+                                        NetworkImage(context.read<ProfileBloc>().image!))
                                           :
                                           const CircleAvatar(
                                           radius: 40,
