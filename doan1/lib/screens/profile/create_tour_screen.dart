@@ -1,6 +1,8 @@
+import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,13 +16,9 @@ class CreateTourScreen extends StatefulWidget {
 }
 
 class _CreateTourScreenState extends State<CreateTourScreen> {
-  final List<String> PostTypes = [
-    'Destination',
-    'Tour',
-  ];
 
-  String selectedValue = 'Tour';
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +65,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
           ],
         ),
         //heading with avatar and camera icon
-        body:Form(
+        body: Form(
           key: _formKey,
           child: SingleChildScrollView(
             child: Padding(
@@ -93,7 +91,8 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           ),
                           child: CircleAvatar(
                             radius: 40,
-                            backgroundImage: AssetImage("assets/images/avatar-wallpaper.jpg"),
+                            backgroundImage: AssetImage(
+                                "assets/images/avatar-wallpaper.jpg"),
                           ),
                         ),
                       ),
@@ -101,78 +100,21 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Nguyen Huy Tri Dung',
-                            style: GoogleFonts.raleway(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1.2,
-                              color: Colors.black,
-                            ),
+                          BlocBuilder<ProfileBloc, ProfileState>(
+                            builder: (context, state) {
+                              return Text(
+                                context.read<ProfileBloc>().user==null? 'Loading...': context.read<ProfileBloc>().user!.username,
+                                style: GoogleFonts.raleway(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black,
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(height: 5,),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.44,
-                            height: 48,
-                            child: DropdownButtonFormField2(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                              isExpanded: true,
-                              hint: const Text(
-                                'Select type of post',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              value: selectedValue,
-                              items: PostTypes
-                                  .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ))
-                                  .toList(),
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Please select type of post';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedValue = value.toString();
-                                  // if(selectedValue == "Destination"){
-                                  //   context.read<PostsBloc>().add(GetProvinceEvent());
-                                  // }
-                                });
-                              },
-                              onSaved: (value) {
-                                selectedValue = value.toString();
-                              },
-                              buttonStyleData: const ButtonStyleData(
-                                height: 30,
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.black45,
-                                ),
-                                iconSize: 30,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                            ),
-                          ),
+
                         ],
                       ),
                       const Spacer(),
@@ -199,7 +141,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                   ),
                   //FOR TOUR TODO: (Not include TourPlan)
                   const SizedBox(height: 10,),
-                  selectedValue == 'Tour' ? Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -264,7 +206,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                         },
                       ),
                     ],
-                  ) : Container(),
+                  ),
                   const SizedBox(height: 10,),
                   TextFormField(
                     onTapOutside: (value) {
