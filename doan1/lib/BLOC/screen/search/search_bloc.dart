@@ -9,6 +9,7 @@ import '../../../data/repositories/vehicle_repo.dart';
 part 'search_event.dart';
 part 'search_state.dart';
 
+//TODO: Bad design triggering multiple searching events for both car and hotel at once
 class SearchBloc extends Bloc<SearchEvent,SearchState>{
   List<Vehicle>? listVehicle;
   List<Hotel>? listHotel;
@@ -55,7 +56,8 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
   Future<List<Vehicle>?> getVehicleByBrand(String brand) async{
     var vehicleRepo = GetIt.instance.get<VehicleRepo>();
     try{
-      var listVehicle = await vehicleRepo.getListVehicleByBrand(brand);
+      //TODO: pass in the page number from outside
+      var listVehicle = await vehicleRepo.getListVehicleByBrand(brand,1);
       return listVehicle;
     }
     catch(e){

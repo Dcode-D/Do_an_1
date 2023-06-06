@@ -47,8 +47,17 @@ abstract class AppService {
   @GET("/car/{id}")
   Future<HttpResponse<BaseResponse>> getCarById(@Path('id') String id);
 
-  @GET("/car?brand={brand}")
-  Future<HttpResponse<ListModelResponse>> getListCarByBrand(@Path('brand') String brand);
+  //TODO: read this query
+  @GET("/car")
+  Future<HttpResponse<ListModelResponse>> getListCarQuery(
+    @Query('page') int page,
+    @Query('brand') String? brand,
+    @Query('color') String? color,
+    @Query('province') String? province,
+    @Query('city') String? city,
+    @Query('address') String? address,
+    @Query('maxPrice')double? maxPrice,
+    @Query('minPrice')double? minPrice);
 
   @GET("/hotel/page/1?name={name}")
   Future<HttpResponse<ListModelResponse>> getListHotelByName(@Path('name') String name);

@@ -44,9 +44,9 @@ class VehicleRepo{
     });
   }
 
-  Future<List<Vehicle>?> getListVehicleByBrand(String brand) async{
+  Future<List<Vehicle>?> getListVehicleByBrand(String brand, int page) async{
     return _appService
-        .getListCarByBrand(brand)
+        .getListCarQuery(page, brand, null, null, null, null, null, null)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;
