@@ -3,12 +3,15 @@ const path = require("path")
 const fileExtLimiter = (allowedExtArray) => {
     return (req, res, next) => {
         if(!req.files) return next()
+        if(req.files.files)
+            req.files = req.files.files
+        if(allowedExtArray.includes("*")) return next()
         const files = req.files
 
         const fileExtensions = []
-        Object.keys(files).forEach(key => {
+        for(const key in files){
             fileExtensions.push(path.extname(files[key].name))
-        })
+        }
 
         // Are the file extension allowed?
         const allowed = fileExtensions.every(ext => allowedExtArray.includes(ext))
