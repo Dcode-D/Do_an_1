@@ -7,6 +7,7 @@ import 'package:doan1/screens/profile/floating_button/create_hotel_service_scree
 import 'package:doan1/screens/profile/floating_button/create_tour_screen.dart';
 import 'package:doan1/screens/profile/favorite_screen.dart';
 import 'package:doan1/screens/profile/floating_button/manage_service_screen.dart';
+import 'package:doan1/screens/profile/floating_button/widget/hotel/edit_hotel_screen.dart';
 import 'package:doan1/screens/profile/manage_post_and_tour_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:flutter/material.dart';
@@ -235,7 +236,8 @@ class ProfileScreen extends StatelessWidget {
                             children:[
                               InkWell(
                                 onTap: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManagePostAndTourScreen()));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditHotelScreen()));
+                                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManagePostAndTourScreen()));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
