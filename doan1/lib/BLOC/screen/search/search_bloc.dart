@@ -10,6 +10,7 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 //TODO: Bad design triggering multiple searching events for both car and hotel at once
+//TODO: Separate the logic of searching for car and hotel, add function to read more data and append to list when UI requires
 class SearchBloc extends Bloc<SearchEvent,SearchState>{
   List<Vehicle>? listVehicle;
   List<Hotel>? listHotel;
