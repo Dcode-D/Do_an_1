@@ -65,9 +65,7 @@ class AllVehicleScreen extends StatelessWidget{
                 )
               ),
             ),
-          body: state.getListVehicleSuccess == true ||
-             state.maxData == true||
-             state.getExtraListVehicleSuccess == true
+          body: state.getListVehicleSuccess == true
              ?
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),

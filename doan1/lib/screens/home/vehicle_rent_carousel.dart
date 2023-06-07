@@ -65,9 +65,7 @@ class VehicleRentCarousel extends StatelessWidget {
             return SizedBox(
               height: 300.0,
               child:
-              state.getListVehicleSuccess == true ||
-                  state.maxData == true||
-                  state.getExtraListVehicleSuccess == true
+              state.getListVehicleSuccess == true
                   ?
               ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -113,9 +111,7 @@ class VehicleRentCarousel extends StatelessWidget {
         ),
         BlocBuilder<AllVehicleBloc, AllVehicleState>(
           builder: (context, state) =>
-            state.getListVehicleSuccess == true ||
-                state.maxData == true||
-                state.getExtraListVehicleSuccess == true
+            state.getListVehicleSuccess == true
                 ?
               SmoothPageIndicator(
                 controller: listController,

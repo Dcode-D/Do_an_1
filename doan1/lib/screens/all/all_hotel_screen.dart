@@ -64,7 +64,7 @@ class AllHotelScreen extends StatelessWidget{
                 )
               ),
             ),
-          body: state.getListHotelSuccess == true || state.getExtraListHotelSuccess==true || state.maxData == true?
+          body: state.getListHotelSuccess == true?
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
                 child: ListView.builder(
