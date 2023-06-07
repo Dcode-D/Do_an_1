@@ -21,7 +21,20 @@ class HotelRepo{
 
   Future<List<Hotel>?> getListHotelByName(String name,int page) async{
     return _appService
-        .getListHotelByQuery(page,name,null,null,null,null,null,null)
+        .getListHotelByQuery(page,null,name,null,null,null,null,null,null)
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toListHotel();
+      }
+    });
+  }
+
+  Future<List<Hotel>?> getListHotelByOwner(String owner,int page) async{
+    return _appService
+        .getListHotelByQuery(page,owner,null,null,null,null,null,null,null)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;
@@ -47,7 +60,7 @@ class HotelRepo{
 
   Future<bool> createHotel(String name, String description, String address, String province, String district, List<File> files) async{
     return _appService
-        .createHotel(token:"Bearer "+ (_sharedPreferences.getString(Preferences.token) as String), name: name, description: description, address: address, province: province, district: district, files: files)
+        .createHotel(token:"Bearer ${_sharedPreferences.getString(Preferences.token) as String}", name: name, description: description, address: address, province: province, district: district, files: files)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return false;

@@ -46,6 +46,7 @@ abstract class AppService {
   @GET("/car")
   Future<HttpResponse<ListModelResponse>> getListCarQuery(
     @Query('page') int page,
+    @Query('owner') String? owner,
     @Query('brand') String? brand,
     @Query('color') String? color,
     @Query('province') String? province,
@@ -54,9 +55,10 @@ abstract class AppService {
     @Query('maxPrice')double? maxPrice,
     @Query('minPrice')double? minPrice);
 
-  @GET("/hotel/page/")
+  @GET("/hotel/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListHotelByQuery(
-      @Query('page') int page,
+      @Path('page') int page,
+      @Query('owner') String? owner,
       @Query('name') String? name,
       @Query('address') String? address,
       @Query('description') String? description,

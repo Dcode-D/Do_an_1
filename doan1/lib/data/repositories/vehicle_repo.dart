@@ -33,7 +33,20 @@ class VehicleRepo{
 
   Future<List<Vehicle>?> getListVehicleByBrand(String brand, int page) async{
     return _appService
-        .getListCarQuery(page, brand, null, null, null, null, null, null)
+        .getListCarQuery(page, null, brand, null, null, null, null, null,null)
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toListVehicle();
+      }
+    });
+  }
+
+  Future<List<Vehicle>?> getListVehicleByOwner(String owner, int page) async{
+    return _appService
+        .getListCarQuery(page, owner, null, null, null, null, null, null,null)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;

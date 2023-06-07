@@ -1,6 +1,10 @@
+import 'package:doan1/screens/profile/floating_button/widget/post/edit_post_item.dart';
+import 'package:doan1/screens/profile/floating_button/widget/tour/edit_tour_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/hotel_model.dart';
+import '../../models/vehicle_model.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
 
@@ -81,28 +85,22 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
         body: TabBarView(
             controller: _tabController,
             children: [
-              Center(
-                child: Text('Destination'),
+              ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+                itemCount: hotels.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return EditPostItem();
+                },
               ),
-              Center(
-                child: Text('Tour'),
+              ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
+                itemCount: vehicles.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return EditTourItem();
+                },
               ),
-              // ListView.builder(
-              //   physics: const BouncingScrollPhysics(),
-              //   padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-              //   itemCount: hotels.length,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     return HotelCheckBookingItem();
-              //   },
-              // ),
-              // ListView.builder(
-              //   physics: const BouncingScrollPhysics(),
-              //   padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-              //   itemCount: vehicles.length,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     return VehicleCheckBookingItem();
-              //   },
-              // ),
             ]
         ),
       ),

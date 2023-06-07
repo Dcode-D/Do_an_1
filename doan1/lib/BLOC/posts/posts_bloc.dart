@@ -1,16 +1,12 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:doan1/Utils/get_places.dart';
 import 'package:doan1/data/Preferences.dart';
 import 'package:doan1/data/repositories/articale_repo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:doan1/Utils/pick_files.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http_parser/http_parser.dart';
 
 part 'posts_event.dart';
 part 'posts_state.dart';
@@ -19,7 +15,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   var listImages = <File>[];
   PostsBloc() : super(PostsInitial()) {
     final sharedPrefs = GetIt.instance.get<SharedPreferences>();
-    final token ="Bearer "+ (sharedPrefs.getString(Preferences.token) as String) ;
+    final token ="Bearer ${sharedPrefs.getString(Preferences.token) as String}" ;
     final articleRepo = GetIt.instance.get<ArticleRepo>();
     on<PostsEvent>((event, emit) {
     });

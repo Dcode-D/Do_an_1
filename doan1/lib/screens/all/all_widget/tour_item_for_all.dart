@@ -73,11 +73,10 @@ class TourItemForAll extends StatelessWidget{
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.orange,
                       ),
-                      child: const Text(
+                      child:Text(
                       'Tour',
-                      style: TextStyle(
+                      style: GoogleFonts.raleway(
                         color: Colors.white,
-                        fontFamily: 'Raleway',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                       ),

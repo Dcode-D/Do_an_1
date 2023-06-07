@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
       context.read<AuthenticationBloc>().add(LogoutEvent())
     };
 
-    ProfileBloc bloc = context.read<ProfileBloc>();
+    ProfileBloc profileBloc = context.read<ProfileBloc>();
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
@@ -112,7 +112,10 @@ class ProfileScreen extends StatelessWidget {
                 child: const Icon(FontAwesomeIcons.businessTime),
                 backgroundColor: Colors.orange,
                 onTap: ()
-                => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManageServiceScreen())),
+                => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                    BlocProvider<ProfileBloc>.value(
+                      value: profileBloc,
+                        child: ManageServiceScreen()))),
                 label: 'Manage service',
                 labelStyle: const TextStyle(
                     color: Colors.white,
@@ -127,7 +130,7 @@ class ProfileScreen extends StatelessWidget {
               scrollDirection: Axis.vertical,
               child: Column(
                 children:[
-                  bloc.image != null ?
+                  profileBloc.image != null ?
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.5,
@@ -144,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                           height: MediaQuery.of(context).size.height / 2.5,
                           imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                           image:
-                          NetworkImage(bloc.image!=null ? bloc.image as String:""),
+                          NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
                           placeholder: const AssetImage('assets/images/loading.gif'),
                           fit: BoxFit.cover,
                         ),
@@ -177,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                bloc.user!=null?"${bloc.user!.firstname} ${bloc.user!.lastname}":"loading...",
+                                profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
                                 style: GoogleFonts.raleway(
                                   fontSize: 30,
                                   fontWeight: FontWeight.w600,
@@ -193,7 +196,7 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
-                                      bloc.user!=null?bloc.user!.email:"loading...",
+                                      profileBloc.user!=null?profileBloc.user!.email:"loading...",
                                       style: GoogleFonts.raleway(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -236,8 +239,7 @@ class ProfileScreen extends StatelessWidget {
                             children:[
                               InkWell(
                                 onTap: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditHotelScreen()));
-                                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManagePostAndTourScreen()));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManagePostAndTourScreen()));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -274,7 +276,7 @@ class ProfileScreen extends StatelessWidget {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) =>
                                       BlocProvider.value(
-                                          value: bloc,
+                                          value: profileBloc,
                                         child:
                                           BlocProvider(
                                             create: (_) => EditProfileBloc(context),
@@ -314,11 +316,10 @@ class ProfileScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                             "Full name",
-                            style: TextStyle(
+                            style: GoogleFonts.raleway(
                               fontSize: 18,
-                              fontFamily: 'Raleway',
                               fontWeight: FontWeight.w700,
                               color: Colors.black,
                             ),
@@ -332,11 +333,10 @@ class ProfileScreen extends StatelessWidget {
                               size: 20,
                               ), const SizedBox(width: 20),
                                 Text(
-                                  bloc.user!=null?"${bloc.user!.firstname} ${bloc.user!.lastname}":"loading...",
-                                  style: const TextStyle(
+                                  profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
+                                  style:GoogleFonts.raleway(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: 'Raleway',
                                     color: Colors.black,),
                                 ),
                               ]),
@@ -347,11 +347,10 @@ class ProfileScreen extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                             ),
                             const SizedBox(height: 15),
-                            const Text(
+                            Text(
                               "Address",
-                              style: TextStyle(
+                              style: GoogleFonts.raleway(
                                 fontSize: 18,
-                                fontFamily: 'Raleway',
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
@@ -365,11 +364,10 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    bloc.user!=null?bloc.user!.address:"loading...",
-                                    style: const TextStyle(
+                                    profileBloc.user!=null?profileBloc.user!.address:"loading...",
+                                    style:GoogleFonts.raleway(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: 'Raleway',
                                       color: Colors.black,),
                                   ),
                                 ]),
@@ -435,11 +433,10 @@ class ProfileScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children:[
-                            const Text(
+                            Text(
                               "Email",
-                              style: TextStyle(
+                              style: GoogleFonts.raleway(
                                 fontSize: 18,
-                                fontFamily: 'Raleway',
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),),
@@ -452,11 +449,10 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    bloc.user!=null?bloc.user!.email:"loading...",
-                                    style: const TextStyle(
+                                    profileBloc.user!=null?profileBloc.user!.email:"loading...",
+                                    style:GoogleFonts.raleway(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: 'Raleway',
                                       color: Colors.black,),
                                   ),
                                 ]),
@@ -467,11 +463,10 @@ class ProfileScreen extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                             ),
                             const SizedBox(height: 15),
-                            const Text(
+                            Text(
                               "Phone Number",
-                              style: TextStyle(
+                              style: GoogleFonts.raleway(
                                 fontSize: 18,
-                                fontFamily: 'Raleway',
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
@@ -485,11 +480,10 @@ class ProfileScreen extends StatelessWidget {
                                     size: 20,
                                   ), const SizedBox(width: 20),
                                   Text(
-                                    bloc.user!=null?bloc.user!.phonenumber:"loading...",
-                                    style: const TextStyle(
+                                    profileBloc.user!=null?profileBloc.user!.phonenumber:"loading...",
+                                    style: GoogleFonts.raleway(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: 'Raleway',
                                       color: Colors.black,),
                                   ),
                                 ]),
@@ -500,30 +494,30 @@ class ProfileScreen extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                             ),
                             const SizedBox(height: 15),
-                            const Text(
+                            Text(
                               "Social Network",
-                              style: TextStyle(
+                              style: GoogleFonts.raleway(
                                 fontSize: 18,
-                                fontFamily: 'Raleway',
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
                             ),
                             const SizedBox(height: 15),
-                            const Row(
+                            Row(
                                 children:[
-                                  Icon(
+                                  const Icon(
                                     FontAwesomeIcons.globe,
                                     color: Colors.black,
                                     size: 20,
-                                  ), SizedBox(width: 20),
+                                  ),
+                                  const SizedBox(width: 20),
                                   Text(
                                     "Not Linked",
-                                    style: TextStyle(
+                                    style: GoogleFonts.raleway(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: 'Raleway',
-                                      color: Colors.black,),
+                                      color: Colors.black,
+                                    )
                                   ),
                                 ]),
                             const SizedBox(height: 15),

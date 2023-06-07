@@ -10,7 +10,6 @@ class PostsImageState extends PostsState {
   PostsImageState(this.listImages);
 }
 
-
 class PostsWardState extends PostsState {
   final List<Map> listWard;
   PostsWardState(this.listWard);
