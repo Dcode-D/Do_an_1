@@ -22,7 +22,7 @@ const getMaxPage = async (req,res)=>{
     try {
         const {maxPrice,minPrice, facilitiesNames} = req.query;
         let maxprice, minprice;
-        let minlist = [], maxlist, facilist = [];
+        let minlist = [], maxlist =[], facilist = [];
         if (maxPrice) {
             maxprice = parseInt(maxPrice);
             delete req.query.maxPrice;
