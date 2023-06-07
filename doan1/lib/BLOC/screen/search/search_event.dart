@@ -5,7 +5,12 @@ abstract class SearchEvent {}
 
 class GetInitialData extends SearchEvent {}
 
-class GetDataForSearch extends SearchEvent {
+class GetHotelForSearch extends SearchEvent {
   final String searchText;
-  GetDataForSearch({required this.searchText});
+  GetHotelForSearch({required this.searchText});
+}
+
+class GetVehicleForSearch extends SearchEvent {
+  final String searchText;
+  GetVehicleForSearch({required this.searchText});
 }

@@ -18,12 +18,7 @@ class VehicleRentCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     var allVehicleBloc = context.read<AllVehicleBloc>();
     var profileBloc = context.read<ProfileBloc>();
-    void _ListListener(){
-      if(listController.page == allVehicleBloc.listVehicle!.length-1)  {
-        //TODO: add more data event
-      }
-    }
-    listController.addListener(_ListListener);
+
     return Column(
       children: <Widget>[
         Padding(
@@ -70,7 +65,10 @@ class VehicleRentCarousel extends StatelessWidget {
             return SizedBox(
               height: 300.0,
               child:
-              state.getListVehicleSuccess == true?
+              state.getListVehicleSuccess == true ||
+                  state.maxData == true||
+                  state.getExtraListVehicleSuccess == true
+                  ?
               ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 controller: listController,
@@ -114,11 +112,12 @@ class VehicleRentCarousel extends StatelessWidget {
           },
         ),
         BlocBuilder<AllVehicleBloc, AllVehicleState>(
-          builder: (context, state) {
-            if(state.getListVehicleSuccess == false) {
-              return const CircularProgressIndicator();
-            } else {
-              return SmoothPageIndicator(
+          builder: (context, state) =>
+            state.getListVehicleSuccess == true ||
+                state.maxData == true||
+                state.getExtraListVehicleSuccess == true
+                ?
+              SmoothPageIndicator(
                 controller: listController,
                 count: (allVehicleBloc.listVehicle!.length/2).round()+1,
                 effect: const ExpandingDotsEffect(
@@ -128,9 +127,10 @@ class VehicleRentCarousel extends StatelessWidget {
                   dotWidth: 6,
                   spacing: 4.8,
                 ),
-              );
-            }
-          },
+              ) :
+              const Center(
+                child: CircularProgressIndicator(),
+              )
         ),
       ],
     );

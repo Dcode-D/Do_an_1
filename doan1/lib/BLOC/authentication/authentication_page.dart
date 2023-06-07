@@ -23,7 +23,7 @@ class AuthenticationPage extends StatelessWidget {
               BlocProvider<AuthenticationBloc>(create: (context) => AuthenticationBloc()),
               BlocProvider<ProfileBloc>(create: (context)=> ProfileBloc(context)),
               BlocProvider<HomeBloc>(create: (context) => HomeBloc()..add(GetDataForScreenEvent())),
-              BlocProvider<SearchBloc>(create: (context)=> SearchBloc()..add(GetInitialData())),
+              BlocProvider<SearchBloc>(create: (context)=> SearchBloc()),
               BlocProvider<AllHotelBloc>(create: (context) => AllHotelBloc()..add(GetHotelListEvent())),
               BlocProvider<AllVehicleBloc>(create: (context) => AllVehicleBloc()..add(GetVehicleListEvent())),
               BlocProvider<ArticleBloc>(create: (context)=> ArticleBloc()..add(GetArticleData())),

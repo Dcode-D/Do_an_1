@@ -14,38 +14,47 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent,SearchState>{
   List<Vehicle>? listVehicle;
   List<Hotel>? listHotel;
-  SearchBloc() : super(SearchState(getData: SearchStatus.initial,getInitialData: SearchStatus.initial)){
-    on<GetDataForSearch>((event, emit) async {
-      emit(SearchState(getData: SearchStatus.initial));
+  SearchBloc() : super(SearchState(getHotelData: SearchStatus.initial,getCarData: SearchStatus.initial,getInitialData: SearchStatus.initial)){
+    on<GetHotelForSearch>((event, emit) async {
+      emit(SearchState(getHotelData: SearchStatus.initial));
 
-      listVehicle = await getVehicleByBrand(event.searchText);
       listHotel = await getHotelByName(event.searchText);
       if(listVehicle != null && listHotel != null){
-        emit(SearchState(getData: SearchStatus.success));
+        emit(SearchState(getHotelData: SearchStatus.success));
       }
       else{
-        emit(SearchState(getData: SearchStatus.failure));
+        emit(SearchState(getHotelData: SearchStatus.failure));
+      }
+    });
+
+    on<GetVehicleForSearch>((event, emit) async {
+      emit(SearchState(getCarData: SearchStatus.initial));
+
+      listVehicle = await getVehicleByBrand(event.searchText);
+      if(listVehicle != null){
+        emit(SearchState(getCarData: SearchStatus.success));
+      }
+      else{
+        emit(SearchState(getCarData: SearchStatus.failure));
       }
     });
 
     on<GetInitialData>((event,emit) async{
-      emit(SearchState(getInitialData: SearchStatus.initial));
-
-      listVehicle = await getinitialVehicle();
-      listHotel = await getinitialHotel();
-      if(listVehicle != null && listHotel != null){
-        emit(SearchState(getInitialData: SearchStatus.success));
-      }
-      else{
-        emit(SearchState(getInitialData: SearchStatus.failure));
-      }
-    });
+        listVehicle = await getinitialVehicle();
+        listHotel = await getinitialHotel();
+        if(listVehicle != null && listHotel != null){
+          emit(SearchState(getInitialData: SearchStatus.success));
+        }
+        else{
+          emit(SearchState(getInitialData: SearchStatus.failure));
+        }
+      });
   }
 
   Future<List<Hotel>?> getHotelByName(String name) async{
     var hotelRepo = GetIt.instance.get<HotelRepo>();
     try{
-      var listHotel = await hotelRepo.getListHotelByName(name);
+      var listHotel = await hotelRepo.getListHotelByName(name,1);
       return listHotel;
     }
     catch(e){

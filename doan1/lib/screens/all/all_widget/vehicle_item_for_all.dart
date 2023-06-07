@@ -142,8 +142,8 @@ class VehicleItemForAll extends StatelessWidget{
                       ),
                     ),
                     Positioned(
-                      right: 15.0,
-                      bottom: 10.0,
+                      right: 10.0,
+                      top: 15.0,
                       child: Row(
                         children: [
                           const Icon(

@@ -20,12 +20,7 @@ class HotelCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     var allHotelBloc = context.read<AllHotelBloc>();
     var profileBloc = context.read<ProfileBloc>();
-    // void _ListListener(){
-    //   if(listController.page == homeBloc.listVehicle!.length-1)  {
-    //     //TODO: add more data event
-    //   }
-    // }
-    // listController.addListener(_ListListener);
+
 
     return Column(
       children: <Widget>[
@@ -71,7 +66,7 @@ class HotelCarousel extends StatelessWidget {
               SizedBox(
                 height: 310.0,
                 child:
-                state.getListHotelSuccess == true?
+                state.getListHotelSuccess == true || state.getExtraListHotelSuccess==true || state.maxData == true?
                 ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 controller: listController,
@@ -95,7 +90,9 @@ class HotelCarousel extends StatelessWidget {
         ),
         BlocBuilder<AllHotelBloc, AllHotelState>(
           builder: (context, state) =>
-            state.getListHotelSuccess == true?
+          state.getListHotelSuccess == true ||
+              state.getExtraListHotelSuccess==true ||
+              state.maxData == true?
             SmoothPageIndicator(
             controller: listController,
             count: (allHotelBloc.listHotel!.length/2).round()+1,

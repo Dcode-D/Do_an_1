@@ -19,22 +19,9 @@ class HotelRepo{
   HotelRepo(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
-  Future<int?> getMaxPage() async {
+  Future<List<Hotel>?> getListHotelByName(String name,int page) async{
     return _appService
-        .getHotelMaxPage()
-        .then((http) async {
-      if (http.response.statusCode != 200) {
-        return null;
-      }
-      else{
-        return http.data;
-      }
-    });
-  }
-
-  Future<List<Hotel>?> getListHotelByName(String name) async{
-    return _appService
-        .getListHotelByName(name)
+        .getListHotelByQuery(page,name,null,null,null,null,null,null)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;

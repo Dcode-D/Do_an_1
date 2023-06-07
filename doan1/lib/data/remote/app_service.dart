@@ -35,11 +35,6 @@ abstract class AppService {
   @MultiPart()
   Future<HttpResponse> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
 
-  @GET("/car/page")
-  Future<HttpResponse<int>> getCarMaxPage();
-
-  @GET("/hotel/page")
-  Future<HttpResponse<int>> getHotelMaxPage();
 
   @GET("/car?page={page}")
   Future<HttpResponse<ListModelResponse>> getListCarFromPage(@Path("page") int page);
@@ -59,11 +54,19 @@ abstract class AppService {
     @Query('maxPrice')double? maxPrice,
     @Query('minPrice')double? minPrice);
 
-  @GET("/hotel/page/1?name={name}")
-  Future<HttpResponse<ListModelResponse>> getListHotelByName(@Path('name') String name);
+  @GET("/hotel/page/")
+  Future<HttpResponse<ListModelResponse>> getListHotelByQuery(
+      @Query('page') int page,
+      @Query('name') String? name,
+      @Query('address') String? address,
+      @Query('description') String? description,
+      @Query('city') String? city,
+      @Query('province') String? province,
+      @Query('maxPrice')double? maxPrice,
+      @Query('minPrice')double? minPrice);
 
   @GET("/hotel/page/{page}")
-  Future<HttpResponse<ListModelResponse>> getListHotelFromPage(@Query('page') int page);
+  Future<HttpResponse<ListModelResponse>> getListHotelFromPage(@Path('page') int page);
 
   @GET("/hotel/{id}/room")
   Future<HttpResponse<ListModelResponse>> getListHotelRoomById(@Path('id') String id);

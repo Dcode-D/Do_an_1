@@ -35,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    var searchBloc = context.read<SearchBloc>();
+    var searchBloc = context.read<SearchBloc>()..add(GetInitialData());
     var profileBloc = context.read<ProfileBloc>();
     return BlocBuilder<SearchBloc,SearchState>(
       builder: (context,state) =>
@@ -79,7 +79,30 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         textFieldConfiguration: TextFieldConfiguration(
                           controller: _searchController,
                           onSubmitted: (value) {
-                            searchBloc.add(GetDataForSearch(searchText: value));
+                            if (value.isNotEmpty) {
+                              if(_tabController.index == 0){
+
+                              }
+                              else if(_tabController.index == 1){
+                                searchBloc.add(GetHotelForSearch(searchText: value));
+                              }
+                              else if(_tabController.index == 2){
+                                searchBloc.add(GetVehicleForSearch(searchText: value));
+                              }
+                            }
+                            else{
+                              showDialog(context: context, builder:
+                              (BuildContext context) => AlertDialog(
+                                title: const Text('Missing something!'),
+                                content: const Text('Please enter something to search'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('OK'),
+                                  )
+                                ],
+                              ));
+                            }
                           },
                           decoration: InputDecoration(
                             hintText: 'Search ...',
@@ -228,6 +251,4 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
       )
     );
   }
-
-  ocBuilder({required ListView Function(dynamic context, dynamic state) builder}) {}
 }

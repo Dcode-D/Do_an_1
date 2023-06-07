@@ -1,3 +1,4 @@
+import 'package:doan1/data/model/remote/base_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -50,3 +51,4 @@ extension HotelExtension on ListModelResponse{
     return rs;
   }
 }
+

@@ -4,5 +4,6 @@ class AllVehicleState {
   bool? getListVehicleSuccess;
   bool? getExtraListVehicleSuccess;
   bool? maxData;
-  AllVehicleState({this.getListVehicleSuccess,this.getExtraListVehicleSuccess,this.maxData});
+  bool isLoadingMore = false;
+  AllVehicleState({this.getListVehicleSuccess,this.getExtraListVehicleSuccess,this.maxData,required this.isLoadingMore});
 }
