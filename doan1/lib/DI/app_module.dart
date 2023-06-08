@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:doan1/data/remote/app_service.dart';
 import 'package:doan1/data/repositories/articale_repo.dart';
 import 'package:doan1/data/repositories/user_repo.dart';
-import 'package:event_bus_plus/event_bus_plus.dart';
+import 'package:doan1/socketio/socketioRepo.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -76,4 +77,8 @@ abstract class RegisterModule {
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
       ArticleRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+
+  @singleton
+  SocketRepo socketRepo(SharedPreferences sharedPreferences, @Named("baseUrl")String baseUrl, EventBus eventBus) =>
+      SocketRepo(sharedPreferences, baseUrl, eventBus);
 }

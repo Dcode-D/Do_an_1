@@ -61,12 +61,13 @@ dependencies:
   build_runner: ^2.4.3
   retrofit_generator: ^7.0.0
   shared_preferences: ^2.1.1
-  event_bus_plus: ^0.6.1
   synchronized: ^3.1.0
   json_annotation: ^4.8.1
   injectable_generator: ^2.1.5
   flutter_speed_dial: ^7.0.0
   file_picker: ^5.3.1
+  socket_io_client: ^2.0.2
+  event_bus: ^2.0.0
 
 dev_dependencies:
   flutter_test:

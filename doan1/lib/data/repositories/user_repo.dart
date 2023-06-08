@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:doan1/data/model/user.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
-import 'package:event_bus_plus/res/event_bus.dart';
 import 'package:retrofit/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

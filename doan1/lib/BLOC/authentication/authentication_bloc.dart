@@ -2,9 +2,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:doan1/dependency.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
+import '../../EventBus/Events/Authenevent.dart';
 import '../../data/repositories/authenticator.dart';
 
 part 'authentication_event.dart';

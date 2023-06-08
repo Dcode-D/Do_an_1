@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:doan1/EventBus/Events/TestEvent.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -18,6 +20,10 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
   ProfileBloc(BuildContext context): super(ProfileState(getUserSuccess: false)){
     on<getProfileScreenEvent>((event, emit) async {
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
+      // var eventBus = GetIt.instance.get<EventBus>();
+      // eventBus.on<EBTestEvent>().listen((event) {
+      //   print(event.msg);
+      // });
       emit(ProfileState(getUserSuccess: false));
       user = await getUser();
       if(user != null){

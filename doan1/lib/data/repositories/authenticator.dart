@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:event_bus_plus/res/event_bus.dart';
+import 'package:doan1/EventBus/Events/Authenevent.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
@@ -37,7 +38,9 @@ class Authenticator {
 
       if (isSuccess) {
         var token = http.data.token;
+        await _sharedPreferences.remove(Preferences.token);
         await _sharedPreferences.setString(Preferences.token, token);
+        _eventBus.fire(EBAuthenEvent(true));
         _logger.i("New token received: $token");
       }
       return isSuccess;
@@ -49,6 +52,7 @@ class Authenticator {
       if (http.response.statusCode != 200) {
         return false;
       }
+      _eventBus.fire(EBAuthenEvent(false));
       await _sharedPreferences.remove(Preferences.token);
       return true;
     });
