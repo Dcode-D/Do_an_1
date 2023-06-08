@@ -9,6 +9,8 @@ const auth_controller = async (req,res)=>{
         try {
             const user = await userModel.findOne({'username': username});
             if(user){
+                // const io = req.app.get('io');
+                // io.to(user.username).emit('message', device);
                 const result = await bcrypt.compare(password,user.password);
                 if(result){
                     const accesstoken = jwt.sign({

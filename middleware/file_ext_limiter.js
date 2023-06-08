@@ -3,7 +3,7 @@ const path = require("path")
 const fileExtLimiter = (allowedExtArray) => {
     return (req, res, next) => {
         if(!req.files) return next()
-        if(req.files.files)
+        if(req.files.files && Array.isArray(req.files.files))
             req.files = req.files.files
         if(allowedExtArray.includes("*")) return next()
         const files = req.files

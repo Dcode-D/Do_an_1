@@ -35,6 +35,9 @@ io.use(wrapMiddlewareForSocketIo(passport.authenticate('jwt', {session: false}))
 io.on('connection', (socket) => {
     socket.join(socket.request.user.username);
     console.log(socket.request.user.username+' connected');
+    socket.on('disconnect', () => {
+        console.log(socket.request.user.username+' disconnected');
+    });
     // console.log("user connected");
 })
 

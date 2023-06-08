@@ -1,6 +1,7 @@
 const dateBookingModel = require('../models/dateBookingModel');
 const hotelModel = require('../models/hotel_model');
 const carModel = require('../models/carServiceModel');
+const UserModel = require('../models/user_model');
 
 //pass in dateBooking, type, service list in the body
 const createDateBooking = async (req, res) => {
@@ -12,7 +13,7 @@ const createDateBooking = async (req, res) => {
         for(const booking of listDateBooking){
             const check = await dateBookingModel.find({
                 bookingDate: booking.bookingDate,
-                attachedService: booking.attachedService,
+                attachedService: service,
                 suspended: false,
                 type: type
             });
@@ -21,7 +22,7 @@ const createDateBooking = async (req, res) => {
         for (const booking of listDateBooking) {
             const dateBooking = new dateBookingModel({
                 bookingDate: booking.bookingDate,
-                attachedService: booking.attachedService,
+                attachedService: service,
                 user: req.user._id,
                 note: booking.note,
                 type: type //hotel or car
@@ -72,6 +73,9 @@ const approveDateBooking = async (req, res) => {
             return res.status(403).json({status: "error", message: "Not permitted"});
         datebooking.approved = true;
         await datebooking.save();
+        const io = req.app.get('io');
+        const user = await  UserModel.findById(datebooking.user);
+        io.to(user.username).emit('approveDateBooking', {id: datebooking._id});
         return res.status(200).json({status: "success", message: "Date booking approved"});
     }catch (e) {
         console.log(e.message);
