@@ -16,8 +16,8 @@ const widgetAspectRatio = cardAspectRatio * 1.2 ;
 
 class CardScrollWidget extends StatelessWidget {
   final double currentPage;
-  var padding = 10.0;
-  var verticalInset = 10;
+  var padding = 15.0;
+  var verticalInset = 20;
   var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
 
   CardScrollWidget({super.key,

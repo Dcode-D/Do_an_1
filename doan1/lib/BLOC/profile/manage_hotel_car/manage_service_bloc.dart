@@ -13,11 +13,15 @@ part 'manage_service_event.dart';
 class ManageServiceBloc extends Bloc<ManageServiceEvent,ManageServiceState>{
   List<Hotel>? listHotel;
   List<Vehicle>? listVehicle;
+
+  List<Hotel>? listExtraHotel;
+  List<Vehicle>? listExtraVehicle;
   ManageServiceBloc() : super(ManageServiceInitial()){
+    listHotel=[];
+    listVehicle=[];
     on<GetDataByOwner>((event,emit) async {
-      emit(GetInitialDataState(false));
-      listHotel = await getListHotelByOwnerId(event.owner);
-      listVehicle = await getListVehicleByOwnerId(event.owner);
+      listHotel = await getListHotelByOwnerId(event.owner,event.page);
+      listVehicle = await getListVehicleByOwnerId(event.owner,event.page);
       if(listHotel != null && listVehicle != null){
         emit(GetInitialDataState(true));
       }
@@ -25,11 +29,37 @@ class ManageServiceBloc extends Bloc<ManageServiceEvent,ManageServiceState>{
         emit(GetInitialDataState(false));
       }
     });
+    on<LoadMoreVehicleData>((event,emit) async {
+      listExtraVehicle = null;
+      listExtraVehicle = await getListVehicleByOwnerId(event.owner,event.page);
+      if(listExtraVehicle == null){
+        emit(LoadMoreVehicleDataState(false));
+        return;
+      }
+      for (var i = 0; i < listExtraVehicle!.length; i++) {
+        listVehicle!.add(listExtraVehicle![i]);
+      }
+      emit(LoadMoreVehicleDataState(true));
+    });
+
+    on<LoadMoreHotelData>((event,emit) async {
+      listExtraHotel = null;
+      listExtraHotel = await getListHotelByOwnerId(event.owner,event.page);
+      if(listExtraHotel == null){
+        emit(LoadMoreHotelDataState(false));
+        return;
+      }
+      for (var i = 0; i < listExtraHotel!.length; i++) {
+        listHotel!.add(listExtraHotel![i]);
+        emit(LoadMoreHotelDataState(false));
+      }
+      emit(LoadMoreHotelDataState(true));
+    });
   }
-  Future<List<Hotel>?> getListHotelByOwnerId(String owner) async {
+  Future<List<Hotel>?> getListHotelByOwnerId(String owner, int page) async {
     var hotelRepo = GetIt.instance.get<HotelRepo>();
     try {
-      var listHotel = await hotelRepo.getListHotelByOwner(owner, 1);
+      var listHotel = await hotelRepo.getListHotelByOwner(owner, page);
       return listHotel;
     }
     catch(e){
@@ -38,10 +68,10 @@ class ManageServiceBloc extends Bloc<ManageServiceEvent,ManageServiceState>{
     }
   }
 
-  Future<List<Vehicle>?> getListVehicleByOwnerId(String owner) async {
+  Future<List<Vehicle>?> getListVehicleByOwnerId(String owner, int page) async {
     var vehicleRepo = GetIt.instance.get<VehicleRepo>();
     try {
-      var listVehicle = await vehicleRepo.getListVehicleByOwner(owner, 1);
+      var listVehicle = await vehicleRepo.getListVehicleByOwner(owner, page);
       return listVehicle;
     }
     catch(e){

@@ -47,7 +47,6 @@ class AllHotelBloc extends Bloc<AllHotelEvent,AllHotelState>{
 
     on<GetHotelListExtraEvent>((event, emit) async{
       extraListHotel = null;
-
       extraListHotel = await getHotel(event.page);
       if(extraListHotel == null){
         emit(AllHotelState(

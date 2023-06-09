@@ -21,15 +21,34 @@ class ManageServiceScreen extends StatefulWidget {
 }
 
 class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTickerProviderStateMixin{
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _HotelScrollController = ScrollController();
+  final ScrollController _VehicleScrollController = ScrollController();
+  int hotelPage = 1;
+  int vehiclePage = 1;
   late final TabController _tabController = TabController(length: 2, vsync: this);
   @override
   Widget build(BuildContext context) {
     var profileBloc = BlocProvider.of<ProfileBloc>(context);
+    _HotelScrollController.addListener(() {
+      if (_HotelScrollController.position.pixels ==
+          _HotelScrollController.position.maxScrollExtent) {
+        hotelPage++;
+        ManageServiceBloc().add(LoadMoreHotelData(profileBloc.user!.id,hotelPage));
+      }
+    });
+
+    _VehicleScrollController.addListener(() {
+      if (_VehicleScrollController.position.pixels ==
+          _VehicleScrollController.position.maxScrollExtent) {
+        vehiclePage++;
+        ManageServiceBloc().add(LoadMoreVehicleData(profileBloc.user!.id,vehiclePage));
+      }
+    });
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<ManageServiceBloc>(
-          create: (context) => ManageServiceBloc()..add(GetDataByOwner(profileBloc.user!.id)),
+          create: (context) => ManageServiceBloc()..add(GetDataByOwner(profileBloc.user!.id,1)),
         ),
       ],
       child: BlocListener<ManageServiceBloc,ManageServiceState>(
@@ -37,7 +56,21 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
           if(state is GetInitialDataState){
             if(state.getDataSuccess == false){
               ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Get data failed')));
+                  const SnackBar(
+                    backgroundColor: Colors.red,
+                      content: Text('Get data failed')));
+            }
+          }
+          if (state is LoadMoreHotelDataState) {
+            if (state.getDataSuccess == false) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('No more hotel for you.')));
+            }
+          }
+          if (state is LoadMoreVehicleDataState) {
+            if (state.getDataSuccess == false) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('No more vehicle for you.')));
             }
           }
         },
@@ -45,7 +78,6 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
             body: BlocBuilder<ProfileBloc,ProfileState>(
               builder: (context,state) =>
               NestedScrollView(
-                controller: _scrollController,
                 headerSliverBuilder: (context, value) {
                   return [
                     SliverAppBar(
@@ -113,6 +145,7 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                       children: [
                         context.read<ManageServiceBloc>().listHotel != null ?
                         ListView.builder(
+                          controller: _HotelScrollController,
                           physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
                           itemCount: context.read<ManageServiceBloc>().listHotel!.length,
@@ -126,6 +159,7 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                         const Center(child: Text('You don\'t have any hotel')),
                         context.read<ManageServiceBloc>().listVehicle != null ?
                         ListView.builder(
+                          controller: _VehicleScrollController,
                           physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
                           itemCount: context.read<ManageServiceBloc>().listVehicle!.length,

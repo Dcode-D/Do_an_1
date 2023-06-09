@@ -16,7 +16,7 @@ class AllHotelScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     var allHotelBloc = context.read<AllHotelBloc>();
     var profileBloc = context.read<ProfileBloc>();
-    int page= 1;
+    int page = 1;
 
     scrollController.addListener((){
       if (allHotelBloc.state.isLoadingMore == true && scrollController.position.pixels == scrollController.position.maxScrollExtent){
@@ -32,7 +32,7 @@ class AllHotelScreen extends StatelessWidget{
     return BlocListener<AllHotelBloc,AllHotelState>(
       listener: (context,state){
         if(state.maxData == true){
-          SmartDialog.showToast('No more data', displayTime: Duration(milliseconds: 1000));
+          SmartDialog.showToast('No more data', displayTime: const Duration(milliseconds: 1000));
         }
       },
       child: BlocBuilder<AllHotelBloc,AllHotelState>(
