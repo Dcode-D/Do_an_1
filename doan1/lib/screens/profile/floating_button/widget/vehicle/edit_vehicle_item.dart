@@ -1,4 +1,5 @@
 import 'package:doan1/BLOC/profile/edit_vehicle/edit_vehicle_item_bloc.dart';
+import 'package:doan1/screens/profile/floating_button/widget/dialog/vehicle_delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -121,7 +122,10 @@ class EditVehicleItem extends StatelessWidget{
                     const SizedBox(width: 10,),
                     ElevatedButton(
                       onPressed: (){
-
+                        showGeneralDialog(context: context,
+                            pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                              return VehicleDeleteDialog();
+                            },);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
