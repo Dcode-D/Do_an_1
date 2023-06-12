@@ -87,7 +87,7 @@ class VehicleItem extends StatelessWidget{
                           ),
                           const SizedBox(height: 2.0),
                           Text(
-                            carItemBloc.vehicle!=null? '${formatCurrency.format(carItemBloc.vehicle!.pricePerDay)} \$ / day' :"loading...",
+                            carItemBloc.vehicle!=null? '${formatCurrency.format(carItemBloc.vehicle!.pricePerDay)} VNĐ / day' :"loading...",
                             style: TextStyle(
                               fontSize: type == 1 ? 18.0 : 20.0,
                               fontWeight: FontWeight.w600,

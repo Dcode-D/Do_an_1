@@ -1,5 +1,7 @@
 part of 'hotel_booking_bloc.dart';
+
 class HotelBookingState{
-  bool isPayAtHotel = false;
-  HotelBookingState({required this.isPayAtHotel});
+  bool isDateSet = false;
+  bool isRoomSet = false;
+  HotelBookingState({required this.isDateSet, required this.isRoomSet});
 }

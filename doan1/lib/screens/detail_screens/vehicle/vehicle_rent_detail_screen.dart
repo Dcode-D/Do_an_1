@@ -1,10 +1,11 @@
+import 'package:doan1/BLOC/vehicle_booking/vehicle_booking_bloc.dart';
 import 'package:doan1/BLOC/widget_item/car_item/car_item_bloc.dart';
-import 'package:doan1/models/vehicle_model.dart';
 import 'package:doan1/screens/detail_screens/vehicle/vehicle_book_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
@@ -12,6 +13,7 @@ import '../../../BLOC/profile/profile_view/profile_bloc.dart';
 
 class VehicleRentDetailScreen extends StatefulWidget{
   final int type;
+
 
   const VehicleRentDetailScreen({
     Key? key,
@@ -24,6 +26,7 @@ class VehicleRentDetailScreen extends StatefulWidget{
 
 class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
   final PageController listController = PageController();
+  final formatCurrency = NumberFormat("#,###");
   @override
   Widget build(BuildContext context) {
     var carItemBloc = context.read<CarItemBloc>();
@@ -217,6 +220,8 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                       providers: [
                         BlocProvider.value(value: carItemBloc),
                         BlocProvider.value(value: profileBloc),
+                        BlocProvider<VehicleBookingBloc>(
+                            create: (context) => VehicleBookingBloc())
                       ],
                         child: VehicleRentBookInfoScreen())));
               },

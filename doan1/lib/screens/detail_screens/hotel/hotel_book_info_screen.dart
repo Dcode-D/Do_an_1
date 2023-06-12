@@ -1,12 +1,14 @@
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
 import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
-import 'package:doan1/screens/detail_screens/hotel/setting_booking/checking_information_screen.dart';
-import 'package:doan1/screens/detail_screens/hotel/setting_booking/date_setting_screen.dart';
-import 'package:doan1/screens/detail_screens/hotel/setting_booking/room_and_quantity_screen.dart';
+import 'package:doan1/screens/detail_screens/setting_booking/checking_information_screen.dart';
+import 'package:doan1/screens/detail_screens/setting_booking/date_setting_dialog.dart';
+import 'package:doan1/screens/detail_screens/setting_booking/room_setting_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
 import 'hotel_booking_success.dart';
 
@@ -16,9 +18,26 @@ class HotelBookingInfoScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    DateRangePickerController dateRangePickerController = DateRangePickerController();
+
     var profileBloc = context.read<ProfileBloc>();
     var hotelItemBloc = context.read<HotelItemBloc>();
     var hotelBookingBloc = context.read<HotelBookingBloc>();
+    final formatCurrency = NumberFormat("#,###");
+
+    setDate() =>{
+      hotelBookingBloc.add(SetBookingDate()),
+      Navigator.pop(context),
+    };
+
+    int calculateTotalPrice() {
+      int totalPrice = 0;
+      for (var i = 0; i < hotelBookingBloc.listSelectedHotelRoom.length; i++) {
+        totalPrice += hotelBookingBloc.listSelectedHotelRoom[i].price!;
+      }
+      return totalPrice;
+    }
+
     return Scaffold(
       body: BlocBuilder<HotelBookingBloc,HotelBookingState>(
         builder: (context,state) => SingleChildScrollView(
@@ -58,9 +77,8 @@ class HotelBookingInfoScreen extends StatelessWidget{
                   children: [
                     Text(
                       'Personal Information',
-                      style: TextStyle(
+                      style: GoogleFonts.raleway(
                         fontSize: 20,
-                        fontFamily: GoogleFonts.raleway().fontFamily,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 1.2,
                         color: Colors.black,
@@ -120,9 +138,8 @@ class HotelBookingInfoScreen extends StatelessWidget{
                     const SizedBox(height: 20,),
                     Text(
                       'Hotel',
-                      style: TextStyle(
+                      style: GoogleFonts.raleway(
                         fontSize: 20,
-                        fontFamily: GoogleFonts.raleway().fontFamily,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 1.2,
                         color: Colors.black,
@@ -196,12 +213,11 @@ class HotelBookingInfoScreen extends StatelessWidget{
                     ),
                     const SizedBox(height: 20,),
                     Row(
-                      children: [
+                      children:[
                         Text(
-                          'Date',
-                          style: TextStyle(
+                          'Checkin & Checkout',
+                          style: GoogleFonts.raleway(
                             fontSize: 20,
-                            fontFamily: GoogleFonts.raleway().fontFamily,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
@@ -209,96 +225,29 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         ),
                         const Spacer(),
                         InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DateSettingScreen()));
-                          },
-                          child: Text(
-                            'Set a date',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: GoogleFonts.raleway().fontFamily,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1.2,
-                              color: Colors.orange,
-                            ),
-                          )
+                            onTap: (){
+                              showGeneralDialog(context: context,
+                                barrierDismissible: true,
+                                barrierLabel:
+                                MaterialLocalizations.of(context).modalBarrierDismissLabel,
+                                barrierColor: Colors.black54,
+                                pageBuilder: (context, anim1, anim2) =>
+                                    DateSettingDialog(
+                                        setBookingDate:setDate,
+                                        dateRangePickerController:dateRangePickerController),);
+                            },
+                            child: Text(
+                              'Set a date',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: GoogleFonts.raleway().fontFamily,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1.2,
+                                color: Colors.orange,
+                              ),
+                            )
                         )
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black.withOpacity(0.2),
-                            width:1),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(0, 2),
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(FontAwesomeIcons.calendar, size: 20, color: Colors.black,),
-                                const SizedBox(width: 15,),
-                                Text(
-                                  '1/6/2023',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: GoogleFonts.raleway().fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.2,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 15,),
-                            Container(
-                              height:1,
-                              width: double.infinity,
-                              color: Colors.black.withOpacity(0.2),
-                            ),
-                            const SizedBox(height: 15,),
-                            Row(
-                              children: [
-                                const Icon(FontAwesomeIcons.clock, size: 20, color: Colors.black,),
-                                const SizedBox(width: 15,),
-                                Text(
-                                  '2 Nights',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: GoogleFonts.raleway().fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.2,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20,),
-                    Text(
-                      'Checkin & Checkout',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: GoogleFonts.raleway().fontFamily,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 1.2,
-                        color: Colors.black,
-                      ),
+                      ]
                     ),
                     const SizedBox(height: 10,),
                     Container(
@@ -326,7 +275,13 @@ class HotelBookingInfoScreen extends StatelessWidget{
                                 const Icon(FontAwesomeIcons.arrowRight, size: 20, color: Colors.green,),
                                 const SizedBox(width: 15,),
                                 Text(
-                                  '1/6/2023',
+                                  dateRangePickerController.selectedRange == null
+                                      ? "Select Date"
+                                      :
+                                  dateRangePickerController.selectedRange!.startDate == null
+                                      ? "Select Date"
+                                      :
+                                  DateFormat('dd/MM/yyyy').format(dateRangePickerController.selectedRange!.startDate!),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: GoogleFonts.raleway().fontFamily,
@@ -349,7 +304,13 @@ class HotelBookingInfoScreen extends StatelessWidget{
                                 const Icon(FontAwesomeIcons.arrowLeft, size: 20, color: Colors.red,),
                                 const SizedBox(width: 15,),
                                 Text(
-                                  '3/6/2023',
+                                  dateRangePickerController.selectedRange == null
+                                      ? "Select Date"
+                                      :
+                                  dateRangePickerController.selectedRange!.endDate == null
+                                      ? "Select Date"
+                                      :
+                                  DateFormat('dd/MM/yyyy').format(dateRangePickerController.selectedRange!.endDate!),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: GoogleFonts.raleway().fontFamily,
@@ -368,10 +329,9 @@ class HotelBookingInfoScreen extends StatelessWidget{
                     Row(
                       children: [
                         Text(
-                          'Room & quantity',
-                          style: TextStyle(
+                          'Room',
+                          style: GoogleFonts.raleway(
                             fontSize: 20,
-                            fontFamily: GoogleFonts.raleway().fontFamily,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
@@ -380,7 +340,19 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         const Spacer(),
                         InkWell(
                           onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const RoomAndQuantity()));
+                            showGeneralDialog(context: context,
+                              barrierDismissible: true,
+                              barrierLabel:
+                              MaterialLocalizations.of(context).modalBarrierDismissLabel,
+                              barrierColor: Colors.black54,
+                                pageBuilder: (context, anim1, anim2) =>
+                                    BlocProvider<HotelBookingBloc>.value(
+                                      value: hotelBookingBloc,
+                                      child: RoomSettingDialog(
+                                          hotelRoom: hotelItemBloc.listHotelRoom,
+                                      ),
+                                    ),
+                            );
                           },
                           child: Text(
                             'Set',
@@ -411,107 +383,122 @@ class HotelBookingInfoScreen extends StatelessWidget{
                           ),
                         ],
                       ),
-                      child: Padding(
+                      child:
+                      hotelBookingBloc.listSelectedHotelRoom.isEmpty ?
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(FontAwesomeIcons.doorOpen, size: 20, color: Colors.black,),
-                                const SizedBox(width: 15,),
-                                Text(
-                                  'Family Room',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: GoogleFonts.raleway().fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.2,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 15,),
-                            Container(
-                              height:1,
-                              width: double.infinity,
-                              color: Colors.black.withOpacity(0.2),
-                            ),
-                            const SizedBox(height: 15,),
-                            Row(
-                              children: [
-                                const Icon(FontAwesomeIcons.person, size: 20, color: Colors.black,),
-                                const SizedBox(width: 15,),
-                                Text(
-                                  '2 Adults',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: GoogleFonts.raleway().fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.2,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 15,),
-                            Container(
-                              height:1,
-                              width: double.infinity,
-                              color: Colors.black.withOpacity(0.2),
-                            ),
-                            const SizedBox(height: 15,),
-                            Row(
-                              children: [
-                                const Icon(FontAwesomeIcons.children, size: 20, color: Colors.black,),
-                                const SizedBox(width: 15,),
-                                Text(
-                                  '0 Kid',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: GoogleFonts.raleway().fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1.2,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20,),
-                    Row(
-                      children: [
-                        Text(
-                          'Payment',
+                        child: Text(
+                          'Select Room',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontFamily: GoogleFonts.raleway().fontFamily,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.5),
                           ),
                         ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: (){
-
-                          },
-                          child: Text(
-                            'Change',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: GoogleFonts.raleway().fontFamily,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1.2,
-                              color: Colors.orange,
-                            ),
-                          )
-                        )
-                      ],
+                      ) :
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 0),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: hotelBookingBloc.listSelectedHotelRoom.length,
+                            itemBuilder: (context,index){
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Room ${hotelBookingBloc.listSelectedHotelRoom[index].number}',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Text(
+                                    'Price: ${hotelBookingBloc.listSelectedHotelRoom[index].price} \$ / night',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Text(
+                                    'Adult capacity: ${hotelBookingBloc.listSelectedHotelRoom[index].adultCapacity}',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Text(
+                                    'Child capacity: ${hotelBookingBloc.listSelectedHotelRoom[index].childrenCapacity}',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        hotelBookingBloc.listSelectedHotelRoom[index].checkInHour == null ? 'No check in' :
+                                        'Check in: ${hotelBookingBloc.listSelectedHotelRoom[index].checkInHour!}'
+                                            ':${hotelBookingBloc.listSelectedHotelRoom[index].checkInMinute!}',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        hotelBookingBloc.listSelectedHotelRoom[index].checkOutHour == null ? 'No check out' :
+                                        'Check out: ${hotelBookingBloc.listSelectedHotelRoom[index].checkOutHour!}'
+                                            ':${hotelBookingBloc.listSelectedHotelRoom[index].checkOutMinute!}',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Container(
+                                    height:1,
+                                    width: double.infinity,
+                                    color: Colors.black.withOpacity(0.2),
+                                  ),
+                                  const SizedBox(height: 10,),
+                                ],
+                              );
+                            }
+                         )
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    Text(
+                      'Payment',
+                      style: GoogleFonts.raleway(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1.2,
+                        color: Colors.black,
+                      ),
                     ),
                     const SizedBox(height: 10,),
                     Container(
@@ -537,7 +524,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                             const Icon(FontAwesomeIcons.creditCard, size: 20, color: Colors.black,),
                             const SizedBox(width: 15,),
                             Text(
-                              'VCB',
+                              'Pay at hotel',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: GoogleFonts.raleway().fontFamily,
@@ -550,26 +537,6 @@ class HotelBookingInfoScreen extends StatelessWidget{
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20,),
-                    Row(
-                      children: [
-                        Checkbox(
-                            value: state.isPayAtHotel,
-                            onChanged: (checked) {
-                              context.read<HotelBookingBloc>().add(CheckPayAtHotelEvent(isPayAtHotel: !state.isPayAtHotel));
-                            }
-                          ),
-                        Text(
-                          'Pay at hotel',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: GoogleFonts.raleway().fontFamily,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 1.2,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ]),
                     const SizedBox(height: 20,),
                     Container(
                       height: 1,
@@ -592,7 +559,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                       ),
                         Text(
                           // "${widget.totalPrice} \$",
-                          "100 \$",
+                          "${formatCurrency.format(calculateTotalPrice())} VNĐ",
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: GoogleFonts.raleway().fontFamily,
@@ -619,7 +586,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                           ),
                           Text(
                             // "${widget.totalPrice} \$",
-                            "100 \$",
+                            "${formatCurrency.format(calculateTotalPrice()*0.1)} VNĐ",
                             style: TextStyle(
                               fontSize: 20,
                               fontFamily: GoogleFonts.raleway().fontFamily,
@@ -646,7 +613,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                           ),
                           Text(
                             // "${widget.totalPrice} \$",
-                            "100 \$",
+                            "${formatCurrency.format(calculateTotalPrice()*1.1)} VNĐ",
                             style: TextStyle(
                               fontSize: 20,
                               fontFamily: GoogleFonts.raleway().fontFamily,

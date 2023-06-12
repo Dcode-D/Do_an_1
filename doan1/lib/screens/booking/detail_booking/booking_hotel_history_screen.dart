@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../detail_screens/hotel/setting_booking/checking_information_screen.dart';
+import '../../detail_screens/setting_booking/checking_information_screen.dart';
 
 class BookingHotelHistoryScreen extends StatelessWidget {
   const BookingHotelHistoryScreen({Key? key}) : super(key: key);

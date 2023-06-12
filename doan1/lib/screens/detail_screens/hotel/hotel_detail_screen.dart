@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HotelDetailScreen extends StatefulWidget{
@@ -28,6 +28,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
   Widget build(BuildContext context) {
     var hotelItemBloc = context.read<HotelItemBloc>();
     var proFileBloc = context.read<ProfileBloc>();
+    final formatCurrency = NumberFormat("#,###");
     return BlocBuilder<HotelItemBloc,HotelItemState>(
       builder: (context,state)=>
         Scaffold(
@@ -112,7 +113,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -121,16 +122,19 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                         Text(
                           hotelItemBloc.hotel!.name!,
                           style: GoogleFonts.raleway(
-                            fontSize: 24.0,
+                            fontSize: 20.0,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        //TODO : add price of hotel
-                        // const Spacer(),
-                        // Text("${widget.hotel.price}\$/Night",
-                        //   style: GoogleFonts.raleway(
-                        //     fontSize: 20.0,
-                        //     fontWeight: FontWeight.w500,),),
+                        const Spacer(),
+                        hotelItemBloc.hotel?.maxPrice !=null && hotelItemBloc.hotel?.minPrice !=null?
+                        Text(
+                          "${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)} VNĐ / Night",
+                          style: GoogleFonts.raleway(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ) : const Text('Loading...'),
                       ],
                     ),
                     const SizedBox(height: 10.0),

@@ -10,7 +10,7 @@ class HotelRoom{
   final int? number;
   final String? hotel;
   final int? adultCapacity;
-  final int? childCapacity;
+  final int? childrenCapacity;
   final int? price;
   final int? checkInHour;
   final int? checkInMinute;
@@ -22,7 +22,7 @@ class HotelRoom{
     this.number,
     this.hotel,
     this.adultCapacity,
-    this.childCapacity,
+    this.childrenCapacity,
     this.price,
     this.checkInHour,
     this.checkInMinute,

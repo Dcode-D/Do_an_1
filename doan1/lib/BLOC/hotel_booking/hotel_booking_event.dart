@@ -2,12 +2,9 @@ part of 'hotel_booking_bloc.dart';
 @immutable
 abstract class HotelBookingEvent {}
 
-class CheckPayAtHotelEvent extends HotelBookingEvent {
-  bool isPayAtHotel = true;
-  CheckPayAtHotelEvent({required this.isPayAtHotel});
-}
+class SetBookingDate extends HotelBookingEvent{}
 
-class UnCheckPayAtHotellEvent extends HotelBookingEvent {
-  bool isPayAtHotel = false;
-  UnCheckPayAtHotellEvent({required this.isPayAtHotel});
+class SetRoom extends HotelBookingEvent{
+  List<HotelRoom> hotelRoom = [];
+  SetRoom({required this.hotelRoom});
 }

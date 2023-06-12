@@ -89,7 +89,7 @@ class HotelItem extends StatelessWidget{
                           const SizedBox(height: 2.0),
                           Text(
                               hotelItemBloc.hotel?.maxPrice !=null && hotelItemBloc.hotel?.minPrice !=null?
-                            '${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)}\$ / night':'?',
+                            '${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)} VNĐ / night':'?',
                             style: TextStyle(
                               fontSize: type == 1 ? 18.0 : 20.0,
                               fontWeight: FontWeight.w600,

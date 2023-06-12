@@ -1,9 +1,6 @@
 import 'package:doan1/BLOC/authentication/authentication_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
-import '../../BLOC/authentication/authentication_bloc.dart';
 
 class LogOutDialog extends Dialog{
   Function logout;
