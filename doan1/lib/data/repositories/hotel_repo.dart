@@ -58,9 +58,9 @@ class HotelRepo{
     });
   }
 
-  Future<bool> createHotel(String name, String description, String address, String province, String district, List<File> files) async{
+  Future<bool> createHotel(String name, String description, String address, String province, String district,List<Map<String, dynamic>> facilities, List<File> files) async{
     return _appService
-        .createHotel(token:"Bearer ${_sharedPreferences.getString(Preferences.token) as String}", name: name, description: description, address: address, province: province, district: district, files: files)
+        .createHotel(token:"Bearer ${_sharedPreferences.getString(Preferences.token) as String}", name: name, description: description, address: address, province: province, district: district, files: files, facilities: facilities)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return false;

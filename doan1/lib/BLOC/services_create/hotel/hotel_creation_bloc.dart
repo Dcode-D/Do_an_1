@@ -41,12 +41,20 @@ class HotelCreationBloc extends Bloc<HotelCreationEvent, HotelCreationState> {
     });
 
     on<HotelCreationPostEvent>((event, emit) async {
+      List<Map<String, dynamic>> facilities = [];
+      for (var i = 0; i < event.facilities.length; i++) {
+        facilities.add({
+          'name': event.facilities[i],
+          'description': '',
+        });
+      }
       final rs = await hotelRepo.createHotel(
         event.name,
         event.description,
         event.address,
         event.province,
         event.district,
+        facilities,
         listImages,
       );
       emit(HotelCreationPostState(rs));
