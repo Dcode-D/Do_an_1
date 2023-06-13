@@ -20,5 +20,6 @@ class HotelCreationPostEvent extends HotelCreationEvent{
   final String address;
   final String province;
   final String district;
-  HotelCreationPostEvent({required this.name,required this.description,required this.address,required this.province,required this.district});
+  final List<String> facilities;
+  HotelCreationPostEvent({required this.name,required this.description,required this.address,required this.province,required this.district, required this.facilities});
 }

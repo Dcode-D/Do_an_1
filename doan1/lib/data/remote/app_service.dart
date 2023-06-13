@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:doan1/data/model/remote/avatar_file_response.dart';
@@ -105,6 +106,7 @@ abstract class AppService {
     @Part(name: "address") required String address,
     @Part(name: "province") required String province,
     @Part(name: "city") required String district,
+    @Part(name: "facilities") required List<Map<String,dynamic>> facilities,
     @Part(name: "files") required List<File> files});
 
     @POST("/car/")
