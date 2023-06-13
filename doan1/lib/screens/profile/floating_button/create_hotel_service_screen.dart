@@ -249,8 +249,10 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                       ),
                                       SingleChildScrollView(
                                         child: Container(
+                                          padding: const EdgeInsets.all(5),
                                           decoration: BoxDecoration(
                                             color: Colors.grey[200],
+                                            borderRadius: BorderRadius.circular(5),
                                             border: Border.all(
                                               color: Colors.black.withOpacity(0.2),
                                             ),

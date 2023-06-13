@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../BLOC/components/places_bloc.dart';
 import '../../../BLOC/news_create/create_tour/create_tour_bloc.dart';
 import '../../../BLOC/screen/all_screen/all_article/article_bloc.dart';
+import '../../../widgets/dialog/add_avatar_image_dialog.dart';
 
 class CreateTourScreen extends StatefulWidget {
   const CreateTourScreen({Key? key}) : super(key: key);
@@ -120,36 +121,19 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           ),
                         ),
                         const SizedBox(width: 10,),
-                        Text(
-                          context.read<ProfileBloc>().user?.firstname != null &&
-                              context.read<ProfileBloc>().user?.lastname != null ?
-                          "${context.read<ProfileBloc>().user!.firstname} ${context.read<ProfileBloc>().user!.lastname}"
-                              : "Firstname Lastname",
-                          style: GoogleFonts.raleway(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.2,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            // showDialog(
-                            //     context: context,
-                            //     builder: (_)=>
-                            //         Center(
-                            //           child: ImagePickingDialog(getImageFromGallery: (){
-                            //             context.read<PostsBloc>().add(AddImageEvent(ImagePickMethod.gallery));
-                            //           }, getImageFromCamera: (){
-                            //             context.read<PostsBloc>().add(AddImageEvent(ImagePickMethod.camera));
-                            //           }, title: "Add image to the post"),
-                            //         )
-                            // );
-                          },
-                          icon: const Icon(
-                            Icons.add_a_photo,
-                            color: Colors.orange,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            context.read<ProfileBloc>().user?.firstname != null &&
+                                context.read<ProfileBloc>().user?.lastname != null ?
+                            "${context.read<ProfileBloc>().user!.firstname} ${context.read<ProfileBloc>().user!.lastname}"
+                                : "Firstname Lastname",
+                            style: GoogleFonts.raleway(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.2,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ],

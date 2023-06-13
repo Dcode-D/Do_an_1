@@ -230,9 +230,7 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                             return null;
                           },
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10,),
                         Text(
                           'Please add some images of your vehicle',
                           style: GoogleFonts.raleway(
@@ -243,39 +241,45 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                             color: Colors.orange,
                           ),
                         ),
-                        BlocBuilder<VehicleCreationBloc, VehicleCreationState>(
-                          buildWhen: (previous, current) =>
-                              current is VehicleCreationInitial ||
-                              current is VehicleCreationImageState,
-                          builder: (context, state) {
-                            return SingleChildScrollView(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                    color: Colors.black.withOpacity(0.2),
-                                  ),
-                                ),
-                                child: SizedBox(
-                                  height: 200,
-                                  child: GridView.builder(
+                        SingleChildScrollView(
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.black.withOpacity(0.2),
+                              ),
+                            ),
+                            child: SizedBox(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width,
+                              child: BlocBuilder<VehicleCreationBloc,
+                                  VehicleCreationState>(
+                                buildWhen: (previous, current) {
+                                  return current
+                                  is VehicleCreationInitial ||
+                                      current is VehicleCreationImageState;
+                                },
+                                builder: (context, state) {
+                                  return state is VehicleCreationInitial ||
+                                      (state is VehicleCreationImageState &&
+                                          state.listImages.isEmpty)
+                                      ? const Text("No image selected")
+                                      : GridView.builder(
                                     gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 3,
                                       crossAxisSpacing: 8.0,
                                       mainAxisSpacing: 8.0,
                                     ),
-                                    itemCount: context
-                                        .read<VehicleCreationBloc>()
-                                        .listImages
-                                        .length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
+                                    itemCount: context.read<VehicleCreationBloc>()
+                                        .listImages.length,
+                                    itemBuilder: (BuildContext context, int index) {
                                       return Stack(
                                         children: [
                                           Image.file(
-                                            context
-                                                .read<VehicleCreationBloc>()
+                                            context.read<VehicleCreationBloc>()
                                                 .listImages[index],
                                             fit: BoxFit.cover,
                                           ),
@@ -285,10 +289,10 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                                             child: IconButton(
                                               onPressed: () {
                                                 context
-                                                    .read<VehicleCreationBloc>()
+                                                    .read<
+                                                    VehicleCreationBloc>()
                                                     .add(
-                                                        VehicleCreationImgRemoveEvent(
-                                                            index));
+                                                    VehicleCreationImgRemoveEvent(index));
                                               },
                                               icon: const Icon(
                                                 Icons.cancel,
@@ -299,15 +303,13 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                                         ],
                                       );
                                     },
-                                  ),
-                                ),
+                                  );
+                                },
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10,),
                         Text(
                           'Price',
                           style: GoogleFonts.raleway(

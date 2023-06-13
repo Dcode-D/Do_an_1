@@ -1,5 +1,5 @@
 part of 'create_tour_bloc.dart';
-
+enum ImagePickMethod {gallery, camera}
 @immutable
 abstract class CreateTourEvent {}
 
@@ -12,4 +12,5 @@ class RemoveTourPlan extends CreateTourEvent{
   int index;
   RemoveTourPlan({required this.index});
 }
+
 
