@@ -20,7 +20,6 @@ import '../../models/notification_model.dart';
 import 'destination_carousel.dart';
 import 'tour_carousel.dart';
 
-
 class HomeScreen extends StatelessWidget {
 
   @override
@@ -59,6 +58,7 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                   InkWell(
                                     onTap: (){
@@ -86,10 +86,18 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       child:
                                       profileBloc.image != null ?
-                                        CircleAvatar(
-                                        radius: 40,
-                                        backgroundImage:
-                                        NetworkImage(context.read<ProfileBloc>().image!))
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(50),
+                                        child: FadeInImage(
+                                            width: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context).size.height / 2.5,
+                                            imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                                            image:
+                                            NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
+                                            placeholder: const AssetImage('assets/images/loading.gif'),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )
                                           :
                                           const CircleAvatar(
                                           radius: 40,
@@ -98,6 +106,15 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                       ),
                                     ),
+                                  const SizedBox(width: 10,),
+                                  profileBloc.user != null ?
+                                  Text("Hi, ${profileBloc.user!.firstname}",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ) : const Text('Loading...'),
                                   const Spacer(),
                                   Stack(
                                     children: [

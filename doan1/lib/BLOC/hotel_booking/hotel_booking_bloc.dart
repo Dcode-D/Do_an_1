@@ -10,7 +10,6 @@ part 'hotel_booking_state.dart';
 class HotelBookingBloc extends Bloc<HotelBookingEvent, HotelBookingState>{
   List<HotelRoom> listSelectedHotelRoom = [];
   HotelBookingBloc() : super(HotelBookingState(isDateSet: false,isRoomSet: false)) {
-    listSelectedHotelRoom = [];
     on<SetBookingDate>((event,emit) => emit(HotelBookingState(isDateSet: true,isRoomSet: state.isRoomSet)));
     on<SetRoom>((event,emit) {
       listSelectedHotelRoom = event.hotelRoom;

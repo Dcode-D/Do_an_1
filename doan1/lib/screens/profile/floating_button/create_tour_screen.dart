@@ -1,12 +1,13 @@
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:doan1/screens/profile/floating_button/widget/tour/add_plan_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../widgets/dialog/add_avatar_image_dialog.dart';
+import '../../../BLOC/create_tour/create_tour_bloc.dart';
+import '../../../BLOC/screen/all_screen/all_article/article_bloc.dart';
 
 class CreateTourScreen extends StatefulWidget {
   const CreateTourScreen({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    var articleBloc = context.read<ArticleBloc>();
+    var createTourBloc = context.read<CreateTourBloc>();
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
           Scaffold(
@@ -144,7 +147,6 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                         ),
                       ],
                     ),
-                    //FOR TOUR TODO: (Not include TourPlan)
                     const SizedBox(height: 10,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,17 +176,118 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           },
                         ),
                         const SizedBox(height: 10,),
-                        Text(
-                          'Plan',
-                          style: GoogleFonts.raleway(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.2,
-                            color: Colors.black,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              'Plan',
+                              style: GoogleFonts.raleway(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1.2,
+                                color: Colors.black,
+                              ),
+                            ),
+                            const Spacer(),
+                            InkWell(
+                              onTap: () {
+                                showGeneralDialog(context: context,
+                                    barrierDismissible: true,
+                                    barrierLabel:
+                                    MaterialLocalizations.of(context).modalBarrierDismissLabel,
+                                    barrierColor: Colors.black54,
+                                    transitionDuration: const Duration(milliseconds: 400),
+                                    transitionBuilder: (context, anim1, anim2, child) {
+                                      return SlideTransition(
+                                        position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim1),
+                                        child: child,
+                                      );
+                                    },
+                                    pageBuilder: (context,_,__){
+                                      return BlocProvider<CreateTourBloc>.value(
+                                          value: createTourBloc,
+                                          child: AddPlanDialog(listArticle: articleBloc.listArticle,));
+                                    });
+                              },
+                              child: Text(
+                                'Add plan',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.2,
+                                  color: Colors.orange,
+                                ),
+                              )
+                            )
+                          ],
                         ),
                         const SizedBox(height: 10,),
-                        //TODO: add list of destination
+                        BlocBuilder<CreateTourBloc,CreateTourState>(
+                          builder: (context,state) =>
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.8),
+                              border: Border.all(
+                                  color: Colors.black.withOpacity(0.2),
+                                  width:1
+                              ),
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                            ),
+                            child: createTourBloc.listSelectedTourPlan.isEmpty ?
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              child: Text(
+                                'No plan added',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                              ),
+                            ) :
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: createTourBloc.listSelectedTourPlan.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${createTourBloc.listSelectedTourPlan[index].title}',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1.2,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          InkWell(
+                                            onTap: () {
+                                              context.read<CreateTourBloc>().removeTourPlan(index);
+                                            },
+                                            child: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                )
+                          ),
+                        ),
                         const SizedBox(height: 10,),
                         Text(
                           'Price',

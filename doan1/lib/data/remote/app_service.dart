@@ -12,7 +12,7 @@ part 'app_service.g.dart';
 @RestApi()
 abstract class AppService {
   factory AppService(Dio dio, {String baseUrl}) = _AppService;
-
+//Authenticator
   @POST("/login")
   Future<HttpResponse<LoginResponse>> login(@Body() Map<String, dynamic> request);
 
@@ -21,7 +21,7 @@ abstract class AppService {
 
   @POST("/register")
   Future<HttpResponse> register(@Body() Map<String, dynamic> request);
-
+//User
   @GET("/user/full")
   Future<HttpResponse<BaseResponse>> getUser(@Header('Authorization') String token);
 
@@ -35,7 +35,7 @@ abstract class AppService {
   @MultiPart()
   Future<HttpResponse> updateAvatar(@Header('Authorization') String token, @Part(name: "avatar") File file);
 
-
+//Vehicle API
   @GET("/car?page={page}")
   Future<HttpResponse<ListModelResponse>> getListCarFromPage(@Path("page") int page);
 
@@ -54,7 +54,7 @@ abstract class AppService {
     @Query('address') String? address,
     @Query('maxPrice')double? maxPrice,
     @Query('minPrice')double? minPrice);
-
+//Hotel API
   @GET("/hotel/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListHotelByQuery(
       @Path('page') int page,
@@ -72,7 +72,7 @@ abstract class AppService {
 
   @GET("/hotel/{id}/room")
   Future<HttpResponse<ListModelResponse>> getListHotelRoomById(@Path('id') String id);
-
+//Article API
   @GET("/article/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListIdArticleFromPage(@Path('page') int page);
 
@@ -105,8 +105,7 @@ abstract class AppService {
     @Part(name: "address") required String address,
     @Part(name: "province") required String province,
     @Part(name: "city") required String district,
-    @Part(name: "files") required List<File> files
-});
+    @Part(name: "files") required List<File> files});
 
     @POST("/car/")
     @MultiPart()
@@ -121,6 +120,5 @@ abstract class AppService {
       @Part(name: "seats") required int seats,
       @Part(name: "pricePerDay") required double price,
       @Part(name: "color") required String color,
-      @Part(name: "files") required List<File> files
-  });
+      @Part(name: "files") required List<File> files});
 }

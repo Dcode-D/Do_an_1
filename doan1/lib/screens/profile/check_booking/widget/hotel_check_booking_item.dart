@@ -110,13 +110,12 @@ class HotelCheckBookingItem extends StatelessWidget{
                         fontStyle: FontStyle.italic
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   ElevatedButton(
                     onPressed: (){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => HotelCheckBookingDetailScreen()));
                     },
-                    child:
-                    Text(
+                    child: Text(
                       'Detail',
                       style: TextStyle(
                           fontSize: 15,

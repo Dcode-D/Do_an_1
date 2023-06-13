@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/widgets/dialog/add_avatar_image_dialog.dart';
@@ -11,9 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../../data/model/user.dart';
 import '../../widgets/dialog/update_info_dialog.dart';
 
 class EditProfileScreen extends StatefulWidget{
@@ -326,6 +322,14 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                    ),
                                  )
                                 ],
+                              ),
+                              const SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 40),
+                                child: Container(
+                                  height: 1.5,
+                                  color: Colors.grey,
+                                ),
                               ),
                               const SizedBox(height: 10),
                               Row(

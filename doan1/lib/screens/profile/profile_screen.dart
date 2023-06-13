@@ -1,6 +1,8 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
+import 'package:doan1/BLOC/create_tour/create_tour_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/create_car_service_screen.dart';
 import 'package:doan1/screens/profile/floating_button/create_post_screen.dart';
 import 'package:doan1/screens/profile/floating_button/create_hotel_service_screen.dart';
@@ -29,6 +31,7 @@ class ProfileScreen extends StatelessWidget {
     };
 
     ProfileBloc profileBloc = context.read<ProfileBloc>();
+    ArticleBloc articleBloc = context.read<ArticleBloc>();
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
@@ -65,9 +68,16 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.orange,
                 onTap: ()
                 => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
-                    BlocProvider<ProfileBloc>.value(
-                      value: BlocProvider.of<ProfileBloc>(context),
-                        child: CreateTourScreen())
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider<ProfileBloc>.value(
+                            value: BlocProvider.of<ProfileBloc>(context)),
+                        BlocProvider<ArticleBloc>.value(
+                            value: articleBloc),
+                      ],
+                        child: BlocProvider<CreateTourBloc>(
+                          create: (context) => CreateTourBloc(),
+                            child: CreateTourScreen()))
                 )
                 ),
                 label: 'Create tour',

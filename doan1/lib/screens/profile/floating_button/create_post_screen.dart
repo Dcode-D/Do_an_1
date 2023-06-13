@@ -298,56 +298,45 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                         builder: (context, state) {
                                           return state is PostsInitial ||
                                                   (state is PostsImageState &&
-                                                      state.listImages.isEmpty)
-                                              ? const Text("No image selected")
-                                              : GridView.builder(
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 3,
-                                                    crossAxisSpacing: 8.0,
-                                                    mainAxisSpacing: 8.0,
+                                                      state.listImages.isEmpty) ?
+                                          const Text("No image selected")
+                                              :
+                                          GridView.builder(
+                                            gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                              crossAxisSpacing: 8.0,
+                                              mainAxisSpacing: 8.0,
+                                            ),
+                                            itemCount: context.read<PostsBloc>().listImages.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return Stack(
+                                                children:[
+                                                  Image.file(
+                                                    context.read<PostsBloc>().listImages[index],
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                  itemCount: context
-                                                      .read<PostsBloc>()
-                                                      .listImages
-                                                      .length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return Stack(
-                                                      children: [
-                                                        Image.file(
-                                                          context
-                                                              .read<PostsBloc>()
-                                                              .listImages[index],
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                        Positioned(
-                                                          top: 0,
-                                                          right: 0,
-                                                          child: IconButton(
-                                                            onPressed: () {
-                                                              context
-                                                                  .read<
-                                                                      PostsBloc>()
-                                                                  .add(RemoveImageEvent(
-                                                                      index));
-                                                            },
-                                                            icon: const Icon(
-                                                              Icons.cancel,
-                                                              color: Colors.red,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
+                                                  Positioned(
+                                                    top: 0,
+                                                    right: 0,
+                                                    child: IconButton(
+                                                      onPressed: () {
+                                                        context.read<PostsBloc>().add(RemoveImageEvent(index));},
+                                                      icon: const Icon(
+                                                        Icons.cancel,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );},
+                                          );
                                         },
                                       ),
                                     ),
                                   ),
                                 ),
+                                const SizedBox(height: 10,),
                                 BlocProvider<PlacesBloc>(
                                   create: (context) => PlacesBloc()..add(GetProvinceEvent()),
                                 child:
@@ -358,57 +347,48 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                         buildWhen: (previous, current) {
                                       return current is PlaceProvinceState ||
                                           current is PlacesInitial;
-                                    }, builder: (context, state) {
-                                      return state is PlaceProvinceState
-                                          ? Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Province',
-                                                  style: GoogleFonts.raleway(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                    letterSpacing: 1.2,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                DropdownButtonFormField<Map>(
-                                                  decoration: InputDecoration(
-                                                    hintText: 'Province',
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(5),
+                                        }, builder: (context, state) {
+                                      return state is PlaceProvinceState ?
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Province',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              letterSpacing: 1.2,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10,),
+                                          DropdownButtonFormField<Map>(
+                                            decoration: InputDecoration(
+                                              hintText: 'Province',
+                                              border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(5),
+                                              ),
+                                            ),
+                                            items:
+                                            (state as PlaceProvinceState).listProvince.map((item) =>
+                                                DropdownMenuItem<Map>(
+                                                  value: item,
+                                                  child: Text(
+                                                    item['name'],
+                                                    style:
+                                                    const TextStyle(
+                                                      fontSize: 14,
                                                     ),
                                                   ),
-                                                  items:
-                                                      (state as PlaceProvinceState)
-                                                          .listProvince
-                                                          .map((item) =>
-                                                              DropdownMenuItem<Map>(
-                                                                value: item,
-                                                                child: Text(
-                                                                  item['name'],
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize: 14,
-                                                                  ),
-                                                                ),
-                                                              ))
-                                                          .toList(),
-                                                  validator: (value) {
-                                                    if (value == null) {
-                                                      return 'Please select province';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  onChanged: (value) {
-                                                    context.read<PlacesBloc>().add(
-                                                        GetDistrictEvent(
-                                                            value?['code']));
+                                                )).toList(),
+                                            validator: (value) {
+                                              if (value == null) {
+                                                return 'Please select province';
+                                              }
+                                              return null;
+                                              },
+                                            onChanged: (value) {context.read<PlacesBloc>().add(
+                                                GetDistrictEvent(value?['code']));
                                                     provinceCode = value?['code'];
                                                     provinceName = value?['name'];
                                                   },
@@ -422,9 +402,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                                 ),
                                               ],
                                             )
-                                          : const CircularProgressIndicator();
+                                          :
+                                      const CircularProgressIndicator();
                                     }),
-
                                 //District List
                                 BlocBuilder<PlacesBloc, PlacesState>(
                                     buildWhen: (previous, current) {
@@ -438,6 +418,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            const SizedBox(height: 10,),
                                             Text(
                                               'District',
                                               style: GoogleFonts.raleway(
@@ -459,21 +440,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                                 ),
                                               ),
                                               value: state.listDistrict[0],
-                                              items:
-                                                  (state as PlaceDistrictState)
-                                                      .listDistrict
-                                                      .map((item) =>
-                                                          DropdownMenuItem<Map>(
-                                                            value: item,
-                                                            child: Text(
-                                                              item['name'],
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                              ),
-                                                            ),
-                                                          ))
-                                                      .toList(),
+                                              items: (state as PlaceDistrictState)
+                                                  .listDistrict
+                                                  .map((item) =>
+                                                  DropdownMenuItem<Map>(
+                                                    value: item,
+                                                    child: Text(
+                                                      item['name'],
+                                                      style:
+                                                      const TextStyle(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  )).toList(),
                                               validator: (value) {
                                                 if (value == null) {
                                                   return 'Please select district';
@@ -493,23 +472,48 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                         )
                                       :
                                       //Place holder district list
-                                      DropdownButtonFormField(
-                                          items: [],
-                                          onChanged: (value) {},
-                                          hint: const Text("District"),
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Please select district';
-                                            }
-                                            return null;
-                                          },
-                                        );
-                                }),
-                                  ],
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(height: 10,),
+                                          Text(
+                                            'District',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              letterSpacing: 1.2,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          DropdownButtonFormField(
+                                              items: const [],
+                                              onChanged: (value) {},
+                                              decoration: InputDecoration(
+                                              hintText: 'District',
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(5),
+                                                ),
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              validator: (value) {
+                                                if (value == null) {
+                                                  return 'Please select district';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                        ],
+                                      );
+                                }),],
+                                  ),
                                 ),
-                                ),
+                                const SizedBox(height: 10,),
                                 Text(
                                   "Address",
                                   style: GoogleFonts.raleway(
@@ -518,6 +522,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     letterSpacing: 1.2,
                                     color: Colors.black,
                                   ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
                                 ),
                                 //Address
                                 TextFormField(
@@ -564,6 +571,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                 return null;
                               },
                               maxLines: 10,
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                           ],
                         ),

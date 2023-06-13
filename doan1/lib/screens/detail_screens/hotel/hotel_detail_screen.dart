@@ -122,7 +122,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                         Text(
                           hotelItemBloc.hotel!.name!,
                           style: GoogleFonts.raleway(
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -131,7 +131,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                         Text(
                           "${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)} VNĐ / Night",
                           style: GoogleFonts.raleway(
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             fontWeight: FontWeight.w500,
                           ),
                         ) : const Text('Loading...'),
@@ -147,7 +147,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                             hotelItemBloc.hotel!.address!,
                             textAlign: TextAlign.start,
                             style: GoogleFonts.raleway(
-                              fontSize: 20.0,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -208,7 +208,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                     const SizedBox(height: 10,),
                     Text("Description",
                       style: GoogleFonts.raleway(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         fontWeight: FontWeight.w700,
                       ),),
                     const SizedBox(height: 10.0),
@@ -242,7 +242,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                             value: hotelItemBloc,
                           )
                         ],
-                        child: HotelBookingInfoScreen())
+                        child: const HotelBookingInfoScreen())
                 ));
               },
               child: Container(

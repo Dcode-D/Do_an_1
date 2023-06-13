@@ -1,15 +1,10 @@
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/screen/all_screen/all_article/article_bloc.dart';
-import '../../models/destination_model.dart';
 import '../../widgets/card_scroll_widget.dart';
-import '../detail_screens/destination/des_detail_screen.dart';
 
 const cardAspectRatio = 12.0 / 16.0;
 const widgetAspectRatio = cardAspectRatio * 1.2;
