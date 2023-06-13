@@ -11,9 +11,13 @@ class HotelBookingBloc extends Bloc<HotelBookingEvent, HotelBookingState>{
   List<HotelRoom> listSelectedHotelRoom = [];
   HotelBookingBloc() : super(HotelBookingState(isDateSet: false,isRoomSet: false)) {
     on<SetBookingDate>((event,emit) => emit(HotelBookingState(isDateSet: true,isRoomSet: state.isRoomSet)));
-    on<SetRoom>((event,emit) {
+    on<SetRoomEvent>((event,emit) {
       listSelectedHotelRoom = event.hotelRoom;
       emit(HotelBookingState(isDateSet: state.isDateSet,isRoomSet: true));
+    });
+    on<RemoveRoomEvent>((event,emit) {
+      listSelectedHotelRoom.removeAt(event.index);
+      add(SetRoomEvent(hotelRoom: listSelectedHotelRoom));
     });
   }
 }

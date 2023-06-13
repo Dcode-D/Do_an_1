@@ -1,17 +1,13 @@
-import 'dart:io';
 
 import 'package:doan1/BLOC/components/places_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
-import 'package:doan1/models/destination_model.dart';
 import 'package:doan1/widgets/dialog/add_avatar_image_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../BLOC/posts/posts_bloc.dart';
+import '../../../BLOC/news_create/posts/posts_bloc.dart';
 
 class CreatePostScreen extends StatefulWidget {
   @override
@@ -135,8 +131,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Container(
                                     height: 40,
                                     width: 40,
@@ -149,8 +144,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                       ),
                                     ),
                                     child:
-                                        context.read<ProfileBloc>().image !=
-                                                null
+                                        context.read<ProfileBloc>().image != null
                                             ? ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(50),
@@ -191,26 +185,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                 IconButton(
                                   onPressed: () {
                                     showDialog(
-                                        context: context,
-                                        builder: (_) => Center(
-                                              child: ImagePickingDialog(
-                                                  getImageFromGallery: () {
-                                                    context
-                                                        .read<PostsBloc>()
-                                                        .add(AddImageEvent(
-                                                            ImagePickMethod
-                                                                .gallery));
+                                        context: context, builder: (_) =>
+                                        Center(
+                                          child: ImagePickingDialog(getImageFromGallery: () {
+                                            context.read<PostsBloc>().add(AddImageEvent(
+                                                ImagePickMethod.gallery));
+                                            },
+                                              getImageFromCamera: () {
+                                            context.read<PostsBloc>()
+                                                .add(AddImageEvent(
+                                                ImagePickMethod.camera));
                                                   },
-                                                  getImageFromCamera: () {
-                                                    context
-                                                        .read<PostsBloc>()
-                                                        .add(AddImageEvent(
-                                                            ImagePickMethod
-                                                                .camera));
-                                                  },
-                                                  title:
-                                                      "Add image to the post"),
-                                            ));
+                                              title: "Add image to the post"),
+                                        ));
                                   },
                                   icon: const Icon(
                                     Icons.add_a_photo,
@@ -225,8 +212,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                 Text(
                                   'Title',
                                   style: GoogleFonts.raleway(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
                                     letterSpacing: 1.2,
                                     color: Colors.black,
                                   ),
@@ -255,8 +242,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                 Text(
                                   'Destination name',
                                   style: GoogleFonts.raleway(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
                                     letterSpacing: 1.2,
                                     color: Colors.black,
                                   ),
@@ -279,8 +266,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                const SizedBox(height: 10,),
+                                Text('Please add some images of your hotel',
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle: FontStyle.italic,
+                                    letterSpacing: 1.2,
+                                    color: Colors.orange,
+                                  ),
                                 ),
                                 //image selected list
                                 SingleChildScrollView(
@@ -355,8 +349,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                           Text(
                                             'Province',
                                             style: GoogleFonts.raleway(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
                                               letterSpacing: 1.2,
                                               color: Colors.black,
                                             ),
@@ -422,8 +416,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                             Text(
                                               'District',
                                               style: GoogleFonts.raleway(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w400,
                                                 letterSpacing: 1.2,
                                                 color: Colors.black,
                                               ),
@@ -480,8 +474,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                           Text(
                                             'District',
                                             style: GoogleFonts.raleway(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
                                               letterSpacing: 1.2,
                                               color: Colors.black,
                                             ),
@@ -517,8 +511,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                 Text(
                                   "Address",
                                   style: GoogleFonts.raleway(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
                                     letterSpacing: 1.2,
                                     color: Colors.black,
                                   ),

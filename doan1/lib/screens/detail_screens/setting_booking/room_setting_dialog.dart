@@ -45,7 +45,7 @@ class _RoomSettingDialogState extends State<RoomSettingDialog>{
                 ),
                 IconButton(
                     onPressed:() {
-                      hotelBookingBloc.add(SetRoom(hotelRoom: widget.listSelectedHotelRoom));
+                      hotelBookingBloc.add(SetRoomEvent(hotelRoom: widget.listSelectedHotelRoom));
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.check,color: Colors.green,)),

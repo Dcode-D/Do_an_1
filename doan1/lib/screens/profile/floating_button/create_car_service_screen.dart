@@ -373,7 +373,7 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
@@ -426,7 +426,7 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                           controller: licensePlateController,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(
-                              FontAwesomeIcons.dollarSign,
+                              FontAwesomeIcons.driversLicense,
                               color: Colors.black45,
                             ),
                             hintText: 'Enter vehicle license plate',
@@ -475,170 +475,185 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                             return null;
                           },
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10,),
                         BlocProvider<PlacesBloc>(
-                          create: (context) =>
-                              PlacesBloc()..add(GetProvinceEvent()),
+                          create: (context) => PlacesBloc()..add(GetProvinceEvent()),
                           child:
-                              //Province List
-                              Column(
+                          //Province List
+                          Column(
                             children: [
                               BlocBuilder<PlacesBloc, PlacesState>(
                                   buildWhen: (previous, current) {
-                                return current is PlaceProvinceState ||
-                                    current is PlacesInitial;
-                              }, builder: (context, state) {
-                                return state is PlaceProvinceState
-                                    ? Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Province',
-                                            style: GoogleFonts.raleway(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 1.2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          DropdownButtonFormField<Map>(
-                                            decoration: InputDecoration(
-                                              hintText: 'Province',
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
+                                    return current is PlaceProvinceState ||
+                                        current is PlacesInitial;
+                                  }, builder: (context, state) {
+                                return state is PlaceProvinceState ?
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Province',
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    DropdownButtonFormField<Map>(
+                                      decoration: InputDecoration(
+                                        hintText: 'Province',
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      items:
+                                      (state as PlaceProvinceState).listProvince.map((item) =>
+                                          DropdownMenuItem<Map>(
+                                            value: item,
+                                            child: Text(
+                                              item['name'],
+                                              style:
+                                              const TextStyle(
+                                                fontSize: 14,
                                               ),
                                             ),
-                                            items: (state as PlaceProvinceState)
-                                                .listProvince
-                                                .map((item) =>
-                                                    DropdownMenuItem<Map>(
-                                                      value: item,
-                                                      child: Text(
-                                                        item['name'],
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ))
-                                                .toList(),
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return 'Please select province';
-                                              }
-                                              return null;
-                                            },
-                                            onChanged: (value) {
-                                              context.read<PlacesBloc>().add(
-                                                  GetDistrictEvent(
-                                                      value?['code']));
-                                              provinceCode = value?['code'];
-                                              provinceName = value?['name'];
-                                            },
-                                            onSaved: (value) {
-                                              context.read<PlacesBloc>().add(
-                                                  GetDistrictEvent(
-                                                      value?['code']));
-                                              provinceCode = value?['code'];
-                                              provinceName = value?['name'];
-                                            },
-                                          ),
-                                        ],
-                                      )
-                                    : const CircularProgressIndicator();
+                                          )).toList(),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select province';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (value) {context.read<PlacesBloc>().add(
+                                          GetDistrictEvent(value?['code']));
+                                      provinceCode = value?['code'];
+                                      provinceName = value?['name'];
+                                      },
+                                      onSaved: (value) {
+                                        context.read<PlacesBloc>().add(
+                                            GetDistrictEvent(
+                                                value?['code']));
+                                        provinceCode = value?['code'];
+                                        provinceName = value?['name'];
+                                      },
+                                    ),
+                                  ],
+                                )
+                                    :
+                                const CircularProgressIndicator();
                               }),
-
                               //District List
                               BlocBuilder<PlacesBloc, PlacesState>(
                                   buildWhen: (previous, current) {
-                                return current is PlaceDistrictState ||
-                                    current is PlacesInitial;
-                              }, builder: (context, state) {
+                                    return current is PlaceDistrictState ||
+                                        current is PlacesInitial;
+                                  }, builder: (context, state) {
                                 return state is PlaceDistrictState
                                     ?
-                                    //Real district list
-                                    Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'District',
-                                            style: GoogleFonts.raleway(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 1.2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          DropdownButtonFormField<Map>(
-                                            decoration: InputDecoration(
-                                              hintText: 'District',
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
+                                //Real district list
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 10,),
+                                    Text(
+                                      'District',
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    DropdownButtonFormField<Map>(
+                                      decoration: InputDecoration(
+                                        hintText: 'District',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      value: state.listDistrict[0],
+                                      items: (state as PlaceDistrictState)
+                                          .listDistrict
+                                          .map((item) =>
+                                          DropdownMenuItem<Map>(
+                                            value: item,
+                                            child: Text(
+                                              item['name'],
+                                              style:
+                                              const TextStyle(
+                                                fontSize: 14,
                                               ),
                                             ),
-                                            value: state.listDistrict[0],
-                                            items: (state as PlaceDistrictState)
-                                                .listDistrict
-                                                .map((item) =>
-                                                    DropdownMenuItem<Map>(
-                                                      value: item,
-                                                      child: Text(
-                                                        item['name'],
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ))
-                                                .toList(),
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return 'Please select district';
-                                              }
-                                              return null;
-                                            },
-                                            onChanged: (value) {
-                                              districtCode = value?['code'];
-                                              districtName = value?['name'];
-                                            },
-                                            onSaved: (value) {
-                                              districtCode = value?['code'];
-                                              districtName = value?['name'];
-                                            },
-                                          ),
-                                        ],
-                                      )
+                                          )).toList(),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select district';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (value) {
+                                        districtCode = value?['code'];
+                                        districtName = value?['name'];
+                                      },
+                                      onSaved: (value) {
+                                        districtCode = value?['code'];
+                                        districtName = value?['name'];
+                                      },
+                                    ),
+                                  ],
+                                )
                                     :
-                                    //Place holder district list
+                                //Place holder district list
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 10,),
+                                    Text(
+                                      'District',
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
                                     DropdownButtonFormField(
-                                        items: [],
-                                        onChanged: (value) {},
-                                        hint: const Text("District"),
-                                        borderRadius: BorderRadius.circular(5),
-                                        validator: (value) {
-                                          if (value == null) {
-                                            return 'Please select district';
-                                          }
-                                          return null;
-                                        },
-                                      );
+                                      items: const [],
+                                      onChanged: (value) {},
+                                      decoration: InputDecoration(
+                                        hintText: 'District',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(5),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select district';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ],
+                                );
                               }),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10,),
                         Text(
                           'Vehicle Description',
                           style: GoogleFonts.raleway(

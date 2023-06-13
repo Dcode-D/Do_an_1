@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../data/model/article.dart';
-import '../../../../data/repositories/articale_repo.dart';
+import '../../../../data/repositories/article_repo.dart';
 
 part 'article_event.dart';
 part 'article_state.dart';

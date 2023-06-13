@@ -1,5 +1,4 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
-import 'package:doan1/BLOC/create_tour/create_tour_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
@@ -17,6 +16,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../BLOC/news_create/create_tour/create_tour_bloc.dart';
 import 'check_booking/check_booking_screen.dart';
 import 'edit_profile_screen.dart';
 
@@ -89,7 +89,13 @@ class ProfileScreen extends StatelessWidget {
               SpeedDialChild(
                 child: const Icon(FontAwesomeIcons.hotel),
                 backgroundColor: Colors.orange,
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreateHotelServiceScreen())),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
+                MultiBlocProvider(
+                  providers: [
+                    BlocProvider<ProfileBloc>.value(
+                        value: BlocProvider.of<ProfileBloc>(context)),
+                  ],
+                    child: CreateHotelServiceScreen()))),
                 label: 'Create hotel service',
                 labelStyle: const TextStyle(
                     color: Colors.white,

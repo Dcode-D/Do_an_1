@@ -8,3 +8,8 @@ class SetTourPlan extends CreateTourEvent{
   SetTourPlan({required this.tourPlan});
 }
 
+class RemoveTourPlan extends CreateTourEvent{
+  int index;
+  RemoveTourPlan({required this.index});
+}
+

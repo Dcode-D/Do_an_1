@@ -1,12 +1,12 @@
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/tour/add_plan_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../BLOC/create_tour/create_tour_bloc.dart';
+import '../../../BLOC/components/places_bloc.dart';
+import '../../../BLOC/news_create/create_tour/create_tour_bloc.dart';
 import '../../../BLOC/screen/all_screen/all_article/article_bloc.dart';
 
 class CreateTourScreen extends StatefulWidget {
@@ -19,6 +19,13 @@ class CreateTourScreen extends StatefulWidget {
 class _CreateTourScreenState extends State<CreateTourScreen> {
 
   final _formKey = GlobalKey<FormState>();
+  var provinceCode = -1;
+  var provinceName = '';
+  var districtCode = -1;
+  var districtName = '';
+  var wardCode = -1;
+  var wardName = '';
+
   @override
   Widget build(BuildContext context) {
     var articleBloc = context.read<ArticleBloc>();
@@ -154,8 +161,8 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                         Text(
                           'Tour name',
                           style: GoogleFonts.raleway(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),
@@ -181,8 +188,8 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                             Text(
                               'Plan',
                               style: GoogleFonts.raleway(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
                                 letterSpacing: 1.2,
                                 color: Colors.black,
                               ),
@@ -198,7 +205,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                                     transitionDuration: const Duration(milliseconds: 400),
                                     transitionBuilder: (context, anim1, anim2, child) {
                                       return SlideTransition(
-                                        position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim1),
+                                        position: Tween(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(anim1),
                                         child: child,
                                       );
                                     },
@@ -222,6 +229,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                         ),
                         const SizedBox(height: 10,),
                         BlocBuilder<CreateTourBloc,CreateTourState>(
+                          buildWhen: (previous, current) => current is CreateTourInitial || current is PlanSetState,
                           builder: (context,state) =>
                           Container(
                             width: double.infinity,
@@ -240,11 +248,11 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                                 ),
                               ],
                             ),
-                            child: createTourBloc.listSelectedTourPlan.isEmpty ?
+                            child: state is CreateTourInitial || (state is PlanSetState && createTourBloc.listSelectedTourPlan.isEmpty) ?
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: Text(
-                                'No plan added',
+                                'No plan added yet',
                                 style: GoogleFonts.raleway(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
@@ -274,7 +282,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                                           const Spacer(),
                                           InkWell(
                                             onTap: () {
-                                              context.read<CreateTourBloc>().removeTourPlan(index);
+                                              context.read<CreateTourBloc>().add(RemoveTourPlan(index: index));
                                             },
                                             child: const Icon(
                                               Icons.delete,
@@ -289,11 +297,189 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           ),
                         ),
                         const SizedBox(height: 10,),
+                        BlocProvider<PlacesBloc>(
+                          create: (context) => PlacesBloc()..add(GetProvinceEvent()),
+                          child:
+                          //Province List
+                          Column(
+                            children: [
+                              BlocBuilder<PlacesBloc, PlacesState>(
+                                  buildWhen: (previous, current) {
+                                    return current is PlaceProvinceState ||
+                                        current is PlacesInitial;
+                                  }, builder: (context, state) {
+                                return state is PlaceProvinceState ?
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Province',
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    DropdownButtonFormField<Map>(
+                                      decoration: InputDecoration(
+                                        hintText: 'Province',
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      items:
+                                      (state as PlaceProvinceState).listProvince.map((item) =>
+                                          DropdownMenuItem<Map>(
+                                            value: item,
+                                            child: Text(
+                                              item['name'],
+                                              style:
+                                              const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          )).toList(),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select province';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (value) {context.read<PlacesBloc>().add(
+                                          GetDistrictEvent(value?['code']));
+                                      provinceCode = value?['code'];
+                                      provinceName = value?['name'];
+                                      },
+                                      onSaved: (value) {
+                                        context.read<PlacesBloc>().add(
+                                            GetDistrictEvent(
+                                                value?['code']));
+                                        provinceCode = value?['code'];
+                                        provinceName = value?['name'];
+                                      },
+                                    ),
+                                  ],
+                                )
+                                    :
+                                const CircularProgressIndicator();
+                              }),
+                              //District List
+                              BlocBuilder<PlacesBloc, PlacesState>(
+                                  buildWhen: (previous, current) {
+                                    return current is PlaceDistrictState ||
+                                        current is PlacesInitial;
+                                  }, builder: (context, state) {
+                                return state is PlaceDistrictState
+                                    ?
+                                //Real district list
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 10,),
+                                    Text(
+                                      'District',
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    DropdownButtonFormField<Map>(
+                                      decoration: InputDecoration(
+                                        hintText: 'District',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      value: state.listDistrict[0],
+                                      items: (state as PlaceDistrictState)
+                                          .listDistrict
+                                          .map((item) =>
+                                          DropdownMenuItem<Map>(
+                                            value: item,
+                                            child: Text(
+                                              item['name'],
+                                              style:
+                                              const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          )).toList(),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select district';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (value) {
+                                        districtCode = value?['code'];
+                                        districtName = value?['name'];
+                                      },
+                                      onSaved: (value) {
+                                        districtCode = value?['code'];
+                                        districtName = value?['name'];
+                                      },
+                                    ),
+                                  ],
+                                )
+                                    :
+                                //Place holder district list
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 10,),
+                                    Text(
+                                      'District',
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    DropdownButtonFormField(
+                                      items: const [],
+                                      onChanged: (value) {},
+                                      decoration: InputDecoration(
+                                        hintText: 'District',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(5),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select district';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ],
+                                );
+                              }),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10,),
                         Text(
                           'Price',
                           style: GoogleFonts.raleway(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),

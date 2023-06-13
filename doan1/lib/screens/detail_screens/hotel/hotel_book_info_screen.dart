@@ -405,85 +405,99 @@ class HotelBookingInfoScreen extends StatelessWidget{
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: hotelBookingBloc.listSelectedHotelRoom.length,
                             itemBuilder: (context,index){
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              return Row(
                                 children: [
-                                  Text(
-                                    'Room ${hotelBookingBloc.listSelectedHotelRoom[index].number}',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: GoogleFonts.raleway().fontFamily,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 1.2,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Text(
-                                    'Price: ${hotelBookingBloc.listSelectedHotelRoom[index].price} \$ / night',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: GoogleFonts.raleway().fontFamily,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 1.2,
-                                      color: Colors.black.withOpacity(0.5),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Text(
-                                    'Adult capacity: ${hotelBookingBloc.listSelectedHotelRoom[index].adultCapacity}',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: GoogleFonts.raleway().fontFamily,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 1.2,
-                                      color: Colors.black.withOpacity(0.5),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Text(
-                                    'Child capacity: ${hotelBookingBloc.listSelectedHotelRoom[index].childrenCapacity}',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: GoogleFonts.raleway().fontFamily,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 1.2,
-                                      color: Colors.black.withOpacity(0.5),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Row(
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        hotelBookingBloc.listSelectedHotelRoom[index].checkInHour == null ? 'No check in' :
-                                        'Check in: ${hotelBookingBloc.listSelectedHotelRoom[index].checkInHour!}'
-                                            ':${hotelBookingBloc.listSelectedHotelRoom[index].checkInMinute!}',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
+                                        'Room ${hotelBookingBloc.listSelectedHotelRoom[index].number}',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: GoogleFonts.raleway().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
                                           color: Colors.black,
                                         ),
                                       ),
-                                      const Spacer(),
+                                      const SizedBox(height: 10,),
                                       Text(
-                                        hotelBookingBloc.listSelectedHotelRoom[index].checkOutHour == null ? 'No check out' :
-                                        'Check out: ${hotelBookingBloc.listSelectedHotelRoom[index].checkOutHour!}'
-                                            ':${hotelBookingBloc.listSelectedHotelRoom[index].checkOutMinute!}',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
+                                        'Price: ${hotelBookingBloc.listSelectedHotelRoom[index].price} \$ / night',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: GoogleFonts.raleway().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black.withOpacity(0.5),
                                         ),
                                       ),
+                                      const SizedBox(height: 10,),
+                                      Text(
+                                        'Adult capacity: ${hotelBookingBloc.listSelectedHotelRoom[index].adultCapacity}',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: GoogleFonts.raleway().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      Text(
+                                        'Child capacity: ${hotelBookingBloc.listSelectedHotelRoom[index].childrenCapacity}',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: GoogleFonts.raleway().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            hotelBookingBloc.listSelectedHotelRoom[index].checkInHour == null ? 'No check in' :
+                                            'Check in: ${hotelBookingBloc.listSelectedHotelRoom[index].checkInHour!}'
+                                                ':${hotelBookingBloc.listSelectedHotelRoom[index].checkInMinute!}',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                            hotelBookingBloc.listSelectedHotelRoom[index].checkOutHour == null ? 'No check out' :
+                                            'Check out: ${hotelBookingBloc.listSelectedHotelRoom[index].checkOutHour!}'
+                                                ':${hotelBookingBloc.listSelectedHotelRoom[index].checkOutMinute!}',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      Container(
+                                        height:1,
+                                        width: double.infinity,
+                                        color: Colors.black.withOpacity(0.2),
+                                      ),
+                                      const SizedBox(height: 10,),
                                     ],
                                   ),
-                                  const SizedBox(height: 10,),
-                                  Container(
-                                    height:1,
-                                    width: double.infinity,
-                                    color: Colors.black.withOpacity(0.2),
-                                  ),
-                                  const SizedBox(height: 10,),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      hotelBookingBloc.add(RemoveRoomEvent(index: index));
+                                    },
+                                    child: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  )
                                 ],
                               );
                             }

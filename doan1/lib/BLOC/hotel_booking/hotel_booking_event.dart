@@ -4,7 +4,12 @@ abstract class HotelBookingEvent {}
 
 class SetBookingDate extends HotelBookingEvent{}
 
-class SetRoom extends HotelBookingEvent{
+class SetRoomEvent extends HotelBookingEvent{
   List<HotelRoom> hotelRoom = [];
-  SetRoom({required this.hotelRoom});
+  SetRoomEvent({required this.hotelRoom});
+}
+
+class RemoveRoomEvent extends HotelBookingEvent{
+  int index;
+  RemoveRoomEvent({required this.index});
 }

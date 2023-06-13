@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:doan1/data/remote/app_service.dart';
-import 'package:doan1/data/repositories/articale_repo.dart';
+import 'package:doan1/data/repositories/article_repo.dart';
 import 'package:doan1/data/repositories/user_repo.dart';
 import 'package:doan1/socketio/socketioRepo.dart';
 import 'package:event_bus/event_bus.dart';

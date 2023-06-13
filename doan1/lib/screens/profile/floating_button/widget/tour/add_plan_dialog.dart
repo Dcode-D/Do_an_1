@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../BLOC/create_tour/create_tour_bloc.dart';
+import '../../../../../BLOC/news_create/create_tour/create_tour_bloc.dart';
 import '../../../../../data/model/article.dart';
 
 class AddPlanDialog extends StatefulWidget{
@@ -26,7 +26,7 @@ class _AddPlanDialogState extends State<AddPlanDialog>{
       padding: const EdgeInsets.only(top: 25),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
           color: Colors.white,
         ),

@@ -1,22 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../data/model/article.dart';
+import '../../../data/model/article.dart';
 
 part 'create_tour_event.dart';
 part 'create_tour_state.dart';
 
 class CreateTourBloc extends Bloc<CreateTourEvent,CreateTourState>{
   List<Article> listSelectedTourPlan = [];
-  CreateTourBloc() : super(CreateTourState(isPlanSet: false)) {
+  CreateTourBloc() : super(CreateTourInitial()) {
     on<SetTourPlan>((event,emit) {
       listSelectedTourPlan = event.tourPlan;
-      emit(CreateTourState(isPlanSet: true));
+      emit(PlanSetState(isPlanSet: true));
       });
-  }
-
-  void removeTourPlan(int index) {
-    listSelectedTourPlan.removeAt(index);
-    add(SetTourPlan(tourPlan: listSelectedTourPlan));
+    on<RemoveTourPlan>((event,emit) {
+      listSelectedTourPlan.removeAt(event.index);
+      add(SetTourPlan(tourPlan: listSelectedTourPlan));
+    });
   }
 }

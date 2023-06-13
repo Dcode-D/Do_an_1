@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:doan1/data/Preferences.dart';
-import 'package:doan1/data/repositories/articale_repo.dart';
+import 'package:doan1/data/repositories/article_repo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:doan1/Utils/pick_files.dart';
@@ -40,7 +40,15 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       emit(PostsImageState(listImages));
     });
     on<CreatePostEvent>((event, emit) async {
-      final rs = await articleRepo.createPost(token, event.title, event.description, event.address, event.province, event.district, event.referenceName, listImages);
+      final rs = await articleRepo.createPost(
+          token,
+          event.title,
+          event.description,
+          event.address,
+          event.province,
+          event.district,
+          event.referenceName,
+          listImages);
       emit(PostCreatePostsState(rs));
     });
   }
