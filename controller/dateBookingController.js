@@ -127,15 +127,20 @@ const getBookingsOfUser = async (req, res) => {
 const getDateBookingOfHotel = async (req, res) => {
     try{
         const hotel = req.params.hotel;
-        const {bookingDate, approved, suspended} = req.query;
+        const {startDate, approved, suspended, endDate, page, attachedService} = req.query;
+        const intPage = parseInt(page);
         const query = dateBookingModel.find({attachedService: hotel, type: "hotel"});
-        if(bookingDate)
-            query.where({bookingDate: bookingDate});
+        if(startDate)
+            query.where({startDate: new Date(startDate)});
+        if(endDate)
+            query.where({endDate: new Date(endDate)});
         if(approved)
             query.where({approved: approved});
         if(suspended)
             query.where({suspended: suspended});
-        const datebookings = await query.exec();
+        if (attachedService)
+            query.where({attachedService: attachedService});
+        const datebookings = await query.skip((intPage-1)*10).limit(10).exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
         console.log(e.message);
@@ -146,15 +151,20 @@ const getDateBookingOfHotel = async (req, res) => {
 const getDateBookingOfCar = async (req, res) => {
     try{
         const car = req.params.car;
-        const {bookingDate, approved, suspended} = req.query;
+        const {startDate,endDate, approved, suspended,page,attachedService} = req.query;
+        const intPage = parseInt(page);
         const query = dateBookingModel.find({attachedService: car, type: "car"});
-        if(bookingDate)
-            query.where({bookingDate: bookingDate});
+        if(startDate)
+            query.where({startDate: new Date(startDate)});
+        if(endDate)
+            query.where({endDate: new Date(endDate)});
         if(approved)
             query.where({approved: approved});
         if(suspended)
             query.where({suspended: suspended});
-        const datebookings = await query.exec();
+        if (attachedService)
+            query.where({attachedService: attachedService});
+        const datebookings = await query.skip(10*(intPage-1)).limit(10).exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
         console.log(e.message);
