@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class RequestFactory {
   RequestFactory();
-    createLogin(String username, String password) {
+  createLogin(String username, String password) {
     return {
       "username": username,
       "password": password,
@@ -48,6 +48,19 @@ class RequestFactory {
   updateAvatar(FormData path){
     return {
       "file": path,
+    };
+  }
+
+  createBookingDate(List<String> attachedServices, String startDate, String endDate, String user, String note, bool approved, bool suspended,String type){
+    return {
+      "attachedServices": attachedServices,
+      "startDate": startDate,
+      "endDate": endDate,
+      "user": user,
+      "note": note,
+      "approved": approved,
+      "suspended": suspended,
+      "type": type
     };
   }
 }

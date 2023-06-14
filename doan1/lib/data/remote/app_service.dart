@@ -109,18 +109,24 @@ abstract class AppService {
     @Part(name: "facilities") required List<Map<String,dynamic>> facilities,
     @Part(name: "files") required List<File> files});
 
-    @POST("/car/")
-    @MultiPart()
-    Future<HttpResponse> createCar({
-      @Header("Authorization") required String token,
-      @Part(name: "licensePlate") required String plate,
-      @Part(name: "brand") required String brand,
-      @Part(name: "address") required String address,
-      @Part(name: "province") required String province,
-      @Part(name: "city") required String district,
-      @Part(name: "description") required String description,
-      @Part(name: "seats") required int seats,
-      @Part(name: "pricePerDay") required double price,
-      @Part(name: "color") required String color,
-      @Part(name: "files") required List<File> files});
+  @POST("/car/")
+  @MultiPart()
+  Future<HttpResponse> createCar({
+    @Header("Authorization") required String token,
+    @Part(name: "licensePlate") required String plate,
+    @Part(name: "brand") required String brand,
+    @Part(name: "address") required String address,
+    @Part(name: "province") required String province,
+    @Part(name: "city") required String district,
+    @Part(name: "description") required String description,
+    @Part(name: "seats") required int seats,
+    @Part(name: "pricePerDay") required double price,
+    @Part(name: "color") required String color,
+    @Part(name: "files") required List<File> files});
+
+  @POST("/dateBooking")
+  Future<HttpResponse> createDateBooking({
+    @Header("Authorization") required String token,
+    @Body() required Map<String,dynamic> request
+  });
 }

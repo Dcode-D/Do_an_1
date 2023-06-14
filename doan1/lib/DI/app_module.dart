@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data/remote/dio.dart';
 import '../data/remote/request_factory.dart';
 import '../data/repositories/authenticator.dart';
+import '../data/repositories/datebooking_repo.dart';
 import '../data/repositories/hotel_repo.dart';
 import '../data/repositories/hotelroom_repo.dart';
 import '../data/repositories/vehicle_repo.dart';
@@ -81,4 +82,10 @@ abstract class RegisterModule {
   @singleton
   SocketRepo socketRepo(SharedPreferences sharedPreferences, @Named("baseUrl")String baseUrl, EventBus eventBus) =>
       SocketRepo(sharedPreferences, baseUrl, eventBus);
+
+  @singleton
+  DateBookingRepo dateBookingRepo(Logger logger,
+      SharedPreferences sharedPreferences,
+      AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
+      DateBookingRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
 }
