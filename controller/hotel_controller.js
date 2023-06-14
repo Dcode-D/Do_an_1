@@ -96,10 +96,11 @@ const hotelController = async (req,res)=>{
         const facilities = req.body.facilities;
         if(facilities&&facilities.length>0){
             for(const facility of facilities){
-              if(facility.name){
+               const obfacility = JSON.parse(facility);
+              if(obfacility.name){
                     const newFacility = new facilityModel({
-                        "name": facility.name,
-                        "description": facility.description,
+                        "name": obfacility.name,
+                        "description": obfacility.description,
                         "service": hotel._id,
                         "type": "hotel",
                     });

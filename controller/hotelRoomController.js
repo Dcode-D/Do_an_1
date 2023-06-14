@@ -86,14 +86,15 @@ const uploadHotelRoom = async (req,res)=>{
     }
 }
 
-//pass in by query of the day to retrieve room available for that day
+//pass in by query of startDate and endDate to retrieve room available for that day
 const getHotelRoom = async (req,res)=>{
     try{
         const query = dateBookingModel.find({});
         let notAvailableList = [];
-        if(req.query.day){
-            let day = req.query.day;
-            const tmplist = await query.where('bookingDate').equals(new Date(day)).select('attachedService').exec();
+        if(req.query.startDate&&req.query.endDate){
+            let startDate = req.query.startDate;
+            let endDate = req.query.endDate;
+            const tmplist = await query.where({$or:[{startDate:{$gt: new Date(startDate)}},{endDate:{$lt: new Date(endDate)}}]}).select('attachedService').exec();
             tmplist.forEach((item)=>notAvailableList.push(item.attachedService));
         }
         if(!req.params.hotel){

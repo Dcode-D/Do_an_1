@@ -6,29 +6,23 @@ const UserModel = require('../models/user_model');
 //pass in dateBooking, type, service list in the body
 const createDateBooking = async (req, res) => {
     try {
-        const {listDateBooking,type, service} = req.body;
-        const checkhotel = hotelModel.findById(service)
-        const checkCar = carModel.findById(service)
-        if (!checkhotel && !checkCar) return res.status(404).json({status: "error", message: "Service not found"});
-        for(const booking of listDateBooking){
-            const check = await dateBookingModel.find({
-                bookingDate: booking.bookingDate,
-                attachedService: service,
-                suspended: false,
-                type: type
-            });
-            if(check.length > 0) return res.status(400).json({status: "error", message: "Date booking already exists"});
-        }
-        for (const booking of listDateBooking) {
-            const dateBooking = new dateBookingModel({
-                bookingDate: booking.bookingDate,
-                attachedService: service,
-                user: req.user._id,
-                note: booking.note,
-                type: type //hotel or car
-            });
-            await dateBooking.save();
-        }
+        const {type, attachedService, startDate, endDate, note} = req.body;
+        if (!type || !attachedService || !startDate || !endDate) return res.status(400).json({status: "error", message: "Missing required fields"});
+        if(new Date(startDate)>=new Date(endDate)) return res.status(400).json({status: "error", message: "Start date must be before end date"});
+        const check = await dateBookingModel.find().where("type").equals(type)
+            .where("attachedService").equals(attachedService)
+            .where({startDate: { $gte: new Date(startDate) }}).where({endDate: { $lte: new Date(endDate) }})
+            .where("suspended").equals(false).exec();
+        if(check.length>0) return res.status(400).json({status: "error", message: "Date booking already exists"});
+        const dateBooking = new dateBookingModel({
+            type: type,
+            attachedService: attachedService,
+            startDate: startDate,
+            endDate: endDate,
+            user: req.user._id,
+            note: note,
+        });
+        await dateBooking.save();
         return res.status(200).json({status: "success", message: "Date booking created"});
     } catch (e) {
         console.log(e.message);

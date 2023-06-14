@@ -6,7 +6,11 @@ const DateBookingSchema = Schema({
         type: Schema.Types.ObjectId,
         require: true,
     },
-    bookingDate: {
+    startDate: {
+        type: Date,
+        require: true,
+    },
+    endDate: {
         type: Date,
         require: true,
     },
