@@ -2,9 +2,10 @@ const mongoose = require('mongoose')
 const {Schema} = require("mongoose");
 
 const DateBookingSchema = Schema({
-    attachedService: {
-        type: Schema.Types.ObjectId,
+    attachedServices: {
+        type: [Schema.Types.ObjectId],
         require: true,
+        notnull: true,
     },
     startDate: {
         type: Date,

@@ -89,13 +89,14 @@ const uploadHotelRoom = async (req,res)=>{
 //pass in by query of startDate and endDate to retrieve room available for that day
 const getHotelRoom = async (req,res)=>{
     try{
-        const query = dateBookingModel.find({});
+        const listHotelRoom = await hotelRoomModel.find({hotel: req.params.hotel});
+        const query = dateBookingModel.find({}).where("type").equals("hotel").where("attachedServices").in(listHotelRoom).where("suspended").equals(false);
         let notAvailableList = [];
         if(req.query.startDate&&req.query.endDate){
             let startDate = req.query.startDate;
             let endDate = req.query.endDate;
-            const tmplist = await query.where({$or:[{startDate:{$gt: new Date(startDate)}},{endDate:{$lt: new Date(endDate)}}]}).select('attachedService').exec();
-            tmplist.forEach((item)=>notAvailableList.push(item.attachedService));
+            const tmplist = await query.where({$or:[{startDate:{$gt: new Date(startDate)}},{endDate:{$lt: new Date(endDate)}}]}).select('attachedServices').exec();
+            tmplist.forEach((item)=>notAvailableList.push(item.attachedServices));
         }
         if(!req.params.hotel){
             return res.status(400).json({status: "error", message: "No hotel id"});

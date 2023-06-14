@@ -6,17 +6,21 @@ const UserModel = require('../models/user_model');
 //pass in dateBooking, type, service list in the body
 const createDateBooking = async (req, res) => {
     try {
-        const {type, attachedService, startDate, endDate, note} = req.body;
-        if (!type || !attachedService || !startDate || !endDate) return res.status(400).json({status: "error", message: "Missing required fields"});
+        const {type, attachedServices, startDate, endDate, note} = req.body;
+        if (!type || !attachedServices || !startDate || !endDate) return res.status(400).json({status: "error", message: "Missing required fields"});
         if(new Date(startDate)>=new Date(endDate)) return res.status(400).json({status: "error", message: "Start date must be before end date"});
         const check = await dateBookingModel.find().where("type").equals(type)
-            .where("attachedService").equals(attachedService)
-            .where({startDate: { $gte: new Date(startDate) }}).where({endDate: { $lte: new Date(endDate) }})
+            .where({attachedServices: {$in: attachedServices}})
+            .where({startDate: {$gte: new Date(startDate)}}).where({endDate: {$lte: new Date(endDate)}})
             .where("suspended").equals(false).exec();
-        if(check.length>0) return res.status(400).json({status: "error", message: "Date booking already exists"});
+        if (check.length > 0) return res.status(400).json({
+            status: "error",
+            message: "Date booking already exists"
+        });
+
         const dateBooking = new dateBookingModel({
             type: type,
-            attachedService: attachedService,
+            attachedServices: attachedServices,
             startDate: startDate,
             endDate: endDate,
             user: req.user._id,
@@ -106,10 +110,10 @@ const rejectDateBooking = async (req, res) => {
 
 const getBookingsOfUser = async (req, res) => {
     try{
-        const {service, bookingDate, approved, suspended} = req.query;
+        const {services, bookingDate, approved, suspended} = req.query;
         const query = dateBookingModel.find({user: req.user._id});
-        if(service)
-            query.where({attachedService: service});
+        if(services)
+            query.where({attachedServices: {$in: services}});
         if(bookingDate)
             query.where({bookingDate: bookingDate});
         if(approved)
@@ -127,7 +131,7 @@ const getBookingsOfUser = async (req, res) => {
 const getDateBookingOfHotel = async (req, res) => {
     try{
         const hotel = req.params.hotel;
-        const {startDate, approved, suspended, endDate, page, attachedService} = req.query;
+        const {startDate, approved, suspended, endDate, page, attachedServices} = req.query;
         const intPage = parseInt(page);
         const query = dateBookingModel.find({attachedService: hotel, type: "hotel"});
         if(startDate)
@@ -138,8 +142,8 @@ const getDateBookingOfHotel = async (req, res) => {
             query.where({approved: approved});
         if(suspended)
             query.where({suspended: suspended});
-        if (attachedService)
-            query.where({attachedService: attachedService});
+        if (attachedServices)
+            query.where({attachedServices: {$in: attachedServices}});
         const datebookings = await query.skip((intPage-1)*10).limit(10).exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
@@ -151,7 +155,7 @@ const getDateBookingOfHotel = async (req, res) => {
 const getDateBookingOfCar = async (req, res) => {
     try{
         const car = req.params.car;
-        const {startDate,endDate, approved, suspended,page,attachedService} = req.query;
+        const {startDate,endDate, approved, suspended,page,attachedServices} = req.query;
         const intPage = parseInt(page);
         const query = dateBookingModel.find({attachedService: car, type: "car"});
         if(startDate)
@@ -162,8 +166,8 @@ const getDateBookingOfCar = async (req, res) => {
             query.where({approved: approved});
         if(suspended)
             query.where({suspended: suspended});
-        if (attachedService)
-            query.where({attachedService: attachedService});
+        if (attachedServices)
+            query.where({attachedService: {$in: attachedServices}});
         const datebookings = await query.skip(10*(intPage-1)).limit(10).exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
