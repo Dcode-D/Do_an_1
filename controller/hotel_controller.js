@@ -254,14 +254,15 @@ const getHotelByQueries = async (req,res)=>{
             query.where('address', new RegExp(address, 'i'))
         }
         if(minprice) {
-            minlist = await hotelRoomModel.find({price: {$gte: minprice}}).select('hotel');
+           const tmp = await hotelRoomModel.find({price: {$gte: minprice}}).select('hotel');
+           minlist = tmp.map((item)=>item.hotel);
         }
         if(maxprice) {
-            maxlist = await hotelRoomModel.find({price: {$lte: maxprice}}).select('hotel');
+            maxlist = (await hotelRoomModel.find({price: {$lte: maxprice}}).select('hotel')).map((item)=>item.hotel);
         }
         if(facilitiesNames) {
             const listname = facilitiesNames.split(',');
-            facilist = await facilityModel.find({name: {$in: listname}, type: "hotel"}).select('service');
+            facilist = (await facilityModel.find({name: {$in: listname}, type: "hotel"}).select('service')).map((item)=>item.service);
         }
 
         const selectlist = [...minlist, ...maxlist];
