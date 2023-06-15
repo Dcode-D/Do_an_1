@@ -58,3 +58,11 @@ extension VehicleExtension on ListModelResponse{
     return rs;
   }
 }
+
+extension VehicleDetailExtension on BaseResponse{
+  Vehicle? toVehicle(){
+    if(this.data == null)
+      return null;
+    return Vehicle.fromJson(this.data!);
+  }
+}

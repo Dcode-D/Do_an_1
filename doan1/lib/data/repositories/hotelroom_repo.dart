@@ -28,4 +28,17 @@ class HotelRoomRepo{
       }
     });
   }
+
+  Future<HotelRoom?> getHotelRoomById(String hotelRoomId) async {
+    return _appService
+        .getHotelRoomById(hotelRoomId)
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toHotelRoom();
+      }
+    });
+  }
 }

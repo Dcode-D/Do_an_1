@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
+import '../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
 
@@ -25,6 +27,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
   late final TabController _tabController = TabController(length: 2, vsync: this);
   @override
   Widget build(BuildContext context) {
+    ProfileBloc profileBloc = context.read<ProfileBloc>();
     BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
     bookHistoryBloc.add(GetBookingHistory());
     return Scaffold(
@@ -133,7 +136,16 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
             itemCount: bookHistoryBloc.lsHotelBooking!.length,
             itemBuilder: (BuildContext context, int index) {
-              return HotelBookingItem();
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider<ProfileBloc>.value(
+                    value: profileBloc),
+                  BlocProvider<HotelBookingItemBloc>(
+                    create: (context) => HotelBookingItemBloc()..add(
+                        HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index]))
+                  ),
+                ],
+                  child: HotelBookingItem());
             },
           ) :
           const Center(
@@ -162,7 +174,16 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
           itemCount: bookHistoryBloc.lsVehicleBooking!.length,
           itemBuilder: (BuildContext context, int index) {
-            return VehicleBookingItem();
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<ProfileBloc>.value(
+                    value: profileBloc),
+                BlocProvider<VehicleBookingItemBloc>(
+                    create: (context) => VehicleBookingItemBloc()..add(
+                        VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index]))
+                ),
+              ],
+                child: VehicleBookingItem());
           },
         ) :
         const Center(

@@ -14,10 +14,11 @@ class Hotel {
   final String? description;
   final List<String>? images;
   final List<Map<String,dynamic>>? facilities;
-  final double? maxPrice;
-  final double? minPrice;
+  final double maxPrice;
+  final double minPrice;
   final String? province;
   final String? city;
+
   Hotel({
     required this.id,
     required this.name,
@@ -28,8 +29,8 @@ class Hotel {
     this.facilities,
     required this.province,
     required this.city,
-    this.maxPrice,
-    this.minPrice
+    required this.maxPrice,
+    required this.minPrice
   }
   );
 
@@ -49,6 +50,14 @@ extension HotelExtension on ListModelResponse{
     }
     print("List hotel: $rs");
     return rs;
+  }
+}
+
+extension HotelDetailExtension on BaseResponse{
+  Hotel? toHotel(){
+    if(this.data == null)
+      return null;
+    return Hotel.fromJson(this.data!);
   }
 }
 

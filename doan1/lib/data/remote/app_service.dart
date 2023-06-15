@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:doan1/data/model/remote/avatar_file_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:doan1/data/model/remote/login_response.dart';
+import '../model/hotelroom.dart';
 import '../model/remote/base_response.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -67,6 +68,12 @@ abstract class AppService {
       @Query('province') String? province,
       @Query('maxPrice')double? maxPrice,
       @Query('minPrice')double? minPrice);
+
+  @GET("/hotel/hotelRoom/{id}")
+  Future<HttpResponse<BaseResponse>> getHotelRoomById(@Path('id') String id);
+
+  @GET("/hotel/id/{id}")
+  Future<HttpResponse<BaseResponse>> getHotelById(@Path('id') String id);
 
   @GET("/hotel/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListHotelFromPage(@Path('page') int page);
@@ -132,5 +139,6 @@ abstract class AppService {
 
   @GET("/dateBooking/user")
   Future<HttpResponse<ListModelResponse>> getUserDateBookingList({
+  @Header("Authorization") required String token,
   @Query('user') required String userId});
 }

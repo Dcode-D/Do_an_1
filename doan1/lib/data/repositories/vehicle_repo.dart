@@ -18,6 +18,17 @@ class VehicleRepo{
   VehicleRepo(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
+  Future<Vehicle?> getVehicleById(String id) async{
+    return _appService.getCarById(id).then((http)async{
+      if(http.response.statusCode != 200){
+        return null;
+      }
+      else{
+        return http.data.toVehicle();
+      }
+    });
+  }
+
   Future<List<Vehicle>?> getListVehicle(int page) async {
     return _appService
         .getListCarFromPage(page)

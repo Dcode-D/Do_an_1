@@ -32,6 +32,17 @@ class HotelRepo{
     });
   }
 
+  Future<Hotel?> getHotelById(String id) async{
+    return _appService.getHotelById(id).then((http)async{
+      if(http.response.statusCode != 200){
+        return null;
+      }
+      else{
+        return http.data.toHotel();
+      }
+    });
+  }
+
   Future<List<Hotel>?> getListHotelByOwner(String owner,int page) async{
     return _appService
         .getListHotelByQuery(page,owner,null,null,null,null,null,null,null)

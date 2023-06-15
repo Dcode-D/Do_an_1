@@ -16,6 +16,8 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
   User? user;
   BookHistoryBloc() : super(BookHistoryInitial(isBookingHistoryLoaded: false)) {
     on<GetBookingHistory>((event,emit) async {
+      lsHotelBooking!.clear();
+      lsVehicleBooking!.clear();
       user = await getUser();
       List<DateBooking>? tempLs = await getHotelBooking(user!.id);
       if(tempLs != null){

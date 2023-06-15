@@ -1,0 +1,57 @@
+import 'package:doan1/data/repositories/hotel_repo.dart';
+import 'package:get_it/get_it.dart';
+import 'package:meta/meta.dart';
+import 'package:bloc/bloc.dart';
+
+import '../../../../data/model/datebooking.dart';
+import '../../../../data/model/hotel.dart';
+import '../../../../data/model/hotelroom.dart';
+import '../../../../data/repositories/hotelroom_repo.dart';
+
+part 'hotel_booking_item_event.dart';
+part 'hotel_booking_item_state.dart';
+
+class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemState> {
+  DateBooking? dateBooking;
+  List<HotelRoom>? lsHotelRoom;
+  Hotel? hotel;
+  HotelBookingItemBloc() : super(HotelBookingItemInitial(getDataSuccess: false)) {
+    on<HotelBookingItemInitialEvent>((event,emit) async {
+      lsHotelRoom = [];
+      dateBooking = event.dateBooking;
+      for (String room in event.dateBooking!.attachedServices!) {
+        lsHotelRoom!.add(await getHotelRoomFunc(room) as HotelRoom);
+      }
+      hotel = await getHotelFunc(lsHotelRoom![0].hotel!) as Hotel;
+      if(hotel != null && lsHotelRoom != null){
+        emit(HotelBookingItemInitial(getDataSuccess: true));
+      }
+      else{
+        emit(HotelBookingItemInitial(getDataSuccess: false));
+      }
+    });
+  }
+
+  Future<HotelRoom?> getHotelRoomFunc(String hotelRoomId) async{
+    return GetIt.instance<HotelRoomRepo>().getHotelRoomById(hotelRoomId).then((value) {
+      if(value != null){
+        return value;
+      }
+      else{
+        return null;
+      }
+    });
+  }
+
+  Future<Hotel?> getHotelFunc(String hotelId) async{
+    var hotelRepo = GetIt.instance<HotelRepo>();
+    return hotelRepo.getHotelById(hotelId).then((value) {
+      if(value != null){
+        return value;
+      }
+      else{
+        return null;
+      }
+    });
+  }
+}

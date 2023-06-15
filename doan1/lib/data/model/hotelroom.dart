@@ -1,3 +1,4 @@
+import 'package:doan1/data/model/remote/base_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -35,7 +36,16 @@ class HotelRoom{
 
   Map<String, dynamic> toJson() => _$HotelRoomToJson(this);
 }
-extension HotelExtension on ListModelResponse{
+
+extension HotelRoomExtension on BaseResponse{
+  HotelRoom? toHotelRoom(){
+    if(this.data == null)
+      return null;
+    return HotelRoom.fromJson(this.data!);
+  }
+}
+
+extension HotelRoomListExtension on ListModelResponse{
   List<HotelRoom>? toListHotelRoom(){
     if(this.data.length == 0)
       return null;
