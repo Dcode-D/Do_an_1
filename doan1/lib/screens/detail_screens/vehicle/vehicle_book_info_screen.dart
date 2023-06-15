@@ -340,6 +340,15 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                                 ),
                               ),
                             ),
+                            Text('Please don\'t pick select a date sequence like your previous booking\'s date sequence',
+                              style: GoogleFonts.raleway(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.italic,
+                                letterSpacing: 1.2,
+                                color: Colors.orange,
+                              ),
+                            ),
                             const SizedBox(height: 10,),
                             Text(
                               'Note',
