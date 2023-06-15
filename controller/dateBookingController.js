@@ -64,6 +64,8 @@ const approveDateBooking = async (req, res) => {
             return res.status(404).json({status: "error", message: "Date booking not found"});
         if(datebooking.bookingDate < Date.now())
             return res.status(400).json({status: "error", message: "Date booking already expired"});
+        if(datebooking.suspended)
+            return res.status(400).json({status: "error", message: "Date booking already suspended"});
         let business = await carModel.findById(datebooking.attachedService);
         if(!business)
             business = await hotelModel.findById(datebooking.attachedService);
