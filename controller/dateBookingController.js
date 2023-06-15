@@ -11,7 +11,10 @@ const createDateBooking = async (req, res) => {
         if(new Date(startDate)>=new Date(endDate)) return res.status(400).json({status: "error", message: "Start date must be before end date"});
         const check = await dateBookingModel.find().where("type").equals(type)
             .where({attachedServices: {$in: attachedServices}})
-            .where({startDate: {$gte: new Date(startDate)}}).where({endDate: {$lte: new Date(endDate)}})
+            .where({$or:[
+                    {$and:[{startDate:{$gte: new Date(startDate)}},{startDate:{$lt: new Date(endDate)}}]},
+                    {$and:[{endDate:{$gt: new Date(startDate)}},{endDate:{$lte: new Date(endDate)}}]},
+                ]})
             .where("suspended").equals(false).exec();
         if (check.length > 0) return res.status(400).json({
             status: "error",
