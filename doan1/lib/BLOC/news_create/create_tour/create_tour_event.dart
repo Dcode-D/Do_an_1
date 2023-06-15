@@ -9,8 +9,18 @@ class SetTourPlan extends CreateTourEvent{
 }
 
 class RemoveTourPlan extends CreateTourEvent{
-  int index;
-  RemoveTourPlan({required this.index});
+  Article article;
+  RemoveTourPlan({required this.article});
+}
+
+class PostTour extends CreateTourEvent{
+  final String name;
+  final String description;
+  final double rating;
+  final int duration;
+  final double price;
+  final int maxGroupSize;
+  PostTour({required this.name, required this.description, required this.rating, required this.duration, required this.price, required this.maxGroupSize});
 }
 
 

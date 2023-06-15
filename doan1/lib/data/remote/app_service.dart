@@ -133,4 +133,10 @@ abstract class AppService {
   @GET("/dateBooking/user")
   Future<HttpResponse<ListModelResponse>> getUserDateBookingList({
   @Query('user') required String userId});
+
+  @POST("/tour/")
+  Future<HttpResponse> createTour({
+    @Header("Authorization") required String token,
+    @Body() required Map<String,dynamic> request
+  });
 }
