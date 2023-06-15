@@ -17,8 +17,6 @@ const TourSchema = Schema({
     },
     hotels: {
         type: [Schema.Types.ObjectId],
-        require: true,
-        notnull: true,
     },
     price: {
         type: Number,
@@ -41,6 +39,12 @@ const TourSchema = Schema({
     startDates: {
         type: Date,
         require: true,
+    },
+    province: {
+        type: String,
+    },
+    city: {
+        type: String,
     }
 })
 

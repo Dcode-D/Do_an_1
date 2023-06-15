@@ -35,9 +35,9 @@ const deleteTour = async (req, res) => {
 const getTourList = async (req, res) => {
     try{
         const page = req.params.page || 1;
-        const province = req.params.province;
-        const city = req.params.city;
-        const referenceName = req.params.referenceName;
+        const province = req.query.province;
+        const city = req.query.city;
+        const referenceName = req.query.referenceName;
         const query = TourModel.find();
         let articlesList = [];
         if(province){
@@ -57,7 +57,7 @@ const getTourList = async (req, res) => {
             query.where('articles').in(articlesId);
         }
 
-        const tours = query.skip((page - 1) * 10).limit(10).select("_id").exec();
+        const tours = await query.skip((page - 1) * 10).limit(10).select("_id").exec();
 
         return res.status(200).json({status: "success", message: "Tours found", data: tours});
     }catch (e) {
@@ -92,7 +92,7 @@ const updateTour = async (req, res) => {
             return res.status(404).json({status: "error", message: "Tour not found"});
         if(!tour.user.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
-        const {name, description, price, duration, maxGroupSize, rating, hotels, articles, startDates} = req.body;
+        const {name, description, price, duration, maxGroupSize, rating, articles, startDates, province, city} = req.body;
         tour.name = name;
         tour.description = description;
         tour.price = price;
@@ -100,8 +100,9 @@ const updateTour = async (req, res) => {
         tour.maxGroupSize = maxGroupSize;
         tour.rating = rating;
         tour.startDates = startDates;
-        tour.hotels = hotels;
         tour.articles = articles;
+        tour.province = province;
+        tour.city = city;
         await tour.save();
         return res.status(200).json({status: "success", message: "Tour updated"});
     }

@@ -110,4 +110,18 @@ const getHotelRoom = async (req,res)=>{
         return res.status(503).json({status: "error", message: e.message});
     }
 }
-module.exports = {updateHotelRoom, deleteHotelRoom, uploadHotelRoom, getHotelRoom};
+
+const  getRoomById = async (req,res)=>{
+    try{
+        const hotelRoom = await hotelRoomModel.findById(req.params.id);
+        if(!hotelRoom){
+            return res.status(404).json({status: "error", message: "Hotel room not found"});
+        }
+        return res.status(200).json({status: "success", data: hotelRoom});
+    }
+    catch (e){
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+module.exports = {updateHotelRoom, deleteHotelRoom, uploadHotelRoom, getHotelRoom, getRoomById};
