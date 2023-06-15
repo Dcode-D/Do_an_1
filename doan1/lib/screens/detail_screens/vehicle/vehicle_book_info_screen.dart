@@ -40,13 +40,13 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                   context: context,
                   builder: (context) => AlertDialog(
                     title: const Text('Booking Failed'),
-                    content: const Text('Please check your information again'),
+                    content: const Text('Please check your booking information again'),
                     actions: [
                       TextButton(
                         onPressed: (){
                           Navigator.pop(context);
                         },
-                        child: Text('OK'),
+                        child: const Text('OK'),
                       ),
                     ],
                   ),
@@ -508,6 +508,24 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                             const SizedBox(height: 20,),
                             ElevatedButton(
                               onPressed: (){
+                                if (dateRangePickerController.selectedRange == null){
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Booking Failed'),
+                                      content: const Text('Please select a date range'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                  return;
+                                }
                                 vehicleBookingBloc.add(SetBooking(
                                     attachedServices: [carItemBloc.vehicle!.id!],
                                     startDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),

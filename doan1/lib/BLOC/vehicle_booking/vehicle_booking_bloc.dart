@@ -13,6 +13,7 @@ class VehicleBookingBloc extends Bloc<VehicleBookingEvent,VehicleBookingState>{
   VehicleBookingBloc() : super(VehicleBookingState(isDateSet: false,isBookingSuccess: BookingState.initial)) {
     on<SetBookingDate>((event,emit) => emit(VehicleBookingState(isDateSet: true,isBookingSuccess: state.isBookingSuccess)));
     on<SetBooking>((event,emit) async {
+      emit(VehicleBookingState(isDateSet: state.isDateSet,isBookingSuccess: BookingState.initial));
       bool? bookResult = await CreateVehicleBooking(
           event.attachedServices!,
           event.startDate!,

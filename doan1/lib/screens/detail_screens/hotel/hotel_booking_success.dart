@@ -58,10 +58,9 @@ class HotelBookingSuccessScreen extends StatelessWidget{
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => NavigationNavBar(),
-                      ));
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                   child: const Text(
                     'Back to home',
