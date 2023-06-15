@@ -1,5 +1,6 @@
 const dateBookingModel = require('../models/dateBookingModel');
 const hotelModel = require('../models/hotel_model');
+const HotelRoomModel = require('../models/hotel_room_model');
 const carModel = require('../models/carServiceModel');
 const UserModel = require('../models/user_model');
 
@@ -137,8 +138,14 @@ const getDateBookingOfHotel = async (req, res) => {
     try{
         const hotel = req.params.hotel;
         const {startDate, approved, suspended, endDate, page, attachedServices} = req.query;
+        const hotelob = await hotelModel.findById(hotel);
+        if(!hotelob)
+            return res.status(404).json({status: "error", message: "Hotel not found"});
+        if(hotel.owner!==req.user._id)
+            return res.status(403).json({status: "error", message: "Not permitted"});
         const intPage = parseInt(page);
-        const query = dateBookingModel.find({attachedService: hotel, type: "hotel"});
+        const rooms = await HotelRoomModel.find().where({hotel: hotel});
+        const query = dateBookingModel.find({attachedService: {$in:rooms}, type: "hotel"});
         if(startDate)
             query.where({startDate: new Date(startDate)});
         if(endDate)
@@ -162,6 +169,11 @@ const getDateBookingOfCar = async (req, res) => {
         const car = req.params.car;
         const {startDate,endDate, approved, suspended,page,attachedServices} = req.query;
         const intPage = parseInt(page);
+        const carob = await carModel.findById(car);
+        if(!carob)
+            return res.status(404).json({status: "error", message: "Car not found"});
+        if(carob.owner!==req.user._id)
+            return res.status(403).json({status: "error", message: "Not permitted"});
         const query = dateBookingModel.find({attachedService: car, type: "car"});
         if(startDate)
             query.where({startDate: new Date(startDate)});
