@@ -769,11 +769,30 @@ class HotelBookingInfoScreen extends StatelessWidget{
                             );
                             return;
                           }
-                          List<String> listRoomId = [];
-                          for (var room in hotelBookingBloc.listSelectedHotelRoom){
-                             listRoomId.add(room.id!);
+                          else if (dateRangePickerController.selectedRange!.startDate!.isBefore(DateTime.now())){
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Booking Failed'),
+                                content: const Text('Please select a valid date range'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                            return;
                           }
-                          hotelBookingBloc.add(BookingRoomEvent(
+                          else{
+                            List<String> listRoomId = [];
+                            for (var room in hotelBookingBloc.listSelectedHotelRoom){
+                              listRoomId.add(room.id!);
+                            }
+                            hotelBookingBloc.add(BookingRoomEvent(
                               attachedServices: listRoomId,
                               startDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),
                               endDate: dateRangePickerController.selectedRange!.endDate.toString().substring(0,10),
@@ -782,7 +801,8 @@ class HotelBookingInfoScreen extends StatelessWidget{
                               approved: false,
                               suspended: false,
                               type: 'hotel',
-                          ));
+                            ));
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,

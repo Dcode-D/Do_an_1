@@ -9,6 +9,7 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../BLOC/navigation/navigation_bloc.dart';
 import '../BLOC/profile/profile_view/profile_bloc.dart';
+import '../BLOC/screen/book_history/book_history_bloc.dart';
 
 class NavigationNavBar extends StatelessWidget{
   int current_tab = 0;

@@ -1,4 +1,5 @@
 
+import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'datebooking.g.dart';
@@ -31,4 +32,17 @@ class DateBooking{
   factory DateBooking.fromJson(Map<String, dynamic> json) => _$DateBookingFromJson(json);
 
   Map<String, dynamic> toJson() => _$DateBookingToJson(this);
+}
+
+extension DateBookingExtension on ListModelResponse{
+  List<DateBooking>? toListDateBooking(){
+    if(this.data.length == 0)
+      return null;
+    List<DateBooking> rs = [];
+    for(Map<String, dynamic> item in this.data){
+      rs.add(DateBooking.fromJson(item));
+    }
+    print("List date booking: $rs");
+    return rs;
+  }
 }

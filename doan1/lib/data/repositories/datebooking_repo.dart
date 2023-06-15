@@ -1,3 +1,4 @@
+import 'package:doan1/data/model/datebooking.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,4 +37,11 @@ class DateBookingRepo{
         return true;
       }
     });
+
+  Future<List<DateBooking>?> GetBookingDate(String userId) async
+  => _appService.getUserDateBookingList(userId: userId)
+        .then((http) async =>
+          http.response.statusCode == 200 ?
+          http.data.toListDateBooking() : null);
+
 }

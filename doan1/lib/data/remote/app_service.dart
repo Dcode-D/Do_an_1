@@ -129,4 +129,8 @@ abstract class AppService {
     @Header("Authorization") required String token,
     @Body() required Map<String,dynamic> request
   });
+
+  @GET("/dateBooking/user")
+  Future<HttpResponse<ListModelResponse>> getUserDateBookingList({
+  @Query('user') required String userId});
 }

@@ -2,6 +2,7 @@ import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/BLOC/screen/home/home_bloc.dart';
 import 'package:doan1/BLOC/screen/search/search_bloc.dart';
 import 'package:doan1/widgets/salomon_bottom_bar.dart';
@@ -24,6 +25,7 @@ class AuthenticationPage extends StatelessWidget {
               BlocProvider<ProfileBloc>(create: (context)=> ProfileBloc(context)),
               BlocProvider<HomeBloc>(create: (context) => HomeBloc()..add(GetDataForScreenEvent())),
               BlocProvider<SearchBloc>(create: (context)=> SearchBloc()),
+              BlocProvider<BookHistoryBloc>(create: (context)=> BookHistoryBloc()),
               BlocProvider<AllHotelBloc>(create: (context) => AllHotelBloc()..add(GetHotelListEvent())),
               BlocProvider<AllVehicleBloc>(create: (context) => AllVehicleBloc()..add(GetVehicleListEvent())),
               BlocProvider<ArticleBloc>(create: (context)=> ArticleBloc()..add(GetArticleData())),

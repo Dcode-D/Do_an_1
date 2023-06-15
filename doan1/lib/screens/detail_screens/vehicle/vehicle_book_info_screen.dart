@@ -535,15 +535,35 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                                   );
                                   return;
                                 }
-                                vehicleBookingBloc.add(SetBooking(
-                                    attachedServices: [carItemBloc.vehicle!.id!],
-                                    startDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),
-                                    endDate: dateRangePickerController.selectedRange!.endDate.toString().substring(0,10),
-                                    user: profileBloc.user!.id,
-                                    note: noteController.text,
-                                    approved: false,
-                                    suspended: false,
-                                    type: 'car'));
+                                else if (dateRangePickerController.selectedRange!.startDate!.isBefore(DateTime.now())){
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Booking Failed'),
+                                      content: const Text('Please select a valid date range'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                  return;
+                                }
+                                else{
+                                  vehicleBookingBloc.add(SetBooking(
+                                      attachedServices: [carItemBloc.vehicle!.id!],
+                                      startDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),
+                                      endDate: dateRangePickerController.selectedRange!.endDate.toString().substring(0,10),
+                                      user: profileBloc.user!.id,
+                                      note: noteController.text,
+                                      approved: false,
+                                      suspended: false,
+                                      type: 'car'));
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.orange,
