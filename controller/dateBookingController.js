@@ -21,6 +21,23 @@ const createDateBooking = async (req, res) => {
             status: "error",
             message: "Date booking already exists"
         });
+        if(type==="hotel"){
+            const hotelRooms = await  HotelRoomModel.find({_id:{ $in: attachedServices}});
+            if(hotelRooms.length>1){
+                for(let i=0;i<hotelRooms.length-1;i++){
+                    if(hotelRooms[i].hotel.equals(hotelRooms[i+1].hotel)) return res.status(400).json({status: "error", message: "Hotel rooms must be in the same hotel"});
+                }
+            }
+        }
+
+        if(type === "car"){
+            const cars = await carModel.find({_id: {$in: attachedServices}});
+            if(cars.length>1){
+                for(let i=0;i<cars.length-1;i++){
+                    if(!cars[i].owner.equals(cars[i+1].owner)) return res.status(400).json({status: "error", message: "Cars must be from the same owner"});
+                }
+            }
+        }
 
         const dateBooking = new dateBookingModel({
             type: type,
@@ -67,12 +84,22 @@ const approveDateBooking = async (req, res) => {
             return res.status(400).json({status: "error", message: "Date booking already expired"});
         if(datebooking.suspended)
             return res.status(400).json({status: "error", message: "Date booking already suspended"});
-        let business = await carModel.findById(datebooking.attachedService);
-        if(!business)
-            business = await hotelModel.findById(datebooking.attachedService);
+        let business;
+        if(datebooking.type === "hotel"){
+            business = await  hotelModel.findById({_id: {$in: datebooking.attachedServices}});
+        }
+        else if(datebooking.type === "car"){
+            business = await  carModel.findById({_id: {$in: datebooking.attachedServices}});
+        }
         if(!business)
             return res.status(404).json({status: "error", message: "Business not found"});
-        const owner = business.owner;
+        if(business.length>1){
+            for(let i=0;i<business.length;i++){
+                if(!business[i].owner.equals(req.user._id))
+                    return res.status(403).json({status: "error", message: "Not permitted for one or all businesses"});
+            }
+        }
+        const owner = business[0].owner;
         if(!owner.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
         datebooking.approved = true;
@@ -97,12 +124,26 @@ const rejectDateBooking = async (req, res) => {
             return res.status(404).json({status: "error", message: "Date booking not found"});
         if(datebooking.bookingDate < Date.now())
             return res.status(400).json({status: "error", message: "Date booking already expired"});
-        let business = await carModel.findById(datebooking.attachedService);
-        if(!business)
-            business = await hotelModel.findById(datebooking.attachedService);
+        let business;
+        let flag = true;
+        let owner;
+        if(datebooking.type === "hotel"){
+            business = await  hotelModel.findById({_id: {$in: datebooking.attachedServices}});
+        }
+        else if(datebooking.type === "car"){
+            business = await  carModel.findById({_id: {$in: datebooking.attachedServices}});
+        }
         if(!business)
             return res.status(404).json({status: "error", message: "Business not found"});
-        const owner = business.owner;
+        if(business.length>1){
+            for(let i=0;i<business.length-1;i++){
+                if(!business[i].owner.equals(business[i+1].owner))
+                    flag = false;
+            }
+        }
+        if(flag)
+            owner = business[0].owner;
+
         if(!owner.equals(req.user._id) && !datebooking.user.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
         datebooking.suspended = true;
