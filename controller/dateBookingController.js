@@ -86,7 +86,8 @@ const approveDateBooking = async (req, res) => {
             return res.status(400).json({status: "error", message: "Date booking already suspended"});
         let business;
         if(datebooking.type === "hotel"){
-            business = await  hotelModel.find({_id: {$in: datebooking.attachedServices}});
+            const tmp = await  HotelRoomModel.find({_id: {$in: datebooking.attachedServices}});
+            business = await hotelModel.find({_id: {$in: tmp.map(x=>x.hotel)}})
         }
         else if(datebooking.type === "car"){
             business = await  carModel.find({_id: {$in: datebooking.attachedServices}});
