@@ -135,14 +135,14 @@ class HotelBookingItem extends StatelessWidget{
                         'Status: Pending',
                         style: GoogleFonts.raleway(
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w400,
                             color: Colors.black54
                         ),
                       ) : Text(
                         'Status: Approved',
                         style: GoogleFonts.raleway(
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w400,
                             color: Colors.black54
                         ),
                       ),
@@ -160,12 +160,26 @@ class HotelBookingItem extends StatelessWidget{
                 ),
                 Row(
                   children: [
+                    hotelBookingItemBloc.dateBooking == null ? const Text('Loading...') :
+                    hotelBookingItemBloc.dateBooking!.note!.length >= 20 ?
                     Text(
-                      'Optional Information',
-                      style: GoogleFonts.raleway(
+                      'Note: ${hotelBookingItemBloc.dateBooking!.note!.substring(0,20)}...',
+                      style: const TextStyle(
                           fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black54
+                          color: Colors.black54,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ) :
+                    Text(
+                      'Note: ${hotelBookingItemBloc.dateBooking!.note!}',
+                      style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.black54,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.italic
                       ),
                     ),
                     const Spacer(),

@@ -97,7 +97,7 @@ class EditVehicleItem extends StatelessWidget{
                 Row(
                   children: [
                     Text(
-                      editVehicleBloc.vehicle!=null? '${formatCurrency.format(editVehicleBloc.vehicle!.pricePerDay)} \$ / day' :"loading...",
+                      editVehicleBloc.vehicle!=null? '${formatCurrency.format(editVehicleBloc.vehicle!.pricePerDay)} VNĐ / day' :"loading...",
                       style: GoogleFonts.roboto(
                           fontSize: 15,
                           color: Colors.black54,

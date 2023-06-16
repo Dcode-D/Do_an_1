@@ -30,6 +30,10 @@ abstract class AppService {
   @PUT("/user/update")
   Future<HttpResponse> updateUser(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
 
+  //TODO: Bug in this API
+  @GET("/user/id/{id}")
+  Future<HttpResponse<BaseResponse>> getUserById(@Path('id') String id);
+
   @GET("/avatar/list/{id}")
   Future<HttpResponse<AvatarResponse>> getListAvatarId(@Path('id') String id);
 
@@ -72,6 +76,7 @@ abstract class AppService {
   @GET("/hotel/hotelRoom/{id}")
   Future<HttpResponse<BaseResponse>> getHotelRoomById(@Path('id') String id);
 
+  //TODO: Bug in this API
   @GET("/hotel/id/{id}")
   Future<HttpResponse<BaseResponse>> getHotelById(@Path('id') String id);
 

@@ -93,7 +93,7 @@ class EditHotelItem extends StatelessWidget{
                   children: [
                     Text(
                       editHotelBloc.hotel?.maxPrice !=null && editHotelBloc.hotel?.minPrice !=null?
-                      '${formatCurrency.format((editHotelBloc.hotel!.maxPrice! + editHotelBloc.hotel!.minPrice!)/2)}\$ / night':'?',
+                      '${formatCurrency.format((editHotelBloc.hotel!.maxPrice+ editHotelBloc.hotel!.minPrice)/2)} VNĐ / night':'?',
                       style: GoogleFonts.roboto(
                           fontSize: 15,
                           color: Colors.black54,

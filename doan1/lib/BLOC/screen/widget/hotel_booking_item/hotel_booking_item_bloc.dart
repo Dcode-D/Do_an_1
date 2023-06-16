@@ -22,7 +22,7 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
       for (String room in event.dateBooking!.attachedServices!) {
         lsHotelRoom!.add(await getHotelRoomFunc(room) as HotelRoom);
       }
-      hotel = await getHotelFunc(lsHotelRoom![0].hotel!) as Hotel;
+      hotel = await getHotelFunc(lsHotelRoom![0].hotel!);
       if(hotel != null && lsHotelRoom != null){
         emit(HotelBookingItemInitial(getDataSuccess: true));
       }
@@ -45,13 +45,13 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
 
   Future<Hotel?> getHotelFunc(String hotelId) async{
     var hotelRepo = GetIt.instance<HotelRepo>();
-    return hotelRepo.getHotelById(hotelId).then((value) {
-      if(value != null){
-        return value;
-      }
-      else{
-        return null;
-      }
-    });
+    try{
+      hotel = await hotelRepo.getHotelById(hotelId);
+      return hotel;
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
   }
 }

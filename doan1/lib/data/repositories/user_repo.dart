@@ -35,6 +35,20 @@ class UserRepo{
     });
   }
 
+  Future<User?> getUserById(String id)async{
+    return _appService
+        .getUserById(id)
+        .then((http) async {
+      print(http.response.statusCode);
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toUser();
+      }
+    });
+  }
+
   Future<bool> updateUser(String username, String email, String firstname, String lastname,String phone, String address,int gender) async {
     return _appService
         .updateUser(

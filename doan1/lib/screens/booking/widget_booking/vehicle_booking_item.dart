@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:doan1/screens/booking/detail_booking/rent_vehicle_history_screen.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 
 class VehicleBookingItem extends StatelessWidget{
@@ -14,6 +17,7 @@ class VehicleBookingItem extends StatelessWidget{
   Widget build(BuildContext context) {
     final formatCurrency = NumberFormat("#,###");
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
+    var profileBloc = context.read<ProfileBloc>();
     var vehicleBookingItemBloc = context.read<VehicleBookingItemBloc>();
     return BlocBuilder<VehicleBookingItemBloc,VehicleBookingItemState>(
       buildWhen: (previous,current) => current is VehicleBookingItemInitial,
@@ -140,7 +144,7 @@ class VehicleBookingItem extends StatelessWidget{
                       const Spacer(),
                       vehicleBookingItemBloc.vehicle == null ? const Text('Loading...') :
                       Text(
-                        'Total: ${formatCurrency.format(vehicleBookingItemBloc.vehicle!.pricePerDay)} VNĐ',
+                        'Total: ${formatCurrency.format(vehicleBookingItemBloc.vehicle!.pricePerDay!*1.1)} VNĐ',
                         style: GoogleFonts.raleway(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -151,9 +155,21 @@ class VehicleBookingItem extends StatelessWidget{
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'Optional Information',
-                      style: TextStyle(
+                    vehicleBookingItemBloc.dateBooking == null ? const Text('Loading...') :
+                        vehicleBookingItemBloc.dateBooking!.note!.length >= 20 ?
+                    Text(
+                      'Note: ${vehicleBookingItemBloc.dateBooking!.note!.substring(0,20)}',
+                      style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.black54,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ) :
+                    Text(
+                      'Note: ${vehicleBookingItemBloc.dateBooking!.note!}',
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Colors.black54,
                           fontFamily: 'Roboto',
@@ -165,7 +181,12 @@ class VehicleBookingItem extends StatelessWidget{
                     ElevatedButton(
                       onPressed: (){
                         Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => RentVehicleHistoryScreen()));
+                            MaterialPageRoute(builder: (context) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider.value(value: profileBloc,),
+                                BlocProvider.value(value: vehicleBookingItemBloc,),
+                              ],
+                                child: RentVehicleHistoryScreen())));
                       },
                       child:
                       Text(
