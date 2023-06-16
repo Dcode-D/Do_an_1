@@ -128,7 +128,8 @@ const rejectDateBooking = async (req, res) => {
         let flag = true;
         let owner;
         if(datebooking.type === "hotel"){
-            business = await  hotelModel.find({_id: {$in: datebooking.attachedServices}});
+            const tmp = await  HotelRoomModel.find({_id: {$in: datebooking.attachedServices}});
+            business = await  hotelModel.find({_id: {$in: tmp.map((item) => item.hotel)}});
         }
         else if(datebooking.type === "car"){
             business = await  carModel.find({_id: {$in: datebooking.attachedServices}});
@@ -186,11 +187,11 @@ const getDateBookingOfHotel = async (req, res) => {
         const hotelob = await hotelModel.findById(hotel);
         if(!hotelob)
             return res.status(404).json({status: "error", message: "Hotel not found"});
-        if(hotel.owner!==req.user._id)
+        if(!hotelob.owner.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
         const intPage = parseInt(page);
         const rooms = await HotelRoomModel.find().where({hotel: hotel});
-        const query = dateBookingModel.find({attachedService: {$in:rooms}, type: "hotel"});
+        const query = dateBookingModel.find({attachedServices: {$in:rooms.map(item=>item._id)}, type: "hotel"});
         if(startDate)
             query.where({startDate: new Date(startDate)});
         if(endDate)
@@ -219,9 +220,9 @@ const getDateBookingOfCar = async (req, res) => {
         const carob = await carModel.findById(car);
         if(!carob)
             return res.status(404).json({status: "error", message: "Car not found"});
-        if(carob.owner!==req.user._id)
+        if(!carob.owner.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
-        const query = dateBookingModel.find({attachedService: car, type: "car"});
+        const query = dateBookingModel.find({attachedServices: {$in: [...car]}, type: "car"});
         if(startDate)
             query.where({startDate: new Date(startDate)});
         if(endDate)
