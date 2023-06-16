@@ -157,7 +157,7 @@ const rejectDateBooking = async (req, res) => {
 
 const getBookingsOfUser = async (req, res) => {
     try{
-        const {services, bookingDate, approved, suspended, page} = req.query;
+        const {services, bookingDate, approved, suspended, page, type} = req.query;
         const query = dateBookingModel.find({user: req.user._id});
         if(services)
             query.where({attachedServices: {$in: services}});
@@ -167,6 +167,8 @@ const getBookingsOfUser = async (req, res) => {
             query.where({approved: approved});
         if(suspended)
             query.where({suspended: suspended});
+        if(type)
+            query.where({type: type});
         if(page)
             query.skip(parseInt(page)*10).limit(10);
         const datebookings = await query.exec();
