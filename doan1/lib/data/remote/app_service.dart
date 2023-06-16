@@ -147,6 +147,11 @@ abstract class AppService {
   @Header("Authorization") required String token,
   @Query('user') required String userId});
 
+  @GET("/dateBooking/{id}/reject")
+  Future<HttpResponse> rejectDateBooking({
+    @Header("Authorization") required String token,
+    @Path('id') required String idDateBooking});
+
   @POST("/tour/")
   Future<HttpResponse> createTour({
     @Header("Authorization") required String token,

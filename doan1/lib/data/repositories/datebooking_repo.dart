@@ -46,4 +46,10 @@ class DateBookingRepo{
           http.response.statusCode == 200 ?
           http.data.toListDateBooking() : null);
 
+  Future<bool?> RejectBookingDate(String dateBookingId) async{
+    _appService.rejectDateBooking(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        idDateBooking: dateBookingId)
+      .then((http) async => http.response.statusCode == 200 ? true : false);
+  }
 }

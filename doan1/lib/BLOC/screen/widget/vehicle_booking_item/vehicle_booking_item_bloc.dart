@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../../data/model/datebooking.dart';
 import '../../../../data/model/user.dart';
 import '../../../../data/model/vehicle.dart';
+import '../../../../data/repositories/datebooking_repo.dart';
 import '../../../../data/repositories/vehicle_repo.dart';
 
 part 'vehicle_booking_item_event.dart';
@@ -25,6 +26,15 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
       }
       else{
         emit(VehicleBookingItemInitial(getDataSuccess: false));
+      }
+    });
+    on<VehicleBookingItemRejectEvent>((event,emit) async{
+      bool? rejectSuccess = await rejectDateBookingFunc(dateBooking!.id!);
+      if(rejectSuccess == true){
+        emit(VehicleBookingItemRejectSuccess(rejectSuccess: true));
+      }
+      else{
+        emit(VehicleBookingItemRejectSuccess(rejectSuccess: false));
       }
     });
   }
@@ -49,5 +59,10 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
     catch(e){
       print(e);
       return null;
-    }}
+    }
+  }
+
+  Future<bool?> rejectDateBookingFunc(String dateBookingId) async{
+    return GetIt.instance<DateBookingRepo>().RejectBookingDate(dateBookingId);
+  }
 }

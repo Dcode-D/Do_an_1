@@ -7,3 +7,5 @@ class VehicleBookingItemInitialEvent extends VehicleBookingItemEvent {
   DateBooking? dateBooking;
   VehicleBookingItemInitialEvent({required this.dateBooking});
 }
+
+class VehicleBookingItemRejectEvent extends VehicleBookingItemEvent {}

@@ -7,3 +7,6 @@ class HotelBookingItemInitialEvent extends HotelBookingItemEvent {
   DateBooking? dateBooking;
   HotelBookingItemInitialEvent({required this.dateBooking});
 }
+
+class HotelBookingItemRejectEvent extends HotelBookingItemEvent {
+}

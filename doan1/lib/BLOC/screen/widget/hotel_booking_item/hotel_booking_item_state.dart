@@ -8,3 +8,8 @@ class HotelBookingItemInitial extends HotelBookingItemState {
   HotelBookingItemInitial({required this.getDataSuccess});
 }
 
+class HotelBookingItemRejectSuccess extends HotelBookingItemState {
+  bool rejectSuccess = false;
+  HotelBookingItemRejectSuccess({required this.rejectSuccess});
+}
+

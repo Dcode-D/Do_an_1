@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import '../../../../data/model/datebooking.dart';
 import '../../../../data/model/hotel.dart';
 import '../../../../data/model/hotelroom.dart';
+import '../../../../data/repositories/datebooking_repo.dart';
 import '../../../../data/repositories/hotelroom_repo.dart';
 
 part 'hotel_booking_item_event.dart';
@@ -28,6 +29,15 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
       }
       else{
         emit(HotelBookingItemInitial(getDataSuccess: false));
+      }
+    });
+    on<HotelBookingItemRejectEvent>((event,emit) async{
+      bool? rejectSuccess = await rejectDateBookingFunc(dateBooking!.id!);
+      if(rejectSuccess == true){
+        emit(HotelBookingItemRejectSuccess(rejectSuccess: true));
+      }
+      else{
+        emit(HotelBookingItemRejectSuccess(rejectSuccess: false));
       }
     });
   }
@@ -53,5 +63,9 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
       print(e);
       return null;
     }
+  }
+
+  Future<bool?> rejectDateBookingFunc(String dateBookingId) async{
+    return GetIt.instance<DateBookingRepo>().RejectBookingDate(dateBookingId);
   }
 }
