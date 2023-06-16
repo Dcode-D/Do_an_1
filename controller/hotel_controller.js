@@ -199,8 +199,8 @@ const getHotel = async (req,res)=>{
             const minprice = await hotelRoomModel.find({hotel: req.params.id}).sort({price: 1}).limit(1);
             let maxPrice, minPrice;
             if(maxprice.length >0 && minprice.length >0){
-                maxPrice= maxprice[0].price.toFixed(2);
-                minPrice = minprice[0].price.toFixed(2);
+                maxPrice= maxprice[0].price;
+                minPrice = minprice[0].price;
             }
             const facilities = await facilityModel.find({service: req.params.id, type: "hotel"});
             if(hotel.length!==0)

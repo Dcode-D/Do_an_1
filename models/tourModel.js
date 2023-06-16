@@ -36,16 +36,6 @@ const TourSchema = Schema({
         type: Number,
         require: true,
     },
-    startDates: {
-        type: Date,
-        require: true,
-    },
-    province: {
-        type: String,
-    },
-    city: {
-        type: String,
-    }
 })
 
 module.exports = mongoose.model('Tour', TourSchema);

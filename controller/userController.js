@@ -7,14 +7,11 @@ const getUserInforById = async (req, res) => {
         const user = await UserModel.findById(id);
         if(!user){
             return res.status(404).json({
-                username: user.username,
-                email: user.email,
-                firstname: user.firstname,
-                lastname: user.lastname,
-                gender: user.gender,
+                message: "User not found",
+                status: "error"
             });
         }
-        return res.status(200).json(user);
+        return res.status(200).json({data: user});
     } catch (err) {
         console.log(err.message);
         return res.status(503).json({"message": err.message});
