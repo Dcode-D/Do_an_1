@@ -515,7 +515,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                 const Icon(FontAwesomeIcons.creditCard, size: 20, color: Colors.black,),
                                 const SizedBox(width: 15,),
                                 Text(
-                                  'Pay at hotel',
+                                  'Pay at place',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: GoogleFonts.raleway().fontFamily,

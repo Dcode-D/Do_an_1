@@ -1,7 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
+import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 import '../../detail_screens/setting_booking/checking_information_screen.dart';
 
 class BookingHotelHistoryScreen extends StatelessWidget {
@@ -9,112 +15,240 @@ class BookingHotelHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
+    final formatCurrency = NumberFormat("#,###");
+    var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
+    var profileBloc = context.read<ProfileBloc>();
+    var hotelBookingItemBloc = context.read<HotelBookingItemBloc>();
+    int calculateTotalPrice() {
+      int totalPrice = 0;
+      for (var i = 0; i < hotelBookingItemBloc.lsHotelRoom!.length; i++) {
+        totalPrice += hotelBookingItemBloc.lsHotelRoom![i].price!;
+      }
+      return totalPrice;
+    }
+    return BlocBuilder<HotelBookingItemBloc,HotelBookingItemState>(
+      builder: (context,state) => Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
             ),
           ),
+          automaticallyImplyLeading: false,
+          title: Text(
+            'Booking Information',
+            style: GoogleFonts.raleway(
+                fontSize: 20,
+                color: Colors.black,
+                fontWeight: FontWeight.w600
+            )
+          ),
+          backgroundColor: Colors.white,
         ),
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Detail booking item\'s name',
-          style: GoogleFonts.raleway(
-              fontSize: 20,
-              color: Colors.black,
-              fontWeight: FontWeight.w600
-          )
-        ),
-        backgroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Personal Information',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: GoogleFonts.raleway().fontFamily,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1.2,
-                    color: Colors.black,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Personal Information',
+                    style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.2,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10,),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black.withOpacity(0.2),
-                        width:1),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: InkWell(
-                      onTap:(){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CheckInformationScreen()));
-                      },
-                      child: Row(
-                        children: [
-                          const Icon(FontAwesomeIcons.user, size: 20, color: Colors.black,),
-                          const SizedBox(width: 15,),
-                          Text(
-                            'Check',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: GoogleFonts.raleway().fontFamily,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 1.2,
-                              color: Colors.black,
+                  const SizedBox(height: 10,),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black.withOpacity(0.2),
+                          width:1),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: InkWell(
+                        onTap:(){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider.value(
+                            value: profileBloc,
+                              child: CheckInformationScreen())));
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(FontAwesomeIcons.user, size: 20, color: Colors.black,),
+                            const SizedBox(width: 15,),
+                            Text(
+                              'Check',
+                              style: GoogleFonts.raleway(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 1.2,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          const Icon(FontAwesomeIcons.arrowRight,
-                            size: 20,
-                            color: Colors.black,),
-                        ],
+                            const Spacer(),
+                            const Icon(FontAwesomeIcons.arrowRight,
+                              size: 20,
+                              color: Colors.black,),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20,),
-                Text(
-                  'Hotel',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: GoogleFonts.raleway().fontFamily,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1.2,
-                    color: Colors.black,
+                  const SizedBox(height: 20,),
+                  Text(
+                    'Hotel',
+                    style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.2,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10,),
-                InkWell(
-                  onTap: (){
-                    //TODO: make naviagtion to hotel detail
-                  },
-                  child: Container(
+                  const SizedBox(height: 10,),
+                  InkWell(
+                    onTap: (){
+                      //TODO: make navigation to hotel detail
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black.withOpacity(0.2),
+                            width:1),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                hotelBookingItemBloc.hotel != null ?
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child:
+                                  FadeInImage(
+                                    height: 100,
+                                    width: 150,
+                                    imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                      return SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.325,
+                                          height: MediaQuery.of(context).size.height * 0.15,
+                                          child: const Center(child: Icon(Icons.error)));
+                                    },
+                                    image:
+                                    NetworkImage(hotelBookingItemBloc.hotel!=null && hotelBookingItemBloc.hotel!.images!.isNotEmpty ?
+                                    '$baseUrl/files/${hotelBookingItemBloc.hotel!.images![0]}': ""),
+                                    placeholder: const AssetImage('assets/images/loading.gif'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ):
+                                const Center(child: CircularProgressIndicator()),
+                                const SizedBox(width: 5,),
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      hotelBookingItemBloc.hotel != null ?
+                                      Text(
+                                        hotelBookingItemBloc.hotel!.name!,
+                                        style:  GoogleFonts.raleway(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black,
+                                        ),
+                                      ) : const Text('Loading...'),
+                                      const SizedBox(height: 5,),
+                                      hotelBookingItemBloc.hotel != null ?
+                                      Text(
+                                        hotelBookingItemBloc.hotel!.description!,
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black,
+                                        ),
+                                      ) : const Text('Loading...'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10,),
+                            Container(
+                              height:1,
+                              width: double.infinity,
+                              color: Colors.black.withOpacity(0.2),
+                            ),
+                            const SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
+                                const SizedBox(width: 15,),
+                                hotelBookingItemBloc.hotel != null ?
+                                Flexible(
+                                  child: Text(
+                                    hotelBookingItemBloc.hotel!.address!,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ) : const Text('Loading...'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                  Text(
+                    'Date',
+                    style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.2,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -132,62 +266,54 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image(
-                                image: AssetImage('assets/images/hotel1.jpg'),
-                                height: 100,
-                                width: 150,
-                                fit: BoxFit.cover,
-                              ),
-                              const SizedBox(width: 5,),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Hotel 1',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: GoogleFonts.raleway().fontFamily,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 1.2,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  Text(
-                                    'Hotel description',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: GoogleFonts.raleway().fontFamily,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 1.2,
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ],
+                              const Icon(FontAwesomeIcons.calendar, size: 20, color: Colors.black,),
+                              const SizedBox(width: 15,),
+                              hotelBookingItemBloc.dateBooking == null ?
+                              const Text('Loading...') :
+                              Text(
+                                '${hotelBookingItemBloc.dateBooking!.startDate!.day}'
+                                    '/${hotelBookingItemBloc.dateBooking!.startDate!.month}'
+                                    '/${hotelBookingItemBloc.dateBooking!.startDate!.year}',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black,
+                                ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(height: 15,),
                           Container(
                             height:1,
                             width: double.infinity,
                             color: Colors.black.withOpacity(0.2),
                           ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(height: 15,),
                           Row(
                             children: [
-                              const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
+                              const Icon(FontAwesomeIcons.clock, size: 20, color: Colors.black,),
                               const SizedBox(width: 15,),
+                              hotelBookingItemBloc.dateBooking == null ?
+                              const Text('Loading...') :
+                              hotelBookingItemBloc.dateBooking!.endDate!.day - hotelBookingItemBloc.dateBooking!.startDate!.day > 1 ?
                               Text(
-                                'Location',
-                                style: TextStyle(
+                                '${hotelBookingItemBloc.dateBooking!.endDate!.day - hotelBookingItemBloc.dateBooking!.startDate!.day} Days',
+                                style: GoogleFonts.raleway(
                                   fontSize: 18,
-                                  fontFamily: GoogleFonts.raleway().fontFamily,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black,
+                                ),
+                              ) :
+                              Text(
+                                '${hotelBookingItemBloc.dateBooking!.endDate!.day - hotelBookingItemBloc.dateBooking!.startDate!.day} Day',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 1.2,
                                   color: Colors.black,
@@ -199,397 +325,487 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20,),
-                Text(
-                  'Date',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: GoogleFonts.raleway().fontFamily,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1.2,
-                    color: Colors.black,
+                  const SizedBox(height: 20,),
+                  Text(
+                    'Checkin & Checkout',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: GoogleFonts.raleway().fontFamily,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.2,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10,),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black.withOpacity(0.2),
-                        width:1),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.calendar, size: 20, color: Colors.black,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              '1/6/2023',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15,),
-                        Container(
-                          height:1,
-                          width: double.infinity,
-                          color: Colors.black.withOpacity(0.2),
-                        ),
-                        const SizedBox(height: 15,),
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.clock, size: 20, color: Colors.black,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              '2 Nights',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
+                  const SizedBox(height: 10,),
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black.withOpacity(0.2),
+                          width:1),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
                         ),
                       ],
                     ),
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                Text(
-                  'Checkin & Checkout',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: GoogleFonts.raleway().fontFamily,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1.2,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 10,),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black.withOpacity(0.2),
-                        width:1),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.arrowRight, size: 20, color: Colors.green,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              '1/6/2023',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black.withOpacity(0.5),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(FontAwesomeIcons.arrowRight, size: 20, color: Colors.green,),
+                              const SizedBox(width: 15,),
+                              hotelBookingItemBloc.dateBooking == null ?
+                              const Text('Loading...') :
+                              Text(
+                                '${hotelBookingItemBloc.dateBooking!.startDate!.day}'
+                                    '/${hotelBookingItemBloc.dateBooking!.startDate!.month}'
+                                    '/${hotelBookingItemBloc.dateBooking!.startDate!.year}',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15,),
-                        Container(
-                          height:1,
-                          width: double.infinity,
-                          color: Colors.black.withOpacity(0.2),
-                        ),
-                        const SizedBox(height: 15,),
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.arrowLeft, size: 20, color: Colors.red,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              '3/6/2023',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black.withOpacity(0.5),
+                            ],
+                          ),
+                          const SizedBox(height: 15,),
+                          Container(
+                            height:1,
+                            width: double.infinity,
+                            color: Colors.black.withOpacity(0.2),
+                          ),
+                          const SizedBox(height: 15,),
+                          Row(
+                            children: [
+                              const Icon(FontAwesomeIcons.arrowLeft, size: 20, color: Colors.red,),
+                              const SizedBox(width: 15,),
+                              hotelBookingItemBloc.dateBooking == null ?
+                              const Text('Loading...') :
+                              Text(
+                                '${hotelBookingItemBloc.dateBooking!.endDate!.day}'
+                                    '/${hotelBookingItemBloc.dateBooking!.endDate!.month}'
+                                    '/${hotelBookingItemBloc.dateBooking!.endDate!.year}',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                Row(
-                  children: [
-                    Text(
-                      'Room & quantity',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: GoogleFonts.raleway().fontFamily,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 1.2,
-                        color: Colors.black,
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 10,),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black.withOpacity(0.2),
-                        width:1),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
-                      ),
-                    ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.doorOpen, size: 20, color: Colors.black,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              'Family Room',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15,),
-                        Container(
-                          height:1,
-                          width: double.infinity,
-                          color: Colors.black.withOpacity(0.2),
-                        ),
-                        const SizedBox(height: 15,),
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.person, size: 20, color: Colors.black,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              '2 Adults',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15,),
-                        Container(
-                          height:1,
-                          width: double.infinity,
-                          color: Colors.black.withOpacity(0.2),
-                        ),
-                        const SizedBox(height: 15,),
-                        Row(
-                          children: [
-                            const Icon(FontAwesomeIcons.children, size: 20, color: Colors.black,),
-                            const SizedBox(width: 15,),
-                            Text(
-                              '0 Kid',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.raleway().fontFamily,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 1.2,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                Row(
+                  const SizedBox(height: 20,),
+                  Row(
                     children: [
-                      // Checkbox(
-                      //     value: state.isPayAtHotel,
-                      //     onChanged: (checked) {
-                      //       context.read<HotelBookingBloc>().add(CheckPayAtHotelEvent(isPayAtHotel: !state.isPayAtHotel));
-                      //     }
-                      // ),
                       Text(
-                        'Pay at hotel',
+                        'Room & quantity',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontFamily: GoogleFonts.raleway().fontFamily,
                           fontWeight: FontWeight.w400,
                           letterSpacing: 1.2,
                           color: Colors.black,
                         ),
                       ),
-                    ]),
-                const SizedBox(height: 20,),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: Colors.black.withOpacity(0.2),
-                ),
-                const SizedBox(height: 20,),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:[
-                      Text(
-                        "Deposit: ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: GoogleFonts.raleway().fontFamily,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
-                          color: Colors.black,
-                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 10,),
+                  hotelBookingItemBloc.lsHotelRoom == null ?
+                  Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black.withOpacity(0.2),
+                            width:1),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
                       ),
-                      Text(
-                        // "${widget.totalPrice} \$",
-                        "100 \$",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: GoogleFonts.raleway().fontFamily,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
-                          color: Colors.black,
+                      child: const Text('Loading...')) :
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black.withOpacity(0.2),
+                          width:1),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
                         ),
-                      ),
-                    ]
-                ),
-                const SizedBox(height: 10,),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:[
-                      Text(
-                        "Tax: ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: GoogleFonts.raleway().fontFamily,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        // "${widget.totalPrice} \$",
-                        "100 \$",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: GoogleFonts.raleway().fontFamily,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ]
-                ),
-                const SizedBox(height: 10,),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:[
-                      Text(
-                        "Total: ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: GoogleFonts.raleway().fontFamily,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        // "${widget.totalPrice} \$",
-                        "100 \$",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: GoogleFonts.raleway().fontFamily,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ]
-                ),
-                const SizedBox(height: 20,),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: Colors.black.withOpacity(0.2),
-                ),
-                const SizedBox(height: 20,),
-                ElevatedButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    minimumSize: const Size(double.infinity, 50.0),
-                    elevation: 0.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      ],
+                    ),
+                    child:
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: hotelBookingItemBloc.lsHotelRoom!.length,
+                        itemBuilder: (context,index){
+                          return Row(
+                            children: [
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Room ${hotelBookingItemBloc.lsHotelRoom![index].number}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: GoogleFonts.raleway().fontFamily,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    Text(
+                                      'Price: ${formatCurrency.format(hotelBookingItemBloc.lsHotelRoom![index].price)} VNĐ / night',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: GoogleFonts.raleway().fontFamily,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    Text(
+                                      'Adult capacity: ${hotelBookingItemBloc.lsHotelRoom![index].adultCapacity}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: GoogleFonts.raleway().fontFamily,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    Text(
+                                      'Child capacity: ${hotelBookingItemBloc.lsHotelRoom![index].childrenCapacity}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: GoogleFonts.raleway().fontFamily,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 1.2,
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkInHour == null ? 'No check in' :
+
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkInHour! < 10
+                                              && hotelBookingItemBloc.lsHotelRoom![index].checkInMinute! < 10?
+                                          'Check in: 0${hotelBookingItemBloc.lsHotelRoom![index].checkInHour!}'
+                                              ':0${hotelBookingItemBloc.lsHotelRoom![index].checkInMinute!}' :
+
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkInHour! < 10
+                                              && hotelBookingItemBloc.lsHotelRoom![index].checkInMinute! >= 10 ?
+                                          'Check in: 0${hotelBookingItemBloc.lsHotelRoom![index].checkInHour!}'
+                                              ':${hotelBookingItemBloc.lsHotelRoom![index].checkInMinute!}' :
+
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkInHour! >= 10
+                                              && hotelBookingItemBloc.lsHotelRoom![index].checkInMinute! < 10 ?
+                                          'Check in: ${hotelBookingItemBloc.lsHotelRoom![index].checkInHour!}'
+                                              ':0${hotelBookingItemBloc.lsHotelRoom![index].checkInMinute!}' :
+
+                                          'Check in: ${hotelBookingItemBloc.lsHotelRoom![index].checkInHour!}'
+                                              ':${hotelBookingItemBloc.lsHotelRoom![index].checkInMinute!}',
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkOutHour == null ? 'No check out' :
+
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkOutHour! < 10
+                                              && hotelBookingItemBloc.lsHotelRoom![index].checkOutMinute! < 10?
+                                          'Check out: 0${hotelBookingItemBloc.lsHotelRoom![index].checkOutHour!}'
+                                              ':0${hotelBookingItemBloc.lsHotelRoom![index].checkOutMinute!}' :
+
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkOutHour! < 10
+                                              && hotelBookingItemBloc.lsHotelRoom![index].checkOutMinute! >= 10 ?
+                                          'Check out: 0${hotelBookingItemBloc.lsHotelRoom![index].checkOutHour!}'
+                                              ':${hotelBookingItemBloc.lsHotelRoom![index].checkOutMinute!}' :
+
+                                          hotelBookingItemBloc.lsHotelRoom![index].checkOutHour! >= 10
+                                              && hotelBookingItemBloc.lsHotelRoom![index].checkOutMinute! < 10 ?
+                                          'Check out: ${hotelBookingItemBloc.lsHotelRoom![index].checkOutHour!}'
+                                              ':0${hotelBookingItemBloc.lsHotelRoom![index].checkOutMinute!}' :
+
+                                          'Check in: ${hotelBookingItemBloc.lsHotelRoom![index].checkOutHour!}'
+                                              ':${hotelBookingItemBloc.lsHotelRoom![index].checkOutMinute!}',
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    Container(
+                                      height:1,
+                                      width: double.infinity,
+                                      color: Colors.black.withOpacity(0.2),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        }
                     ),
                   ),
-                  child: Center(
-                    child: Text("Return to home",
-                      style: GoogleFonts.raleway(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700,
-                      ),),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Note',
+                    style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.2,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20,),
-              ]),
-        ),
-      )
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  hotelBookingItemBloc.dateBooking == null ?
+                  const Text('Loading...') :
+                  TextFormField(
+                    initialValue: hotelBookingItemBloc.dateBooking!.note,
+                    readOnly: true,
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      hintText:hotelBookingItemBloc.dateBooking!.note!.isEmpty ? 'No note' : '${hotelBookingItemBloc.dateBooking!.note}',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  Text(
+                    'Payment',
+                    style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.2,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black.withOpacity(0.2),
+                          width:1),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        children: [
+                          const Icon(FontAwesomeIcons.creditCard, size: 20, color: Colors.black,),
+                          const SizedBox(width: 15,),
+                          Text(
+                            'Pay at hotel',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: GoogleFonts.raleway().fontFamily,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.2,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                  const SizedBox(height: 20,),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:[
+                        Text(
+                          "Deposit: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        hotelBookingItemBloc.dateBooking == null ?
+                        const Text('Loading...') :
+                        Text(
+                          // "${widget.totalPrice} \$",
+                          "${formatCurrency.format(calculateTotalPrice())} VNĐ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ]
+                  ),
+                  const SizedBox(height: 10,),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:[
+                        Text(
+                          "Tax: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        hotelBookingItemBloc.dateBooking == null ?
+                        const Text('Loading...') :
+                        Text(
+                          // "${widget.totalPrice} \$",
+                          "${formatCurrency.format(calculateTotalPrice()*0.1)} VNĐ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ]
+                  ),
+                  const SizedBox(height: 10,),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:[
+                        Text(
+                          "Total: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+
+                        Text(
+                          // "${widget.totalPrice} \$",
+                            "${formatCurrency.format(calculateTotalPrice()*1.1)} VNĐ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.raleway().fontFamily,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ]
+                  ),
+                  const SizedBox(height: 20,),
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                  const SizedBox(height: 20,),
+                  ElevatedButton(
+                    onPressed: (){
+
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      minimumSize: const Size(double.infinity, 50.0),
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: Colors.grey,
+                          width: 0.7,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text("Cancel your reservation",
+                        style: GoogleFonts.raleway(
+                          fontSize: 20.0,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  ElevatedButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                      minimumSize: const Size(double.infinity, 50.0),
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text("Return to home",
+                        style: GoogleFonts.raleway(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700,
+                        ),),
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                ]),
+          ),
+        )
+      ),
     );
   }
 }

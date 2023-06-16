@@ -75,7 +75,6 @@ class HotelBookingItem extends StatelessWidget{
                 const SizedBox(height: 10,),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     hotelBookingItemBloc.hotel != null ?
                     ClipRRect(
@@ -100,23 +99,25 @@ class HotelBookingItem extends StatelessWidget{
                     const Center(child: CircularProgressIndicator()),
                     const SizedBox(width: 10,),
                     hotelBookingItemBloc.hotel == null ? const Text('Loading...') :
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(hotelBookingItemBloc.hotel!.name!,
-                          style: GoogleFonts.raleway(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black54
-                          ),),
-                        const SizedBox(height: 5,),
-                        Text(hotelBookingItemBloc.hotel!.address!,
-                          style: GoogleFonts.raleway(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54
-                          ),),
-                      ],)
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(hotelBookingItemBloc.hotel!.name!,
+                            style: GoogleFonts.raleway(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54
+                            ),),
+                          const SizedBox(height: 5,),
+                          Text(hotelBookingItemBloc.hotel!.address!,
+                            style: GoogleFonts.raleway(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black54
+                            ),),
+                        ],),
+                    )
                   ],
                 ),
                 const SizedBox(height: 10,),
@@ -185,7 +186,12 @@ class HotelBookingItem extends StatelessWidget{
                     const Spacer(),
                     ElevatedButton(
                         onPressed: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookingHotelHistoryScreen()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(value: profileBloc,),
+                              BlocProvider.value(value: hotelBookingItemBloc,),
+                            ],
+                              child: BookingHotelHistoryScreen())));
                         },
                         child:
                         Text(
