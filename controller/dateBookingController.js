@@ -86,10 +86,10 @@ const approveDateBooking = async (req, res) => {
             return res.status(400).json({status: "error", message: "Date booking already suspended"});
         let business;
         if(datebooking.type === "hotel"){
-            business = await  hotelModel.findById({_id: {$in: datebooking.attachedServices}});
+            business = await  hotelModel.find({_id: {$in: datebooking.attachedServices}});
         }
         else if(datebooking.type === "car"){
-            business = await  carModel.findById({_id: {$in: datebooking.attachedServices}});
+            business = await  carModel.find({_id: {$in: datebooking.attachedServices}});
         }
         if(!business)
             return res.status(404).json({status: "error", message: "Business not found"});
@@ -128,10 +128,10 @@ const rejectDateBooking = async (req, res) => {
         let flag = true;
         let owner;
         if(datebooking.type === "hotel"){
-            business = await  hotelModel.findById({_id: {$in: datebooking.attachedServices}});
+            business = await  hotelModel.find({_id: {$in: datebooking.attachedServices}});
         }
         else if(datebooking.type === "car"){
-            business = await  carModel.findById({_id: {$in: datebooking.attachedServices}});
+            business = await  carModel.find({_id: {$in: datebooking.attachedServices}});
         }
         if(!business)
             return res.status(404).json({status: "error", message: "Business not found"});
