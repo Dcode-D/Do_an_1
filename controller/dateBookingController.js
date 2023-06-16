@@ -63,7 +63,7 @@ const deleteDateBooking = async (req, res) => {
         if (!dateBooking) return res.status(404).json({status: "error", message: "Date booking not found"});
         if (!dateBooking.user.equals(req.user._id)) return res.status(403).json({status: "error", message: "Not permitted"});
         if(!dateBooking.suspended) return res.status(400).json({status: "error", message: "Date booking cannot be removed before suspended"});
-        await dateBooking.remove();
+        await dateBooking.deleteOne();
         return res.status(200).json({status: "success", message: "Date booking deleted"});
     } catch (e) {
         console.log(e.message);
