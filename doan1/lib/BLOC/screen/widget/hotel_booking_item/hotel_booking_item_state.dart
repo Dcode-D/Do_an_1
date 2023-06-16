@@ -13,3 +13,8 @@ class HotelBookingItemRejectSuccess extends HotelBookingItemState {
   HotelBookingItemRejectSuccess({required this.rejectSuccess});
 }
 
+class HotelBookingItemDeleteSuccess extends HotelBookingItemState {
+  bool deleteSuccess = false;
+  HotelBookingItemDeleteSuccess({required this.deleteSuccess});
+}
+

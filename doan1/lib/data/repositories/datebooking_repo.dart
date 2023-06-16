@@ -41,16 +41,22 @@ class DateBookingRepo{
   Future<List<DateBooking>?> GetBookingDate(String userId,int page) async
   => _appService.getUserDateBookingList(
           token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-          page: page,
           userId: userId)
         .then((http) async =>
           http.response.statusCode == 200 ?
           http.data.toListDateBooking() : null);
 
-  Future<bool?> RejectBookingDate(String dateBookingId) async{
-    _appService.rejectDateBooking(
+  Future<bool> RejectBookingDate(String dateBookingId) async{
+    final response = await _appService.rejectDateBooking(
         token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        idDateBooking: dateBookingId)
-      .then((http) async => http.response.statusCode == 200 ? true : false);
+        idDateBooking: dateBookingId);
+    return response.response.statusCode == 200;
+  }
+
+  Future<bool?> DeleteBookingDate(String dateBookingId) async{
+    final response = await _appService.deleteDateBooking(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        idDateBooking: dateBookingId);
+    return response.response.statusCode == 200;
   }
 }

@@ -23,18 +23,28 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
       owner = await getOwner(vehicle!.owner!);
       if(vehicle != null && owner != null){
         emit(VehicleBookingItemInitial(getDataSuccess: true));
+        emit(VehicleBookingItemRejectSuccess(rejectSuccess: false));
       }
       else{
         emit(VehicleBookingItemInitial(getDataSuccess: false));
       }
     });
     on<VehicleBookingItemRejectEvent>((event,emit) async{
-      bool? rejectSuccess = await rejectDateBookingFunc(dateBooking!.id!);
+      bool rejectSuccess = await rejectDateBookingFunc(dateBooking!.id!);
       if(rejectSuccess == true){
         emit(VehicleBookingItemRejectSuccess(rejectSuccess: true));
       }
       else{
         emit(VehicleBookingItemRejectSuccess(rejectSuccess: false));
+      }
+    });
+    on<VehicleBookingItemDeleteEvent>((event,emit)async{
+      bool? deleteSuccess = await deleteDateBookingFunc(dateBooking!.id!);
+      if(deleteSuccess == true){
+        emit(VehicleBookingItemDeleteSuccess(deleteSuccess: true));
+      }
+      else{
+        emit(VehicleBookingItemDeleteSuccess(deleteSuccess: false));
       }
     });
   }
@@ -62,7 +72,11 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
     }
   }
 
-  Future<bool?> rejectDateBookingFunc(String dateBookingId) async{
+  Future<bool> rejectDateBookingFunc(String dateBookingId) async{
     return GetIt.instance<DateBookingRepo>().RejectBookingDate(dateBookingId);
+  }
+
+  Future<bool?> deleteDateBookingFunc(String dateBookingId) async{
+    return GetIt.instance<DateBookingRepo>().DeleteBookingDate(dateBookingId);
   }
 }

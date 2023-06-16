@@ -145,11 +145,15 @@ abstract class AppService {
   @GET("/dateBooking/user")
   Future<HttpResponse<ListModelResponse>> getUserDateBookingList({
   @Header("Authorization") required String token,
-  @Query('page') required int page,
   @Query('user') required String userId});
 
   @GET("/dateBooking/{id}/reject")
   Future<HttpResponse> rejectDateBooking({
+    @Header("Authorization") required String token,
+    @Path('id') required String idDateBooking});
+
+  @DELETE("/dateBooking/{id}")
+  Future<HttpResponse> deleteDateBooking({
     @Header("Authorization") required String token,
     @Path('id') required String idDateBooking});
 

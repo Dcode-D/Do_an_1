@@ -9,3 +9,5 @@ class VehicleBookingItemInitialEvent extends VehicleBookingItemEvent {
 }
 
 class VehicleBookingItemRejectEvent extends VehicleBookingItemEvent {}
+
+class VehicleBookingItemDeleteEvent extends VehicleBookingItemEvent {}
