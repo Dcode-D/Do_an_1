@@ -19,7 +19,7 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
       lsHotelBooking!.clear();
       lsVehicleBooking!.clear();
       user = await getUser();
-      List<DateBooking>? tempLs = await getHotelBooking(user!.id);
+      List<DateBooking>? tempLs = await getHotelBooking(user!.id,1);
       if(tempLs != null){
         for(int i = 0;i<tempLs.length;i++){
           if(tempLs[i].type == "hotel"){
@@ -36,10 +36,10 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
       }
     });
   }
-  Future<List<DateBooking>?> getHotelBooking(String userID) async {
+  Future<List<DateBooking>?> getHotelBooking(String userID,int page) async {
     DateBookingRepo dateBookingRepo = GetIt.instance.get<DateBookingRepo>();
     try{
-      var result = await dateBookingRepo.GetBookingDate(userID);
+      var result = await dateBookingRepo.GetBookingDate(userID,page);
       return result;
     }catch(e){
       print(e);
