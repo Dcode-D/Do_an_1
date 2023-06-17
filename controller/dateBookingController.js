@@ -173,7 +173,7 @@ const getBookingsOfUser = async (req, res) => {
         if(type)
             query.where({type: type});
         if(page)
-            query.skip(parseInt(page)*10).limit(10);
+            query.skip((parseInt(page)-1)*10).limit(10);
         const datebookings = await query.exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
