@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/vehicle_booking/vehicle_booking_bloc.dart';
 import '../../../BLOC/widget_item/car_item/car_item_bloc.dart';
 import '../setting_booking/checking_information_screen.dart';
@@ -22,7 +23,13 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
     var profileBloc = context.read<ProfileBloc>();
     var carItemBloc = context.read<CarItemBloc>();
     var vehicleBookingBloc = context.read<VehicleBookingBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     final formatCurrency = NumberFormat("#,###");
+    final today = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day
+    );
 
     setDate(){
       vehicleBookingBloc.add(SetBookingDate());
@@ -53,6 +60,7 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                 );
               }
               else if (state.isBookingSuccess == BookingState.success){
+                bookHistoryBloc.add(GetBookingHistory());
                 Navigator.push(context, MaterialPageRoute(builder: (context) => VehicleRentSuccess()));
               }
             },
@@ -535,7 +543,7 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                                   );
                                   return;
                                 }
-                                else if (dateRangePickerController.selectedRange!.startDate!.isBefore(DateTime.now())){
+                                else if (dateRangePickerController.selectedRange!.startDate!.isBefore(today)){
                                   showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(

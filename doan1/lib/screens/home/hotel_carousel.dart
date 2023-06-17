@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
+import '../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../BLOC/screen/home/home_bloc.dart';
 
 
@@ -20,7 +21,7 @@ class HotelCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     var allHotelBloc = context.read<AllHotelBloc>();
     var profileBloc = context.read<ProfileBloc>();
-
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
 
     return Column(
       children: <Widget>[
@@ -45,6 +46,7 @@ class HotelCarousel extends StatelessWidget {
                       providers: [
                         BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
                         BlocProvider<ProfileBloc>.value(value: profileBloc),
+                        BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                       ],
                       child: AllHotelScreen())));
                 },
@@ -78,6 +80,7 @@ class HotelCarousel extends StatelessWidget {
                     providers: [
                       BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
                       BlocProvider<ProfileBloc>.value(value: profileBloc),
+                      BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                     ],
                     child: BlocProvider<HotelItemBloc>(
                       create: (context)=>HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),

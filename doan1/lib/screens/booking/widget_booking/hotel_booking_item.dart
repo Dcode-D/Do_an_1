@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 
 class HotelBookingItem extends StatelessWidget{
@@ -18,6 +19,7 @@ class HotelBookingItem extends StatelessWidget{
   Widget build(BuildContext context) {
     var profileBloc = context.read<ProfileBloc>();
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     var hotelBookingItemBloc = context.read<HotelBookingItemBloc>();
     final formatCurrency = NumberFormat("#,###");
     int calculateTotalPrice() {
@@ -29,7 +31,8 @@ class HotelBookingItem extends StatelessWidget{
     }
 
     return BlocBuilder<HotelBookingItemBloc,HotelBookingItemState>(
-      buildWhen: (previous, current) => current is HotelBookingItemInitial,
+      buildWhen: (previous, current) =>
+      current is HotelBookingItemInitial,
       builder: (context,state) =>
         Padding(
         padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
@@ -129,24 +132,25 @@ class HotelBookingItem extends StatelessWidget{
                 const SizedBox(height: 10,),
                 Row(
                     children:[
-                    hotelBookingItemBloc.dateBooking == null ?
-                    const Text('Loading...') :
-                    hotelBookingItemBloc.dateBooking!.approved == false ?
+                      state is HotelBookingItemInitial?
+                      state.getDataSuccess == false?
+                      const Text('Loading...') :
                       Text(
-                        'Status: Pending',
-                        style: GoogleFonts.raleway(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black54
-                        ),
-                      ) : Text(
+                        hotelBookingItemBloc.dateBooking!.suspended! == false &&
+                            hotelBookingItemBloc.dateBooking!.approved! == false ?
+                        'Status: Pending' :
+                        hotelBookingItemBloc.dateBooking!.suspended! == true ?
+                        'Status: Suspended' :
                         'Status: Approved',
                         style: GoogleFonts.raleway(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
                             color: Colors.black54
                         ),
-                      ),
+                      ) :
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
                       const Spacer(),
                       hotelBookingItemBloc.lsHotelRoom != null ?
                       Text(
@@ -190,6 +194,7 @@ class HotelBookingItem extends StatelessWidget{
                             providers: [
                               BlocProvider.value(value: profileBloc,),
                               BlocProvider.value(value: hotelBookingItemBloc,),
+                              BlocProvider.value(value: bookHistoryBloc)
                             ],
                               child: BookingHotelHistoryScreen())));
                         },

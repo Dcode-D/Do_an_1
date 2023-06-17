@@ -16,9 +16,11 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
   DateBooking? dateBooking;
   List<HotelRoom>? lsHotelRoom;
   Hotel? hotel;
+  int? index;
   HotelBookingItemBloc() : super(HotelBookingItemInitial(getDataSuccess: false)) {
     on<HotelBookingItemInitialEvent>((event,emit) async {
       lsHotelRoom = [];
+      index = event.index;
       dateBooking = event.dateBooking;
       for (String room in event.dateBooking!.attachedServices!) {
         lsHotelRoom!.add(await getHotelRoomFunc(room) as HotelRoom);

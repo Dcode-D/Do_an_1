@@ -7,6 +7,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../data/model/vehicle.dart';
 
 class AllVehicleScreen extends StatelessWidget{
@@ -16,7 +17,7 @@ class AllVehicleScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     var allVehicleBloc = context.read<AllVehicleBloc>();
     var profileBloc = context.read<ProfileBloc>();
-
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     int page = 1;
 
     scrollController.addListener((){
@@ -80,6 +81,7 @@ class AllVehicleScreen extends StatelessWidget{
                         providers: [
                           BlocProvider<AllVehicleBloc>.value(value: allVehicleBloc),
                           BlocProvider<ProfileBloc>.value(value: profileBloc),
+                          BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                         ],
                           child: BlocProvider<CarItemBloc>(
                             create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),

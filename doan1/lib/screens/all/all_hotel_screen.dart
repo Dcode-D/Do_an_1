@@ -1,4 +1,5 @@
 import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 import 'package:doan1/screens/all/all_widget/hotel_item_for_all.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class AllHotelScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     var allHotelBloc = context.read<AllHotelBloc>();
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     int page = 1;
 
     scrollController.addListener((){
@@ -78,6 +80,7 @@ class AllHotelScreen extends StatelessWidget{
                       providers: [
                         BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
                         BlocProvider<ProfileBloc>.value(value: profileBloc),
+                        BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                       ],
                       child: BlocProvider<HotelItemBloc>(
                           create: (context)=> HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),

@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../BLOC/screen/home/home_bloc.dart';
 import '../../data/model/vehicle.dart';
 import '../../widgets/vehicle_item.dart';
@@ -18,6 +19,7 @@ class VehicleRentCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     var allVehicleBloc = context.read<AllVehicleBloc>();
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
 
     return Column(
       children: <Widget>[
@@ -43,6 +45,8 @@ class VehicleRentCarousel extends StatelessWidget {
                               value: allVehicleBloc),
                           BlocProvider<ProfileBloc>.value(
                               value: profileBloc),
+                          BlocProvider<BookHistoryBloc>.value(
+                              value: bookHistoryBloc),
                         ],
                           child: AllVehicleScreen())));
                 },
@@ -83,6 +87,8 @@ class VehicleRentCarousel extends StatelessWidget {
                         BlocProvider<AllVehicleBloc>.value(
                           value: allVehicleBloc,
                         ),
+                        BlocProvider<BookHistoryBloc>.value(
+                            value: bookHistoryBloc),
                       ],
                       child: BlocProvider<CarItemBloc>(
                           create: (_) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),

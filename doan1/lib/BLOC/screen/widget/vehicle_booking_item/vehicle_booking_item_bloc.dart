@@ -16,8 +16,10 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
   DateBooking? dateBooking;
   Vehicle? vehicle;
   User? owner;
+  int? index;
   VehicleBookingItemBloc() : super(VehicleBookingItemInitial(getDataSuccess: false)) {
     on<VehicleBookingItemInitialEvent>((event,emit) async {
+      index = event.index;
       dateBooking = event.dateBooking;
       vehicle = await getVehicleFunc(dateBooking!.attachedServices![0]) as Vehicle;
       owner = await getOwner(vehicle!.owner!);

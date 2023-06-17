@@ -5,7 +5,8 @@ abstract class HotelBookingItemEvent {}
 
 class HotelBookingItemInitialEvent extends HotelBookingItemEvent {
   DateBooking? dateBooking;
-  HotelBookingItemInitialEvent({required this.dateBooking});
+  int? index;
+  HotelBookingItemInitialEvent({required this.dateBooking, required this.index});
 }
 
 class HotelBookingItemRejectEvent extends HotelBookingItemEvent {}

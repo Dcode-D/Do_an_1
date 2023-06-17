@@ -1,5 +1,6 @@
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 import 'package:doan1/screens/detail_screens/hotel/hotel_book_info_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
   Widget build(BuildContext context) {
     var hotelItemBloc = context.read<HotelItemBloc>();
     var proFileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     final formatCurrency = NumberFormat("#,###");
     return BlocBuilder<HotelItemBloc,HotelItemState>(
       builder: (context,state)=>
@@ -240,7 +242,8 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                               create: (context) => HotelBookingBloc()),
                           BlocProvider<HotelItemBloc>.value(
                             value: hotelItemBloc,
-                          )
+                          ),
+                          BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                         ],
                         child: const HotelBookingInfoScreen())
                 ));

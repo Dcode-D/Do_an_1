@@ -41,6 +41,7 @@ class DateBookingRepo{
   Future<List<DateBooking>?> GetBookingDate(String userId,int page) async
   => _appService.getUserDateBookingList(
           token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+          page: page,
           userId: userId)
         .then((http) async =>
           http.response.statusCode == 200 ?

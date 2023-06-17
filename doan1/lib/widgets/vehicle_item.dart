@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../BLOC/profile/profile_view/profile_bloc.dart';
+import '../BLOC/screen/book_history/book_history_bloc.dart';
 import '../data/model/vehicle.dart';
 import '../screens/detail_screens/vehicle/vehicle_rent_detail_screen.dart';
 
@@ -23,6 +24,7 @@ class VehicleItem extends StatelessWidget{
   Widget build(BuildContext context){
     var carItemBloc = context.read<CarItemBloc>();
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     return BlocBuilder<CarItemBloc,CarItemState>(
       builder: (context,state)
       => SizedBox(
@@ -35,6 +37,7 @@ class VehicleItem extends StatelessWidget{
                 providers: [
                   BlocProvider.value(value: profileBloc),
                   BlocProvider.value(value: carItemBloc),
+                  BlocProvider.value(value: bookHistoryBloc)
                 ],
                 child: VehicleRentDetailScreen(
                   type: type,

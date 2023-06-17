@@ -113,7 +113,6 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
     body: TabBarView(
       controller: _tabController,
       children: [
-
         BlocBuilder<BookHistoryBloc,BookHistoryState>(
           buildWhen: (previous, current) =>
           current is BookHistoryInitial,
@@ -141,8 +140,10 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                     value: profileBloc),
                   BlocProvider<HotelBookingItemBloc>(
                     create: (context) => HotelBookingItemBloc()..add(
-                        HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index]))
+                        HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index],index: index)),
                   ),
+                  BlocProvider<BookHistoryBloc>.value(
+                    value: bookHistoryBloc),
                 ],
                   child: HotelBookingItem());
             },
@@ -179,8 +180,10 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                     value: profileBloc),
                 BlocProvider<VehicleBookingItemBloc>(
                     create: (context) => VehicleBookingItemBloc()..add(
-                        VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index]))
+                        VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index],index: index))
                 ),
+                BlocProvider<BookHistoryBloc>.value(
+                    value: bookHistoryBloc),
               ],
                 child: VehicleBookingItem());
           },

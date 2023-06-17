@@ -1,4 +1,5 @@
 import 'package:doan1/BLOC/hotel_booking/hotel_booking_bloc.dart';
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 import 'package:doan1/screens/detail_screens/setting_booking/checking_information_screen.dart';
 import 'package:doan1/screens/detail_screens/setting_booking/date_setting_dialog.dart';
@@ -23,7 +24,13 @@ class HotelBookingInfoScreen extends StatelessWidget{
     var profileBloc = context.read<ProfileBloc>();
     var hotelItemBloc = context.read<HotelItemBloc>();
     var hotelBookingBloc = context.read<HotelBookingBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     final formatCurrency = NumberFormat("#,###");
+    final today = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day
+    );
     TextEditingController noteController = TextEditingController();
 
     setDate() =>{
@@ -45,6 +52,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
             BlocListener<HotelBookingBloc,HotelBookingState>(
               listener: (context,state){
                 if(state.isBookingSuccess == BookingState.success){
+                  bookHistoryBloc.add(GetBookingHistory());
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HotelBookingSuccessScreen()));
                 }
                 else if (state.isBookingSuccess == BookingState.failure){
@@ -769,12 +777,30 @@ class HotelBookingInfoScreen extends StatelessWidget{
                             );
                             return;
                           }
-                          else if (dateRangePickerController.selectedRange!.startDate!.isBefore(DateTime.now())){
+                          else if (dateRangePickerController.selectedRange!.startDate!.isBefore(today)){
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
                                 title: const Text('Booking Failed'),
                                 content: const Text('Please select a valid date range'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                            return;
+                          }
+                          else if(hotelBookingBloc.listSelectedHotelRoom.isEmpty){
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Booking Failed'),
+                                content: const Text('Please select at least one room'),
                                 actions: [
                                   TextButton(
                                     onPressed: (){

@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 
 
 class VehicleRentDetailScreen extends StatefulWidget{
@@ -31,6 +32,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
   Widget build(BuildContext context) {
     var carItemBloc = context.read<CarItemBloc>();
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     return BlocBuilder<CarItemBloc,CarItemState>(
       builder: (context,state) =>
       carItemBloc.vehicle != null ?
@@ -220,6 +222,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                       providers: [
                         BlocProvider.value(value: carItemBloc),
                         BlocProvider.value(value: profileBloc),
+                        BlocProvider.value(value: bookHistoryBloc),
                         BlocProvider<VehicleBookingBloc>(
                             create: (context) => VehicleBookingBloc())
                       ],
@@ -261,6 +264,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                         providers: [
                           BlocProvider<CarItemBloc>.value(value: carItemBloc),
                           BlocProvider<ProfileBloc>.value(value: profileBloc),
+                          BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                         ],
                         child: VehicleRentBookInfoScreen())));
               },

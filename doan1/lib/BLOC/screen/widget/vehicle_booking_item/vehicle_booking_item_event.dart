@@ -5,7 +5,8 @@ abstract class VehicleBookingItemEvent {}
 
 class VehicleBookingItemInitialEvent extends VehicleBookingItemEvent {
   DateBooking? dateBooking;
-  VehicleBookingItemInitialEvent({required this.dateBooking});
+  int? index;
+  VehicleBookingItemInitialEvent({required this.dateBooking, required this.index});
 }
 
 class VehicleBookingItemRejectEvent extends VehicleBookingItemEvent {}

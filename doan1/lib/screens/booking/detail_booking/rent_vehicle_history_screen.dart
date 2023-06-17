@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import '../../detail_screens/setting_booking/checking_information_screen.dart';
 
@@ -17,6 +17,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
     final formatCurrency = NumberFormat("#,###");
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     var vehicleBookingItemBloc = context.read<VehicleBookingItemBloc>();
 
     return BlocListener<VehicleBookingItemBloc,VehicleBookingItemState>(
@@ -46,7 +47,8 @@ class RentVehicleHistoryScreen extends StatelessWidget {
       },
       child: BlocBuilder<VehicleBookingItemBloc,VehicleBookingItemState>(
         buildWhen: (previous,current) =>
-        current is VehicleBookingItemInitial || current is VehicleBookingItemRejectSuccess,
+        current is VehicleBookingItemInitial ||
+            current is VehicleBookingItemRejectSuccess,
         builder:(context,state) => Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -55,6 +57,9 @@ class RentVehicleHistoryScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: IconButton(
                 onPressed: () {
+                  vehicleBookingItemBloc.add(VehicleBookingItemInitialEvent(
+                      dateBooking: bookHistoryBloc.lsVehicleBooking![vehicleBookingItemBloc.index!],
+                      index: vehicleBookingItemBloc.index!));
                   Navigator.pop(context);
                 },
                 icon: const Icon(
@@ -689,6 +694,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                           TextButton(
                                             onPressed: (){
                                               vehicleBookingItemBloc.add(VehicleBookingItemDeleteEvent());
+                                              bookHistoryBloc.add(GetBookingHistory());
                                               Navigator.pop(context);
                                             },
                                             child: Text("Yes",
@@ -749,8 +755,9 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                       ),
                                       TextButton(
                                         onPressed: (){
-                                          Navigator.pop(context);
                                           vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                          bookHistoryBloc.add(GetBookingHistory());
+                                          Navigator.pop(context);
                                         },
                                         child: Text("Yes",
                                           style: GoogleFonts.raleway(
@@ -811,8 +818,9 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                         ),
                                         TextButton(
                                           onPressed: (){
-                                            Navigator.pop(context);
                                             vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                            bookHistoryBloc.add(GetBookingHistory());
+                                            Navigator.pop(context);
                                           },
                                           child: Text("Yes",
                                             style: GoogleFonts.raleway(
@@ -850,6 +858,9 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                           const SizedBox(height: 20,),
                           ElevatedButton(
                             onPressed: (){
+                              vehicleBookingItemBloc.add(VehicleBookingItemInitialEvent(
+                                  dateBooking: bookHistoryBloc.lsVehicleBooking![vehicleBookingItemBloc.index!],
+                                  index: vehicleBookingItemBloc.index!));
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(

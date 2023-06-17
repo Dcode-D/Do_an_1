@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 import '../../detail_screens/setting_booking/checking_information_screen.dart';
 
@@ -18,6 +20,7 @@ class BookingHotelHistoryScreen extends StatelessWidget {
     final formatCurrency = NumberFormat("#,###");
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     var hotelBookingItemBloc = context.read<HotelBookingItemBloc>();
     int calculateTotalPrice() {
       int totalPrice = 0;
@@ -63,6 +66,9 @@ class BookingHotelHistoryScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: IconButton(
                 onPressed: () {
+                  hotelBookingItemBloc.add(HotelBookingItemInitialEvent(
+                      dateBooking: bookHistoryBloc.lsHotelBooking![hotelBookingItemBloc.index!],
+                      index: hotelBookingItemBloc.index!));
                   Navigator.pop(context);
                 },
                 icon: const Icon(
@@ -821,6 +827,7 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                                     TextButton(
                                       onPressed: (){
                                         hotelBookingItemBloc.add(HotelBookingItemDeleteEvent());
+                                        bookHistoryBloc.add(GetBookingHistory());
                                         Navigator.pop(context);
                                       },
                                       child: Text("Yes",
@@ -882,8 +889,9 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: (){
-                                    Navigator.pop(context);
                                     hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
+                                    bookHistoryBloc.add(GetBookingHistory());
+                                    Navigator.pop(context);
                                   },
                                   child: Text("Yes",
                                     style: GoogleFonts.raleway(
@@ -944,8 +952,9 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: (){
-                                    Navigator.pop(context);
                                     hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
+                                    bookHistoryBloc.add(GetBookingHistory());
+                                    Navigator.pop(context);
                                   },
                                   child: Text("Yes",
                                     style: GoogleFonts.raleway(
@@ -983,6 +992,9 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                     const SizedBox(height: 10,),
                     ElevatedButton(
                       onPressed: (){
+                        hotelBookingItemBloc.add(HotelBookingItemInitialEvent(
+                            dateBooking: bookHistoryBloc.lsHotelBooking![hotelBookingItemBloc.index!],
+                            index: hotelBookingItemBloc.index!));
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(

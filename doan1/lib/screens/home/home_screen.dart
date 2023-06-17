@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/screen/all_screen/all_article/article_bloc.dart';
 import '../../BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
+import '../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../models/notification_model.dart';
 import 'destination_carousel.dart';
 import 'tour_carousel.dart';
@@ -29,6 +30,7 @@ class HomeScreen extends StatelessWidget {
     AllHotelBloc allHotelBloc = context.read<AllHotelBloc>();
     AllVehicleBloc allVehicleBloc = context.read<AllVehicleBloc>();
     ArticleBloc articleBloc = context.read<ArticleBloc>();
+    BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
     return
       BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state)=>
           BlocBuilder<HomeBloc,HomeState>(
@@ -227,6 +229,9 @@ class HomeScreen extends StatelessWidget {
                                                   BlocProvider<AllHotelBloc>.value(
                                                     value: allHotelBloc,
                                                   ),
+                                                  BlocProvider.value(
+                                                      value: bookHistoryBloc
+                                                  ),
                                                 ],
                                                   child: AllHotelScreen())));
                                       },
@@ -266,6 +271,9 @@ class HomeScreen extends StatelessWidget {
                                                   BlocProvider<ProfileBloc>.value(
                                                     value: profileBloc,
                                                   ),
+                                                  BlocProvider.value(
+                                                    value: bookHistoryBloc
+                                                  )
                                                 ],
                                                   child: AllVehicleScreen())));
                                         },
@@ -306,6 +314,9 @@ class HomeScreen extends StatelessWidget {
                       BlocProvider<ProfileBloc>.value(
                         value: profileBloc,
                       ),
+                      BlocProvider.value(
+                          value: bookHistoryBloc
+                      )
                     ],
                       child: HotelCarousel()),
                   const SizedBox(height: 10,),
@@ -316,6 +327,9 @@ class HomeScreen extends StatelessWidget {
                       BlocProvider<ProfileBloc>.value(
                         value: profileBloc,
                       ),
+                      BlocProvider.value(
+                          value: bookHistoryBloc
+                      )
                     ],
                       child: VehicleRentCarousel()),
                   const SizedBox(height: 80),

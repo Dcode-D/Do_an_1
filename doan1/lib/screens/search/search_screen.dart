@@ -37,6 +37,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     var searchBloc = context.read<SearchBloc>()..add(GetInitialData());
     var profileBloc = context.read<ProfileBloc>();
+
     return BlocBuilder<SearchBloc,SearchState>(
       builder: (context,state) =>
       Scaffold(

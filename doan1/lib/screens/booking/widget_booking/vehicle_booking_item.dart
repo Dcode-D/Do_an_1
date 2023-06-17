@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 
 class VehicleBookingItem extends StatelessWidget{
@@ -18,9 +19,11 @@ class VehicleBookingItem extends StatelessWidget{
     final formatCurrency = NumberFormat("#,###");
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     var vehicleBookingItemBloc = context.read<VehicleBookingItemBloc>();
     return BlocBuilder<VehicleBookingItemBloc,VehicleBookingItemState>(
-      buildWhen: (previous,current) => current is VehicleBookingItemInitial,
+      buildWhen: (previous,current) =>
+      current is VehicleBookingItemInitial ,
       builder:(context,state) =>
           Padding(
         padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
@@ -123,24 +126,23 @@ class VehicleBookingItem extends StatelessWidget{
                 const SizedBox(height: 10,),
                 Row(
                     children:[
-                      vehicleBookingItemBloc.dateBooking == null ? const Text('Loading...') :
-                          vehicleBookingItemBloc.dateBooking!.approved == false ?
-                        Text(
-                          'Status: Pending',
-                          style: GoogleFonts.raleway(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54
-                          ),
-                        ) :
-                        Text(
-                          'Status: Approved',
-                          style: GoogleFonts.raleway(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54
-                          ),
+                      state is VehicleBookingItemInitial?
+                      state.getDataSuccess == false?
+                      const Text('Loading...') :
+                      Text(
+                        vehicleBookingItemBloc.dateBooking!.suspended! == false &&
+                            vehicleBookingItemBloc.dateBooking!.approved! == false ?
+                        'Status: Pending' :
+                        vehicleBookingItemBloc.dateBooking!.suspended! == true ?
+                        'Status: Suspended' :
+                        'Status: Approved',
+                        style: GoogleFonts.raleway(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black54
                         ),
+                      ) :
+                      const Center(child: CircularProgressIndicator()),
                       const Spacer(),
                       vehicleBookingItemBloc.vehicle == null ? const Text('Loading...') :
                       Text(
@@ -185,6 +187,7 @@ class VehicleBookingItem extends StatelessWidget{
                               providers: [
                                 BlocProvider.value(value: profileBloc,),
                                 BlocProvider.value(value: vehicleBookingItemBloc,),
+                                BlocProvider.value(value: bookHistoryBloc)
                               ],
                                 child: RentVehicleHistoryScreen())));
                       },

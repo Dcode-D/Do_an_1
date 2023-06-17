@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
 
 class HotelItemForAll extends StatelessWidget{
@@ -24,6 +25,7 @@ class HotelItemForAll extends StatelessWidget{
   Widget build(BuildContext context) {
     var hotelItemBloc = context.read<HotelItemBloc>();
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
     return
       BlocBuilder<HotelItemBloc,HotelItemState>(
       builder: (context,state) =>
@@ -36,6 +38,7 @@ class HotelItemForAll extends StatelessWidget{
                 providers: [
                   BlocProvider.value(value: profileBloc),
                   BlocProvider.value(value: hotelItemBloc),
+                  BlocProvider.value(value: bookHistoryBloc),
                 ],
                 child: HotelDetailScreen(
                   type: type,
