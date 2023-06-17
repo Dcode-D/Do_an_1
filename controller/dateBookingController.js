@@ -25,7 +25,7 @@ const createDateBooking = async (req, res) => {
             const hotelRooms = await  HotelRoomModel.find({_id:{ $in: attachedServices}});
             if(hotelRooms.length>1){
                 for(let i=0;i<hotelRooms.length-1;i++){
-                    if(hotelRooms[i].hotel.equals(hotelRooms[i+1].hotel)) return res.status(400).json({status: "error", message: "Hotel rooms must be in the same hotel"});
+                    if(!hotelRooms[i].hotel.equals(hotelRooms[i+1].hotel)) return res.status(400).json({status: "error", message: "Hotel rooms must be in the same hotel"});
                 }
             }
         }
@@ -38,6 +38,7 @@ const createDateBooking = async (req, res) => {
                 }
             }
         }
+        if(type !== "hotel" && type !== "car") return res.status(400).json({status: "error", message: "Invalid type"});
 
         const dateBooking = new dateBookingModel({
             type: type,
