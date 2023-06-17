@@ -14,8 +14,8 @@ class Hotel {
   final String? description;
   final List<String>? images;
   final List<Map<String,dynamic>>? facilities;
-  final double maxPrice;
-  final double minPrice;
+  final double? maxPrice;
+  final double? minPrice;
   final String? province;
   final String? city;
 
