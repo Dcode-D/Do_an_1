@@ -134,7 +134,7 @@ const deleteCar = async (req, res) => {
             if(deletedcar.images){
                 for (const image of deletedcar.images) {
                     const filetodelete = await FileModel.findByIdAndDelete(image);
-                    filetodelete.remove();
+                    filetodelete.deleteOne();
                     fs.unlinkSync(filetodelete.path);
                 }
             }

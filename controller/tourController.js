@@ -22,7 +22,7 @@ const deleteTour = async (req, res) => {
         const tour = await TourModel.findById(id);
         if(!tour)
             return res.status(404).json({status: "error", message: "Tour not found"});
-        await tour.remove();
+        await tour.deleteOne();
         return res.status(200).json({status: "success", message: "Tour deleted"});
 
     }catch (e) {

@@ -65,7 +65,7 @@ const deleteAvatar = async (req, res) => {
         if (!avatar) return res.status(404).json({status: "error", message: "Not found"});
         if (req.user._id.equals(avatar.user)) {
             fs.unlinkSync(avatar.path);
-            avatar.remove();
+            avatar.deleteOne();
         }
     }
     catch (e){

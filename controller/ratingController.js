@@ -37,7 +37,7 @@ const deleteRating = async (req, res) => {
         const rating = await ratingModel.findById(req.params.id);
         if (!rating) return res.status(404).json({status: "error", message: "Rating not found"});
         if (!rating.user.equals(req.user._id)) return res.status(403).json({status: "error", message: "Not permitted"});
-        await rating.remove();
+        await rating.deleteOne();
         return res.status(200).json({status: "success", message: "Rating deleted"});
     } catch (e) {
         console.log(e.message);

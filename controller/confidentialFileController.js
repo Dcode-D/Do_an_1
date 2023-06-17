@@ -46,7 +46,7 @@ const deleteConfidentialFiles = async (req, res) => {
         const file = FileModel.findById(req.params.id);
         if(!file) return res.status(404).json({status: "error", message: "File not found"});
         if(file.publishBy.equals(req.user._id)) return res.status(403).json({status: "error", message: "Permission denied"});
-        await file.remove();
+        await file.deleteOne();
         fs.unlinkSync(file.path);
         return res.status(200).json({status: "success", message: "File deleted"});
     }catch (err) {

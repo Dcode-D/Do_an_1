@@ -25,7 +25,7 @@ const createArticle = async (req, res) => {
         //get image from req
         if(!req.files){
             console.log('No files were uploaded.');
-            await newArticle.remove();
+            await newArticle.deleteOne();
             return  res.status(400).send('No files were uploaded.');
         }
         for(const key in req.files) {
@@ -116,10 +116,10 @@ const deleteArticle = async (req, res) => {
         if(articleFiles.length > 0){
             for(const articleFile of articleFiles){
                 fs.unlinkSync(articleFile.path)
-                await articleFile.remove();
+                await articleFile.deleteOne();
             }
         }
-        await article.remove();
+        await article.deleteOne();
         return res.status(200).json({status: "success", message: "Article deleted successfully"});
     }catch (e) {
         console.log(e.message);

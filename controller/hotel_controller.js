@@ -336,6 +336,9 @@ const deleteHotel = async (req, res) => {
             return res.status(403).json({status: "error", message: "Not permitted"});
         }
         const hotel = await hotelModel.findByIdAndDelete(req.params.id);
+        if (!hotel) {
+            return res.status(404).send({ error: 'Hotel not found' });
+        }
         await hotelRoomModel.deleteMany({hotel: req.params.id});
         const filesUri = await FileModel.find({attachedId: req.params.id});
         filesUri.forEach((file)=>{
@@ -343,10 +346,8 @@ const deleteHotel = async (req, res) => {
         })
         await FileModel.deleteMany({attachedId: req.params.id});
         await facilityModel.deleteMany({service: req.params.id});
+        await hotel.deleteOne();
 
-        if (!hotel) {
-            return res.status(404).send({ error: 'Hotel not found' });
-        }
 
         return res.send({ message: 'Hotel deleted successfully' });
     } catch (error) {

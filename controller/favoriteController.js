@@ -29,7 +29,7 @@ const deleteFavorite = async (req, res) => {
             return res.status(404).json({status: "error", message: "Favorite not found"});
         if(!favorite.user.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
-        await favorite.remove();
+        await favorite.deleteOne();
         return res.status(200).json({status: "success", message: "Favorite deleted"});
     }
     catch (e) {

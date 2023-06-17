@@ -57,7 +57,7 @@ const deleteFile = async (req, res) => {
             return  res.status(401).json({status: "error", message: "You are not authorized to delete this file"});
         }
         fs.unlinkSync(file.path);
-        await file.remove();
+        await file.deleteOne();
         return res.status(200).json({status: "success", message: "File deleted successfully"});
     }
     catch (e) {

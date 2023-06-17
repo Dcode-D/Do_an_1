@@ -37,7 +37,7 @@ const deleteHotelRoom = async (req, res) => {
         if (req.params.id) {
             const hotelRoom = await hotelRoomModel.findById(req.params.id);
             if (!hotelRoom) return res.status(404).json({status: "error", message: "Hotel room not found"});
-            await hotelRoom.remove();
+            await hotelRoom.deleteOne();
             return res.status(200).json({status: "success", message: "Hotel room deleted"});
         }
     } catch (e) {
