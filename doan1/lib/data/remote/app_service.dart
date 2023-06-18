@@ -60,6 +60,12 @@ abstract class AppService {
     @Query('address') String? address,
     @Query('maxPrice')double? maxPrice,
     @Query('minPrice')double? minPrice);
+
+  @DELETE("/car/{id}")
+  Future<HttpResponse> deleteCarById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id
+  });
 //Hotel API
   @GET("/hotel/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListHotelByQuery(
@@ -85,6 +91,12 @@ abstract class AppService {
 
   @GET("/hotel/{id}/room")
   Future<HttpResponse<ListModelResponse>> getListHotelRoomById(@Path('id') String id);
+
+  @DELETE("/hotel/{id}")
+  Future<HttpResponse> deleteHotelById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id
+  });
 //Article API
   @GET("/article/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListIdArticleFromPage(@Path('page') int page);

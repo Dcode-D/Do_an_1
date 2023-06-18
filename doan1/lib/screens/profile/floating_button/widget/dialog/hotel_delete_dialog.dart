@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HotelDeleteDialog extends StatelessWidget{
-  const HotelDeleteDialog({Key? key}) : super(key: key);
+
+  Function deleteHotel;
+  HotelDeleteDialog({required this.deleteHotel});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class HotelDeleteDialog extends StatelessWidget{
       actions: [
         ElevatedButton(
             onPressed:
-              () => Navigator.of(context).pop(false),
+              () => Navigator.pop(context),
             style: ElevatedButton.styleFrom(
               primary: Colors.red,
             ),
@@ -27,7 +29,7 @@ class HotelDeleteDialog extends StatelessWidget{
         ),
         ElevatedButton(
           onPressed:
-              () => Navigator.of(context).pop(true),
+              () => deleteHotel(),
           style: ElevatedButton.styleFrom(
             primary: Colors.green,
           ),

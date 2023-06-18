@@ -9,3 +9,8 @@ class EditHotelItemLoaded extends EditHotelItemState {
   bool getDataSuccess;
   EditHotelItemLoaded(this.getDataSuccess);
 }
+
+class DeleteHotelItemState extends EditHotelItemState {
+  bool deleteSuccess;
+  DeleteHotelItemState(this.deleteSuccess);
+}

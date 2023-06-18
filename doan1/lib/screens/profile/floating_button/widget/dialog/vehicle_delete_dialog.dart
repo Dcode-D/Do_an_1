@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class VehicleDeleteDialog extends StatelessWidget{
-  const VehicleDeleteDialog({Key? key}) : super(key: key);
+  VehicleDeleteDialog({required this.deleteVehicle});
+
+  Function deleteVehicle;
 
   @override
   Widget build(BuildContext context) {
@@ -11,32 +14,32 @@ class VehicleDeleteDialog extends StatelessWidget{
       actions: [
         ElevatedButton(
           onPressed:
-              () => Navigator.of(context).pop(false),
+              () => Navigator.pop(context),
           style: ElevatedButton.styleFrom(
             primary: Colors.red,
           ),
           child: Text(
             'No',
-            style: TextStyle(
+            style: GoogleFonts.raleway(
                 fontSize: 15,
                 color: Colors.white,
                 fontWeight: FontWeight.w500
-            ),
+            )
           ),
         ),
         ElevatedButton(
           onPressed:
-              () => Navigator.of(context).pop(true),
+              () => deleteVehicle(),
           style: ElevatedButton.styleFrom(
             primary: Colors.green,
           ),
           child: Text(
             'Yes',
-            style: TextStyle(
+            style: GoogleFonts.raleway(
                 fontSize: 15,
                 color: Colors.white,
                 fontWeight: FontWeight.w500
-            ),
+            )
           ),
         ),
       ],

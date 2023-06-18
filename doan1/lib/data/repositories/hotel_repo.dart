@@ -90,4 +90,18 @@ class HotelRepo{
       }
     });
   }
+
+  Future<bool?> DeleteHotelById(String id) async{
+    return _appService.deleteHotelById(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        id: id)
+        .then((http) async{
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
 }

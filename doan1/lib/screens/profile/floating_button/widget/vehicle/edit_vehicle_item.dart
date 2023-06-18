@@ -1,16 +1,27 @@
 import 'package:doan1/BLOC/profile/edit_vehicle/edit_vehicle_item_bloc.dart';
+import 'package:doan1/BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/dialog/vehicle_delete_dialog.dart';
+import 'package:doan1/screens/profile/floating_button/widget/vehicle/edit_vehicle_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
+
 class EditVehicleItem extends StatelessWidget{
   final formatCurrency = NumberFormat("#,###");
   @override
   Widget build(BuildContext context) {
     var editVehicleBloc = context.read<EditVehicleItemBloc>();
+    var manageServiceBloc = context.read<ManageServiceBloc>();
+    var profileBloc = context.read<ProfileBloc>();
+    deleteVehicle()=>{
+      editVehicleBloc.add(VehicleItemDeleteEvent(editVehicleBloc.vehicle!.id!)),
+      manageServiceBloc.add(GetDataByOwner(profileBloc.user!.id,1)),
+      Navigator.pop(context)
+    };
 
     return BlocBuilder<EditVehicleItemBloc,EditVehicleItemState>(
       builder: (context,state)=>
@@ -108,7 +119,13 @@ class EditVehicleItem extends StatelessWidget{
                     const Spacer(),
                     ElevatedButton(
                       onPressed: (){
-
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) =>
+                              BlocProvider.value(
+                                value: editVehicleBloc,
+                                child: const EditVehicleScreen(),
+                          )
+                        ));
                       },
                       child:
                       Text(
@@ -124,7 +141,7 @@ class EditVehicleItem extends StatelessWidget{
                       onPressed: (){
                         showGeneralDialog(context: context,
                             pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                              return VehicleDeleteDialog();
+                              return VehicleDeleteDialog(deleteVehicle: deleteVehicle,);
                             },);
                       },
                       style: ElevatedButton.styleFrom(

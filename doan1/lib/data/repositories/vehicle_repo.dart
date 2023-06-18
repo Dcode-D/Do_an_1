@@ -93,4 +93,18 @@ class VehicleRepo{
       }
     });
   }
+
+  Future<bool?> DeleteVehicleById(String id) async{
+    return _appService.deleteCarById(
+        token: "Bearer ${_sharedPreferences.getString("token")!}",
+        id: id)
+        .then((http) async{
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
 }

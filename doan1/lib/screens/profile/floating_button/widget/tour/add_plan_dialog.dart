@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/article/article_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../BLOC/news_create/create_tour/create_tour_bloc.dart';
-import '../../../../../data/model/article.dart';
 
 class AddPlanDialog extends StatefulWidget {
 

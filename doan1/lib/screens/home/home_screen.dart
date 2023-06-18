@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../BLOC/screen/all_screen/all_article/article_bloc.dart';
+import '../../BLOC/screen/all_screen/article/article_bloc.dart';
 import '../../BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
 import '../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../models/notification_model.dart';

@@ -1,5 +1,5 @@
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
-import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/article/article_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
 import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';

@@ -9,3 +9,8 @@ class EditVehicleItemLoaded extends EditVehicleItemState {
   bool getDataSuccess;
   EditVehicleItemLoaded(this.getDataSuccess);
 }
+
+class EditVehicleItemDelete extends EditVehicleItemState {
+  bool getDataSuccess;
+  EditVehicleItemDelete(this.getDataSuccess);
+}

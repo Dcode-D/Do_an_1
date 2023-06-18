@@ -4,6 +4,11 @@ part of 'edit_vehicle_item_bloc.dart';
 abstract class EditVehicleItemEvent {}
 
 class GetVehicleItemEvent extends EditVehicleItemEvent {
-  final Vehicle vehicle;
-  GetVehicleItemEvent(this.vehicle);
+  final String vehicleId;
+  GetVehicleItemEvent(this.vehicleId);
+}
+
+class VehicleItemDeleteEvent extends EditVehicleItemEvent {
+  final String vehicleId;
+  VehicleItemDeleteEvent(this.vehicleId);
 }

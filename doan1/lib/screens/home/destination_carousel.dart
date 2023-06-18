@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../BLOC/screen/all_screen/all_article/article_bloc.dart';
+import '../../BLOC/screen/all_screen/article/article_bloc.dart';
 import '../../widgets/card_scroll_widget.dart';
 
 const cardAspectRatio = 12.0 / 16.0;

@@ -1,16 +1,27 @@
 import 'package:doan1/BLOC/profile/edit_hotel/edit_hotel_item_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/dialog/hotel_delete_dialog.dart';
+import 'package:doan1/screens/profile/floating_button/widget/hotel/edit_hotel_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
+import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
+
 class EditHotelItem extends StatelessWidget{
   final formatCurrency = NumberFormat("#,###");
   @override
   Widget build(BuildContext context) {
     var editHotelBloc = context.read<EditHotelItemBloc>();
+    var profileBloc = context.read<ProfileBloc>();
+    var manageServiceBloc = context.read<ManageServiceBloc>();
+    deleteHotel()=>{
+      editHotelBloc.add(DeleteHotelItemEvent(editHotelBloc.hotel!.id!)),
+      manageServiceBloc.add(GetDataByOwner(profileBloc.user!.id,2)),
+      Navigator.pop(context)
+    };
     return BlocBuilder<EditHotelItemBloc,EditHotelItemState>(
       builder: (context,state)=>
       editHotelBloc.hotel != null ?
@@ -104,7 +115,13 @@ class EditHotelItem extends StatelessWidget{
                     const Spacer(),
                     ElevatedButton(
                       onPressed: (){
-
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) =>
+                              BlocProvider.value(
+                              value: editHotelBloc,
+                              child: EditHotelScreen(),
+                            ))
+                        );
                       },
                       child:
                       Text(
@@ -121,7 +138,7 @@ class EditHotelItem extends StatelessWidget{
                         showGeneralDialog(context: context,
                             pageBuilder:
                             (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                              return HotelDeleteDialog();
+                              return HotelDeleteDialog(deleteHotel: deleteHotel,);
                             },
                         );
                       },

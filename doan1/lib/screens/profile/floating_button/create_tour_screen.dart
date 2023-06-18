@@ -6,10 +6,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../BLOC/components/places_bloc.dart';
 import '../../../BLOC/news_create/create_tour/create_tour_bloc.dart';
-import '../../../BLOC/screen/all_screen/all_article/article_bloc.dart';
-import '../../../widgets/dialog/add_avatar_image_dialog.dart';
+import '../../../BLOC/screen/all_screen/article/article_bloc.dart';
 
 class CreateTourScreen extends StatefulWidget {
   const CreateTourScreen({Key? key}) : super(key: key);

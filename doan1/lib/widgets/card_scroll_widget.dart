@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
-import 'package:doan1/BLOC/screen/all_screen/all_article/article_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/article/article_bloc.dart';
 import 'package:doan1/BLOC/widget_item/article_item/article_item_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
