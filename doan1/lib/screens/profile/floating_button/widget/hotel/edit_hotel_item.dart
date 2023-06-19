@@ -86,10 +86,13 @@ class EditHotelItem extends StatelessWidget{
                               fontSize: 15,
                               fontWeight: FontWeight.bold),),
                         const SizedBox(height: 5,),
-                        Text(editHotelBloc.hotel!=null? '${editHotelBloc.hotel!.province!}, ${editHotelBloc.hotel!.city}' :"loading..."
-                          ,style: GoogleFonts.roboto(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400),),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.52,
+                          child: Text(editHotelBloc.hotel!=null? '${editHotelBloc.hotel!.province!}, ${editHotelBloc.hotel!.city}' :"loading..."
+                            ,style: GoogleFonts.roboto(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),),
+                        ),
                       ],)
                   ],
                 ),

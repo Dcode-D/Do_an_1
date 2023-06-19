@@ -3,8 +3,8 @@ import 'package:doan1/screens/login/forgot_password_screen.dart';
 import 'package:doan1/screens/login/signup_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/authentication/authentication_bloc.dart';
 
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 flex: 13,
                 child: Container(
                   width: double.infinity,
-                  height: 480,
+                  height: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.85),
                     borderRadius: const BorderRadius.only(topLeft: Radius.circular(45),topRight: Radius.circular(45)),
@@ -94,13 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 15,bottom: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15,bottom: 10),
                           child: Text(
                             "Welcome to our App",
-                            style: TextStyle(
+                            style: GoogleFonts.roboto(
                               fontSize: 30,
-                              fontFamily: 'Roboto',
                               fontWeight: FontWeight.w700,
                               color: Colors.orange,
                             ),

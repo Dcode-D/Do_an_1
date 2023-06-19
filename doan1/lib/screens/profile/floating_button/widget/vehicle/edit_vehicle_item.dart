@@ -91,10 +91,14 @@ class EditVehicleItem extends StatelessWidget{
                           style: GoogleFonts.roboto(
                               fontSize: 15,
                               fontWeight: FontWeight.w400),),
-                        Text(editVehicleBloc.vehicle!=null? '${editVehicleBloc.vehicle!.province}, ${editVehicleBloc.vehicle!.city}' :"loading...",
-                          style: GoogleFonts.roboto(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400),),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.52,
+                          child: Text(editVehicleBloc.vehicle!=null? '${editVehicleBloc.vehicle!.province}, ${editVehicleBloc.vehicle!.city}' :"loading...",
+                            softWrap: true,
+                            style: GoogleFonts.roboto(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),),
+                        ),
                       ],)
                   ],
                 ),

@@ -24,7 +24,7 @@ class Article{
      this.province,
      this.city,
      this.referenceName,
-      this.publishedDate,
+     this.publishedDate,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) => _$ArticleFromJson(json);

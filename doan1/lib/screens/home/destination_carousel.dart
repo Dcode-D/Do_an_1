@@ -16,7 +16,7 @@ class DestinationCarousel extends StatefulWidget {
 }
 
 class _DestinationCarouselState extends State<DestinationCarousel> {
-  var currentPage = 4.0;
+  var currentPage = 3.0;
   @override
   void initState() {
     super.initState();
@@ -54,18 +54,6 @@ class _DestinationCarouselState extends State<DestinationCarousel> {
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1.5,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => print('See All'),
-                  child: Text(
-                    'See All',
-                    style: GoogleFonts.raleway(
-                        fontSize: 20,
-                        color: Colors.orange,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.w600
-                    )
                   ),
                 ),
               ],

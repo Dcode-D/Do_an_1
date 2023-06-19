@@ -1,3 +1,4 @@
+import 'package:doan1/BLOC/profile/edit_post/edit_post_bloc.dart';
 import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/post/edit_post_item.dart';
 import 'package:doan1/screens/profile/floating_button/widget/tour/edit_tour_item.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../data/model/article.dart';
 import '../../models/vehicle_model.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
@@ -107,7 +109,15 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
                   itemCount: manageNewsBloc.lsArticle!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return EditPostItem();
+                    Article article = manageNewsBloc.lsArticle![index];
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: manageNewsBloc,
+                        ),
+                        BlocProvider<EditPostBloc>(create: (context) => EditPostBloc()..add(EditPostInitialEvent(article: article))),
+                      ],
+                        child: EditPostItem());
                   },
                 ),
                 ListView.builder(
