@@ -99,7 +99,7 @@ abstract class AppService {
   });
 //Article API
   @GET("/article/page/{page}")
-  Future<HttpResponse<ListModelResponse>> getListIdArticleFromPage(@Path('page') int page);
+  Future<HttpResponse<ListModelResponse>> getListIdArticleFromPage(@Path('page') int page, @Query("city") String? city, @Query("province") String? province, @Query("referenceName") String? name);
 
   @GET("/article/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListIdArticleFromUser(

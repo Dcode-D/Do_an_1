@@ -43,9 +43,9 @@ class ArticleRepo {
     });
   }
 
-  Future<List<String>?> getListId(int page) async {
+  Future<List<String>?> getListId(int page, String? city, String? province, String? name) async {
     return _appService
-        .getListIdArticleFromPage(page)
+        .getListIdArticleFromPage(page, city, province, name)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;
