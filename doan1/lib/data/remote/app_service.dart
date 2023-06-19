@@ -101,6 +101,11 @@ abstract class AppService {
   @GET("/article/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListIdArticleFromPage(@Path('page') int page);
 
+  @GET("/article/page/{page}")
+  Future<HttpResponse<ListModelResponse>> getListIdArticleFromUser(
+      @Path('page') int page,
+      @Query('publishBy') String? publishBy);
+
   @GET("/article/{id}")
   Future<HttpResponse<BaseResponse>> getArticleById(@Path('id') String id);
 

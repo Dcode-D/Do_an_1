@@ -9,6 +9,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../data/model/hotel.dart';
 import '../../data/model/vehicle.dart';
 import '../../models/tour_model.dart';
@@ -37,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     var searchBloc = context.read<SearchBloc>()..add(GetInitialData());
     var profileBloc = context.read<ProfileBloc>();
+    var bookHistoryBloc = context.read<BookHistoryBloc>();
 
     return BlocBuilder<SearchBloc,SearchState>(
       builder: (context,state) =>
@@ -204,6 +206,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                     providers: [
                       BlocProvider.value(value: profileBloc),
                       BlocProvider.value(value: searchBloc),
+                      BlocProvider.value(value: bookHistoryBloc)
                     ],
                       child: BlocProvider<HotelItemBloc>(
                         create: (context) => HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
@@ -230,6 +233,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                     providers: [
                       BlocProvider.value(value: profileBloc),
                       BlocProvider.value(value: searchBloc),
+                      BlocProvider.value(value: bookHistoryBloc)
                     ],
                       child: BlocProvider<CarItemBloc>(
                         create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),

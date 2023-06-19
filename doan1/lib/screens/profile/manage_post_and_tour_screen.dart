@@ -1,9 +1,10 @@
+import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/post/edit_post_item.dart';
 import 'package:doan1/screens/profile/floating_button/widget/tour/edit_tour_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../models/hotel_model.dart';
 import '../../models/vehicle_model.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
@@ -18,6 +19,11 @@ class ManagePostAndTourScreen extends StatefulWidget {
 class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with SingleTickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   late final TabController _tabController = TabController(length: 2, vsync: this);
+  late ManageNewsBloc manageNewsBloc;
+  @override
+  void initState() {
+    manageNewsBloc = context.read<ManageNewsBloc>();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +62,7 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                   color: Colors.transparent,
                   tabbar: TabBar(
                     controller: _tabController,
-                    isScrollable: true,
+                    isScrollable: false,
                     labelColor: Colors.black87,
                     unselectedLabelColor: Colors.grey,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -82,26 +88,38 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                 )),
           ];
         },
-        body: TabBarView(
-            controller: _tabController,
-            children: [
-              ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-                itemCount: hotels.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return EditPostItem();
-                },
-              ),
-              ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-                itemCount: vehicles.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return EditTourItem();
-                },
-              ),
-            ]
+        body: BlocBuilder<ManageNewsBloc,ManageNewsState>(
+          builder: (context,state) =>
+          TabBarView(
+              controller: _tabController,
+              children: [
+                manageNewsBloc.lsArticle == null ?
+                  Center(child: Text('No destination for you',
+                    style: GoogleFonts.raleway(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ) :
+                ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+                  itemCount: manageNewsBloc.lsArticle!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return EditPostItem();
+                  },
+                ),
+                ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
+                  itemCount: vehicles.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return EditTourItem();
+                  },
+                ),
+              ]
+          ),
         ),
       ),
     );

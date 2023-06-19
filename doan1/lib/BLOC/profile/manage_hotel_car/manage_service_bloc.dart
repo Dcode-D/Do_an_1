@@ -17,8 +17,6 @@ class ManageServiceBloc extends Bloc<ManageServiceEvent,ManageServiceState>{
   List<Hotel>? listExtraHotel;
   List<Vehicle>? listExtraVehicle;
   ManageServiceBloc() : super(ManageServiceInitial()){
-    listHotel=[];
-    listVehicle=[];
     on<GetDataByOwner>((event,emit) async {
       listHotel = await getListHotelByOwnerId(event.owner,event.page);
       listVehicle = await getListVehicleByOwnerId(event.owner,event.page);

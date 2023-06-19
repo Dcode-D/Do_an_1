@@ -4,8 +4,8 @@ part of 'edit_hotel_item_bloc.dart';
 abstract class EditHotelItemEvent {}
 
 class GetHotelItemEvent extends EditHotelItemEvent {
-  final String hotelId;
-  GetHotelItemEvent(this.hotelId);
+  final Hotel hotel;
+  GetHotelItemEvent(this.hotel);
 }
 
 class DeleteHotelItemEvent extends EditHotelItemEvent {

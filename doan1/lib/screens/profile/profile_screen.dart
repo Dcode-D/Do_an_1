@@ -1,5 +1,6 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
+import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/article/article_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/create_car_service_screen.dart';
@@ -260,7 +261,15 @@ class ProfileScreen extends StatelessWidget {
                             children:[
                               InkWell(
                                 onTap: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManagePostAndTourScreen()));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                  MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider.value(value: profileBloc),
+                                      BlocProvider<ManageNewsBloc>(
+                                        create:(_) => ManageNewsBloc()..add(GetNews(userID: profileBloc.user!.id)),
+                                      ),
+                                    ],
+                                      child: ManagePostAndTourScreen())));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

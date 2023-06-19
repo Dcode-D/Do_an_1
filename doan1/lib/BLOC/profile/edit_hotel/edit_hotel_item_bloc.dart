@@ -18,13 +18,14 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
   EditHotelItemBloc() : super(EditHotelItemInitial()){
     images = [];
     on<GetHotelItemEvent>((event,emit) async {
-      if(event.hotelId == null){
+      if(event.hotel == null){
         emit(EditHotelItemLoaded(false));
         return;
       }
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
       emit(EditHotelItemLoaded(false));
-      hotel = await getHotelById(event.hotelId);
+      // hotel = await getHotelById(event.hotelId);
+      hotel = event.hotel;
       for (var item in hotel!.images!){
         images!.add('$baseUrl/files/$item');
       }

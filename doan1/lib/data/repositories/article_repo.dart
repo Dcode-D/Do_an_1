@@ -66,4 +66,17 @@ class ArticleRepo {
       }
     });
   }
+
+  Future<List<String>?> getListIdArticleFromUser(int page, String publishBy) async {
+    return _appService
+        .getListIdArticleFromUser(page, publishBy)
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toListIdArticle();
+      }
+    });
+  }
 }
