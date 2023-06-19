@@ -24,30 +24,34 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
   final ScrollController _scrollController = ScrollController();
   final ScrollController _HotelScrollController = ScrollController();
   final ScrollController _VehicleScrollController = ScrollController();
+  late ProfileBloc profileBloc;
+  late ManageServiceBloc manageServiceBloc;
+  @override
+  initState() {
+    super.initState();
+    profileBloc = context.read<ProfileBloc>();
+    manageServiceBloc = context.read<ManageServiceBloc>();
+    _HotelScrollController.addListener(() {
+      if (_HotelScrollController.position.pixels ==
+          _HotelScrollController.position.maxScrollExtent) {
+        hotelPage++;
+        manageServiceBloc.add(LoadMoreHotelData(profileBloc.user!.id,hotelPage));
+      }
+    });
+
+    _VehicleScrollController.addListener(() {
+      if (_VehicleScrollController.position.pixels ==
+          _VehicleScrollController.position.maxScrollExtent) {
+        vehiclePage++;
+        manageServiceBloc.add(LoadMoreVehicleData(profileBloc.user!.id,vehiclePage));
+      }
+    });
+  }
   int hotelPage = 1;
   int vehiclePage = 1;
   late final TabController _tabController = TabController(length: 2, vsync: this);
   @override
   Widget build(BuildContext context) {
-    var profileBloc = context.read<ProfileBloc>();
-    var manageServiceBloc = context.read<ManageServiceBloc>();
-
-      _HotelScrollController.addListener(() {
-        if (_HotelScrollController.position.pixels ==
-            _HotelScrollController.position.maxScrollExtent) {
-          hotelPage++;
-          manageServiceBloc.add(LoadMoreHotelData(profileBloc.user!.id,hotelPage));
-        }
-      });
-
-      _VehicleScrollController.addListener(() {
-        if (_VehicleScrollController.position.pixels ==
-            _VehicleScrollController.position.maxScrollExtent) {
-          vehiclePage++;
-          manageServiceBloc.add(LoadMoreVehicleData(profileBloc.user!.id,vehiclePage));
-        }
-      });
-
     return Builder(builder: (context)
       => BlocListener<ManageServiceBloc,ManageServiceState>(
         listenWhen: (previous, current) {
@@ -62,6 +66,10 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                   const SnackBar(
                     backgroundColor: Colors.red,
                       content: Text('Get data failed')));
+            }
+            else{
+              hotelPage = 1;
+              vehiclePage = 1;
             }
           }
           if (state is LoadMoreHotelDataState) {

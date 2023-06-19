@@ -19,7 +19,7 @@ class EditHotelItem extends StatelessWidget{
     var manageServiceBloc = context.read<ManageServiceBloc>();
     deleteHotel()=>{
       editHotelBloc.add(DeleteHotelItemEvent(editHotelBloc.hotel!.id!)),
-      manageServiceBloc.add(GetDataByOwner(profileBloc.user!.id,2)),
+      manageServiceBloc.add(GetDataByOwner(profileBloc.user!.id,1)),
       Navigator.pop(context)
     };
     return BlocBuilder<EditHotelItemBloc,EditHotelItemState>(

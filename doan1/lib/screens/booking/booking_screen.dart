@@ -24,7 +24,31 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
+  final hotelBookingController = ScrollController();
+  final vehicleBookingController = ScrollController();
   late final TabController _tabController = TabController(length: 2, vsync: this);
+  int hotelPage = 1;
+  int vehiclePage = 1;
+  @override
+  void initState() {
+    super.initState();
+    hotelBookingController.addListener(() {
+      if (hotelBookingController.position.pixels ==
+          hotelBookingController.position.maxScrollExtent) {
+        hotelPage++;
+
+      }
+    });
+
+    vehicleBookingController.addListener(() {
+      if (vehicleBookingController.position.pixels ==
+          vehicleBookingController.position.maxScrollExtent) {
+        vehiclePage++;
+
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ProfileBloc profileBloc = context.read<ProfileBloc>();
@@ -113,44 +137,56 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
     body: TabBarView(
       controller: _tabController,
       children: [
-        BlocBuilder<BookHistoryBloc,BookHistoryState>(
-          buildWhen: (previous, current) =>
-          current is BookHistoryInitial,
-          builder:(context,state) =>
-          state is BookHistoryInitial ?
-          state.isBookingHistoryLoaded == false || bookHistoryBloc.lsHotelBooking!.isEmpty ?
-          Center(
-            child:
-            Text('No hotel booking history',
-              style: GoogleFonts.raleway(
-                fontSize: 20,
-                color: Colors.black.withOpacity(0.5),
-                fontWeight: FontWeight.w600
-                ),
-              )
-            ,):
-          ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-            itemCount: bookHistoryBloc.lsHotelBooking!.length,
-            itemBuilder: (BuildContext context, int index) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider<ProfileBloc>.value(
-                    value: profileBloc),
-                  BlocProvider<HotelBookingItemBloc>(
-                    create: (context) => HotelBookingItemBloc()..add(
-                        HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index],index: index)),
+        BlocListener<BookHistoryBloc,BookHistoryState>(
+          listenWhen: (previous, current) => current is BookHistoryInitial,
+          listener: (context, state) {
+            if (state is BookHistoryInitial) {
+              if (state.isBookingHistoryLoaded == true) {
+                hotelPage = 1;
+                vehiclePage = 1;
+              }
+            }
+          },
+          child: BlocBuilder<BookHistoryBloc,BookHistoryState>(
+            buildWhen: (previous, current) =>
+            current is BookHistoryInitial,
+            builder:(context,state) =>
+            state is BookHistoryInitial ?
+            state.isBookingHistoryLoaded == false || bookHistoryBloc.lsHotelBooking!.isEmpty ?
+            Center(
+              child:
+              Text('No hotel booking history',
+                style: GoogleFonts.raleway(
+                  fontSize: 20,
+                  color: Colors.black.withOpacity(0.5),
+                  fontWeight: FontWeight.w600
                   ),
-                  BlocProvider<BookHistoryBloc>.value(
-                    value: bookHistoryBloc),
-                ],
-                  child: HotelBookingItem());
-            },
-          ) :
-          const Center(
-            child: CircularProgressIndicator(),
-          )
+                )
+              ,):
+            ListView.builder(
+              controller: hotelBookingController,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+              itemCount: bookHistoryBloc.lsHotelBooking!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return MultiBlocProvider(
+                  providers: [
+                    BlocProvider<ProfileBloc>.value(
+                      value: profileBloc),
+                    BlocProvider<HotelBookingItemBloc>(
+                      create: (context) => HotelBookingItemBloc()..add(
+                          HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index],index: index)),
+                    ),
+                    BlocProvider<BookHistoryBloc>.value(
+                      value: bookHistoryBloc),
+                  ],
+                    child: HotelBookingItem());
+              },
+            ) :
+            const Center(
+              child: CircularProgressIndicator(),
+            )
+          ),
         ),
 
         BlocBuilder<BookHistoryBloc,BookHistoryState>(
@@ -170,6 +206,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
             )
           ) :
         ListView.builder(
+          controller: vehicleBookingController,
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
           itemCount: bookHistoryBloc.lsVehicleBooking!.length,
