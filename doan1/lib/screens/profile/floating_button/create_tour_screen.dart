@@ -244,8 +244,9 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                                             BlocProvider<CreateTourBloc>.value(
                                               value: createTourBloc,
                                             ),
-                                            BlocProvider<ArticleBloc>.value(
-                                              value: articleBloc,
+                                            BlocProvider<ArticleBloc>(
+                                              create: (context) =>
+                                                  ArticleBloc()..add(GetArticleData()),
                                             ),
                                           ], child: AddPlanDialog());
                                         });

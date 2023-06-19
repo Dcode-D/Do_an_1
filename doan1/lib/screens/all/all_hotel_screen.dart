@@ -97,7 +97,5 @@ class AllHotelScreen extends StatelessWidget{
         ),
       ),
     );
-
   }
-
 }

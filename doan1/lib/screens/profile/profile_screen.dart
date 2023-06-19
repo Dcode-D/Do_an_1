@@ -32,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
     };
 
     ProfileBloc profileBloc = context.read<ProfileBloc>();
-    ArticleBloc articleBloc = context.read<ArticleBloc>();
+    ArticleBloc articleBloc = ArticleBloc();
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
