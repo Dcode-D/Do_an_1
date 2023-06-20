@@ -69,4 +69,20 @@ const getUserFavoriteId = async (req, res) => {
     }
 }
 
-module.exports = {createFavorite, deleteFavorite, getFavorite, getUserFavoriteId};
+const getIsFavorite = async (req, res) => {
+    try{
+        const type = req.params.type;
+        const user = req.user._id;
+        const service = req.params.service;
+        const favorite = await Favorite.find({user: user, type: type, service: service});
+        if(favorite.length === 0)
+            return res.status(200).json({status: "success", message: "Favorite not found", data: false});
+        return res.status(200).json({status: "success", message: "Favorite found", data: true});
+    }
+    catch (e) {
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+module.exports = {createFavorite, deleteFavorite, getFavorite, getUserFavoriteId, getIsFavorite};
