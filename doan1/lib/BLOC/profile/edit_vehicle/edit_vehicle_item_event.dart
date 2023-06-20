@@ -5,7 +5,8 @@ abstract class EditVehicleItemEvent {}
 
 class GetVehicleItemEvent extends EditVehicleItemEvent {
   final String vehicleId;
-  GetVehicleItemEvent(this.vehicleId);
+  int index;
+  GetVehicleItemEvent({required this.vehicleId,required this.index});
 }
 
 class VehicleItemDeleteEvent extends EditVehicleItemEvent {

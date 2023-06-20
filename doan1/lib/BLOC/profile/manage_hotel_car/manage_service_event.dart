@@ -20,3 +20,13 @@ class LoadMoreHotelData extends ManageServiceEvent{
   final int page;
   LoadMoreHotelData(this.owner,this.page);
 }
+
+class DeleteVehicleItem extends ManageServiceEvent{
+  final int index;
+  DeleteVehicleItem(this.index);
+}
+
+class DeleteHotelItem extends ManageServiceEvent{
+  final int index;
+  DeleteHotelItem(this.index);
+}

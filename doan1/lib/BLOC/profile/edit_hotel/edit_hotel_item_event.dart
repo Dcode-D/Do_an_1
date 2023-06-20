@@ -5,7 +5,8 @@ abstract class EditHotelItemEvent {}
 
 class GetHotelItemEvent extends EditHotelItemEvent {
   final Hotel hotel;
-  GetHotelItemEvent(this.hotel);
+  final int index;
+  GetHotelItemEvent({required this.hotel,required this.index});
 }
 
 class DeleteHotelItemEvent extends EditHotelItemEvent {

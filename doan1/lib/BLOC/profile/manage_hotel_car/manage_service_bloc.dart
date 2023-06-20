@@ -53,6 +53,23 @@ class ManageServiceBloc extends Bloc<ManageServiceEvent,ManageServiceState>{
       }
       emit(LoadMoreHotelDataState(true));
     });
+    on<DeleteVehicleItem>((event,emit) async {
+      if(listVehicle == null){
+        emit(DeleteVehicleItemState(false));
+        return;
+      }
+      listVehicle!.removeAt(event.index);
+      emit(DeleteVehicleItemState(true));
+    });
+
+    on<DeleteHotelItem>((event,emit) async {
+      if(listHotel == null){
+        emit(DeleteHotelItemState(false));
+        return;
+      }
+      listHotel!.removeAt(event.index);
+      emit(DeleteHotelItemState(true));
+    });
   }
   Future<List<Hotel>?> getListHotelByOwnerId(String owner, int page) async {
     var hotelRepo = GetIt.instance.get<HotelRepo>();

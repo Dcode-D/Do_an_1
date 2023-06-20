@@ -16,7 +16,7 @@ class LogOutDialog extends Dialog{
       elevation: 0,
       backgroundColor: Colors.transparent,
       content: Container(
-        height: 250,
+        height:260,
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -34,7 +34,7 @@ class LogOutDialog extends Dialog{
                   color: Colors.black,
                 )
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

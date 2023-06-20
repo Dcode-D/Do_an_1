@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
 
 class EditVehicleItem extends StatelessWidget{
   final formatCurrency = NumberFormat("#,###");
@@ -16,10 +15,9 @@ class EditVehicleItem extends StatelessWidget{
   Widget build(BuildContext context) {
     var editVehicleBloc = context.read<EditVehicleItemBloc>();
     var manageServiceBloc = context.read<ManageServiceBloc>();
-    var profileBloc = context.read<ProfileBloc>();
     deleteVehicle()=>{
       editVehicleBloc.add(VehicleItemDeleteEvent(editVehicleBloc.vehicle!.id!)),
-      manageServiceBloc.add(GetDataByOwner(profileBloc.user!.id,1)),
+      manageServiceBloc.add(DeleteVehicleItem(editVehicleBloc.index!)),
       Navigator.pop(context)
     };
 

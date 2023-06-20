@@ -12,15 +12,16 @@ part 'edit_vehicle_item_state.dart';
 class EditVehicleItemBloc extends Bloc<EditVehicleItemEvent,EditVehicleItemState>{
   Vehicle? vehicle;
   List<String>? images;
+  int? index;
   EditVehicleItemBloc() : super(EditVehicleItemInitial()){
-    images = [];
     on<GetVehicleItemEvent>((event,emit) async {
+      images = [];
       if(event.vehicleId == null){
         emit(EditVehicleItemLoaded(false));
         return;
       }
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
-      emit(EditVehicleItemLoaded(false));
+      index = event.index;
       vehicle = await getVehicleById(event.vehicleId);
       for (var item in vehicle!.images!){
         images!.add('$baseUrl/files/$item');

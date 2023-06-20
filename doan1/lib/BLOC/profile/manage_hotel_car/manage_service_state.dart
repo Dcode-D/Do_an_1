@@ -20,3 +20,13 @@ class LoadMoreHotelDataState extends ManageServiceState{
   bool? getDataSuccess;
   LoadMoreHotelDataState(this.getDataSuccess);
 }
+
+class DeleteVehicleItemState extends ManageServiceState{
+  bool? isDeleted;
+  DeleteVehicleItemState(this.isDeleted);
+}
+
+class DeleteHotelItemState extends ManageServiceState{
+  bool? isDeleted;
+  DeleteHotelItemState(this.isDeleted);
+}

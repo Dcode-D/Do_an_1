@@ -170,7 +170,7 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                             BlocProvider.value(value: profileBloc),
                           ],
                           child: BlocProvider<EditHotelItemBloc>(
-                              create: (context) => EditHotelItemBloc()..add(GetHotelItemEvent(hotel)),
+                              create: (context) => EditHotelItemBloc()..add(GetHotelItemEvent(hotel: hotel, index: index)),
                               child: EditHotelItem()),
                         );
                       },
@@ -192,7 +192,7 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                             BlocProvider.value(value: profileBloc),
                           ],
                             child: BlocProvider<EditVehicleItemBloc>(
-                                create: (context) => EditVehicleItemBloc()..add(GetVehicleItemEvent(vehicle)),
+                                create: (context) => EditVehicleItemBloc()..add(GetVehicleItemEvent(vehicleId: vehicle, index: index)),
                                 child: EditVehicleItem()));
                       },
                     ):

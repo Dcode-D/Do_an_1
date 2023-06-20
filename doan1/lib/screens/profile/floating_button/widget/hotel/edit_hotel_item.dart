@@ -8,18 +8,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
-import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
 
 class EditHotelItem extends StatelessWidget{
   final formatCurrency = NumberFormat("#,###");
   @override
   Widget build(BuildContext context) {
     var editHotelBloc = context.read<EditHotelItemBloc>();
-    var profileBloc = context.read<ProfileBloc>();
     var manageServiceBloc = context.read<ManageServiceBloc>();
     deleteHotel()=>{
       editHotelBloc.add(DeleteHotelItemEvent(editHotelBloc.hotel!.id!)),
-      manageServiceBloc.add(GetDataByOwner(profileBloc.user!.id,1)),
+      manageServiceBloc.add(DeleteHotelItem(editHotelBloc.index!)),
       Navigator.pop(context)
     };
     return BlocBuilder<EditHotelItemBloc,EditHotelItemState>(

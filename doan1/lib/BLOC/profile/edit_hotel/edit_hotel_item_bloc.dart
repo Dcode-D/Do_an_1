@@ -15,9 +15,10 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
   Hotel? hotel;
   List<String>? images;
   List<HotelRoom>? listHotelRoom;
+  int? index;
   EditHotelItemBloc() : super(EditHotelItemInitial()){
-    images = [];
     on<GetHotelItemEvent>((event,emit) async {
+      images = [];
       if(event.hotel == null){
         emit(EditHotelItemLoaded(false));
         return;
@@ -26,6 +27,7 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
       emit(EditHotelItemLoaded(false));
       // hotel = await getHotelById(event.hotelId);
       hotel = event.hotel;
+      index = event.index;
       for (var item in hotel!.images!){
         images!.add('$baseUrl/files/$item');
       }
