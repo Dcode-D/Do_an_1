@@ -66,3 +66,11 @@ extension VehicleDetailExtension on BaseResponse{
     return Vehicle.fromJson(this.data!);
   }
 }
+
+extension VehiclePageExtension on BaseResponse{
+  int? toInt(){
+    if(this.data == null)
+      return null;
+    return this.data as int;
+  }
+}

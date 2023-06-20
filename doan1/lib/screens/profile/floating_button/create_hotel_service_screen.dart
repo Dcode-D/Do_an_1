@@ -1,13 +1,11 @@
 import 'package:doan1/BLOC/services_create/hotel/hotel_creation_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/create_hotel_room_screen.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../BLOC/components/places_bloc.dart';
-import '../../../models/destination_model.dart';
+import '../../../BLOC/components/places/places_bloc.dart';
 import '../../../widgets/dialog/add_avatar_image_dialog.dart';
 
 class CreateHotelServiceScreen extends StatefulWidget {
@@ -26,7 +24,6 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
   var provinceName = '';
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
-  final priceController = TextEditingController();
   final addressController = TextEditingController();
   final facilitiesController = TextEditingController();
 
@@ -288,11 +285,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                                                 int index) {
                                                           return Stack(
                                                             children: [
-                                                              Image.file(
-                                                                context
-                                                                    .read<
-                                                                        HotelCreationBloc>()
-                                                                    .listImages[index],
+                                                              Image.file(context.read<HotelCreationBloc>().listImages[index],
                                                                 fit: BoxFit.cover,
                                                               ),
                                                               Positioned(
@@ -300,12 +293,8 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                                                 right: 0,
                                                                 child: IconButton(
                                                                   onPressed: () {
-                                                                    context
-                                                                        .read<
-                                                                            HotelCreationBloc>()
-                                                                        .add(
-                                                                            HotelCreationRemoveImgEvent(
-                                                                                index));
+                                                                    context.read<HotelCreationBloc>().
+                                                                    add(HotelCreationRemoveImgEvent(index));
                                                                   },
                                                                   icon: const Icon(
                                                                     Icons.cancel,
@@ -321,41 +310,6 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        'Price',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 1.2,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      TextFormField(
-                                        controller: priceController,
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          prefixIcon: const Icon(
-                                            FontAwesomeIcons.dollarSign,
-                                            color: Colors.black45,
-                                          ),
-                                          hintText: 'Enter hotel price/night',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(5),
-                                          ),
-                                        ),
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please enter hotel price';
-                                          }
-                                          return null;
-                                        },
                                       ),
                                       const SizedBox(
                                         height: 10,
@@ -394,6 +348,45 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                       const SizedBox(
                                         height: 10,
                                       ),
+                                      Text(
+                                        'Facilities',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      TextFormField(
+                                        controller: facilitiesController,
+                                        decoration: InputDecoration(
+                                          hintText: 'Enter hotel facilities',
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                        ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter hotel facilities';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      Text(
+                                          'Each facility must be separated by a comma (,)',
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                            fontStyle: FontStyle.italic,
+                                            letterSpacing: 1.2,
+                                            color: Colors.orange,
+                                          )),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
                                       BlocProvider<PlacesBloc>(
                                         create: (context) =>
                                             PlacesBloc()..add(GetProvinceEvent()),
@@ -414,8 +407,8 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                                         Text(
                                                           'Province',
                                                           style: GoogleFonts.raleway(
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.w700,
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.w400,
                                                             letterSpacing: 1.2,
                                                             color: Colors.black,
                                                           ),
@@ -497,8 +490,8 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                                         Text(
                                                           'District',
                                                           style: GoogleFonts.raleway(
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.w700,
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.w400,
                                                             letterSpacing: 1.2,
                                                             color: Colors.black,
                                                           ),
@@ -564,8 +557,8 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                                         Text(
                                                           'District',
                                                           style: GoogleFonts.raleway(
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.w700,
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.w400,
                                                             letterSpacing: 1.2,
                                                             color: Colors.black,
                                                           ),
@@ -597,50 +590,6 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                                     );
                                             }),
                                           ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        'Facilities',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 1.2,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      TextFormField(
-                                        controller: facilitiesController,
-                                        decoration: InputDecoration(
-                                          prefixIcon: const Icon(
-                                            FontAwesomeIcons.hotel,
-                                            color: Colors.black45,
-                                          ),
-                                          hintText: 'Enter hotel facilities',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(5),
-                                          ),
-                                        ),
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please enter hotel facilities';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      Text(
-                                        'Each facility should be separated by a comma',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                          fontStyle: FontStyle.italic,
-                                          letterSpacing: 1.2,
-                                          color: Colors.orange,
                                         ),
                                       ),
                                       const SizedBox(

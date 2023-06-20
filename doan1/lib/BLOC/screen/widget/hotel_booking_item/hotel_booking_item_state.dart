@@ -18,3 +18,8 @@ class HotelBookingItemDeleteSuccess extends HotelBookingItemState {
   HotelBookingItemDeleteSuccess({required this.deleteSuccess});
 }
 
+class HotelBookingItemApproveSuccess extends HotelBookingItemState {
+  bool approveSuccess = false;
+  HotelBookingItemApproveSuccess({required this.approveSuccess});
+}
+

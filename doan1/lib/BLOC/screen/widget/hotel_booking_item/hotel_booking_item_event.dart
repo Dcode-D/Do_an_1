@@ -12,3 +12,5 @@ class HotelBookingItemInitialEvent extends HotelBookingItemEvent {
 class HotelBookingItemRejectEvent extends HotelBookingItemEvent {}
 
 class HotelBookingItemDeleteEvent extends HotelBookingItemEvent {}
+
+class HotelBookingItemApproveEvent extends HotelBookingItemEvent {}

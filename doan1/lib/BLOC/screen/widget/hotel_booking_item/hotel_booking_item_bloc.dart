@@ -6,8 +6,10 @@ import 'package:bloc/bloc.dart';
 import '../../../../data/model/datebooking.dart';
 import '../../../../data/model/hotel.dart';
 import '../../../../data/model/hotelroom.dart';
+import '../../../../data/model/user.dart';
 import '../../../../data/repositories/datebooking_repo.dart';
 import '../../../../data/repositories/hotelroom_repo.dart';
+import '../../../../data/repositories/user_repo.dart';
 
 part 'hotel_booking_item_event.dart';
 part 'hotel_booking_item_state.dart';
@@ -16,10 +18,12 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
   DateBooking? dateBooking;
   List<HotelRoom>? lsHotelRoom;
   Hotel? hotel;
+  User? user;
   int? index;
   HotelBookingItemBloc() : super(HotelBookingItemInitial(getDataSuccess: false)) {
     on<HotelBookingItemInitialEvent>((event,emit) async {
       lsHotelRoom = [];
+      user = await getUserFunc(event.dateBooking!.user!);
       index = event.index;
       dateBooking = event.dateBooking;
       for (String room in event.dateBooking!.attachedServices!) {
@@ -28,7 +32,6 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
       hotel = await getHotelFunc(lsHotelRoom![0].hotel!);
       if(hotel != null && lsHotelRoom != null){
         emit(HotelBookingItemInitial(getDataSuccess: true));
-        emit(HotelBookingItemRejectSuccess(rejectSuccess: false));
       }
       else{
         emit(HotelBookingItemInitial(getDataSuccess: false));
@@ -50,6 +53,15 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
       }
       else{
         emit(HotelBookingItemDeleteSuccess(deleteSuccess: false));
+      }
+    });
+    on<HotelBookingItemApproveEvent>((event,emit)async{
+      bool? approveSuccess = await approveDateBookingFunc(dateBooking!.id!);
+      if(approveSuccess == true){
+        emit(HotelBookingItemApproveSuccess(approveSuccess: true));
+      }
+      else{
+        emit(HotelBookingItemApproveSuccess(approveSuccess: false));
       }
     });
   }
@@ -83,5 +95,13 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
 
   Future<bool?> deleteDateBookingFunc(String dateBookingId) async{
     return GetIt.instance<DateBookingRepo>().DeleteBookingDate(dateBookingId);
+  }
+
+  Future<bool?> approveDateBookingFunc(String dateBookingId) async{
+    return GetIt.instance<DateBookingRepo>().ApproveBookingDate(dateBookingId);
+  }
+
+  Future<User?> getUserFunc(String userId) async{
+    return GetIt.instance<UserRepo>().getUserById(userId);
   }
 }

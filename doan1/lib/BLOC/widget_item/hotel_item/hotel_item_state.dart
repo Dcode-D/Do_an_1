@@ -1,6 +1,16 @@
 part of 'hotel_item_bloc.dart';
 
-class HotelItemState{
+@immutable
+abstract class HotelItemState{}
+
+class InitialHotelItemState extends HotelItemState{}
+
+class HotelItemGetState extends HotelItemState{
   bool getHotelItemSuccess;
-  HotelItemState({required this.getHotelItemSuccess});
+  HotelItemGetState({required this.getHotelItemSuccess});
+}
+
+class HotelItemGetRoomState extends HotelItemState{
+  bool getHotelRoomSuccess;
+  HotelItemGetRoomState({required this.getHotelRoomSuccess});
 }

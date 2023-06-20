@@ -7,3 +7,5 @@ class GetHotelItemEvent extends HotelItemEvent {
   Hotel? hotel;
   GetHotelItemEvent({required this.hotel});
 }
+
+class GetHotelRoomEvent extends HotelItemEvent {}

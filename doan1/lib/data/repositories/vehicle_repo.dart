@@ -107,4 +107,15 @@ class VehicleRepo{
       }
     });
   }
+
+  Future<int?> GetMaxPageOfVehicle() async{
+    return _appService.GetMaxPageOfCar().then((http) async{
+      if(http.response.statusCode != 200){
+        return null;
+      }
+      else{
+        return http.data.toInt();
+      }
+    });
+  }
 }

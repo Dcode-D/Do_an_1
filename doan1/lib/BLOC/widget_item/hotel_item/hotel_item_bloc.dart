@@ -14,25 +14,37 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   Hotel? hotel;
   List<String>? listImage;
   List<HotelRoom>? listHotelRoom;
-  HotelItemBloc() : super(HotelItemState(getHotelItemSuccess: false)){
+  HotelItemBloc() : super(InitialHotelItemState()){
     listImage = [];
     on<GetHotelItemEvent>((event,emit)async{
       if(event.hotel == null){
-        emit(HotelItemState(getHotelItemSuccess: false));
+        emit(HotelItemGetState(getHotelItemSuccess: false));
         return;
       }
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
-      emit(HotelItemState(getHotelItemSuccess: false));
       hotel = event.hotel;
       for (var item in hotel!.images!){
         listImage!.add('$baseUrl/files/${item}');
       }
-      listHotelRoom = await getListHotelRoomFunc(hotel!.id!);
-      if(hotel != null && listImage != null && listHotelRoom != null){
-        emit(HotelItemState(getHotelItemSuccess: true));
+      if(hotel != null && listImage != null){
+        emit(HotelItemGetState(getHotelItemSuccess: true));
       }
       else{
-        emit(HotelItemState(getHotelItemSuccess: false));
+        emit(HotelItemGetState(getHotelItemSuccess: false));
+      }
+    });
+    on<GetHotelRoomEvent>((event,emit) async {
+      listHotelRoom = [];
+      if(hotel == null){
+        emit(HotelItemGetRoomState(getHotelRoomSuccess: false));
+        return;
+      }
+      listHotelRoom = await getListHotelRoomFunc(hotel!.id!);
+      if(listHotelRoom != null){
+        emit(HotelItemGetRoomState(getHotelRoomSuccess: true));
+      }
+      else{
+        emit(HotelItemGetRoomState(getHotelRoomSuccess: false));
       }
     });
   }

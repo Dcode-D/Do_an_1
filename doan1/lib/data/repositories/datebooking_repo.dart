@@ -60,4 +60,27 @@ class DateBookingRepo{
         idDateBooking: dateBookingId);
     return response.response.statusCode == 200;
   }
+
+  Future<bool?> ApproveBookingDate(String dateBookingId) async{
+    final response = await _appService.approveDateBooking(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        idDateBooking: dateBookingId);
+    return response.response.statusCode == 200;
+  }
+
+  Future<List<DateBooking>?> GetHotelBookingByHotelId(String hotelId) async{
+    final response = await _appService.getHotelDateBookingList(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        idHotel: hotelId);
+    return response.response.statusCode == 200 ?
+    response.data.toListDateBooking() : null;
+  }
+
+  Future<List<DateBooking>?> GetVehicleBookingByVehicleId(String vehicleId) async{
+    final response = await _appService.getCarDateBookingList(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        idCar: vehicleId);
+    return response.response.statusCode == 200 ?
+    response.data.toListDateBooking() : null;
+  }
 }

@@ -3,6 +3,7 @@ import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/article/article_bloc.dart';
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/create_car_service_screen.dart';
 import 'package:doan1/screens/profile/floating_button/create_post_screen.dart';
 import 'package:doan1/screens/profile/floating_button/create_hotel_service_screen.dart';
@@ -18,6 +19,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/news_create/create_tour/create_tour_bloc.dart';
+import '../../BLOC/profile/booker/booker_bloc.dart';
 import '../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
 import 'check_booking/check_booking_screen.dart';
 import 'edit_profile_screen.dart';
@@ -33,7 +35,8 @@ class ProfileScreen extends StatelessWidget {
     };
 
     ProfileBloc profileBloc = context.read<ProfileBloc>();
-    ArticleBloc articleBloc = ArticleBloc();
+    ArticleBloc articleBloc = context.read<ArticleBloc>();
+    BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
@@ -118,7 +121,16 @@ class ProfileScreen extends StatelessWidget {
                 child: const Icon(FontAwesomeIcons.checkCircle),
                 backgroundColor: Colors.orange,
                 onTap: ()
-                => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CheckBookingScreen())),
+                => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(value: profileBloc),
+                        BlocProvider.value(value: bookHistoryBloc),
+                        BlocProvider<BookerBloc>(
+                            create: (_) => BookerBloc()..add(GetBookerEvent(ownerId: profileBloc.user!.id,page: 1))
+                        )
+                      ],
+                        child: CheckBookingScreen()))),
                 label: 'Check booking',
                 labelStyle: const TextStyle(
                     color: Colors.white,

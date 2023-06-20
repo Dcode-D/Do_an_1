@@ -61,3 +61,11 @@ extension HotelDetailExtension on BaseResponse{
   }
 }
 
+extension HotelPageExtension on BaseResponse{
+  int? toInt(){
+    if(this.data == null)
+      return null;
+    return this.data as int;
+  }
+}
+
