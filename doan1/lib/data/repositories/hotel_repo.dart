@@ -75,7 +75,7 @@ class HotelRepo{
       String address,
       String province,
       String district,
-      List<Map<String, dynamic>> facilities,
+      List<String> facilities,
       List<File> files) async{
     return _appService
         .createHotel(
@@ -96,6 +96,45 @@ class HotelRepo{
         token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
         id: id)
         .then((http) async{
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool?> DeleteHotelImage(String hotel, String imageId) async{
+    return _appService.deleteHotelImage(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        hotel: hotel, request: _requestFactory.deleteHotelImage(imageId))
+        .then((http) async {
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool> UploadHotelImage(String hotel, File file){
+    return _appService.uploadHotelImage(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        hotel: hotel, file: file)
+        .then((http) async {
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool> UpdateHotelInfo(Hotel hotel2Update){
+    return _appService.updateHotel(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        hotel: hotel2Update.id as String, request: hotel2Update.toJson())
+        .then((http) async {
       if(http.response.statusCode != 200){
         return false;
       }

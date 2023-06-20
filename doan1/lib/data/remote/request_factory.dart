@@ -75,4 +75,10 @@ class RequestFactory {
       "maxGroupSize": maxGroupSize
     };
   }
+
+  deleteHotelImage(String imageId){
+    return {
+      "imageId": imageId,
+    };
+  }
 }
