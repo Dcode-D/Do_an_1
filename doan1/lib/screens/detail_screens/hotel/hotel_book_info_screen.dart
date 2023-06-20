@@ -379,12 +379,13 @@ class HotelBookingInfoScreen extends StatelessWidget{
                                 MaterialLocalizations.of(context).modalBarrierDismissLabel,
                                 barrierColor: Colors.black54,
                                   pageBuilder: (context, anim1, anim2) =>
-                                      BlocProvider<HotelBookingBloc>.value(
-                                        value: hotelBookingBloc,
-                                        child: RoomSettingDialog(
-                                            hotelRoom: hotelItemBloc.listHotelRoom,
-                                        ),
-                                      ),
+                                        MultiBlocProvider(
+                                          providers: [
+                                              BlocProvider.value(value: hotelItemBloc..add(GetHotelRoomEvent())),
+                                              BlocProvider.value(value: hotelBookingBloc),
+                                            ],
+                                          child: RoomSettingDialog(),
+                                    ),
                               );
                             },
                             child: Text(

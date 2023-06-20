@@ -156,165 +156,160 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10,),
-                          InkWell(
-                            onTap: (){
-                              //TODO: make navigator to detail vehicle
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.black.withOpacity(0.2),
-                                    width:1),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    offset: Offset(0, 2),
-                                    blurRadius: 6.0,
-                                  ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        vehicleBookingItemBloc.vehicle != null ?
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          child:
-                                          FadeInImage(
-                                            height: 100,
-                                            width: 150,
-                                            imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                              return SizedBox(
-                                                  width: MediaQuery.of(context).size.width * 0.325,
-                                                  height: MediaQuery.of(context).size.height * 0.15,
-                                                  child: const Center(child: Icon(Icons.error)));
-                                            },
-                                            image:
-                                            NetworkImage(vehicleBookingItemBloc.vehicle!=null && vehicleBookingItemBloc.vehicle!.images!.isNotEmpty ?
-                                            '$baseUrl/files/${vehicleBookingItemBloc.vehicle!.images![0]}': ""),
-                                            placeholder: const AssetImage('assets/images/loading.gif'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ):
-                                        const Center(child: CircularProgressIndicator()),
-                                        const SizedBox(width: 10,),
-                                        vehicleBookingItemBloc.vehicle == null ?
-                                        const Text('Loading...') :
-                                        Flexible(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                vehicleBookingItemBloc.vehicle!.brand!,
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w400,
-                                                  letterSpacing: 1.2,
-                                                  color: Colors.black,
-                                                ),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black.withOpacity(0.2),
+                                  width:1),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      vehicleBookingItemBloc.vehicle != null ?
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        child:
+                                        FadeInImage(
+                                          height: 100,
+                                          width: 150,
+                                          imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                            return SizedBox(
+                                                width: MediaQuery.of(context).size.width * 0.325,
+                                                height: MediaQuery.of(context).size.height * 0.15,
+                                                child: const Center(child: Icon(Icons.error)));
+                                          },
+                                          image:
+                                          NetworkImage(vehicleBookingItemBloc.vehicle!=null && vehicleBookingItemBloc.vehicle!.images!.isNotEmpty ?
+                                          '$baseUrl/files/${vehicleBookingItemBloc.vehicle!.images![0]}': ""),
+                                          placeholder: const AssetImage('assets/images/loading.gif'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ):
+                                      const Center(child: CircularProgressIndicator()),
+                                      const SizedBox(width: 10,),
+                                      vehicleBookingItemBloc.vehicle == null ?
+                                      const Text('Loading...') :
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              vehicleBookingItemBloc.vehicle!.brand!,
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 1.2,
+                                                color: Colors.black,
                                               ),
-                                              const SizedBox(height: 5,),
-                                              Text(
-                                                'License Plate: ${vehicleBookingItemBloc.vehicle!.licensePlate!}',
-                                                style:GoogleFonts.raleway(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  letterSpacing: 1.2,
-                                                  color: Colors.black,
-                                                ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text(
+                                              'License Plate: ${vehicleBookingItemBloc.vehicle!.licensePlate!}',
+                                              style:GoogleFonts.raleway(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 1.2,
+                                                color: Colors.black,
                                               ),
-                                              const SizedBox(height: 5,),
-                                              Text(
-                                                'Color: ${vehicleBookingItemBloc.vehicle!.color!}',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  letterSpacing: 1.2,
-                                                  color: Colors.black,
-                                                ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text(
+                                              'Color: ${vehicleBookingItemBloc.vehicle!.color!}',
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 1.2,
+                                                color: Colors.black,
                                               ),
-                                              const SizedBox(height: 5,),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Seats: ${vehicleBookingItemBloc.vehicle!.seats!}',
-                                                    style: GoogleFonts.raleway(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w400,
-                                                      letterSpacing: 1.2,
-                                                      color: Colors.black,
-                                                    ),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Seats: ${vehicleBookingItemBloc.vehicle!.seats!}',
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    letterSpacing: 1.2,
+                                                    color: Colors.black,
                                                   ),
-                                                  const SizedBox(width: 5,),
-                                                  const Icon(Icons.airline_seat_recline_extra,size: 20,color: Colors.black,)
-                                                ],
-                                              ),
-                                            ],
+                                                ),
+                                                const SizedBox(width: 5,),
+                                                const Icon(Icons.airline_seat_recline_extra,size: 20,color: Colors.black,)
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Container(
+                                    height:1,
+                                    width: double.infinity,
+                                    color: Colors.black.withOpacity(0.2),
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    children: [
+                                      const Icon(FontAwesomeIcons.car, size: 20, color: Colors.black,),
+                                      const SizedBox(width: 15,),
+                                      vehicleBookingItemBloc.owner != null ?
+                                      Flexible(
+                                        child: Text(
+                                          '${vehicleBookingItemBloc.owner!.lastname} ${vehicleBookingItemBloc.owner!.firstname}\n'
+                                              '${vehicleBookingItemBloc.owner!.phonenumber}\n'
+                                              '${vehicleBookingItemBloc.owner!.email}',
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 1.2,
+                                            color: Colors.black,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    Container(
-                                      height:1,
-                                      width: double.infinity,
-                                      color: Colors.black.withOpacity(0.2),
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    Row(
-                                      children: [
-                                        const Icon(FontAwesomeIcons.car, size: 20, color: Colors.black,),
-                                        const SizedBox(width: 15,),
-                                        vehicleBookingItemBloc.owner != null ?
-                                        Flexible(
-                                          child: Text(
-                                            '${vehicleBookingItemBloc.owner!.lastname} ${vehicleBookingItemBloc.owner!.firstname}\n'
-                                                '${vehicleBookingItemBloc.owner!.phonenumber}\n'
-                                                '${vehicleBookingItemBloc.owner!.email}',
-                                            style: GoogleFonts.raleway(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: 1.2,
-                                              color: Colors.black,
-                                            ),
+                                      ) : const Text('Loading...'),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Container(
+                                    height:1,
+                                    width: double.infinity,
+                                    color: Colors.black.withOpacity(0.2),
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    children: [
+                                      const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
+                                      const SizedBox(width: 15,),
+                                      vehicleBookingItemBloc.vehicle != null ?
+                                      Flexible(
+                                        child: Text(
+                                          vehicleBookingItemBloc.vehicle!.address!,
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 1.2,
+                                            color: Colors.black,
                                           ),
-                                        ) : const Text('Loading...'),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    Container(
-                                      height:1,
-                                      width: double.infinity,
-                                      color: Colors.black.withOpacity(0.2),
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    Row(
-                                      children: [
-                                        const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
-                                        const SizedBox(width: 15,),
-                                        vehicleBookingItemBloc.vehicle != null ?
-                                        Flexible(
-                                          child: Text(
-                                            vehicleBookingItemBloc.vehicle!.address!,
-                                            style: GoogleFonts.raleway(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: 1.2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ) : const Text('Loading...'),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                        ),
+                                      ) : const Text('Loading...'),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -657,8 +652,20 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                             color: Colors.black.withOpacity(0.2),
                           ),
                           const SizedBox(height: 20,),
-                          state is VehicleBookingItemRejectSuccess ?
-                          state.rejectSuccess == true || vehicleBookingItemBloc.dateBooking!.suspended == true ?
+                          state is VehicleBookingItemInitial ?
+                          state.getDataSuccess == true ?
+                          vehicleBookingItemBloc.dateBooking!.approved == true ?
+                          Text(
+                            'Your reservation has been approved',
+                            style: GoogleFonts.raleway(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.2,
+                              color: Colors.green,
+                            ),
+                          )
+                              :
+                          vehicleBookingItemBloc.dateBooking!.suspended == true ?
                           Column(
                             children: [
                               Text(
@@ -678,6 +685,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                         title: Text("Are you sure you want to delete your reservation?",
                                           style: GoogleFonts.raleway(
                                             fontSize: 20.0,
+                                            color: Colors.black,
                                             fontWeight: FontWeight.w600,
                                           ),),
                                         actions: [
@@ -688,6 +696,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                             child: Text("No",
                                               style: GoogleFonts.raleway(
                                                 fontSize: 20.0,
+                                                color: Colors.black,
                                                 fontWeight: FontWeight.w600,
                                               ),),
                                           ),
@@ -700,6 +709,153 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                             child: Text("Yes",
                                               style: GoogleFonts.raleway(
                                                 fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                        ],
+                                      ));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.7,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Delete your reservation",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),),
+                                ),
+                              ),
+                            ],
+                          )
+                              :
+                          ElevatedButton(
+                            onPressed: (){
+                              showGeneralDialog(
+                                context: context,
+                                pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                                  return AlertDialog(
+                                    title: Text("Are you sure you want to cancel your reservation?",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 20.0,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("No",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),),
+                                      ),
+                                      TextButton(
+                                        onPressed: (){
+                                          vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                          bookHistoryBloc.add(GetBookingHistory());
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("Yes",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              minimumSize: const Size(double.infinity, 50.0),
+                              elevation: 0.0,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.7,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text("Cancel your reservation",
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20.0,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600,
+                                ),),
+                            ),
+                          )
+                              :
+                          const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
+                            ),
+                          )
+                              :
+                          state is VehicleBookingItemRejectSuccess ?
+                          state.rejectSuccess == true ?
+                          Column(
+                            children: [
+                              Text(
+                                'Your reservation has been canceled',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.2,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              ElevatedButton(
+                                onPressed: (){
+                                  showDialog(context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text("Are you sure you want to delete your reservation?",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: (){
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("No",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                          TextButton(
+                                            onPressed: (){
+                                              vehicleBookingItemBloc.add(VehicleBookingItemDeleteEvent());
+                                              bookHistoryBloc.add(GetBookingHistory());
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Yes",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
                                                 fontWeight: FontWeight.w600,
                                               ),),
                                           ),
@@ -792,69 +948,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                 ),),
                             ),
                           ) :
-                          ElevatedButton(
-                            onPressed: (){
-                              showGeneralDialog(
-                              context: context,
-                              pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                                    return AlertDialog(
-                                      title: Text("Are you sure you want to cancel your reservation?",
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 20.0,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: (){
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text("No",
-                                            style: GoogleFonts.raleway(
-                                              fontSize: 20.0,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                            ),),
-                                        ),
-                                        TextButton(
-                                          onPressed: (){
-                                            vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
-                                            bookHistoryBloc.add(GetBookingHistory());
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text("Yes",
-                                            style: GoogleFonts.raleway(
-                                              fontSize: 20.0,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                            ),),
-                                        ),
-                                      ],
-                                    );
-                                 },
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              minimumSize: const Size(double.infinity, 50.0),
-                              elevation: 0.0,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 0.7,
-                                ),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text("Cancel your reservation",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 20.0,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w600,
-                                ),),
-                            ),
-                          ),
+                          const Center(child: CircularProgressIndicator(),),
                           const SizedBox(height: 20,),
                           ElevatedButton(
                             onPressed: (){

@@ -3,6 +3,7 @@ import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/article/article_bloc.dart';
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/create_car_service_screen.dart';
 import 'package:doan1/screens/profile/floating_button/create_post_screen.dart';
 import 'package:doan1/screens/profile/floating_button/create_hotel_service_screen.dart';
@@ -34,7 +35,8 @@ class ProfileScreen extends StatelessWidget {
     };
 
     ProfileBloc profileBloc = context.read<ProfileBloc>();
-    ArticleBloc articleBloc = ArticleBloc();
+    ArticleBloc articleBloc = context.read<ArticleBloc>();
+    BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
@@ -123,6 +125,7 @@ class ProfileScreen extends StatelessWidget {
                     MultiBlocProvider(
                       providers: [
                         BlocProvider.value(value: profileBloc),
+                        BlocProvider.value(value: bookHistoryBloc),
                         BlocProvider<BookerBloc>(
                             create: (_) => BookerBloc()..add(GetBookerEvent(ownerId: profileBloc.user!.id,page: 1))
                         )

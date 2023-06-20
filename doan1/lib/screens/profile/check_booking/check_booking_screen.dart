@@ -1,3 +1,4 @@
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/screens/profile/check_booking/widget/hotel_check_booking_item.dart';
 import 'package:doan1/screens/profile/check_booking/widget/vehicle_check_booking_item.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../BLOC/profile/booker/booker_bloc.dart';
 import '../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 import '../../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
-import '../../../models/hotel_model.dart';
-import '../../../models/vehicle_model.dart';
 import '../../../widgets/circle_indicator.dart';
 import '../../../widgets/silver_appbar_delegate.dart';
 
@@ -24,10 +23,12 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
   late final TabController _tabController = TabController(length: 2, vsync: this);
 
   late BookerBloc bookerBloc;
+  late BookHistoryBloc bookHistoryBloc;
   @override
   void initState() {
     super.initState();
     bookerBloc = context.read<BookerBloc>();
+    bookHistoryBloc = context.read<BookHistoryBloc>();
   }
 
   @override
@@ -40,6 +41,7 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
             SliverAppBar(
               leading: IconButton(
                 onPressed: () {
+                  bookHistoryBloc.add(GetBookingHistory());
                   Navigator.pop(context);
                 },
                 icon: const Icon(

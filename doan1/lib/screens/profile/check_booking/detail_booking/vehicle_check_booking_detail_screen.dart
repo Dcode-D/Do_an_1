@@ -47,6 +47,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
       child: BlocBuilder<VehicleBookingItemBloc,VehicleBookingItemState>(
         buildWhen: (previous,current) =>
         current is VehicleBookingItemInitial ||
+            current is VehicleBookingItemApproveSuccess ||
             current is VehicleBookingItemRejectSuccess,
         builder:(context,state) => Scaffold(
           appBar: AppBar(
@@ -658,8 +659,345 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                             color: Colors.black.withOpacity(0.2),
                           ),
                           const SizedBox(height: 20,),
+                          state is VehicleBookingItemInitial ?
+                            state.getDataSuccess == true ?
+                              vehicleBookingItemBloc.dateBooking!.suspended! == true ?
+                                Column(
+                            children: [
+                              Text(
+                                'Your reservation has been canceled',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.2,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              ElevatedButton(
+                                onPressed: (){
+                                  showDialog(context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text("Are you sure you want to delete your reservation?",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: (){
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("No",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                          TextButton(
+                                            onPressed: (){
+                                              vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Yes",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                        ],
+                                      ));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.7,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Delete your reservation",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),),
+                                ),
+                              ),
+                            ],
+                          )
+                                  :
+                              vehicleBookingItemBloc.dateBooking!.approved! == true ?
+                                Column(
+                            children: [
+                              Text(
+                                'Your reservation has been approved',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.2,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              ElevatedButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.orange,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.7,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Return",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),),
+                                ),
+                              ),
+                            ],
+                          )
+                                  :
+                                Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    showGeneralDialog(
+                                      context: context,
+                                      pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                                        return AlertDialog(
+                                          title: Text("Are you sure you want to cancel your reservation?",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("No",
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 20.0,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                ),),
+                                            ),
+                                            TextButton(
+                                              onPressed: (){
+                                                vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                                bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("Yes",
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 20.0,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                ),),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.grey,
+                                    minimumSize: const Size(double.infinity, 50.0),
+                                    elevation: 0.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text("Reject",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 20,),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    vehicleBookingItemBloc.add(VehicleBookingItemApproveEvent());
+                                    bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.orange,
+                                    minimumSize: const Size(double.infinity, 50.0),
+                                    elevation: 0.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text("Approve",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),),
+                                  ),
+                                ),
+                              ),
+                            ],)
+                              :
+                            const Center(child: CircularProgressIndicator(),)
+                          :
+                          state is VehicleBookingItemApproveSuccess ?
+                          state.approveSuccess == true ?
+                          Column(
+                            children: [
+                              Text(
+                                'Your reservation has been approved',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.2,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              ElevatedButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.orange,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.7,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Return",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),),
+                                ),
+                              ),
+                            ],
+                          )
+                              :
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    showGeneralDialog(
+                                      context: context,
+                                      pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                                        return AlertDialog(
+                                          title: Text("Are you sure you want to cancel your reservation?",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("No",
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 20.0,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                ),),
+                                            ),
+                                            TextButton(
+                                              onPressed: (){
+                                                vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                                bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("Yes",
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 20.0,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                ),),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.grey,
+                                    minimumSize: const Size(double.infinity, 50.0),
+                                    elevation: 0.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text("Reject",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 20,),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    vehicleBookingItemBloc.add(VehicleBookingItemApproveEvent());
+                                    bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.orange,
+                                    minimumSize: const Size(double.infinity, 50.0),
+                                    elevation: 0.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text("Approve",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),),
+                                  ),
+                                ),
+                              ),
+                            ],)
+                              :
                           state is VehicleBookingItemRejectSuccess ?
-                          state.rejectSuccess == true || vehicleBookingItemBloc.dateBooking!.suspended! == true ?
+                          state.rejectSuccess == true ?
                           Column(
                             children: [
                               Text(
@@ -731,7 +1069,8 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                 ),
                               ),
                             ],
-                          ) :
+                          )
+                              :
                           Row(
                             children: [
                               Expanded(
@@ -818,94 +1157,8 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                   ),
                                 ),
                               ),
-                            ],):
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: (){
-                                    showGeneralDialog(
-                                      context: context,
-                                      pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                                        return AlertDialog(
-                                          title: Text("Are you sure you want to cancel your reservation?",
-                                            style: GoogleFonts.raleway(
-                                              fontSize: 20.0,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                            ),),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: (){
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("No",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 20.0,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                ),),
-                                            ),
-                                            TextButton(
-                                              onPressed: (){
-                                                vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
-                                                bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("Yes",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 20.0,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                ),),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey,
-                                    minimumSize: const Size(double.infinity, 50.0),
-                                    elevation: 0.0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text("Reject",
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w600,
-                                      ),),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 20,),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: (){
-                                    vehicleBookingItemBloc.add(VehicleBookingItemApproveEvent());
-                                    bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.orange,
-                                    minimumSize: const Size(double.infinity, 50.0),
-                                    elevation: 0.0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text("Approve",
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w600,
-                                      ),),
-                                  ),
-                                ),
-                              ),
-                            ],),
+                            ],)
+                              : const Center(child: CircularProgressIndicator(),),
                           const SizedBox(height: 20,),
                         ]),
                   ),

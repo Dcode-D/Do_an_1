@@ -32,7 +32,6 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
       hotel = await getHotelFunc(lsHotelRoom![0].hotel!);
       if(hotel != null && lsHotelRoom != null){
         emit(HotelBookingItemInitial(getDataSuccess: true));
-        emit(HotelBookingItemRejectSuccess(rejectSuccess: false));
       }
       else{
         emit(HotelBookingItemInitial(getDataSuccess: false));
@@ -57,7 +56,13 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
       }
     });
     on<HotelBookingItemApproveEvent>((event,emit)async{
-
+      bool? approveSuccess = await approveDateBookingFunc(dateBooking!.id!);
+      if(approveSuccess == true){
+        emit(HotelBookingItemApproveSuccess(approveSuccess: true));
+      }
+      else{
+        emit(HotelBookingItemApproveSuccess(approveSuccess: false));
+      }
     });
   }
 

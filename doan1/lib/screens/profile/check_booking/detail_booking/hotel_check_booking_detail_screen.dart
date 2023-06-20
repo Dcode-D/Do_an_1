@@ -28,8 +28,9 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
 
     return BlocListener<HotelBookingItemBloc,HotelBookingItemState>(
       listenWhen: (previous, current) =>
-      current is HotelBookingItemRejectSuccess ||
-          current is HotelBookingItemDeleteSuccess,
+      current is HotelBookingItemInitial ||
+          current is HotelBookingItemApproveSuccess ||
+      current is HotelBookingItemRejectSuccess,
       listener: (context,state){
         if(state is HotelBookingItemDeleteSuccess){
           if(state.deleteSuccess == true){
@@ -54,7 +55,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
         buildWhen: (previous, current) =>
         current is HotelBookingItemInitial ||
             current is HotelBookingItemRejectSuccess ||
-            current is HotelBookingItemDeleteSuccess,
+            current is HotelBookingItemApproveSuccess,
         builder: (context,state) => Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -159,113 +160,108 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                       ),
                     ),
                     const SizedBox(height: 10,),
-                    InkWell(
-                      onTap: (){
-                        //TODO: make naviagtion to hotel detail
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black.withOpacity(0.2),
-                              width:1),
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0, 2),
-                              blurRadius: 6.0,
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black.withOpacity(0.2),
+                            width:1),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                hotelBookingItemBloc.hotel != null ?
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child:
+                                  FadeInImage(
+                                    height: 100,
+                                    width: 150,
+                                    imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                      return SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.325,
+                                          height: MediaQuery.of(context).size.height * 0.15,
+                                          child: const Center(child: Icon(Icons.error)));
+                                    },
+                                    image:
+                                    NetworkImage(hotelBookingItemBloc.hotel!=null && hotelBookingItemBloc.hotel!.images!.isNotEmpty ?
+                                    '$baseUrl/files/${hotelBookingItemBloc.hotel!.images![0]}': ""),
+                                    placeholder: const AssetImage('assets/images/loading.gif'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ):
+                                const Center(child: CircularProgressIndicator()),
+                                const SizedBox(width: 5,),
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      hotelBookingItemBloc.hotel != null ?
+                                      Text(
+                                        hotelBookingItemBloc.hotel!.name!,
+                                        style:  GoogleFonts.raleway(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black,
+                                        ),
+                                      ) : const Text('Loading...'),
+                                      const SizedBox(height: 5,),
+                                      hotelBookingItemBloc.hotel != null ?
+                                      Text(
+                                        hotelBookingItemBloc.hotel!.description!,
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color: Colors.black,
+                                        ),
+                                      ) : const Text('Loading...'),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  hotelBookingItemBloc.hotel != null ?
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child:
-                                    FadeInImage(
-                                      height: 100,
-                                      width: 150,
-                                      imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                        return SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.325,
-                                            height: MediaQuery.of(context).size.height * 0.15,
-                                            child: const Center(child: Icon(Icons.error)));
-                                      },
-                                      image:
-                                      NetworkImage(hotelBookingItemBloc.hotel!=null && hotelBookingItemBloc.hotel!.images!.isNotEmpty ?
-                                      '$baseUrl/files/${hotelBookingItemBloc.hotel!.images![0]}': ""),
-                                      placeholder: const AssetImage('assets/images/loading.gif'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ):
-                                  const Center(child: CircularProgressIndicator()),
-                                  const SizedBox(width: 5,),
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        hotelBookingItemBloc.hotel != null ?
-                                        Text(
-                                          hotelBookingItemBloc.hotel!.name!,
-                                          style:  GoogleFonts.raleway(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 1.2,
-                                            color: Colors.black,
-                                          ),
-                                        ) : const Text('Loading...'),
-                                        const SizedBox(height: 5,),
-                                        hotelBookingItemBloc.hotel != null ?
-                                        Text(
-                                          hotelBookingItemBloc.hotel!.description!,
-                                          style: GoogleFonts.raleway(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 1.2,
-                                            color: Colors.black,
-                                          ),
-                                        ) : const Text('Loading...'),
-                                      ],
+                            const SizedBox(height: 10,),
+                            Container(
+                              height:1,
+                              width: double.infinity,
+                              color: Colors.black.withOpacity(0.2),
+                            ),
+                            const SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
+                                const SizedBox(width: 15,),
+                                hotelBookingItemBloc.hotel != null ?
+                                Flexible(
+                                  child: Text(
+                                    hotelBookingItemBloc.hotel!.address!,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: GoogleFonts.raleway().fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
                                     ),
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 10,),
-                              Container(
-                                height:1,
-                                width: double.infinity,
-                                color: Colors.black.withOpacity(0.2),
-                              ),
-                              const SizedBox(height: 10,),
-                              Row(
-                                children: [
-                                  const Icon(FontAwesomeIcons.mapLocationDot, size: 20, color: Colors.black,),
-                                  const SizedBox(width: 15,),
-                                  hotelBookingItemBloc.hotel != null ?
-                                  Flexible(
-                                    child: Text(
-                                      hotelBookingItemBloc.hotel!.address!,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: GoogleFonts.raleway().fontFamily,
-                                        fontWeight: FontWeight.w400,
-                                        letterSpacing: 1.2,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ) : const Text('Loading...'),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ) : const Text('Loading...'),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -789,177 +785,362 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                       color: Colors.black.withOpacity(0.2),
                     ),
                     const SizedBox(height: 20,),
-                    state is HotelBookingItemRejectSuccess ?
-                    state.rejectSuccess == true || hotelBookingItemBloc.dateBooking!.suspended! == true ?
-                    Column(
-                      children: [
-                        Text(
-                          'Your reservation has been canceled',
-                          style: GoogleFonts.raleway(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.2,
-                            color: Colors.red,
-                          ),
-                        ),
-                        const SizedBox(height: 10,),
-                        ElevatedButton(
-                          onPressed: (){
-                            showDialog(context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text("Are you sure you want to delete your reservation?",
+                    state is HotelBookingItemInitial ?
+                        state.getDataSuccess == true ?
+                          hotelBookingItemBloc.dateBooking!.suspended! == true ?
+                            Column(
+                          children: [
+                            Text(
+                              'Your reservation has been canceled',
+                              style: GoogleFonts.raleway(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1.2,
+                                color: Colors.red,
+                              ),
+                            ),
+                            const SizedBox(height: 10,),
+                            ElevatedButton(
+                              onPressed: (){
+                                showDialog(context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: Text("Are you sure you want to delete your reservation?",
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 20.0,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("No",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
+                                        ),
+                                        TextButton(
+                                          onPressed: (){
+                                            hotelBookingItemBloc.add(HotelBookingItemDeleteEvent());
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("Yes",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
+                                        ),
+                                      ],
+                                    ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red,
+                                minimumSize: const Size(double.infinity, 50.0),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 0.7,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text("Delete your reservation",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 20.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),),
+                              ),
+                            ),
+                          ],
+                        )
+                              :
+                          hotelBookingItemBloc.dateBooking!.approved! == true ?
+                            Column(
+                          children: [
+                            Text(
+                              'Your reservation has been approved',
+                              style: GoogleFonts.raleway(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1.2,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 10,),
+                            ElevatedButton(
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.orange,
+                                minimumSize: const Size(double.infinity, 50.0),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 0.7,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text("Return",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 20.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),),
+                              ),
+                            ),
+                          ],
+                        )
+                              :
+                            Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: (){
+                                  showGeneralDialog(
+                                    context: context,
+                                    pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                                      return AlertDialog(
+                                        title: Text("Are you sure you want to cancel your reservation?",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: (){
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("No",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                          TextButton(
+                                            onPressed: (){
+                                              hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
+                                              bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Yes",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.grey,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Reject",
                                     style: GoogleFonts.raleway(
                                       fontSize: 20.0,
-                                      color: Colors.black,
                                       fontWeight: FontWeight.w600,
                                     ),),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("No",
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 20.0,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),),
-                                    ),
-                                    TextButton(
-                                      onPressed: (){
-                                        hotelBookingItemBloc.add(HotelBookingItemDeleteEvent());
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("Yes",
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 20.0,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),),
-                                    ),
-                                  ],
-                                ));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                            minimumSize: const Size(double.infinity, 50.0),
-                            elevation: 0.0,
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Colors.grey,
-                                width: 0.7,
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            const SizedBox(width: 20,),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: (){
+                                  hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
+                                  bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.orange,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Approve",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),),
+                                ),
+                              ),
+                            ),
+                          ],)
+                        :
+                          const Center(child: CircularProgressIndicator(),)
+                      :
+                    state is HotelBookingItemApproveSuccess ?
+                      state.approveSuccess == true ?
+                        Column(
+                        children: [
+                          Text(
+                            'Your reservation has been approved',
+                            style: GoogleFonts.raleway(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.2,
+                              color: Colors.green,
                             ),
                           ),
-                          child: Center(
-                            child: Text("Delete your reservation",
-                              style: GoogleFonts.raleway(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),),
-                          ),
-                        ),
-                      ],
-                    ) :
-                      Row(
-                      children: [
-                      Expanded(
-                      child: ElevatedButton(
-                      onPressed: (){
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                            return AlertDialog(
-                              title: Text("Are you sure you want to cancel your reservation?",
+                          const SizedBox(height: 10,),
+                          ElevatedButton(
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.orange,
+                              minimumSize: const Size(double.infinity, 50.0),
+                              elevation: 0.0,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.7,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text("Return",
                                 style: GoogleFonts.raleway(
                                   fontSize: 20.0,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),),
-                              actions: [
-                                TextButton(
-                                  onPressed: (){
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("No",
-                                    style: GoogleFonts.raleway(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),),
-                                ),
-                                TextButton(
-                                  onPressed: (){
-                                    hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                    bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Yes",
-                                    style: GoogleFonts.raleway(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.grey,
-                          minimumSize: const Size(double.infinity, 50.0),
-                          elevation: 0.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text("Reject",
-                            style: GoogleFonts.raleway(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                            ),),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 20,),
-                    Expanded(
-                      child: ElevatedButton(
-                      onPressed: (){
-                        hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                        bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
-                      },
-                      style: ElevatedButton.styleFrom(
-                      primary: Colors.orange,
-                      minimumSize: const Size(double.infinity, 50.0),
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      ),
-                        child: Center(
-                        child: Text("Approve",
-                        style: GoogleFonts.raleway(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                            ),),
+                        ],
+                      )
+                          :
+                        Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: (){
+                                showGeneralDialog(
+                                  context: context,
+                                  pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                                    return AlertDialog(
+                                      title: Text("Are you sure you want to cancel your reservation?",
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 20.0,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("No",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
+                                        ),
+                                        TextButton(
+                                          onPressed: (){
+                                            hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
+                                            bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("Yes",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey,
+                                minimumSize: const Size(double.infinity, 50.0),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text("Reject",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),),
+                              ),
+                            ),
                           ),
+                          const SizedBox(width: 20,),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: (){
+                                hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
+                                bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.orange,
+                                minimumSize: const Size(double.infinity, 50.0),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text("Approve",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),),
+                              ),
+                            ),
                           ),
+                        ],)
+                        :
+                    state is HotelBookingItemRejectSuccess ?
+                      state.rejectSuccess == true ?
+                        Column(
+                        children: [
+                          Text(
+                            'Your reservation has been canceled',
+                            style: GoogleFonts.raleway(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.2,
+                              color: Colors.red,
+                            ),
                           ),
-                      ],):
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
+                          const SizedBox(height: 10,),
+                          ElevatedButton(
                             onPressed: (){
-                              showGeneralDialog(
-                                context: context,
-                                pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                                  return AlertDialog(
-                                    title: Text("Are you sure you want to cancel your reservation?",
+                              showDialog(context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text("Are you sure you want to delete your reservation?",
                                       style: GoogleFonts.raleway(
                                         fontSize: 20.0,
                                         color: Colors.black,
@@ -979,8 +1160,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                       ),
                                       TextButton(
                                         onPressed: (){
-                                          hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                          bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                          hotelBookingItemBloc.add(HotelBookingItemDeleteEvent());
                                           Navigator.pop(context);
                                         },
                                         child: Text("Yes",
@@ -991,52 +1171,120 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                           ),),
                                       ),
                                     ],
+                                  ));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red,
+                              minimumSize: const Size(double.infinity, 50.0),
+                              elevation: 0.0,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.7,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text("Delete your reservation",
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),),
+                            ),
+                          ),
+                        ],
+                      )
+                            :
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: (){
+                                  showGeneralDialog(
+                                    context: context,
+                                    pageBuilder:(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                                      return AlertDialog(
+                                        title: Text("Are you sure you want to cancel your reservation?",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: (){
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("No",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                          TextButton(
+                                            onPressed: (){
+                                              hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
+                                              bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Yes",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.grey,
-                              minimumSize: const Size(double.infinity, 50.0),
-                              elevation: 0.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.grey,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Reject",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),),
+                                ),
                               ),
                             ),
-                            child: Center(
-                              child: Text("Reject",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w600,
-                                ),),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20,),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: (){
-                              hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                              bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.orange,
-                              minimumSize: const Size(double.infinity, 50.0),
-                              elevation: 0.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                            const SizedBox(width: 20,),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: (){
+                                  hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
+                                  bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.orange,
+                                  minimumSize: const Size(double.infinity, 50.0),
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text("Approve",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),),
+                                ),
                               ),
                             ),
-                            child: Center(
-                              child: Text("Approve",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w600,
-                                ),),
-                            ),
-                          ),
-                        ),
-                      ],),
+                          ],)
+                    : const Center(child: CircularProgressIndicator(),),
                     const SizedBox(height: 20,),
                   ],
                 )
