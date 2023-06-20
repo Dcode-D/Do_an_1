@@ -13,7 +13,7 @@ class Hotel {
   final String? owner;
   final String? description;
   final List<String>? images;
-  final List<Map<String,dynamic>>? facilities;
+  final List<String>? facilities;
   final double? maxPrice;
   final double? minPrice;
   final String? province;

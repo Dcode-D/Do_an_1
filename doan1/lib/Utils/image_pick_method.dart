@@ -1,0 +1,4 @@
+enum ImagePickMethod {
+  CAMERA,
+  GALLERY
+}

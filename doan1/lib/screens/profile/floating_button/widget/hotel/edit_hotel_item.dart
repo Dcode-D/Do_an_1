@@ -119,7 +119,7 @@ class EditHotelItem extends StatelessWidget{
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) =>
                               BlocProvider.value(
-                              value: editHotelBloc,
+                              value: editHotelBloc..add(RefreshHotelItemEvent()),
                               child: EditHotelScreen(),
                             ))
                         );

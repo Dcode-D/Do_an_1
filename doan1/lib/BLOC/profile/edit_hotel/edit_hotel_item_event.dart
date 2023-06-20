@@ -5,12 +5,33 @@ abstract class EditHotelItemEvent {}
 
 class GetHotelItemEvent extends EditHotelItemEvent {
   final Hotel hotel;
-  final int index;
-  GetHotelItemEvent({required this.hotel,required this.index});
+  GetHotelItemEvent({required this.hotel});
 }
 
 class DeleteHotelItemEvent extends EditHotelItemEvent {
   final String hotelId;
   DeleteHotelItemEvent(this.hotelId);
+}
+
+class RefreshHotelItemEvent extends EditHotelItemEvent {
+  RefreshHotelItemEvent();
+}
+
+class DeleteHotelImageEvent extends EditHotelItemEvent {
+  final int index;
+  DeleteHotelImageEvent(this.index);
+}
+
+class AddImageEvent extends EditHotelItemEvent {
+  final ImagePickMethod method;
+  AddImageEvent(this.method);
+}
+
+class SaveHotelInfoEvent extends EditHotelItemEvent {
+  final String name;
+  final String address;
+  final String description;
+  final String facilities;
+  SaveHotelInfoEvent({required this.name, required this.address, required this.description, required this.facilities});
 }
 

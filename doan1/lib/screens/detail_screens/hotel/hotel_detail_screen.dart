@@ -192,10 +192,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    _buildIconForFacilities(hotelItemBloc.hotel!.facilities![index]['name']),
+                                    _buildIconForFacilities(hotelItemBloc.hotel!.facilities![index]),
                                     const SizedBox(height: 5.0),
                                     Text(
-                                      hotelItemBloc.hotel!.facilities![index]['description'],
+                                      hotelItemBloc.hotel!.facilities![index],
                                       style: GoogleFonts.raleway(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w500,

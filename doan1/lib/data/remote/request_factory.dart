@@ -76,6 +76,12 @@ class RequestFactory {
     };
   }
 
+  deleteHotelImage(String imageId){
+    return {
+      "imageId": imageId,
+    };
+  }
+
   CreateFavorite(String user, String element, String type){
     return {
       "user": user,
