@@ -94,7 +94,14 @@ abstract class AppService {
   Future<HttpResponse<ListModelResponse>> getListHotelFromPage(@Path('page') int page);
 
   @GET("/hotel/{id}/room")
-  Future<HttpResponse<ListModelResponse>> getListHotelRoomById(@Path('id') String id);
+  Future<HttpResponse<ListModelResponse>> getListHotelRoomByIdWithDate(
+      @Path('id') String id,
+      @Query('startDate') String startDate,
+      @Query('endDate')String endDate);
+
+  @GET("/hotel/{id}/room")
+  Future<HttpResponse<ListModelResponse>> getListHotelRoomById(
+      @Path('id') String id);
 
   @DELETE("/hotel/{id}")
   Future<HttpResponse> deleteHotelById({
@@ -205,5 +212,32 @@ abstract class AppService {
   Future<HttpResponse> createTour({
     @Header("Authorization") required String token,
     @Body() required Map<String,dynamic> request
+  });
+
+//Favorite API
+  @POST("/favorite/{type}")
+  Future<HttpResponse> createFavorite({
+    @Header("Authorization") required String token,
+    @Path('type') required String type,
+    @Body() required Map<String,dynamic> request
+  });
+
+  @GET("/favorite/id/{id}")
+  Future<HttpResponse<BaseResponse>> getFavoriteById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id
+  });
+
+  @GET("/favorite/user/{type}")
+  Future<HttpResponse<ListModelResponse>> getFavoriteByUser({
+    @Header("Authorization") required String token,
+    @Path('type') required String type,
+    @Query('user') required String userId
+  });
+
+  @DELETE("/favorite/{id}")
+  Future<HttpResponse> deleteFavoriteById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id
   });
 }

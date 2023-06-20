@@ -75,4 +75,12 @@ class RequestFactory {
       "maxGroupSize": maxGroupSize
     };
   }
+
+  CreateFavorite(String user, String element, String type){
+    return {
+      "user": user,
+      "element": element,
+      "type": type
+    };
+  }
 }

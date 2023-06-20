@@ -14,3 +14,8 @@ class HotelItemGetRoomState extends HotelItemState{
   bool getHotelRoomSuccess;
   HotelItemGetRoomState({required this.getHotelRoomSuccess});
 }
+
+class HotelItemLoveState extends HotelItemState{
+  bool loveHotelSuccess;
+  HotelItemLoveState({required this.loveHotelSuccess});
+}

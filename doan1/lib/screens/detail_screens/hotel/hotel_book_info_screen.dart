@@ -381,7 +381,11 @@ class HotelBookingInfoScreen extends StatelessWidget{
                                   pageBuilder: (context, anim1, anim2) =>
                                         MultiBlocProvider(
                                           providers: [
-                                              BlocProvider.value(value: hotelItemBloc..add(GetHotelRoomEvent())),
+                                              BlocProvider.value(value: hotelItemBloc..add(
+                                                  GetHotelRoomEvent(
+                                                    startDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),
+                                                    endDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),
+                                                  ))),
                                               BlocProvider.value(value: hotelBookingBloc),
                                             ],
                                           child: RoomSettingDialog(),

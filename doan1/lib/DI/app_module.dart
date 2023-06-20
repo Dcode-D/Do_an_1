@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:doan1/data/remote/app_service.dart';
 import 'package:doan1/data/repositories/article_repo.dart';
+import 'package:doan1/data/repositories/favorite_repo.dart';
 import 'package:doan1/data/repositories/tour_repo.dart';
 import 'package:doan1/data/repositories/user_repo.dart';
 import 'package:doan1/socketio/socketioRepo.dart';
@@ -95,4 +96,10 @@ abstract class RegisterModule {
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
       TourRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
+
+  @singleton
+  FavoriteRepo favoriteRepo(Logger logger,
+      SharedPreferences sharedPreferences,
+      AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
+      FavoriteRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
 }

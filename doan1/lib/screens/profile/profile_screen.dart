@@ -1,5 +1,6 @@
 import 'package:doan1/BLOC/authentication/authentication_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
+import 'package:doan1/BLOC/profile/favorite/favorite_bloc.dart';
 import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/article/article_bloc.dart';
@@ -40,7 +41,6 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
-
       Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Padding(
@@ -298,7 +298,14 @@ class ProfileScreen extends StatelessWidget {
                               const SizedBox(width: 15),
                               InkWell(
                                 onTap: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => FavoriteScreen()));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                      MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(value: profileBloc),
+                                          BlocProvider.value(value: bookHistoryBloc),
+                                          BlocProvider(create:(_) => FavoriteBloc())
+                                        ],
+                                          child: FavoriteScreen())));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

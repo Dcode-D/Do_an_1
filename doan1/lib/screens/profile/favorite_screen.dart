@@ -1,15 +1,14 @@
+import 'package:doan1/BLOC/profile/favorite/favorite_bloc.dart';
+import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
+import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../models/hotel_model.dart';
 import '../../models/tour_model.dart';
-import '../../models/vehicle_model.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
-import '../all/all_widget/hotel_item_for_all.dart';
 import '../all/all_widget/tour_item_for_all.dart';
-import '../all/all_widget/vehicle_item_for_all.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
@@ -22,6 +21,19 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
   final ScrollController _scrollController = ScrollController();
   final PageController listController = PageController();
   late final TabController _tabController = TabController(length: 3, vsync: this);
+  late FavoriteBloc favoriteBloc;
+  late ProfileBloc profileBloc;
+  late BookHistoryBloc bookHistoryBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteBloc = context.read<FavoriteBloc>();
+    profileBloc = context.read<ProfileBloc>();
+    favoriteBloc.add(GetListCarFavoriteEvent(userId: profileBloc.user!.id));
+    favoriteBloc.add(GetListHotelFavoriteEvent(userId: profileBloc.user!.id));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +72,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
                 color: Colors.transparent,
                 tabbar: TabBar(
                   controller: _tabController,
-                  isScrollable: true,
+                  isScrollable: false,
                   labelColor: Colors.black87,
                   unselectedLabelColor: Colors.grey,
                   labelPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -87,46 +99,48 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
               )),
         ];
       },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  controller: listController,
-                  itemCount: tours.length,
-                  itemBuilder: (BuildContext context, int index){
-                    Tour tour = tours[index];
-                    Image tourImg = Image.asset(tour.img);
-                    return TourItemForAll(tour: tour, tourImg: tourImg,);
-                  }),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 15),
-            //   child: ListView.builder(
-            //       physics: const BouncingScrollPhysics(),
-            //       controller: listController,
-            //       itemCount: hotels.length,
-            //       itemBuilder: (BuildContext context, int index){
-            //         Hotel hotel = hotels[index];
-            //         return HotelItemForAll(type: 1,);
-            //       }
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 15),
-            //   child: ListView.builder(
-            //       physics: const BouncingScrollPhysics(),
-            //       controller: listController,
-            //       itemCount: vehicles.length,
-            //       itemBuilder: (BuildContext context, int index){
-            //         Vehicle vehicle = vehicles[index];
-            //         return VehicleItemForAll(type: 1,);
-            //       }
-            //   ),
-            // )
-          ],
+        body: BlocBuilder<FavoriteBloc,FavoriteState>(
+          builder: (context,state) => TabBarView(
+            controller: _tabController,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    controller: listController,
+                    itemCount: tours.length,
+                    itemBuilder: (BuildContext context, int index){
+                      Tour tour = tours[index];
+                      Image tourImg = Image.asset(tour.img);
+                      return TourItemForAll(tour: tour, tourImg: tourImg,);
+                    }),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 15),
+              //   child: ListView.builder(
+              //       physics: const BouncingScrollPhysics(),
+              //       controller: listController,
+              //       itemCount: hotels.length,
+              //       itemBuilder: (BuildContext context, int index){
+              //         Hotel hotel = hotels[index];
+              //         return HotelItemForAll(type: 1,);
+              //       }
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 15),
+              //   child: ListView.builder(
+              //       physics: const BouncingScrollPhysics(),
+              //       controller: listController,
+              //       itemCount: vehicles.length,
+              //       itemBuilder: (BuildContext context, int index){
+              //         Vehicle vehicle = vehicles[index];
+              //         return VehicleItemForAll(type: 1,);
+              //       }
+              //   ),
+              // // )
+            ],
+          ),
         ),
       )
     );

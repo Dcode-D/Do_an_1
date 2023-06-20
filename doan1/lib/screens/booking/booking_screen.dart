@@ -53,6 +53,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     ProfileBloc profileBloc = context.read<ProfileBloc>();
     BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
+    bookHistoryBloc.add(GetBookingHistory());
     return Scaffold(
     body: NestedScrollView(
     controller: _scrollController,

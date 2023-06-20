@@ -8,4 +8,13 @@ class GetHotelItemEvent extends HotelItemEvent {
   GetHotelItemEvent({required this.hotel});
 }
 
-class GetHotelRoomEvent extends HotelItemEvent {}
+class GetHotelRoomEvent extends HotelItemEvent {
+  String? startDate;
+  String? endDate;
+  GetHotelRoomEvent({required this.startDate,required this.endDate});
+}
+
+class LoveHotelEvent extends HotelItemEvent {
+  String? hotelId;
+  LoveHotelEvent({required this.hotelId});
+}

@@ -16,6 +16,19 @@ class HotelRoomRepo{
   HotelRoomRepo(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
+  Future<List<HotelRoom>?> getHotelRoomListWithDate(String hotelId,String startDate,String endDate) async {
+    return _appService
+        .getListHotelRoomByIdWithDate(hotelId,startDate,endDate)
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      else{
+        return http.data.toListHotelRoom();
+      }
+    });
+  }
+
   Future<List<HotelRoom>?> getHotelRoomList(String hotelId) async {
     return _appService
         .getListHotelRoomById(hotelId)

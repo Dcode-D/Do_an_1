@@ -1,0 +1,47 @@
+
+import 'package:doan1/data/model/article.dart';
+import 'package:doan1/data/model/remote/base_response.dart';
+import 'package:doan1/data/model/remote/list_model_response.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'favorite.g.dart';
+
+@JsonSerializable()
+class Favorite{
+  @JsonKey(name: "_id")
+  String? id;
+  String? userId;
+  String? elementId;
+  String? type;
+
+  Favorite({
+    this.id,
+    this.userId,
+    this.elementId,
+    this.type,
+  });
+
+  factory Favorite.fromJson(Map<String, dynamic> json) => _$FavoriteFromJson(json);
+  Map<String, dynamic> toJson() => _$FavoriteToJson(this);
+}
+
+extension FavoriteListExtension on ListModelResponse{
+  List<String>? toListIdFavorite(){
+    if(this.data.length == 0)
+      return null;
+    List<String> rs = [];
+    for(Map<String, dynamic> item in this.data){
+      rs.add(item['_id']);
+    }
+    print("List favorite: $rs");
+    return rs;
+  }
+}
+
+extension FavoriteTransformExtension on BaseResponse{
+  Favorite? toFavorite(){
+    if(this.data == null)
+      return null;
+    return Favorite.fromJson(this.data!);
+  }
+}

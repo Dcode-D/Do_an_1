@@ -19,9 +19,6 @@ Widget build(BuildContext context){
     var bloc = context.read<ProfileBloc>();
     bloc.add(getProfileScreenEvent());
 
-    BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
-    bookHistoryBloc.add(GetBookingHistory());
-
     return Builder(builder: (context)=>
         BlocProvider(create: (context) => NavigationBloc(),
             child:  BlocBuilder<NavigationBloc, NavigationInfoState>(
