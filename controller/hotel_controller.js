@@ -20,7 +20,7 @@ const fileExtLimiterMiddleware = fileExtLimiter(['.jpg', '.png', '.jpeg', '.gif'
 //facilities names can also be provided here as facilitiesNames
 const getMaxPage = async (req,res)=>{
     try {
-        const {maxPrice,minPrice, facilitiesNames} = req.query;
+        const {maxPrice,minPrice, facilities} = req.query;
         let maxprice, minprice;
         let minlist = [], maxlist =[], facilist = [];
         if (maxPrice) {
@@ -31,11 +31,7 @@ const getMaxPage = async (req,res)=>{
             minprice = parseInt(minPrice);
             delete req.query.minPrice;
         }
-        let listname = [];
-        if(facilitiesNames){
-            listname = facilitiesNames.split(',');
-            delete req.query.facilitiesNames;
-        }
+
         const query = hotelModel.countDocuments(req.query);
         if(minprice) {
             minlist = await hotelRoomModel.find({price: {$gte: minprice}}).select('hotel');
@@ -43,14 +39,13 @@ const getMaxPage = async (req,res)=>{
         if(maxprice) {
             maxlist = await hotelRoomModel.find({price: {$lte: maxprice}}).select('hotel');
         }
-        if(listname.length>0){
-            facilist = await facilityModel.find({name:{$in:listname}}).select('service');
-            query.where("_id").in(facilist);
-        }
         const selectlist = [...minlist, ...maxlist];
         if(minprice||maxprice){
             const hotelList = selectlist.map(hotel=>hotel.hotel);
             query.where('_id').in(hotelList);
+        }
+        if(facilities){
+            query.where('facilities').in(facilities);
         }
         const maxPage = await query.exec();
         res.status(200).json({data:Math.ceil(maxPage/10)});
@@ -91,23 +86,9 @@ const hotelController = async (req,res)=>{
             "owner": req.user._id,
             "province": req.body.province,
             "city": req.body.city,
+            "facilities": req.body.facilities,
         });
         await hotel.save();
-        const facilities = req.body.facilities;
-        if(facilities&&facilities.length>0){
-            for(const facility of facilities){
-               const obfacility = JSON.parse(facility);
-              if(obfacility.name){
-                    const newFacility = new facilityModel({
-                        "name": obfacility.name,
-                        "description": obfacility.description,
-                        "service": hotel._id,
-                        "type": "hotel",
-                    });
-                    await newFacility.save();
-              }
-            }
-        }
         return res.status(200).send('Hotel information uploaded');
     }catch (e) {
         console.log(e.message);
@@ -143,6 +124,7 @@ const uploadHotelImage = async (req,res)=>{
                 }
 
                 hotel.images = [...hotel.images, ...imglist];
+                await  hotel.save();
                 return res.status(200).send('Hotel image uploaded');
             }
             else {
@@ -157,6 +139,7 @@ const uploadHotelImage = async (req,res)=>{
     }
 }
 
+//imageId required in body
 const deleteHotelImage = async (req,res)=>{
     try {
         if (req.params.id) {
@@ -202,9 +185,8 @@ const getHotel = async (req,res)=>{
                 maxPrice= maxprice[0].price;
                 minPrice = minprice[0].price;
             }
-            const facilities = await facilityModel.find({service: req.params.id, type: "hotel"});
             if(hotel.length!==0)
-                return res.status(200).json({status: "success", data: {_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, maxPrice: maxPrice, minPrice: minPrice, facilities: facilities}});
+                return res.status(200).json({status: "success", data: {_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, maxPrice: maxPrice, minPrice: minPrice, facilities: hotel.facilities, rooms: hotel.rooms}});
             else
                 return res.status(404).json({status: "error", message: "Hotel not found"});
         }else {
@@ -228,11 +210,10 @@ const getHotelByQueries = async (req,res)=>{
     const address = queries.address;
     const maxprice = queries.maxPrice;
     const minprice = queries.minPrice;
-    const facilitiesNames = queries.facilitiesNames;
+    const facilities = queries.facilities;
     try{
         let minlist = [];
         let maxlist = [];
-        let facilist = [];
         const query = hotelModel.find({})
         const intpage = parseInt(page);
         if(intpage < 1) {
@@ -260,28 +241,23 @@ const getHotelByQueries = async (req,res)=>{
         if(maxprice) {
             maxlist = (await hotelRoomModel.find({price: {$lte: maxprice}}).select('hotel')).map((item)=>item.hotel);
         }
-        if(facilitiesNames) {
-            const listname = facilitiesNames.split(',');
-            facilist = (await facilityModel.find({name: {$in: listname}, type: "hotel"}).select('service')).map((item)=>item.service);
+        if(facilities) {
+            query.where("facilities").in(facilities);
         }
 
         const selectlist = [...minlist, ...maxlist];
         if(minprice||maxprice) {
             query.where({_id: {$in: selectlist}});
         }
-        if(facilitiesNames) {
-            query.where({_id: {$in: facilist}});
-        }
         const hotels = await query.skip((intpage - 1) * PAGE_SIZE).limit(PAGE_SIZE).exec();
         const returnlist = [];
         for(const hotel of hotels){
-            const facilities = await facilityModel.find({service: hotel._id, type: "hotel"});
             const maxprice = await hotelRoomModel.find({hotel: hotel._id}).sort({price: -1}).limit(1);
             const minprice = await hotelRoomModel.find({hotel: hotel._id}).sort({price: 1}).limit(1);
             if(maxprice.length >0 && minprice.length >0)
-                returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: facilities, maxPrice: maxprice[0].price, minPrice: minprice[0].price});
+                returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: hotel.facilities, maxPrice: maxprice[0].price, minPrice: minprice[0].price});
             else
-                returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: facilities});
+                returnlist.push({_id: hotel._id, name: hotel.name, description: hotel.description, address: hotel.address, images: hotel.images, owner: hotel.owner, province: hotel.province, city: hotel.city, facilities: hotel.facilities});
         }
         return res.status(200).json({status: "success", data: returnlist});
 
@@ -293,35 +269,22 @@ const getHotelByQueries = async (req,res)=>{
 
 //include facilities objects in the request body to update the facilities, already existed facilities will be updated, new facilities will be created
 const updateHotelInfo = async (req, res) => {
-    const hotel = await hotelModel.findById(req.params.id);
-    if(!hotel||!hotel.owner.equals(req.user._id)){
-        return res.status(403).json({status: "error", message: "Id not found/ not permitted"});
-    }
-    const { id } = req.params;
-    const { name, address, description, province, facilities } = req.body;
-    const updateHotel = {
-    };
-    if(name) updateHotel.name = name;
-    if(address) updateHotel.address = address;
-    if(description) updateHotel.description = description;
-    if(province) updateHotel.province = province;
-    if(facilities){
-        const checkHotel = hotelModel.findById(id);
-        if(!checkHotel) return res.status(404).json({status: "error", message: "Hotel not found"});
-        for(const facility of facilities){
-            const found = await facilityModel.findOne({name: facility.name, type: "hotel"});
-            if(!found) {
-                if(facility.name){
-                    const newFacility = new facilityModel({name: facility.name, description: facility.description, type: "hotel", service: id});
-                    await newFacility.save();
-                }
-            } else {
-                found.description = facility.description;
-                await found.save();
-            }
-        }
-    }
     try {
+        const hotel = await hotelModel.findById(req.params.id);
+        if(!hotel||!hotel.owner.equals(req.user._id)){
+            return res.status(403).json({status: "error", message: "Id not found/ not permitted"});
+        }
+        const { id } = req.params;
+        const { name, address, description, province, facilities } = req.body;
+        const updateHotel = {
+        };
+        if(name) updateHotel.name = name;
+        if(address) updateHotel.address = address;
+        if(description) updateHotel.description = description;
+        if(province) updateHotel.province = province;
+        if(facilities){
+            updateHotel.facilities = facilities;
+        }
         const updated = await hotelModel.findByIdAndUpdate(id, updateHotel, { new: true });
         res.status(200).json(updated);
     } catch (error) {
@@ -397,19 +360,19 @@ const updateHotelImage = async (req, res) => {
 }
 
 //provide hotel id and facility id in the params
-const deleteFacilities = async (req, res) => {
-    const { id,hotel } = req.params;
-    try {
-        const hotelcheck = await hotelModel.findById(hotel);
-        if(!hotelcheck||!hotelcheck.owner.equals(req.user._id)){
-            return res.status(403).json({status: "error", message: "Not permitted"});
-        }
-        await facilityModel.deleteOne({_id: id, service: hotel});
-        res.status(200).json({status: "success", message: "Deleted"});
-    }catch (e){
-        console.log(e.message);
-        return res.status(503).json({status: "error", message: e.message});
-    }
-}
+// const deleteFacilities = async (req, res) => {
+//     const { id,hotel } = req.params;
+//     try {
+//         const hotelcheck = await hotelModel.findById(hotel);
+//         if(!hotelcheck||!hotelcheck.owner.equals(req.user._id)){
+//             return res.status(403).json({status: "error", message: "Not permitted"});
+//         }
+//         await facilityModel.deleteOne({_id: id, service: hotel});
+//         res.status(200).json({status: "success", message: "Deleted"});
+//     }catch (e){
+//         console.log(e.message);
+//         return res.status(503).json({status: "error", message: e.message});
+//     }
+// }
 
-module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, uploadHotelImage, deleteHotel, deleteHotelImage, updateHotelImage, getMaxPage, deleteFacilities};
+module.exports = {fileUploadMiddleware, fileExtLimiterMiddleware, hotelController, getHotel,getHotelByQueries, updateHotelInfo, uploadHotelImage, deleteHotel, deleteHotelImage, updateHotelImage, getMaxPage};

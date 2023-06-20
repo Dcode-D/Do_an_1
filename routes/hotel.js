@@ -19,8 +19,6 @@ router.put('/:hotel/room/:id',updateHotelRoom)
 router.delete('/:hotel/room/:id',deleteHotelRoom)
 router.delete('/:id', deleteHotel);
 router.delete('/delete_img/:id', deleteHotelImage);
-//provide the hotel id and the facility id
-router.delete('/facility/:hotel/:id', deleteFacilities);
 //require imageId in body
 router.put('/update_img/:id', [fileUploadMiddleware, fileExtLimiterMiddleware, updateHotelImage])
 

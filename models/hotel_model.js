@@ -30,6 +30,9 @@ const HotelSchema = Schema({
     city:{
         type: String,
         require: true,
+    },
+    facilities: {
+        type: [String],
     }
 })
 
