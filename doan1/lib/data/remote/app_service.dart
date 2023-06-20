@@ -108,6 +108,25 @@ abstract class AppService {
     @Header("Authorization") required String token,
     @Path('id') required String id
   });
+
+  @DELETE("/hotel/delete_img/{id}")
+  Future<HttpResponse> deleteHotelImage({
+    @Header("Authorization") required String token,
+    @Path('id') required String hotel,
+    @Body() required Map<String,dynamic> request});
+
+  @POST("/hotel/upload_img/{id}")
+  @MultiPart()
+  Future<HttpResponse> uploadHotelImage({
+    @Header("Authorization") required String token,
+    @Path('id') required String hotel,
+    @Part(name: "file") required File file});
+
+  @PUT("/hotel/{id}")
+  Future<HttpResponse> updateHotel({
+    @Header("Authorization") required String token,
+    @Path('id') required String hotel,
+    @Body() required Map<String,dynamic> request});
 //Article API
   @GET("/article/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListIdArticleFromPage(@Path('page') int page, @Query("city") String? city, @Query("province") String? province, @Query("referenceName") String? name);
@@ -152,7 +171,7 @@ abstract class AppService {
     @Part(name: "address") required String address,
     @Part(name: "province") required String province,
     @Part(name: "city") required String district,
-    @Part(name: "facilities") required List<Map<String,dynamic>> facilities,
+    @Part(name: "facilities") required List<String> facilities,
     @Part(name: "files") required List<File> files});
 
   @POST("/car/")
@@ -240,23 +259,4 @@ abstract class AppService {
     @Header("Authorization") required String token,
     @Path('id') required String id
   });
-
-  @DELETE("/hotel/delete_img/{id}")
-  Future<HttpResponse> deleteHotelImage({
-    @Header("Authorization") required String token,
-    @Path('id') required String hotel,
-    @Body() required Map<String,dynamic> request});
-
-  @POST("/hotel/upload_img/{id}")
-  @MultiPart()
-  Future<HttpResponse> uploadHotelImage({
-    @Header("Authorization") required String token,
-    @Path('id') required String hotel,
-    @Part(name: "file") required File file});
-
-  @PUT("/hotel/{id}")
-  Future<HttpResponse> updateHotel({
-    @Header("Authorization") required String token,
-    @Path('id') required String hotel,
-    @Body() required Map<String,dynamic> request});
 }

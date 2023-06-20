@@ -82,7 +82,7 @@ class RequestFactory {
     };
   }
 
-  CreateFavorite(String user, String element, String type){
+  createFavorite(String user, String element, String type){
     return {
       "user": user,
       "element": element,

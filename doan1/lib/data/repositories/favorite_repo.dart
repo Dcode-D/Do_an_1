@@ -50,7 +50,7 @@ class FavoriteRepo {
     return _appService.createFavorite(
         token: 'Bearer ${_sharedPreferences.getString('token')!}',
         type: type,
-        request: _requestFactory.CreateFavorite(type, userId, productId)
+        request: _requestFactory.createFavorite(type, userId, productId)
     ).then((http)async{
       if(http.response.statusCode != 200){
         return false;
