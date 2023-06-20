@@ -224,7 +224,7 @@ const getDateBookingOfCar = async (req, res) => {
             return res.status(404).json({status: "error", message: "Car not found"});
         if(!carob.owner.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
-        const query = dateBookingModel.find({attachedServices: {$in: [...car]}, type: "car"});
+        const query = dateBookingModel.find({attachedServices: {$in: [car]}, type: "car"});
         if(startDate)
             query.where({startDate: new Date(startDate)});
         if(endDate)
