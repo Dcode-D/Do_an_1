@@ -156,6 +156,8 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                   children: [
                     manageServiceBloc.listHotel != null ?
                     ListView.builder(
+                      key: const PageStorageKey('hotel'),
+                      addAutomaticKeepAlives: true,
                       controller: _HotelScrollController,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
@@ -176,6 +178,8 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                     const Center(child: Text('You don\'t have any hotel')),
                     manageServiceBloc.listVehicle != null ?
                     ListView.builder(
+                      key: const PageStorageKey('vehicle'),
+                      addAutomaticKeepAlives: true,
                       controller: _VehicleScrollController,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),

@@ -112,6 +112,12 @@ abstract class AppService {
   @GET("/article/page/")
   Future<HttpResponse<int>> getArticleMaxPage();
 
+  @DELETE("/article/{id}")
+  Future<HttpResponse> deleteArticleById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id
+  });
+
   @POST("/article/")
   @MultiPart()
   Future<HttpResponse> createArticle(

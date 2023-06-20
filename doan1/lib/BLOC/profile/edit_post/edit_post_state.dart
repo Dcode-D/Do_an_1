@@ -9,3 +9,8 @@ class EditPostDataInitial extends EditPostState {
   bool getDataSuccess = false;
   EditPostDataInitial(this.getDataSuccess);
 }
+
+class DeletePostState extends EditPostState {
+  bool deleteSuccess = false;
+  DeletePostState(this.deleteSuccess);
+}

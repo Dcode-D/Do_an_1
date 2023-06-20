@@ -6,6 +6,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Preferences.dart';
 import '../remote/app_service.dart';
 import '../remote/request_factory.dart';
 
@@ -58,6 +59,19 @@ class ArticleRepo {
 
   Future<bool> createPost(String token, String title, String description, String address, String province, String district, String referenceName, List<File> files) async {
     return _appService.createArticle(title: title, description: description, address: address, province :province, district: district, referenceName: referenceName, token: token, files: files).then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool> deletePost(String id){
+    return _appService.deleteArticleById(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        id: id).then((http) async {
       if (http.response.statusCode != 200) {
         return false;
       }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DeletePostDialog extends StatelessWidget{
+  Function deletePost;
+  DeletePostDialog({required this.deletePost});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -24,7 +26,7 @@ class DeletePostDialog extends StatelessWidget{
         ),
         ElevatedButton(
           onPressed:
-              () => Navigator.pop(context),
+              () => deletePost(),
           style: ElevatedButton.styleFrom(
             primary: Colors.green,
           ),

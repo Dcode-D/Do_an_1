@@ -5,5 +5,11 @@ abstract class EditPostEvent {}
 
 class EditPostInitialEvent extends EditPostEvent {
   Article? article;
-  EditPostInitialEvent({required this.article});
+  int? index;
+  EditPostInitialEvent({required this.article,required this.index});
+}
+
+class DeletePostEvent extends EditPostEvent {
+  final String articleID;
+  DeletePostEvent({required this.articleID});
 }

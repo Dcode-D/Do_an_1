@@ -1,4 +1,5 @@
 import 'package:doan1/BLOC/profile/edit_post/edit_post_bloc.dart';
+import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/dialog/post_delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,13 @@ class EditPostItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     var editPostBloc = context.read<EditPostBloc>();
+    var manageNewsBloc = context.read<ManageNewsBloc>();
+    deletePost()=>{
+      editPostBloc.add(DeletePostEvent(articleID: editPostBloc.article!.id!)),
+      manageNewsBloc.add(DeleteNews(articleIndex: editPostBloc.index!)),
+      Navigator.pop(context)
+    };
+
     return BlocBuilder<EditPostBloc,EditPostState>(
       builder: (context,state)
       => Padding(
@@ -130,7 +138,7 @@ class EditPostItem extends StatelessWidget{
                     ElevatedButton(
                       onPressed: (){
                         showGeneralDialog(context: context,
-                            pageBuilder: (context, anim1, anim2) => DeletePostDialog());
+                            pageBuilder: (context, anim1, anim2) => DeletePostDialog(deletePost: deletePost,));
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,

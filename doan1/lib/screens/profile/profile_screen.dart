@@ -264,7 +264,7 @@ class ProfileScreen extends StatelessWidget {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
                                   MultiBlocProvider(
                                     providers: [
-                                      BlocProvider.value(value: profileBloc),
+                                      BlocProvider<ProfileBloc>.value(value: profileBloc),
                                       BlocProvider<ManageNewsBloc>(
                                         create:(_) => ManageNewsBloc()..add(GetNews(userID: profileBloc.user!.id)),
                                       ),
