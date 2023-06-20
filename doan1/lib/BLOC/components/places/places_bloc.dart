@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../Utils/get_places.dart';
+import '../../../Utils/get_places.dart';
 
 part 'places_event.dart';
 part 'places_state.dart';

@@ -104,4 +104,15 @@ class HotelRepo{
       }
     });
   }
+
+  Future<int?> GetMaxPageOfHotel() async{
+    return _appService.getMaxPageOfHotel().then((http) async{
+      if(http.response.statusCode != 200){
+        return null;
+      }
+      else{
+        return http.data.toInt();
+      }
+    });
+  }
 }

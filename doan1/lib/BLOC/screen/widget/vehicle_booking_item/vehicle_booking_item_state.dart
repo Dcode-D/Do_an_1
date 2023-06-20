@@ -17,3 +17,8 @@ class VehicleBookingItemDeleteSuccess extends VehicleBookingItemState {
   bool deleteSuccess = false;
   VehicleBookingItemDeleteSuccess({required this.deleteSuccess});
 }
+
+class VehicleBookingItemApproveSuccess extends VehicleBookingItemState {
+  bool approveSuccess = false;
+  VehicleBookingItemApproveSuccess({required this.approveSuccess});
+}

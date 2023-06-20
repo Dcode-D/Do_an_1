@@ -1,8 +1,12 @@
 import 'package:doan1/screens/profile/check_booking/widget/hotel_check_booking_item.dart';
 import 'package:doan1/screens/profile/check_booking/widget/vehicle_check_booking_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../BLOC/profile/booker/booker_bloc.dart';
+import '../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
+import '../../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import '../../../models/hotel_model.dart';
 import '../../../models/vehicle_model.dart';
 import '../../../widgets/circle_indicator.dart';
@@ -18,6 +22,14 @@ class CheckBookingScreen extends StatefulWidget{
 class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   late final TabController _tabController = TabController(length: 2, vsync: this);
+
+  late BookerBloc bookerBloc;
+  @override
+  void initState() {
+    super.initState();
+    bookerBloc = context.read<BookerBloc>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +68,7 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                   color: Colors.transparent,
                   tabbar: TabBar(
                     controller: _tabController,
-                    isScrollable: true,
+                    isScrollable: false,
                     labelColor: Colors.black87,
                     unselectedLabelColor: Colors.grey,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -82,26 +94,69 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                 )),
           ];
         },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-              itemCount: hotels.length,
-              itemBuilder: (BuildContext context, int index) {
-                return HotelCheckBookingItem();
-              },
-            ),
-            ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-              itemCount: vehicles.length,
-              itemBuilder: (BuildContext context, int index) {
-                return VehicleCheckBookingItem();
-              },
-            ),
-          ]
+        body: BlocBuilder<BookerBloc,BookerState>(
+          builder: (context, state) =>
+          TabBarView(
+            controller: _tabController,
+            children: [
+              bookerBloc.listHotelBookingOrder == null ?
+              Center(
+                child: Text(
+                  'No hotel booking for you',
+                  style: GoogleFonts.raleway(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black54
+                  ),
+                ),
+              ) :
+              ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+                itemCount: bookerBloc.listHotelBookingOrder!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(
+                        value: bookerBloc,
+                      ),
+                      BlocProvider<HotelBookingItemBloc>(
+                      create: (context) => HotelBookingItemBloc()..add(
+                      HotelBookingItemInitialEvent(dateBooking: bookerBloc.listHotelBookingOrder![index],index: index)),),
+                    ],
+                      child: HotelCheckBookingItem());
+                },
+              ),
+              bookerBloc.listVehicleBookingOrder == null ?
+              Center(
+                child: Text(
+                  'No vehicle booking for you',
+                  style: GoogleFonts.raleway(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black54
+                  ),
+                ),
+              ) :
+              ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
+                itemCount: bookerBloc.listVehicleBookingOrder!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(
+                        value: bookerBloc,
+                      ),
+                      BlocProvider<VehicleBookingItemBloc>(
+                      create: (context) => VehicleBookingItemBloc()..add(
+                      VehicleBookingItemInitialEvent(dateBooking: bookerBloc.listVehicleBookingOrder![index],index: index)),),
+                    ],
+                      child: VehicleCheckBookingItem());
+                },
+              ),
+            ]
+          ),
         ),
       )
     );

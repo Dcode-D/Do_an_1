@@ -29,6 +29,7 @@ class BookingHotelHistoryScreen extends StatelessWidget {
       }
       return totalPrice;
     }
+
     return BlocListener<HotelBookingItemBloc,HotelBookingItemState>(
       listenWhen: (previous, current) =>
       current is HotelBookingItemRejectSuccess ||

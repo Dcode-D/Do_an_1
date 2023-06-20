@@ -1,4 +1,4 @@
-import 'package:doan1/BLOC/components/places_bloc.dart';
+import 'package:doan1/BLOC/components/places/places_bloc.dart';
 import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/screens/booking/widget_booking/hotel_booking_item.dart';
 import 'package:doan1/screens/booking/widget_booking/vehicle_booking_item.dart';

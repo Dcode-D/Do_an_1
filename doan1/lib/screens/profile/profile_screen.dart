@@ -18,6 +18,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/news_create/create_tour/create_tour_bloc.dart';
+import '../../BLOC/profile/booker/booker_bloc.dart';
 import '../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
 import 'check_booking/check_booking_screen.dart';
 import 'edit_profile_screen.dart';
@@ -118,7 +119,15 @@ class ProfileScreen extends StatelessWidget {
                 child: const Icon(FontAwesomeIcons.checkCircle),
                 backgroundColor: Colors.orange,
                 onTap: ()
-                => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CheckBookingScreen())),
+                => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(value: profileBloc),
+                        BlocProvider<BookerBloc>(
+                            create: (_) => BookerBloc()..add(GetBookerEvent(ownerId: profileBloc.user!.id,page: 1))
+                        )
+                      ],
+                        child: CheckBookingScreen()))),
                 label: 'Check booking',
                 labelStyle: const TextStyle(
                     color: Colors.white,

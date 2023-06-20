@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../BLOC/components/places_bloc.dart';
+import '../../../BLOC/components/places/places_bloc.dart';
 import '../../../models/destination_model.dart';
 import '../../../widgets/dialog/add_avatar_image_dialog.dart';
 

@@ -1,5 +1,5 @@
 
-import 'package:doan1/BLOC/components/places_bloc.dart';
+import 'package:doan1/BLOC/components/places/places_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/widgets/dialog/add_avatar_image_dialog.dart';
 import 'package:flutter/material.dart';

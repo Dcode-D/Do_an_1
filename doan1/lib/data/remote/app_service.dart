@@ -48,7 +48,6 @@ abstract class AppService {
   @GET("/car/{id}")
   Future<HttpResponse<BaseResponse>> getCarById(@Path('id') String id);
 
-  //TODO: read this query
   @GET("/car")
   Future<HttpResponse<ListModelResponse>> getListCarQuery(
     @Query('page') int page,
@@ -66,6 +65,9 @@ abstract class AppService {
     @Header("Authorization") required String token,
     @Path('id') required String id
   });
+
+  @GET("/car/page")
+  Future<HttpResponse<BaseResponse>> GetMaxPageOfCar();
 //Hotel API
   @GET("/hotel/page/{page}")
   Future<HttpResponse<ListModelResponse>> getListHotelByQuery(
@@ -82,7 +84,9 @@ abstract class AppService {
   @GET("/hotel/hotelRoom/{id}")
   Future<HttpResponse<BaseResponse>> getHotelRoomById(@Path('id') String id);
 
-  //TODO: Bug in this API
+  @GET("/hotel/page")
+  Future<HttpResponse<BaseResponse>> getMaxPageOfHotel();
+
   @GET("/hotel/id/{id}")
   Future<HttpResponse<BaseResponse>> getHotelById(@Path('id') String id);
 
@@ -159,6 +163,7 @@ abstract class AppService {
     @Part(name: "color") required String color,
     @Part(name: "files") required List<File> files});
 
+//dateBooking API
   @POST("/dateBooking")
   Future<HttpResponse> createDateBooking({
     @Header("Authorization") required String token,
@@ -181,6 +186,21 @@ abstract class AppService {
     @Header("Authorization") required String token,
     @Path('id') required String idDateBooking});
 
+  @GET("/dateBooking/{id}/approve")
+  Future<HttpResponse> approveDateBooking({
+    @Header("Authorization") required String token,
+    @Path('id') required String idDateBooking});
+
+  @GET("/dateBooking/hotel/{id}")
+  Future<HttpResponse<ListModelResponse>> getHotelDateBookingList({
+    @Header("Authorization") required String token,
+    @Path('id') required String idHotel});
+
+  @GET("/dateBooking/car/{id}")
+  Future<HttpResponse<ListModelResponse>> getCarDateBookingList({
+    @Header("Authorization") required String token,
+    @Path('id') required String idCar});
+//tour API
   @POST("/tour/")
   Future<HttpResponse> createTour({
     @Header("Authorization") required String token,
