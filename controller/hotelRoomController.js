@@ -107,7 +107,7 @@ const getHotelRoom = async (req,res)=>{
                                 {endDate:{$gte: new Date(endDate)}}
                             ]},
             ],
-                })
+                }).where({suspended: false})
                 .select('attachedServices').exec();
             tmplist.forEach((item)=>notAvailableList.push(item.attachedServices));
         }
