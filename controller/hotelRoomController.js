@@ -98,14 +98,8 @@ const getHotelRoom = async (req,res)=>{
             const tmplist = await query.where(
                 {
                     $or:[
-                        {$and:[
-                                {startDate:{$lte: new Date(startDate)}},
-                                {endDate:{$gt: new Date(startDate)}}
-                            ]},
-                        {$and:[
-                                {startDate:{$lt: new Date(endDate)}},
-                                {endDate:{$gte: new Date(endDate)}}
-                            ]},
+                        {$and:[{startDate:{$gte: new Date(startDate)}},{startDate:{$lt: new Date(endDate)}}]},
+                        {$and:[{endDate:{$gt: new Date(startDate)}},{endDate:{$lte: new Date(endDate)}}]},
             ],
                 }).where({suspended: false})
                 .select('attachedServices').exec();

@@ -9,7 +9,7 @@ const createDateBooking = async (req, res) => {
     try {
         const {type, attachedServices, startDate, endDate, note} = req.body;
         if (!type || !attachedServices || !startDate || !endDate) return res.status(400).json({status: "error", message: "Missing required fields"});
-        if(new Date(startDate)>=new Date(endDate)) return res.status(400).json({status: "error", message: "Start date must be before end date"});
+        if(new Date(startDate)>new Date(endDate)) return res.status(400).json({status: "error", message: "Start date must be before end date"});
         const check = await dateBookingModel.find().where("type").equals(type)
             .where({attachedServices: {$in: attachedServices}})
             .where({$or:[
