@@ -38,6 +38,7 @@ class AllHotelScreen extends StatelessWidget{
         }
       },
       child: BlocBuilder<AllHotelBloc,AllHotelState>(
+        bloc: allHotelBloc,
         builder:(context,state) =>
         Scaffold(
           appBar: AppBar(
@@ -78,7 +79,6 @@ class AllHotelScreen extends StatelessWidget{
                     Hotel hotel = allHotelBloc.listHotel![index];
                     return MultiBlocProvider(
                       providers: [
-                        BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
                         BlocProvider<ProfileBloc>.value(value: profileBloc),
                         BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                       ],

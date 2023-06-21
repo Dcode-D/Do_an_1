@@ -79,7 +79,6 @@ class AllVehicleScreen extends StatelessWidget{
                       Vehicle vehicle = allVehicleBloc.listVehicle![index];
                       return MultiBlocProvider(
                         providers: [
-                          BlocProvider<AllVehicleBloc>.value(value: allVehicleBloc),
                           BlocProvider<ProfileBloc>.value(value: profileBloc),
                           BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                         ],
