@@ -95,7 +95,20 @@ const getHotelRoom = async (req,res)=>{
         if(req.query.startDate&&req.query.endDate){
             let startDate = req.query.startDate;
             let endDate = req.query.endDate;
-            const tmplist = await query.where({$and:[{startDate:{$gte: new Date(startDate)}},{endDate:{$lte: new Date(endDate)}}]}).select('attachedServices').exec();
+            const tmplist = await query.where(
+                {
+                    $or:[
+                        {$and:[
+                                {startDate:{$lte: new Date(startDate)}},
+                                {endDate:{$gt: new Date(startDate)}}
+                            ]},
+                        {$and:[
+                                {startDate:{$lt: new Date(endDate)}},
+                                {endDate:{$gte: new Date(endDate)}}
+                            ]},
+            ],
+                })
+                .select('attachedServices').exec();
             tmplist.forEach((item)=>notAvailableList.push(item.attachedServices));
         }
         if(!req.params.hotel){

@@ -299,7 +299,8 @@ const deleteHotel = async (req, res) => {
         if(!hotelcheck||!hotelcheck.owner.equals(req.user._id)){
             return res.status(403).json({status: "error", message: "Not permitted"});
         }
-        const checkBooking = await DateBookingModel.find({attachedServices: {$in: [req.params.id]}, startDate: {$gte: new Date()}, suspended: false});
+        const rooms = await hotelRoomModel.find({hotel: req.params.id});
+        const checkBooking = await DateBookingModel.find({attachedServices: {$in: rooms.map(item=>item._id)}, startDate: {$gte: new Date()}, suspended: false});
         if(checkBooking.length > 0){
             return res.status(403).json({status: "error", message: "Hotel has future booking"});
         }
