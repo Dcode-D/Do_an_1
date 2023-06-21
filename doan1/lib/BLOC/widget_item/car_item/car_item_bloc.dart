@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
+import '../../../data/model/favorite.dart';
 import '../../../data/model/vehicle.dart';
 
 part 'car_item_event.dart';
@@ -12,6 +13,7 @@ part 'car_item_state.dart';
 class CarItemBloc extends Bloc<CarItemEvent,CarItemState>{
   Vehicle? vehicle;
   List<String>? listImage;
+  Favorite? favorite;
   CarItemBloc() : super(CarItemState(getCarItemSuccess: false)){
     listImage = [];
     on<GetCarItemEvent>((event, emit) async {

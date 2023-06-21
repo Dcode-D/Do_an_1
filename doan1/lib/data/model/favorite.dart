@@ -45,3 +45,11 @@ extension FavoriteTransformExtension on BaseResponse{
     return Favorite.fromJson(this.data!);
   }
 }
+
+extension FavoriteIdExtension on BaseResponse{
+  Map<String,dynamic>? toFavoriteId(){
+    if(this.data == null)
+      return null;
+    return this.data;
+  }
+}

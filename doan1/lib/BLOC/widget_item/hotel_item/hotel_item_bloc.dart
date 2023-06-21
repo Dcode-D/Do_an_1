@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:doan1/BLOC/profile/favorite/favorite_bloc.dart';
 import 'package:doan1/data/repositories/hotelroom_repo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
+import '../../../data/model/favorite.dart';
 import '../../../data/model/hotel.dart';
 import '../../../data/model/hotelroom.dart';
 import '../../../data/repositories/favorite_repo.dart';
@@ -16,6 +16,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   Hotel? hotel;
   List<String>? listImage;
   List<HotelRoom>? listHotelRoom;
+  Favorite? favorite;
   HotelItemBloc() : super(InitialHotelItemState()){
     listImage = [];
     on<GetHotelItemEvent>((event,emit)async{
@@ -49,18 +50,50 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
         emit(HotelItemGetRoomState(getHotelRoomSuccess: false));
       }
     });
-    on<LoveHotelEvent>((event,emit) async {
+    on<LikeHotelEvent>((event,emit) async {
       if(hotel == null){
         emit(HotelItemLoveState(loveHotelSuccess: false));
         return;
       }
-      // var result = await loveHotelFunc(hotel!.id!);
-      // if(result == true){
-      //   emit(HotelItemLoveState(loveHotelSuccess: true));
-      // }
-      // else{
-      //   emit(HotelItemLoveState(loveHotelSuccess: false));
-      // }
+      var result = await createFavoriteHotel(hotel!.id!,event.userId!);
+      if(result == true){
+        emit(HotelItemLoveState(loveHotelSuccess: true));
+      }
+      else{
+        emit(HotelItemLoveState(loveHotelSuccess: false));
+      }
+    });
+    on<DislikeHotelEvent>((event,emit) async {
+      if(favorite == null){
+        emit(HotelItemLoveState(loveHotelSuccess: false));
+        return;
+      }
+      var result = await deleteFavoriteHotel(favorite!.id!);
+      if(result == true){
+        emit(HotelItemLoveState(loveHotelSuccess: false));
+      }
+      else{
+        emit(HotelItemLoveState(loveHotelSuccess: true));
+      }
+    });
+    on<GetHotelIsFavorite>((event,emit)async{
+      if(hotel == null){
+        emit(HotelItemGetFavoriteState(getHotelFavoriteSuccess: false));
+        return;
+      }
+      var result = await isHotelFavorite(hotel!.id!);
+      if (result == null){
+        emit(HotelItemGetFavoriteState(getHotelFavoriteSuccess: false));
+      }
+      else{
+        favorite = await getFavoriteById(result);
+        if(favorite == null){
+          emit(HotelItemGetFavoriteState(getHotelFavoriteSuccess: false));
+        }
+        else{
+          emit(HotelItemGetFavoriteState(getHotelFavoriteSuccess: true));
+        }
+      }
     });
   }
   Future<List<HotelRoom>?> getListHotelRoomFunc(String hotelID,String startDate,String endDate) async{
@@ -92,6 +125,28 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
     }catch(e){
       print(e);
       return false;
+    }
+  }
+
+  Future<String?> isHotelFavorite(String hotelId) async {
+    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    try{
+      var result = await favoriteRepo.getIsFavoriteByService("hotel",hotelId);
+      return result;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Favorite?> getFavoriteById(String id) async {
+    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    try{
+      var result = await favoriteRepo.getFavoriteById(id);
+      return result;
+    }catch(e){
+      print(e);
+      return null;
     }
   }
 }

@@ -15,6 +15,11 @@ class HotelItemGetRoomState extends HotelItemState{
   HotelItemGetRoomState({required this.getHotelRoomSuccess});
 }
 
+class HotelItemGetFavoriteState extends HotelItemState{
+  bool getHotelFavoriteSuccess;
+  HotelItemGetFavoriteState({required this.getHotelFavoriteSuccess});
+}
+
 class HotelItemLoveState extends HotelItemState{
   bool loveHotelSuccess;
   HotelItemLoveState({required this.loveHotelSuccess});

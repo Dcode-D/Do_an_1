@@ -251,12 +251,18 @@ abstract class AppService {
   Future<HttpResponse<ListModelResponse>> getFavoriteByUser({
     @Header("Authorization") required String token,
     @Path('type') required String type,
-    @Query('user') required String userId
   });
 
   @DELETE("/favorite/{id}")
   Future<HttpResponse> deleteFavoriteById({
     @Header("Authorization") required String token,
     @Path('id') required String id
+  });
+
+  @GET("/favorite/isFavorite/{type}/{service}")
+  Future<HttpResponse<BaseResponse>> isFavorite({
+    @Header("Authorization") required String token,
+    @Path('type') required String type,
+    @Path('service') required String service
   });
 }
