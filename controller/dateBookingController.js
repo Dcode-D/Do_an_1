@@ -27,8 +27,10 @@ const createDateBooking = async (req, res) => {
             if(hotelRooms.length>1){
                 for(let i=0;i<hotelRooms.length-1;i++){
                     if(!hotelRooms[i].hotel.equals(hotelRooms[i+1].hotel)) return res.status(400).json({status: "error", message: "Hotel rooms must be in the same hotel"});
-                    price += hotelRooms[i].price;
                 }
+            }
+            for(let hotelRoom of hotelRooms){
+                price += hotelRoom.price;
             }
         }
 
@@ -39,6 +41,9 @@ const createDateBooking = async (req, res) => {
                     if(!cars[i].owner.equals(cars[i+1].owner)) return res.status(400).json({status: "error", message: "Cars must be from the same owner"});
                     price += cars[i].price;
                 }
+            }
+            for(let car of cars){
+                price += car.pricePerDay;
             }
         }
         if(type !== "hotel" && type !== "car") return res.status(400).json({status: "error", message: "Invalid type"});
