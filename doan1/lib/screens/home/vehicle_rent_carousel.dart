@@ -40,8 +40,8 @@ class VehicleRentCarousel extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(
                       builder: (context) => MultiBlocProvider(
                         providers: [
-                          BlocProvider<AllVehicleBloc>.value(
-                              value: allVehicleBloc),
+                          BlocProvider<AllVehicleBloc>(
+                              create:(BuildContext context)=> AllVehicleBloc()..add(GetVehicleListEvent())),
                           BlocProvider<ProfileBloc>.value(
                               value: profileBloc),
                           BlocProvider<BookHistoryBloc>.value(

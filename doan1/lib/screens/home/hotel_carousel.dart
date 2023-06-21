@@ -43,7 +43,9 @@ class HotelCarousel extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) =>
                   MultiBlocProvider(
                       providers: [
-                        BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
+                        BlocProvider<AllHotelBloc>(
+                          create: (_) => AllHotelBloc()..add(GetHotelListEvent()),
+                        ),
                         BlocProvider<ProfileBloc>.value(value: profileBloc),
                         BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                       ],

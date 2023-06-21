@@ -38,6 +38,7 @@ class AllHotelScreen extends StatelessWidget{
         }
       },
       child: BlocBuilder<AllHotelBloc,AllHotelState>(
+        bloc: allHotelBloc,
         builder:(context,state) =>
         Scaffold(
           appBar: AppBar(
