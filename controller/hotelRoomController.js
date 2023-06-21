@@ -109,13 +109,16 @@ const getHotelRoom = async (req,res)=>{
             ],
                 }).where({suspended: false})
                 .select('attachedServices').exec();
-            tmplist.forEach((item)=>notAvailableList.push(item.attachedServices));
+            for(let tmp of tmplist){
+                for(let service of tmp.attachedServices){
+                    notAvailableList.push(service);
+                }
+            }
         }
         if(!req.params.hotel){
             return res.status(400).json({status: "error", message: "No hotel id"});
         }
         const hotelRoom = await hotelRoomModel.find({hotel: req.params.hotel}).where('_id').nin(notAvailableList).exec();
-        hotelRoom.forEach((item)=>console.log(item._id!==notAvailableList[0]));
         return res.status(200).json({status: "success", data: hotelRoom});
     }
     catch (e){
