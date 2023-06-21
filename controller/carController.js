@@ -3,6 +3,7 @@ const path = require("path");
 const FileModel = require("../models/files_model");
 const fs = require("fs");
 const fileExtLimiter = require("../middleware/file_ext_limiter");
+const DateBookingModel = require("../models/dateBookingModel");
 
 
 const carFilesExtOptions = fileExtLimiter(['.jpg', '.png', '.jpeg', '.gif']);
@@ -130,6 +131,10 @@ const deleteCar = async (req, res) => {
     try {
         const carcheck = await Car.findById(req.params.id);
         if (carcheck.owner.equals(req.user._id)) {
+            const checkBooking = await DateBookingModel.find({attachedServices: {$in: [req.params.id]}, startDate: {$gte: new Date()}, suspended: false});
+            if(checkBooking.length > 0){
+                return res.status(403).json({status: "error", message: "Vehicle has future bookings"});
+            }
             const deletedcar = await Car.findByIdAndDelete(req.params.id);
             if(deletedcar.images){
                 for (const image of deletedcar.images) {

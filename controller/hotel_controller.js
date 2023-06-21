@@ -5,6 +5,7 @@ const FileModel = require('../models/files_model');
 const hotelModel = require('../models/hotel_model');
 const hotelRoomModel = require('../models/hotel_room_model');
 const facilityModel = require('../models/facility_model');
+const DateBookingModel = require('../models/dateBookingModel');
 const fileExtLimiter = require('../middleware/file_ext_limiter');
 
 const fileUploadMiddleware = fileUpload({
@@ -298,6 +299,10 @@ const deleteHotel = async (req, res) => {
         if(!hotelcheck||!hotelcheck.owner.equals(req.user._id)){
             return res.status(403).json({status: "error", message: "Not permitted"});
         }
+        const checkBooking = await DateBookingModel.find({attachedServices: {$in: [req.params.id]}, startDate: {$gte: new Date()}, suspended: false});
+        if(checkBooking.length > 0){
+            return res.status(403).json({status: "error", message: "Hotel has future booking"});
+        }
         const hotel = await hotelModel.findByIdAndDelete(req.params.id);
         if (!hotel) {
             return res.status(404).send({ error: 'Hotel not found' });
@@ -308,7 +313,6 @@ const deleteHotel = async (req, res) => {
             fs.unlinkSync(file.path);
         })
         await FileModel.deleteMany({attachedId: req.params.id});
-        await facilityModel.deleteMany({service: req.params.id});
         await hotel.deleteOne();
 
 
