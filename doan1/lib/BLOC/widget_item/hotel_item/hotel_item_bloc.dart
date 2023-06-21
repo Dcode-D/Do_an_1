@@ -8,6 +8,7 @@ import '../../../data/model/favorite.dart';
 import '../../../data/model/hotel.dart';
 import '../../../data/model/hotelroom.dart';
 import '../../../data/repositories/favorite_repo.dart';
+import '../../../data/repositories/hotel_repo.dart';
 
 part 'hotel_item_event.dart';
 part 'hotel_item_state.dart';
@@ -20,12 +21,12 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   HotelItemBloc() : super(InitialHotelItemState()){
     listImage = [];
     on<GetHotelItemEvent>((event,emit)async{
-      if(event.hotel == null){
+      if(event.hotelId == null){
         emit(HotelItemGetState(getHotelItemSuccess: false));
         return;
       }
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
-      hotel = event.hotel;
+      hotel = await getHotelById(event.hotelId!);
       for (var item in hotel!.images!){
         listImage!.add('$baseUrl/files/${item}');
       }
@@ -105,6 +106,17 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
     try{
       var listHotelRoom = await hotelRoomRepo.getHotelRoomListWithDate(hotelID,startDate,endDate);
       return listHotelRoom;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Hotel?> getHotelById(String id)async {
+    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    try{
+      var hotel = await hotelRepo.getHotelById(id);
+      return hotel;
     }catch(e){
       print(e);
       return null;

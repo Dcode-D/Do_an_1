@@ -153,17 +153,17 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
             current is BookHistoryInitial,
             builder:(context,state) =>
             state is BookHistoryInitial ?
-            state.isBookingHistoryLoaded == false || bookHistoryBloc.lsHotelBooking!.isEmpty ?
-            Center(
-              child:
-              Text('No hotel booking history',
-                style: GoogleFonts.raleway(
-                  fontSize: 20,
-                  color: Colors.black.withOpacity(0.5),
-                  fontWeight: FontWeight.w600
-                  ),
-                )
-              ,):
+              state.isBookingHistoryLoaded == false ?
+              Center(
+                child:
+                Text('No hotel booking history',
+                  style: GoogleFonts.raleway(
+                    fontSize: 20,
+                    color: Colors.black.withOpacity(0.5),
+                    fontWeight: FontWeight.w600
+                    ),
+                  )
+                ,):
             ListView.builder(
               controller: hotelBookingController,
               physics: const BouncingScrollPhysics(),

@@ -1,6 +1,21 @@
 part of 'car_item_bloc.dart';
 
-class CarItemState {
+@immutable
+abstract class CarItemState{}
+
+class InitialCarItemState extends CarItemState{}
+
+class CarItemGetState extends CarItemState{
   bool getCarItemSuccess;
-  CarItemState({required this.getCarItemSuccess});
+  CarItemGetState({required this.getCarItemSuccess});
+}
+
+class CarItemGetFavoriteState extends CarItemState{
+  bool getCarFavoriteSuccess;
+  CarItemGetFavoriteState({required this.getCarFavoriteSuccess});
+}
+
+class CarItemLoveState extends CarItemState{
+  bool loveCarSuccess;
+  CarItemLoveState({required this.loveCarSuccess});
 }

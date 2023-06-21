@@ -4,8 +4,8 @@ part of 'hotel_item_bloc.dart';
 abstract class HotelItemEvent{}
 
 class GetHotelItemEvent extends HotelItemEvent {
-  Hotel? hotel;
-  GetHotelItemEvent({required this.hotel});
+  String? hotelId;
+  GetHotelItemEvent({required this.hotelId});
 }
 
 class GetHotelRoomEvent extends HotelItemEvent {

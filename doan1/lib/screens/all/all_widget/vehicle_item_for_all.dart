@@ -157,7 +157,10 @@ class VehicleItemForAll extends StatelessWidget{
                           const SizedBox(width: 2.0),
                           Text(
                             carItemBloc.vehicle!.province != null && carItemBloc.vehicle!.city != null ?
-                            '${carItemBloc.vehicle!.province!}, ${carItemBloc.vehicle!.city!}' : 'Loading...',
+                                carItemBloc.vehicle!.city!.length < 10 ?
+                            '${carItemBloc.vehicle!.province!}, ${carItemBloc.vehicle!.city!}' :
+                            '${carItemBloc.vehicle!.province!}, ${carItemBloc.vehicle!.city!.substring(0,10)}...' :
+                            'Loading...',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,

@@ -16,6 +16,7 @@ class DateBooking{
   bool? approved;
   bool? suspended;
   String? type;
+  double? price;
 
   DateBooking({
     this.id,
@@ -27,6 +28,7 @@ class DateBooking{
     this.approved,
     this.suspended,
     this.type,
+    this.price
   });
 
   factory DateBooking.fromJson(Map<String, dynamic> json) => _$DateBookingFromJson(json);

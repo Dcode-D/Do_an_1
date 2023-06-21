@@ -8,7 +8,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../BLOC/screen/book_history/book_history_bloc.dart';
-import '../../BLOC/screen/home/home_bloc.dart';
 import '../../data/model/vehicle.dart';
 import '../../widgets/vehicle_item.dart';
 
@@ -77,7 +76,6 @@ class VehicleRentCarousel extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: allVehicleBloc.listVehicle!.length ,
                 itemBuilder:(BuildContext context, int index) {
-                  Vehicle vehicle = allVehicleBloc.listVehicle![index];
                   if (index < allVehicleBloc.listVehicle!.length) {
                     return MultiBlocProvider(
                       providers: [
@@ -91,7 +89,7 @@ class VehicleRentCarousel extends StatelessWidget {
                             value: bookHistoryBloc),
                       ],
                       child: BlocProvider<CarItemBloc>(
-                          create: (_) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),
+                          create: (_) => CarItemBloc()..add(GetCarItemEvent(vehicleId: allVehicleBloc.listVehicle![index].id!)),
                           child: VehicleItem(type: 1)),
                     );
                   }

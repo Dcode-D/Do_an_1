@@ -149,8 +149,8 @@ class HotelItemForAll extends StatelessWidget{
                       ),
                     ),
                     Positioned(
-                      right: 15.0,
-                      bottom: 10.0,
+                      right: 10.0,
+                      top: 15.0,
                       child: Row(
                         children: [
                           const Icon(
@@ -161,7 +161,10 @@ class HotelItemForAll extends StatelessWidget{
                           const SizedBox(width: 2.0),
                           Text(
                             hotelItemBloc.hotel!.province != null && hotelItemBloc.hotel!.city != null ?
-                            '${hotelItemBloc.hotel!.province!}, ${hotelItemBloc.hotel!.city!}' : 'Loading...',
+                            hotelItemBloc.hotel!.city!.length < 15 ?
+                            '${hotelItemBloc.hotel!.province!}, ${hotelItemBloc.hotel!.city!}' :
+                            '${hotelItemBloc.hotel!.province!}, ${hotelItemBloc.hotel!.city!.substring(0,15)}...' :
+                            'Loading...',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,

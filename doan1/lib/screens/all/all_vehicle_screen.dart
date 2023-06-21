@@ -76,15 +76,13 @@ class AllVehicleScreen extends StatelessWidget{
                   itemCount: state.isLoadingMore ? allVehicleBloc.listVehicle!.length + 1 : allVehicleBloc.listVehicle!.length,
                   itemBuilder: (BuildContext context, int index){
                     if(index < allVehicleBloc.listVehicle!.length){
-                      Vehicle vehicle = allVehicleBloc.listVehicle![index];
                       return MultiBlocProvider(
                         providers: [
-                          BlocProvider<AllVehicleBloc>.value(value: allVehicleBloc),
                           BlocProvider<ProfileBloc>.value(value: profileBloc),
                           BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                         ],
                           child: BlocProvider<CarItemBloc>(
-                            create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),
+                            create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicleId: allVehicleBloc.listVehicle![index].id!)),
                               child: VehicleItemForAll(type: 1,)));
                     }
                     else{

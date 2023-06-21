@@ -78,12 +78,11 @@ class AllHotelScreen extends StatelessWidget{
                     Hotel hotel = allHotelBloc.listHotel![index];
                     return MultiBlocProvider(
                       providers: [
-                        BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
                         BlocProvider<ProfileBloc>.value(value: profileBloc),
                         BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                       ],
                       child: BlocProvider<HotelItemBloc>(
-                          create: (context)=> HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
+                          create: (context)=> HotelItemBloc()..add(GetHotelItemEvent(hotelId: allHotelBloc.listHotel![index].id)),
                           child: HotelItemForAll(type: 1,)),
                     );
                   }

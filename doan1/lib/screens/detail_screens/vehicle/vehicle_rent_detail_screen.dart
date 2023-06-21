@@ -15,7 +15,6 @@ import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 class VehicleRentDetailScreen extends StatefulWidget{
   final int type;
 
-
   const VehicleRentDetailScreen({
     Key? key,
     required this.type,
@@ -31,14 +30,16 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
   @override
   Widget build(BuildContext context) {
     var carItemBloc = context.read<CarItemBloc>();
+    carItemBloc.add(GetCarIsFavorite());
     var profileBloc = context.read<ProfileBloc>();
     var bookHistoryBloc = context.read<BookHistoryBloc>();
     return BlocBuilder<CarItemBloc,CarItemState>(
+        buildWhen: (previous, current) => previous != current,
       builder: (context,state) =>
-      carItemBloc.vehicle != null ?
       Scaffold(
         body: Column(
           children: <Widget>[
+            carItemBloc.vehicle != null ?
             Hero(
               tag: carItemBloc.vehicle!.id.toString(),
               child: Stack(
@@ -101,20 +102,37 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                   ),
                 ]
               ),
-            ),
+            )
+                : const Center(child: CircularProgressIndicator()),
             const SizedBox(height: 10.0),
             Center(
-              child: SmoothPageIndicator(
-                controller: listController,
-                count: carItemBloc.vehicle!.images!.length,
-                effect: const ExpandingDotsEffect(
-                  activeDotColor: Colors.orange,
-                  dotColor: Color(0xFFababab),
-                  dotHeight: 4.8,
-                  dotWidth: 6,
-                  spacing: 4.8,
+              child:
+              carItemBloc.vehicle != null ?
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 10.0,
+                    ),
+                  ],
                 ),
-              ),
+                child: SmoothPageIndicator(
+                  controller: listController,
+                  count: carItemBloc.vehicle!.images!.length,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Colors.orange,
+                    dotColor: Color(0xFFababab),
+                    dotHeight: 4.8,
+                    dotWidth: 6,
+                    spacing: 4.8,
+                  ),
+                ),
+              ) : const SizedBox(),
             ),
             const SizedBox(height: 10.0),
             Padding(
@@ -133,8 +151,8 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                             Text(
                               carItemBloc.vehicle!.brand!,
                               style: GoogleFonts.raleway(
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.w700,
+                                fontSize: 23.0,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ]
@@ -142,9 +160,9 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                       ),
                       Flexible(
                         flex: 5,
-                        child: Text("${carItemBloc.vehicle!.pricePerDay!.toString()}\$/Day",
+                        child: Text("${formatCurrency.format(carItemBloc.vehicle!.pricePerDay!)} VNĐ / Day",
                           style: GoogleFonts.raleway(
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             fontWeight: FontWeight.w500,),),
                       ),
                     ],
@@ -257,48 +275,98 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
               ),
             ),
 
-            InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                    MultiBlocProvider(
-                        providers: [
-                          BlocProvider<CarItemBloc>.value(value: carItemBloc),
-                          BlocProvider<ProfileBloc>.value(value: profileBloc),
-                          BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
-                        ],
-                        child: VehicleRentBookInfoScreen())));
-              },
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
-                width: MediaQuery.of(context).size.width*0.32,
-                height: 50.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Favorite",
-                      style: GoogleFonts.roboto(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+            BlocBuilder<CarItemBloc,CarItemState>(
+              buildWhen: (previous, current) => current is CarItemGetFavoriteState,
+              builder:(context,state) =>
+              state is CarItemGetFavoriteState ?
+              state.getCarFavoriteSuccess == false ?
+              InkWell(
+                onTap: () {
+                  carItemBloc.add(LikeCarEvent(userId: profileBloc.user!.id));
+                  carItemBloc.add(GetCarIsFavorite());
+                },
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Theme.of(context).primaryColor,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0.0, 2.0),
+                        blurRadius: 5.0,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Like",
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 4.0),
+                      const Icon(
+                        FontAwesomeIcons.solidHeart,
                         color: Colors.white,
                       ),
-                    ),
-                    const SizedBox(width: 4.0),
-                    const Icon(
-                      FontAwesomeIcons.solidHeart,
-                      color: Colors.white,
-                    ),
-                  ],),
-              ),
+                    ],
+                  ),
+                ),
+              )
+                  :
+              InkWell(
+                onTap: () {
+                  carItemBloc.add(DislikeCarEvent());
+                  carItemBloc.add(GetCarIsFavorite());
+                },
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+                  width: MediaQuery.of(context).size.width * 0.32,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0.0, 2.0),
+                        blurRadius: 5.0,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Dislike",
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.orange,
+                        ),
+                      ),
+                      const SizedBox(width: 10.0),
+                      const Icon(
+                        FontAwesomeIcons.heart,
+                        color: Colors.orange,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+                  :
+              const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
-      ):
-      const Center(child: CircularProgressIndicator())
+      )
     );
   }
 

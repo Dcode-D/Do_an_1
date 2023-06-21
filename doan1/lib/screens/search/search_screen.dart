@@ -30,9 +30,9 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   final _searchController = TextEditingController();
-  late TabController _tabController = TabController(length: 3, vsync: this);
+  late final TabController _tabController = TabController(length: 3, vsync: this);
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +201,6 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
                 itemCount: searchBloc.listHotel!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Hotel hotel = searchBloc.listHotel![index];
                   return MultiBlocProvider(
                     providers: [
                       BlocProvider.value(value: profileBloc),
@@ -209,7 +208,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                       BlocProvider.value(value: bookHistoryBloc)
                     ],
                       child: BlocProvider<HotelItemBloc>(
-                        create: (context) => HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
+                        create: (context) => HotelItemBloc()..add(GetHotelItemEvent(hotelId: searchBloc.listHotel![index].id)),
                           child: HotelItem(type: 2)));
                 },
               ) :
@@ -236,7 +235,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                       BlocProvider.value(value: bookHistoryBloc)
                     ],
                       child: BlocProvider<CarItemBloc>(
-                        create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicle: vehicle)),
+                        create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicleId: searchBloc.listVehicle![index].id!)),
                           child: VehicleItem(type: 2)));
                 },
               ) :

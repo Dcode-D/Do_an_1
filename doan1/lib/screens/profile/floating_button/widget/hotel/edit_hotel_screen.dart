@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../BLOC/profile/edit_hotel/edit_hotel_item_bloc.dart';
-import '../../../../../models/destination_model.dart';
 
 class EditHotelScreen extends StatefulWidget {
   @override
@@ -112,8 +111,9 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
             cityController.text = editHotelItemBloc.hotel!.city ?? '';
             facilitiesController.text = '';
             for(var facility in editHotelItemBloc.hotel!.facilities!){
-              if(facility.isNotEmpty)
+              if(facility.isNotEmpty) {
                 facilitiesController.text += '$facility, ';
+              }
             }
             return !(state as EditHotelItemLoaded).loading
                 ? Form(
@@ -176,20 +176,20 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                       showDialog(context: context, builder:
                                       (context)=>
                                           AlertDialog(
-                                            title: Text('Select Image Source'),
+                                            title: const Text('Select Image Source'),
                                             content: SingleChildScrollView(
                                               child: ListBody(
                                                 children: [
                                                   GestureDetector(
-                                                    child: Text('Take a photo'),
+                                                    child: const Text('Take a photo'),
                                                     onTap: () async {
                                                       Navigator.pop(context);
                                                       editHotelItemBloc.add(AddImageEvent(ImagePickMethod.CAMERA));
                                                     },
                                                   ),
-                                                  Padding(padding: EdgeInsets.all(8.0)),
+                                                  const Padding(padding: EdgeInsets.all(8.0)),
                                                   GestureDetector(
-                                                    child: Text('Choose from gallery'),
+                                                    child: const Text('Choose from gallery'),
                                                     onTap: () async {
                                                       Navigator.pop(context);
                                                       editHotelItemBloc.add(AddImageEvent(ImagePickMethod.GALLERY));
@@ -208,7 +208,6 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                   ),
                                 ],
                               ),
-
                               const SizedBox(
                                 height: 10,
                               ),
@@ -246,7 +245,6 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                       return null;
                                     },
                                   ),
-
                                   const SizedBox(
                                     height: 10,
                                   ),
@@ -260,6 +258,9 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                       color: Colors.orange,
                                     ),
                                   ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
                                   SingleChildScrollView(
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -269,9 +270,10 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                         ),
                                       ),
                                       child: SizedBox(
-                                        height: 200,
+                                        height: 250,
                                         child: editHotelItemBloc.hotel != null
                                             ? GridView.builder(
+                                              padding: const EdgeInsets.all(10),
                                                 gridDelegate:
                                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 3,

@@ -1,5 +1,4 @@
 
-import 'package:doan1/data/model/article.dart';
 import 'package:doan1/data/model/remote/base_response.dart';
 import 'package:doan1/data/model/remote/id_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
@@ -11,14 +10,14 @@ part 'favorite.g.dart';
 class Favorite{
   @JsonKey(name: "_id")
   String? id;
-  String? userId;
-  String? elementId;
+  String? user;
+  String? element;
   String? type;
 
   Favorite({
     this.id,
-    this.userId,
-    this.elementId,
+    this.user,
+    this.element,
     this.type,
   });
 

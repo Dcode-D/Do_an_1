@@ -29,7 +29,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
   Widget build(BuildContext context) {
     var hotelItemBloc = context.read<HotelItemBloc>();
     hotelItemBloc.add(GetHotelIsFavorite());
-    var proFileBloc = context.read<ProfileBloc>();
+    var profileBloc = context.read<ProfileBloc>();
     var bookHistoryBloc = context.read<BookHistoryBloc>();
     final formatCurrency = NumberFormat("#,###");
     return BlocBuilder<HotelItemBloc,HotelItemState>(
@@ -106,15 +106,29 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                 const SizedBox(height: 10.0),
                 hotelItemBloc.listImage == null ? const Center(child: CircularProgressIndicator(),) :
                 Center(
-                  child: SmoothPageIndicator(
-                    controller: listController,
-                    count: hotelItemBloc.listImage!.length,
-                    effect: const ExpandingDotsEffect(
-                      activeDotColor: Colors.orange,
-                      dotColor: Color(0xFFababab),
-                      dotHeight: 4.8,
-                      dotWidth: 6,
-                      spacing: 4.8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 10.0,
+                        ),
+                      ],
+                    ),
+                    child: SmoothPageIndicator(
+                      controller: listController,
+                      count: hotelItemBloc.listImage!.length,
+                      effect: const ExpandingDotsEffect(
+                        activeDotColor: Colors.orange,
+                        dotColor: Color(0xFFababab),
+                        dotHeight: 4.8,
+                        dotWidth: 6,
+                        spacing: 4.8,
+                      ),
                     ),
                   ),
                 ),
@@ -134,7 +148,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-
+                          const SizedBox(width: 10.0),
                           hotelItemBloc.hotel?.maxPrice !=null && hotelItemBloc.hotel?.minPrice !=null?
                           Flexible(
                             child: Text(
@@ -240,7 +254,8 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
               ],
             ),
           ),
-        bottomNavigationBar: Row(
+        bottomNavigationBar:
+        Row(
           children: [
             InkWell(
               onTap: () {
@@ -248,7 +263,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                     MultiBlocProvider(
                         providers: [
                           BlocProvider<ProfileBloc>.value(
-                              value: proFileBloc),
+                              value: profileBloc),
                           BlocProvider<HotelBookingBloc>(
                               create: (context) => HotelBookingBloc()),
                           BlocProvider<HotelItemBloc>.value(
@@ -301,7 +316,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                 state.getHotelFavoriteSuccess == false ?
                   InkWell(
                     onTap: () {
-                      hotelItemBloc.add(LikeHotelEvent(userId: proFileBloc.user!.id));
+                      hotelItemBloc.add(LikeHotelEvent(userId: profileBloc.user!.id));
                       hotelItemBloc.add(GetHotelIsFavorite());
                     },
                     child: Container(

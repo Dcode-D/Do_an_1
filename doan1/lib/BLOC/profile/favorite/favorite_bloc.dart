@@ -19,70 +19,68 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   List<Favorite>? listCarFavorite;
   // List<Tour>? listTourFavorite;
   FavoriteBloc() : super(FavoriteInitial()){
-    on<GetListHotelFavoriteEvent>((event,emit){
+    on<GetListHotelFavoriteEvent>((event,emit) async {
       listHotel = [];
       listHotelFavorite = [];
       if(event.userId == null){
         emit(FavoriteLoaded(false));
         return;
       }
-      getListIdFavoriteByUserId("hotel", event.userId!).then((value) async {
-        if(value == null){
-          emit(FavoriteLoaded(false));
-          return;
+      var tempLs = await getListIdFavoriteByUserId("hotel", event.userId!);
+      if(tempLs == null){
+        emit(FavoriteLoaded(false));
+        return;
+      }
+      for (var item in tempLs){
+        var favoriteHotel = await getFavoriteById(item);
+        if(favoriteHotel != null){
+          listHotelFavorite!.add(favoriteHotel);
         }
-        for (var item in value){
-          var hotel = await getHotelById(item);
-          if(hotel != null){
-            listHotel!.add(hotel);
-          }
+      }
+      for (var item in listHotelFavorite!){
+        var hotel = await getHotelById(item.element!);
+        if(hotel != null){
+          listHotel!.add(hotel);
         }
-        for (var item in listHotel!){
-          var favorite = await getFavoriteById(item.id!);
-          if(favorite != null){
-            listHotelFavorite!.add(favorite);
-          }
-        }
-        if(listHotelFavorite != null){
-          emit(FavoriteLoaded(true));
-        }
-        else{
-          emit(FavoriteLoaded(false));
-        }
-      });
+      }
+      if(listHotelFavorite != null && listHotel != null){
+        emit(FavoriteLoaded(true));
+      }
+      else{
+        emit(FavoriteLoaded(false));
+      }
     });
 
-    on<GetListCarFavoriteEvent>((event,emit){
+    on<GetListCarFavoriteEvent>((event,emit) async {
       listCar = [];
       listCarFavorite = [];
       if(event.userId == null){
         emit(FavoriteLoaded(false));
         return;
       }
-      getListIdFavoriteByUserId("vehicle", event.userId!).then((value) async {
-        if(value == null){
-          emit(FavoriteLoaded(false));
-          return;
+      var tempLs = await getListIdFavoriteByUserId("car", event.userId!);
+      if(tempLs == null){
+        emit(FavoriteLoaded(false));
+        return;
+      }
+      for (var item in tempLs){
+        var favoriteCar = await getFavoriteById(item);
+        if(favoriteCar != null){
+          listCarFavorite!.add(favoriteCar);
         }
-        for (var item in value){
-          var car = await getVehicleById(item);
-          if(car != null){
-            listCar!.add(car);
-          }
+      }
+      for (var item in listCarFavorite!){
+        var car = await getVehicleById(item.element!);
+        if(car != null){
+          listCar!.add(car);
         }
-        for (var item in listCar!){
-          var favorite = await getFavoriteById(item.id!);
-          if(favorite != null){
-            listCarFavorite!.add(favorite);
-          }
-        }
-        if(listCarFavorite != null){
-          emit(FavoriteLoaded(true));
-        }
-        else{
-          emit(FavoriteLoaded(false));
-        }
-      });
+      }
+      if(listCarFavorite != null && listCar != null){
+        emit(FavoriteLoaded(true));
+      }
+      else{
+        emit(FavoriteLoaded(false));
+      }
     });
 
     on<GetListTourFavoriteEvent>((event, emit) {

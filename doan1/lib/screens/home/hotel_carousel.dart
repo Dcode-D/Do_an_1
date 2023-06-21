@@ -10,7 +10,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
 import '../../BLOC/screen/book_history/book_history_bloc.dart';
-import '../../BLOC/screen/home/home_bloc.dart';
 
 
 class HotelCarousel extends StatelessWidget {
@@ -75,7 +74,6 @@ class HotelCarousel extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: allHotelBloc.listHotel!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Hotel hotel = allHotelBloc.listHotel![index];
                   return MultiBlocProvider(
                     providers: [
                       BlocProvider<AllHotelBloc>.value(value: allHotelBloc),
@@ -83,7 +81,7 @@ class HotelCarousel extends StatelessWidget {
                       BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
                     ],
                     child: BlocProvider<HotelItemBloc>(
-                      create: (context)=>HotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
+                      create: (context)=>HotelItemBloc()..add(GetHotelItemEvent(hotelId: allHotelBloc.listHotel![index].id)),
                         child: HotelItem( type: 1)),
                   );
                 }
