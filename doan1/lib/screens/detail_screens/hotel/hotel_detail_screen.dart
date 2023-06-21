@@ -148,9 +148,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(width: 10.0),
+                          const Spacer(),
                           hotelItemBloc.hotel?.maxPrice !=null && hotelItemBloc.hotel?.minPrice !=null?
                           Flexible(
+                            flex: 3,
                             child: Text(
                               "${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)} VNĐ / Night",
                               style: GoogleFonts.raleway(

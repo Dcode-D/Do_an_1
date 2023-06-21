@@ -153,40 +153,41 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
             current is BookHistoryInitial,
             builder:(context,state) =>
             state is BookHistoryInitial ?
-              state.isBookingHistoryLoaded == false ?
-              Center(
-                child:
-                Text('No hotel booking history',
-                  style: GoogleFonts.raleway(
-                    fontSize: 20,
-                    color: Colors.black.withOpacity(0.5),
-                    fontWeight: FontWeight.w600
-                    ),
-                  )
-                ,):
-            ListView.builder(
-              controller: hotelBookingController,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-              itemCount: bookHistoryBloc.lsHotelBooking!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return MultiBlocProvider(
-                  providers: [
-                    BlocProvider<ProfileBloc>.value(
-                      value: profileBloc),
-                    BlocProvider<HotelBookingItemBloc>(
-                      create: (context) => HotelBookingItemBloc()..add(
-                          HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index],index: index)),
-                    ),
-                    BlocProvider<BookHistoryBloc>.value(
-                      value: bookHistoryBloc),
-                  ],
-                    child: HotelBookingItem());
-              },
-            ) :
-            const Center(
-              child: CircularProgressIndicator(),
-            )
+              state.isBookingHistoryLoaded == true ?
+                  bookHistoryBloc.lsHotelBooking!.isEmpty ?
+                  Center(
+                    child:
+                    Text('No hotel booking history',
+                      style: GoogleFonts.raleway(
+                        fontSize: 20,
+                        color: Colors.black.withOpacity(0.5),
+                        fontWeight: FontWeight.w600
+                        )))
+                    :
+                  ListView.builder(
+                    controller: hotelBookingController,
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+                    itemCount: bookHistoryBloc.lsHotelBooking!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return MultiBlocProvider(
+                        providers: [
+                          BlocProvider<ProfileBloc>.value(
+                            value: profileBloc),
+                          BlocProvider<HotelBookingItemBloc>(
+                            create: (context) => HotelBookingItemBloc()..add(
+                                HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index],index: index)),
+                          ),
+                          BlocProvider<BookHistoryBloc>.value(
+                            value: bookHistoryBloc),
+                        ],
+                          child: HotelBookingItem());
+                    },)
+                :
+              const Center(
+                child: CircularProgressIndicator(),
+              ) :
+            const Center(child: CircularProgressIndicator(),)
           ),
         ),
 
@@ -195,41 +196,41 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
           current is BookHistoryInitial,
           builder:(context,state) =>
           state is BookHistoryInitial ?
-          state.isBookingHistoryLoaded == false || bookHistoryBloc.lsVehicleBooking!.isEmpty ?
-          Center(
-            child:
-            Text('No vehicle booking history',
-              style: GoogleFonts.raleway(
-                  fontSize: 20,
-                  color: Colors.black.withOpacity(0.5),
-                  fontWeight: FontWeight.w600
-              ),
-            )
-          ) :
-        ListView.builder(
-          controller: vehicleBookingController,
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-          itemCount: bookHistoryBloc.lsVehicleBooking!.length,
-          itemBuilder: (BuildContext context, int index) {
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider<ProfileBloc>.value(
-                    value: profileBloc),
-                BlocProvider<VehicleBookingItemBloc>(
-                    create: (context) => VehicleBookingItemBloc()..add(
-                        VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index],index: index))
-                ),
-                BlocProvider<BookHistoryBloc>.value(
-                    value: bookHistoryBloc),
-              ],
-                child: VehicleBookingItem());
-          },
-        ) :
-        const Center(
-          child: CircularProgressIndicator(),
-          )
-        ),
+            state.isBookingHistoryLoaded == true ?
+              bookHistoryBloc.lsVehicleBooking!.isEmpty ?
+                Center(child:
+                  Text('No vehicle booking history',
+                    style: GoogleFonts.raleway(
+                        fontSize: 20,
+                        color: Colors.black.withOpacity(0.5),
+                        fontWeight: FontWeight.w600
+                    ),
+                  )
+                )
+                  :
+                ListView.builder(
+                  controller: vehicleBookingController,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
+                  itemCount: bookHistoryBloc.lsVehicleBooking!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider<ProfileBloc>.value(
+                            value: profileBloc),
+                        BlocProvider<VehicleBookingItemBloc>(
+                            create: (context) => VehicleBookingItemBloc()..add(
+                                VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index],index: index))
+                        ),
+                        BlocProvider<BookHistoryBloc>.value(
+                            value: bookHistoryBloc),
+                      ],
+                        child: VehicleBookingItem());},)
+                :
+          const Center(child: CircularProgressIndicator(),)
+            :
+          const Center(child: CircularProgressIndicator(),),
+        )
       ],
     ),
         )

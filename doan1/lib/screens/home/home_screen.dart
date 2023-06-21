@@ -112,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                                   Text("Hi, ${profileBloc.user!.firstname}",
                                     style: GoogleFonts.raleway(
                                       fontSize: 16,
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ) : const Text('Loading...'),

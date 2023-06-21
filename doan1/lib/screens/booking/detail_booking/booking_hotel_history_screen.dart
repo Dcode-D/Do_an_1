@@ -22,13 +22,6 @@ class BookingHotelHistoryScreen extends StatelessWidget {
     var profileBloc = context.read<ProfileBloc>();
     var bookHistoryBloc = context.read<BookHistoryBloc>();
     var hotelBookingItemBloc = context.read<HotelBookingItemBloc>();
-    int calculateTotalPrice() {
-      int totalPrice = 0;
-      for (var i = 0; i < hotelBookingItemBloc.lsHotelRoom!.length; i++) {
-        totalPrice += hotelBookingItemBloc.lsHotelRoom![i].price!;
-      }
-      return totalPrice;
-    }
 
     return BlocListener<HotelBookingItemBloc,HotelBookingItemState>(
       listenWhen: (previous, current) =>
@@ -709,7 +702,7 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                           const Text('Loading...') :
                           Text(
                             // "${widget.totalPrice} \$",
-                            "${formatCurrency.format(calculateTotalPrice())} VNĐ",
+                            "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price!)} VNĐ",
                             style: TextStyle(
                               fontSize: 20,
                               fontFamily: GoogleFonts.raleway().fontFamily,
@@ -738,7 +731,7 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                           const Text('Loading...') :
                           Text(
                             // "${widget.totalPrice} \$",
-                            "${formatCurrency.format(calculateTotalPrice()*0.1)} VNĐ",
+                            "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price!*0.1)} VNĐ",
                             style: TextStyle(
                               fontSize: 20,
                               fontFamily: GoogleFonts.raleway().fontFamily,
@@ -765,7 +758,7 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                           ),
                           Text(
                             // "${widget.totalPrice} \$",
-                              "${formatCurrency.format(calculateTotalPrice()*1.1)} VNĐ",
+                              "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price!*1.1)} VNĐ",
                             style: TextStyle(
                               fontSize: 20,
                               fontFamily: GoogleFonts.raleway().fontFamily,
