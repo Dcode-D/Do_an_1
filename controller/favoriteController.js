@@ -74,7 +74,7 @@ const getIsFavorite = async (req, res) => {
         const type = req.params.type;
         const user = req.user._id;
         const service = req.params.service;
-        const favorite = await Favorite.find({user: user, type: type, service: service});
+        const favorite = await Favorite.find({user: user, type: type, element: service});
         if(favorite.length === 0)
             return res.status(200).json({status: "success", message: "Favorite not found", data: ""});
         return res.status(200).json({status: "success", message: "Favorite found", data: favorite[0]._id});
