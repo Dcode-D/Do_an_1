@@ -83,7 +83,7 @@ class FavoriteRepo {
         return null;
       }
       else{
-        return http.data.data!['_id'];
+        return http.data.toFavoriteId();
       }
     });
   }

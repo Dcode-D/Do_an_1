@@ -47,9 +47,9 @@ extension FavoriteTransformExtension on BaseResponse{
 }
 
 extension FavoriteIdExtension on BaseResponse{
-  Map<String,dynamic>? toFavoriteId(){
+  String? toFavoriteId(){
     if(this.data == null)
       return null;
-    return this.data;
+    return this.data!['_id'];
   }
 }
