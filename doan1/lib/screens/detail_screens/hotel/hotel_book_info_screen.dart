@@ -373,6 +373,23 @@ class HotelBookingInfoScreen extends StatelessWidget{
                           const Spacer(),
                           InkWell(
                             onTap: (){
+                              dateRangePickerController.selectedRange == null || dateRangePickerController.selectedRange!.startDate == null || dateRangePickerController.selectedRange!.endDate == null
+                                  ?
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Warning'),
+                                    content: const Text('You need to set a date first'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),)
+                                  :
                               showGeneralDialog(context: context,
                                 barrierDismissible: true,
                                 barrierLabel:
@@ -384,7 +401,7 @@ class HotelBookingInfoScreen extends StatelessWidget{
                                               BlocProvider.value(value: hotelItemBloc..add(
                                                   GetHotelRoomEvent(
                                                     startDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),
-                                                    endDate: dateRangePickerController.selectedRange!.startDate.toString().substring(0,10),
+                                                    endDate: dateRangePickerController.selectedRange!.endDate.toString().substring(0,10),
                                                   ))),
                                               BlocProvider.value(value: hotelBookingBloc),
                                             ],

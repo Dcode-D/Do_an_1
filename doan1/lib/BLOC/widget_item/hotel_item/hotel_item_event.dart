@@ -14,7 +14,12 @@ class GetHotelRoomEvent extends HotelItemEvent {
   GetHotelRoomEvent({required this.startDate,required this.endDate});
 }
 
-class LoveHotelEvent extends HotelItemEvent {
-  String? hotelId;
-  LoveHotelEvent({required this.hotelId});
+class GetHotelIsFavorite extends HotelItemEvent {}
+
+class LikeHotelEvent extends HotelItemEvent {
+  String? userId;
+  LikeHotelEvent({required this.userId});
+}
+
+class DislikeHotelEvent extends HotelItemEvent {
 }

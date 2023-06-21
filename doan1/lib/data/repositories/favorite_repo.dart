@@ -20,8 +20,7 @@ class FavoriteRepo {
     return _appService
         .getFavoriteByUser(
       token: 'Bearer ${_sharedPreferences.getString('token')!}',
-      type: type,
-      userId: userId)
+      type: type)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;
@@ -70,6 +69,21 @@ class FavoriteRepo {
       }
       else{
         return true;
+      }
+    });
+  }
+
+  Future<String?> getIsFavoriteByService(String type, String serviceId) async {
+    return _appService.isFavorite(
+        token: 'Bearer ${_sharedPreferences.getString('token')!}',
+        type: type,
+        service: serviceId
+    ).then((http)async{
+      if(http.response.statusCode != 200){
+        return null;
+      }
+      else{
+        return http.data.toFavoriteId();
       }
     });
   }

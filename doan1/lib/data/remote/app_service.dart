@@ -279,4 +279,11 @@ abstract class AppService {
     @Header("Authorization") required String token,
     @Path('id') required String car,
     @Body() required Map<String,dynamic> request});
+
+  @GET("/favorite/isFavorite/{type}/{service}")
+  Future<HttpResponse<BaseResponse>> isFavorite({
+    @Header("Authorization") required String token,
+    @Path('type') required String type,
+    @Path('service') required String service
+  });
 }
