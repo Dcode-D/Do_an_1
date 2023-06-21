@@ -73,8 +73,6 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
         var hotelRepo = GetIt.instance.get<HotelRepo>();
         var result = await hotelRepo.DeleteHotelImage(hotel!.id!, hotel!.images![event.index]);
         emit(EditHotelResult(result as bool));
-        if(result)
-          add(RefreshHotelItemEvent());
       }
     });
     on<AddImageEvent>((event,emit) async{

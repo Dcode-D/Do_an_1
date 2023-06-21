@@ -13,17 +13,17 @@ class EditVehicleItem extends StatelessWidget{
   final formatCurrency = NumberFormat("#,###");
   @override
   Widget build(BuildContext context) {
-    var editVehicleBloc = context.read<EditVehicleItemBloc>();
+    var editVehicleItemBloc = context.read<EditVehicleItemBloc>();
     var manageServiceBloc = context.read<ManageServiceBloc>();
     deleteVehicle()=>{
-      editVehicleBloc.add(VehicleItemDeleteEvent(editVehicleBloc.vehicle!.id!)),
-      manageServiceBloc.add(DeleteVehicleItem(editVehicleBloc.index!)),
+      editVehicleItemBloc.add(VehicleItemDeleteEvent(editVehicleItemBloc.vehicle!.id!)),
+      manageServiceBloc.add(DeleteVehicleItem(editVehicleItemBloc.index!)),
       Navigator.pop(context)
     };
 
     return BlocBuilder<EditVehicleItemBloc,EditVehicleItemState>(
       builder: (context,state)=>
-      editVehicleBloc.vehicle != null ?
+      editVehicleItemBloc.vehicle != null ?
           Padding(
           padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
           child: Container(
@@ -64,13 +64,13 @@ class EditVehicleItem extends StatelessWidget{
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    editVehicleBloc.vehicle!=null ?
+                    editVehicleItemBloc.vehicle!=null ?
                     FadeInImage(
                       width: MediaQuery.of(context).size.width * 0.325,
                       height: MediaQuery.of(context).size.height * 0.15,
                       imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                       image:
-                      NetworkImage(editVehicleBloc.vehicle!=null && editVehicleBloc.images!.isNotEmpty ? editVehicleBloc.images![0]: ""),
+                      NetworkImage(editVehicleItemBloc.vehicle!=null && editVehicleItemBloc.images!.isNotEmpty ? editVehicleItemBloc.images![0]: ""),
                       placeholder: const AssetImage('assets/images/loading.gif'),
                       fit: BoxFit.cover,
                     )
@@ -80,18 +80,18 @@ class EditVehicleItem extends StatelessWidget{
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(editVehicleBloc.vehicle!=null? editVehicleBloc.vehicle!.brand as String :"loading...",
+                        Text(editVehicleItemBloc.vehicle!=null? editVehicleItemBloc.vehicle!.brand as String :"loading...",
                           style: GoogleFonts.roboto(
                               fontSize: 15,
                               fontWeight: FontWeight.bold),),
                         const SizedBox(height: 5,),
-                        Text(editVehicleBloc.vehicle!=null? '${editVehicleBloc.vehicle!.seats} seats' :"loading...",
+                        Text(editVehicleItemBloc.vehicle!=null? '${editVehicleItemBloc.vehicle!.seats} seats' :"loading...",
                           style: GoogleFonts.roboto(
                               fontSize: 15,
                               fontWeight: FontWeight.w400),),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.52,
-                          child: Text(editVehicleBloc.vehicle!=null? '${editVehicleBloc.vehicle!.province}, ${editVehicleBloc.vehicle!.city}' :"loading...",
+                          child: Text(editVehicleItemBloc.vehicle!=null? '${editVehicleItemBloc.vehicle!.province}, ${editVehicleItemBloc.vehicle!.city}' :"loading...",
                             softWrap: true,
                             style: GoogleFonts.roboto(
                                 fontSize: 15,
@@ -110,7 +110,7 @@ class EditVehicleItem extends StatelessWidget{
                 Row(
                   children: [
                     Text(
-                      editVehicleBloc.vehicle!=null? '${formatCurrency.format(editVehicleBloc.vehicle!.pricePerDay)} VNĐ / day' :"loading...",
+                      editVehicleItemBloc.vehicle!=null? '${formatCurrency.format(editVehicleItemBloc.vehicle!.pricePerDay)} VNĐ / day' :"loading...",
                       style: GoogleFonts.roboto(
                           fontSize: 15,
                           color: Colors.black54,
@@ -124,7 +124,7 @@ class EditVehicleItem extends StatelessWidget{
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) =>
                               BlocProvider.value(
-                                value: editVehicleBloc,
+                                value: editVehicleItemBloc..add(VehicleItemRefreshEvent()),
                                 child: const EditVehicleScreen(),
                           )
                         ));

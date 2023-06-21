@@ -107,7 +107,7 @@ class HotelRepo{
 
   Future<bool?> DeleteHotelImage(String hotel, String imageId) async{
     return _appService.deleteHotelImage(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        hotel: hotel, request: _requestFactory.deleteHotelImage(imageId))
+        hotel: hotel, request: _requestFactory.deleteImage(imageId))
         .then((http) async {
       if(http.response.statusCode != 200){
         return false;

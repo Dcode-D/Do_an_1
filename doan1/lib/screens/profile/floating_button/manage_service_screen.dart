@@ -192,7 +192,7 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
                             BlocProvider.value(value: profileBloc),
                           ],
                             child: BlocProvider<EditVehicleItemBloc>(
-                                create: (context) => EditVehicleItemBloc()..add(GetVehicleItemEvent(vehicleId: vehicle, index: index)),
+                                create: (context) => EditVehicleItemBloc()..add(GetVehicleItemEvent(vehicleId: vehicle)),
                                 child: EditVehicleItem()));
                       },
                     ):

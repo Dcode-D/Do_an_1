@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:doan1/data/repositories/vehicle_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -21,7 +22,8 @@ class CarItemBloc extends Bloc<CarItemEvent,CarItemState>{
       }
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
       emit(CarItemState(getCarItemSuccess: false));
-      vehicle = event.vehicle;
+      var vehiclerepo = await GetIt.instance.get<VehicleRepo>();
+      vehicle = await vehiclerepo.getVehicleById(event.vehicle!.id!);
       for (var item in vehicle!.images!){
         listImage!.add('$baseUrl/files/${item}');
       }

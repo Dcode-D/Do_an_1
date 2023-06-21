@@ -181,7 +181,7 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                       SizedBox(
                         width: MediaQuery.of(context).size.width*0.8,
                         child: Text(
-                          carItemBloc.vehicle!.address!,
+                          carItemBloc.vehicle!.address??'',
                           style: GoogleFonts.raleway(
                             fontSize: 20.0,
                             fontWeight: FontWeight.w400,

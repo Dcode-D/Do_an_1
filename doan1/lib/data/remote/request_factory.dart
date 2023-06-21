@@ -76,7 +76,7 @@ class RequestFactory {
     };
   }
 
-  deleteHotelImage(String imageId){
+  deleteImage(String imageId){
     return {
       "imageId": imageId,
     };
@@ -87,6 +87,17 @@ class RequestFactory {
       "user": user,
       "element": element,
       "type": type
+    };
+  }
+
+  updateVehicle(String brand, double price, String color, String description, String address, int seats){
+    return {
+      "brand": brand,
+      "pricePerDay": price,
+      "color": color,
+      "description": description,
+      "address": address,
+      "seats": seats
     };
   }
 }

@@ -226,8 +226,8 @@ class HomeScreen extends StatelessWidget {
                                                   BlocProvider<ProfileBloc>.value(
                                                     value: profileBloc,
                                                   ),
-                                                  BlocProvider<AllHotelBloc>.value(
-                                                    value: allHotelBloc,
+                                                  BlocProvider<AllHotelBloc>(
+                                                    create: (_) => AllHotelBloc()..add(GetHotelListEvent()),
                                                   ),
                                                   BlocProvider.value(
                                                       value: bookHistoryBloc
@@ -266,8 +266,8 @@ class HomeScreen extends StatelessWidget {
                                           Navigator.push(context, MaterialPageRoute(builder: (context) =>
                                               MultiBlocProvider(
                                                 providers: [
-                                                  BlocProvider<AllVehicleBloc>.value(
-                                                    value: allVehicleBloc,),
+                                                  BlocProvider<AllVehicleBloc>(
+                                                    create: (BuildContext context)=>AllVehicleBloc()..add(GetVehicleListEvent()),),
                                                   BlocProvider<ProfileBloc>.value(
                                                     value: profileBloc,
                                                   ),
@@ -275,7 +275,11 @@ class HomeScreen extends StatelessWidget {
                                                     value: bookHistoryBloc
                                                   )
                                                 ],
-                                                  child: AllVehicleScreen())));
+                                                  child: Builder(
+                                                    builder: (context) {
+                                                      return AllVehicleScreen();
+                                                    }
+                                                  ))));
                                         },
                                         icon: const Icon(
                                           FontAwesomeIcons.car,

@@ -7,7 +7,13 @@ class EditVehicleItemInitial extends EditVehicleItemState {}
 
 class EditVehicleItemLoaded extends EditVehicleItemState {
   bool getDataSuccess;
-  EditVehicleItemLoaded(this.getDataSuccess);
+  bool loading;
+  EditVehicleItemLoaded(this.getDataSuccess, this.loading);
+}
+
+class EditVehicleItemModified extends EditVehicleItemState {
+  bool success;
+  EditVehicleItemModified(this.success);
 }
 
 class EditVehicleItemDelete extends EditVehicleItemState {

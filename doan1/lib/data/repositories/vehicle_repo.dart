@@ -118,4 +118,50 @@ class VehicleRepo{
       }
     });
   }
+
+  Future<bool> deleteVehicleImage(String carId, String image) async{
+    final req = _requestFactory.deleteImage(image);
+    return _appService.deleteCarImage(
+        token: "Bearer ${_sharedPreferences.getString("token")!}",
+        car: carId,
+        request: req)
+        .then((http) async{
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool> addVehicleImage(String vehicleId, File image){
+    return _appService.uploadCarImage(
+        token: "Bearer ${_sharedPreferences.getString("token")!}",
+        car: vehicleId,
+        file: image)
+        .then((http) async{
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+  Future<bool> updateVehicle(String id,String brand, double price, String color, String description, String address, int seats){
+    final req = _requestFactory.updateVehicle(brand, price, color, description, address, seats);
+    return _appService.updateCar(
+        token: "Bearer ${_sharedPreferences.getString("token")!}",
+        car: id,
+        request: req)
+        .then((http) async{
+      if(http.response.statusCode != 200){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
 }
