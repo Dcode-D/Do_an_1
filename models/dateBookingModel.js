@@ -34,6 +34,10 @@ const DateBookingSchema = Schema({
         type: String,
         enum: ['car', 'hotel'],
         require: true,
+    },
+    price:{
+        type: Number,
+
     }
 })
 

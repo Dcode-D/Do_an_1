@@ -8,6 +8,7 @@ const UserModel = require('../models/user_model');
 const createDateBooking = async (req, res) => {
     try {
         const {type, attachedServices, startDate, endDate, note} = req.body;
+        let price = 0;
         if (!type || !attachedServices || !startDate || !endDate) return res.status(400).json({status: "error", message: "Missing required fields"});
         if(new Date(startDate)>new Date(endDate)) return res.status(400).json({status: "error", message: "Start date must be before end date"});
         const check = await dateBookingModel.find().where("type").equals(type)
@@ -26,6 +27,7 @@ const createDateBooking = async (req, res) => {
             if(hotelRooms.length>1){
                 for(let i=0;i<hotelRooms.length-1;i++){
                     if(!hotelRooms[i].hotel.equals(hotelRooms[i+1].hotel)) return res.status(400).json({status: "error", message: "Hotel rooms must be in the same hotel"});
+                    price += hotelRooms[i].price;
                 }
             }
         }
@@ -35,6 +37,7 @@ const createDateBooking = async (req, res) => {
             if(cars.length>1){
                 for(let i=0;i<cars.length-1;i++){
                     if(!cars[i].owner.equals(cars[i+1].owner)) return res.status(400).json({status: "error", message: "Cars must be from the same owner"});
+                    price += cars[i].price;
                 }
             }
         }
@@ -46,6 +49,7 @@ const createDateBooking = async (req, res) => {
             startDate: startDate,
             endDate: endDate,
             user: req.user._id,
+            price: price,
             note: note,
         });
         await dateBooking.save();
