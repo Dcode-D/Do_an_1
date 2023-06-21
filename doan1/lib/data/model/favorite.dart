@@ -1,6 +1,7 @@
 
 import 'package:doan1/data/model/article.dart';
 import 'package:doan1/data/model/remote/base_response.dart';
+import 'package:doan1/data/model/remote/id_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -46,10 +47,10 @@ extension FavoriteTransformExtension on BaseResponse{
   }
 }
 
-extension FavoriteIdExtension on BaseResponse{
+extension FavoriteIdExtension on IdResponse{
   String? toFavoriteId(){
     if(this.data == null)
       return null;
-    return this.data!['_id'];
+    return this.data;
   }
 }

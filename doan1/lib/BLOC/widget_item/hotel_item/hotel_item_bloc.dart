@@ -86,6 +86,10 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
         emit(HotelItemGetFavoriteState(getHotelFavoriteSuccess: false));
       }
       else{
+        if(result == ""){
+          emit(HotelItemGetFavoriteState(getHotelFavoriteSuccess: false));
+          return;
+        }
         favorite = await getFavoriteById(result);
         if(favorite == null){
           emit(HotelItemGetFavoriteState(getHotelFavoriteSuccess: false));

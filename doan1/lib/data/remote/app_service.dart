@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:doan1/data/model/remote/avatar_file_response.dart';
+import 'package:doan1/data/model/remote/id_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:doan1/data/model/remote/login_response.dart';
 import '../model/hotelroom.dart';
@@ -250,14 +251,20 @@ abstract class AppService {
   @GET("/favorite/user/{type}")
   Future<HttpResponse<ListModelResponse>> getFavoriteByUser({
     @Header("Authorization") required String token,
-    @Path('type') required String type,
-    @Query('user') required String userId
+    @Path('type') required String type
   });
 
   @DELETE("/favorite/{id}")
   Future<HttpResponse> deleteFavoriteById({
     @Header("Authorization") required String token,
     @Path('id') required String id
+  });
+
+  @GET("/favorite/isFavorite/{type}/{service}")
+  Future<HttpResponse<IdResponse>> isFavorite({
+    @Header("Authorization") required String token,
+    @Path('type') required String type,
+    @Path('service') required String service
   });
 
   //provide imageId
@@ -280,10 +287,4 @@ abstract class AppService {
     @Path('id') required String car,
     @Body() required Map<String,dynamic> request});
 
-  @GET("/favorite/isFavorite/{type}/{service}")
-  Future<HttpResponse<BaseResponse>> isFavorite({
-    @Header("Authorization") required String token,
-    @Path('type') required String type,
-    @Path('service') required String service
-  });
 }

@@ -27,10 +27,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var scrollController = ScrollController();
     ProfileBloc profileBloc = context.read<ProfileBloc>();
-    AllHotelBloc allHotelBloc = context.read<AllHotelBloc>();
-    AllVehicleBloc allVehicleBloc = context.read<AllVehicleBloc>();
     ArticleBloc articleBloc = context.read<ArticleBloc>();
     BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
+
     return
       BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state)=>
           BlocBuilder<HomeBloc,HomeState>(
@@ -312,8 +311,8 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10,),
                   MultiBlocProvider(
                     providers: [
-                      BlocProvider<AllHotelBloc>.value(
-                        value: allHotelBloc,
+                      BlocProvider<AllHotelBloc>(
+                        create: (_) => AllHotelBloc()..add(GetHotelListEvent()),
                       ),
                       BlocProvider<ProfileBloc>.value(
                         value: profileBloc,
@@ -326,8 +325,8 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10,),
                   MultiBlocProvider(
                     providers: [
-                      BlocProvider<AllVehicleBloc>.value(
-                        value: allVehicleBloc,),
+                      BlocProvider<AllVehicleBloc>(
+                        create: (BuildContext context)=>AllVehicleBloc()..add(GetVehicleListEvent()),),
                       BlocProvider<ProfileBloc>.value(
                         value: profileBloc,
                       ),
