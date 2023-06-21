@@ -251,7 +251,6 @@ abstract class AppService {
   Future<HttpResponse<ListModelResponse>> getFavoriteByUser({
     @Header("Authorization") required String token,
     @Path('type') required String type,
-    @Query('user') required String userId
   });
 
   @DELETE("/favorite/{id}")
