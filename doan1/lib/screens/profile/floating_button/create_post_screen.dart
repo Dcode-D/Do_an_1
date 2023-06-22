@@ -277,6 +277,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                       color: Colors.orange,
                                     ),
                                   ),
+
                                   //image selected list
                                   SingleChildScrollView(
                                     child: Container(
@@ -556,10 +557,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                 decoration: InputDecoration(
                                   hintText: 'Description',
                                   hintStyle: GoogleFonts.raleway(
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w400,
                                     letterSpacing: 1.2,
-                                    color: Colors.black45,
+                                    color: Colors.black,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),

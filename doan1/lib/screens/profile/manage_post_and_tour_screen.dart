@@ -1,4 +1,5 @@
 import 'package:doan1/BLOC/profile/edit_post/edit_post_bloc.dart';
+import 'package:doan1/BLOC/profile/edit_tour/edit_tour_bloc.dart';
 import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/post/edit_post_item.dart';
@@ -155,7 +156,9 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                             BlocProvider.value(
                               value: manageNewsBloc,
                             ),
-                            BlocProvider<EditPostBloc>(create: (context) => EditPostBloc()..add(EditPostInitialEvent(article: article,index: index))),
+                            BlocProvider.value(value: profileBloc),
+                            BlocProvider<EditPostBloc>(create: (context) =>
+                            EditPostBloc()..add(EditPostInitialEvent(article: article,index: index))),
                           ],
                             child: EditPostItem());
                       },
@@ -167,7 +170,16 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
                       itemCount: vehicles.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return EditTourItem();
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: manageNewsBloc,
+                            ),
+                            BlocProvider.value(value: profileBloc),
+                            BlocProvider<EditTourBloc>(create: (context) =>
+                            EditTourBloc()),
+                            ],
+                            child: EditTourItem());
                       },
                     ),
                   ]

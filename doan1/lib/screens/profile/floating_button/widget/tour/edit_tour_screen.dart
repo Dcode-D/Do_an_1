@@ -1,5 +1,7 @@
+import 'package:doan1/BLOC/profile/edit_tour/edit_tour_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,8 +16,15 @@ class EditTourScreen extends StatefulWidget {
 
 class _EditTourScreenState extends State<EditTourScreen>{
   final _formKey = GlobalKey<FormState>();
+  final tourName = TextEditingController();
+  double rating = 3;
+  final priceController = TextEditingController();
+  final duration = TextEditingController();
+  final description = TextEditingController();
+  final maxGroupSize = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var editTourBloc = context.read<EditTourBloc>();
     return BlocBuilder<ProfileBloc,ProfileState>(
       builder: (context,state) =>
           SafeArea(
@@ -52,6 +61,10 @@ class _EditTourScreenState extends State<EditTourScreen>{
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+                            final intDuration = int.parse(duration.text);
+                            final doublePrice = double.parse(priceController.text);
+                            final intMaxGroupSize = int.parse(maxGroupSize.text);
+
                           }
                         },
                         icon: const Icon(
@@ -71,77 +84,60 @@ class _EditTourScreenState extends State<EditTourScreen>{
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      color: Colors.orange,
-                                      width: 2,
+                          BlocBuilder<ProfileBloc,ProfileState>(
+                            builder: (context,state) =>
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(50),
+                                      border: Border.all(
+                                        color: Colors.orange,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: context.read<ProfileBloc>().image != null
+                                        ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.network(
+                                        context.read<ProfileBloc>().image!,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                        : const CircleAvatar(
+                                      radius: 40,
+                                      backgroundImage: AssetImage(
+                                          "assets/images/undefine-wallpaper.jpg"),
                                     ),
                                   ),
-                                  child: context.read<ProfileBloc>().image !=
-                                      null
-                                      ? ClipRRect(
-                                    borderRadius:
-                                    BorderRadius.circular(50),
-                                    child: Image.network(
-                                      context
-                                          .read<ProfileBloc>()
-                                          .image!,
-                                      fit: BoxFit.cover,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    context.read<ProfileBloc>().user?.firstname != null &&
+                                        context.read<ProfileBloc>().user?.lastname != null
+                                        ? "${context.read<ProfileBloc>().user!.firstname} ${context.read<ProfileBloc>().user!.lastname}"
+                                        : "Firstname Lastname",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
                                     ),
-                                  )
-                                      : const CircleAvatar(
-                                    radius: 40,
-                                    backgroundImage: AssetImage(
-                                        "assets/images/undefine-wallpaper.jpg"),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 10,),
-                              Text(
-                                context.read<ProfileBloc>().user?.firstname != null &&
-                                    context.read<ProfileBloc>().user?.lastname != null ?
-                                "${context.read<ProfileBloc>().user!.firstname} ${context.read<ProfileBloc>().user!.lastname}"
-                                    : "Firstname Lastname",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1.2,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const Spacer(),
-                              IconButton(
-                                onPressed: () {
-                                  // showDialog(
-                                  //     context: context,
-                                  //     builder: (_)=>
-                                  //         Center(
-                                  //           child: ImagePickingDialog(getImageFromGallery: (){
-                                  //             context.read<PostsBloc>().add(AddImageEvent(ImagePickMethod.gallery));
-                                  //           }, getImageFromCamera: (){
-                                  //             context.read<PostsBloc>().add(AddImageEvent(ImagePickMethod.camera));
-                                  //           }, title: "Add image to the post"),
-                                  //         )
-                                  // );
-                                },
-                                icon: const Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          //FOR TOUR TODO: (Not include TourPlan)
                           const SizedBox(height: 10,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,8 +145,8 @@ class _EditTourScreenState extends State<EditTourScreen>{
                               Text(
                                 'Tour name',
                                 style: GoogleFonts.raleway(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
                                   letterSpacing: 1.2,
                                   color: Colors.black,
                                 ),
@@ -171,29 +167,160 @@ class _EditTourScreenState extends State<EditTourScreen>{
                                 },
                               ),
                               const SizedBox(height: 10,),
-                              Text(
-                                'Plan',
-                                style: GoogleFonts.raleway(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 1.2,
-                                  color: Colors.black,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Plan',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                      onTap: () {
+                                        // showGeneralDialog(
+                                        //     context: context,
+                                        //     barrierDismissible: true,
+                                        //     barrierLabel:
+                                        //     MaterialLocalizations.of(context)
+                                        //         .modalBarrierDismissLabel,
+                                        //     barrierColor: Colors.black54,
+                                        //     transitionDuration:
+                                        //     const Duration(milliseconds: 400),
+                                        //     transitionBuilder:
+                                        //         (context, anim1, anim2, child) {
+                                        //       return SlideTransition(
+                                        //         position: Tween(
+                                        //             begin: const Offset(0, 1),
+                                        //             end: const Offset(0, 0))
+                                        //             .animate(anim1),
+                                        //         child: child,
+                                        //       );
+                                        //     },
+                                        //     pageBuilder: (context, _, __) {
+                                        //       return MultiBlocProvider(providers: [
+                                        //         BlocProvider<CreateTourBloc>.value(
+                                        //           value: createTourBloc,
+                                        //         ),
+                                        //         BlocProvider<ArticleBloc>(
+                                        //           create: (context) =>
+                                        //           ArticleBloc()..add(GetArticleData()),
+                                        //         ),
+                                        //       ], child: AddPlanDialog());
+                                        //     });
+                                      },
+                                      child: Text(
+                                        'Add plan',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 1.2,
+                                          color: Colors.orange,
+                                        ),
+                                      )),
+                                ],
                               ),
                               const SizedBox(height: 10,),
-                              //TODO: add list of destination
+                              BlocBuilder<EditTourBloc, EditTourState>(
+                                buildWhen: (previous, current) =>
+                                current is EditTourInitial ||
+                                    current is EditPlanSetState,
+                                builder: (context, state) => Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.8),
+                                      border: Border.all(
+                                          color: Colors.black.withOpacity(0.2),
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(5),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          offset: Offset(0, 2),
+                                          blurRadius: 6.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: state is EditTourInitial ||
+                                        (state is EditPlanSetState &&
+                                               editTourBloc.listSelectedTourPlan.isEmpty)
+                                        ? Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Text(
+                                        'No plan added yet',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color:
+                                          Colors.black.withOpacity(0.5),
+                                        ),
+                                      ),
+                                    )
+                                        :
+                                    //plan list here
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                      const NeverScrollableScrollPhysics(),
+                                      itemCount: editTourBloc
+                                          .listSelectedTourPlan.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '${editTourBloc.listSelectedTourPlan[index].title}',
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 1.2,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              InkWell(
+                                                onTap: () {
+                                                  context
+                                                      .read<EditTourBloc>()
+                                                      .add(RemoveEditTourPlan(
+                                                      article: context
+                                                          .read<
+                                                          EditTourBloc>()
+                                                          .listSelectedTourPlan[
+                                                      index]));
+                                                },
+                                                child: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    )),
+                              ),
                               const SizedBox(height: 10,),
                               Text(
                                 'Price',
                                 style: GoogleFonts.raleway(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
                                   letterSpacing: 1.2,
                                   color: Colors.black,
                                 ),
                               ),
                               const SizedBox(height: 10,),
                               TextFormField(
+                                controller: priceController,
                                 decoration: InputDecoration(
                                   hintText: 'Price',
                                   border: OutlineInputBorder(
@@ -209,8 +336,98 @@ class _EditTourScreenState extends State<EditTourScreen>{
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Duration',
+                            style: GoogleFonts.raleway(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.2,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           TextFormField(
+                            controller: duration,
+                            decoration: InputDecoration(
+                              hintText: 'Days',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter duration';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Max group size',
+                            style: GoogleFonts.raleway(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.2,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: maxGroupSize,
+                            decoration: InputDecoration(
+                              hintText: 'Ideal group size',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter group size';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Rating',
+                            style: GoogleFonts.raleway(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1.2,
+                              color: Colors.black,
+                            ),
+                          ),
+                          RatingBar.builder(
+                            initialRating: 3,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (value) {
+                              rating = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: description,
                             onTapOutside: (value) {
                               FocusScope.of(context).unfocus();
                             },
@@ -233,6 +450,9 @@ class _EditTourScreenState extends State<EditTourScreen>{
                               return null;
                             },
                             maxLines: 10,
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                         ],
                       ),

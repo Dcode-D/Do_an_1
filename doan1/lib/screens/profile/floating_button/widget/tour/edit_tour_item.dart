@@ -1,10 +1,19 @@
+import 'package:doan1/screens/profile/floating_button/widget/tour/edit_tour_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../../BLOC/profile/edit_tour/edit_tour_bloc.dart';
+import '../../../../../BLOC/profile/manage_news/manage_news_bloc.dart';
+import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
 
 class EditTourItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    var profileBloc = context.read<ProfileBloc>();
+    var editTourBloc = context.read<EditTourBloc>();
+    var manageNewsBloc = context.read<ManageNewsBloc>();
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
       child: Container(
@@ -88,9 +97,20 @@ class EditTourItem extends StatelessWidget{
                   const Spacer(),
                   ElevatedButton(
                     onPressed: (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider.value(value: profileBloc),
+                                BlocProvider.value(value: editTourBloc),
+                                BlocProvider.value(value: manageNewsBloc),
+                              ],
+                              child: EditTourScreen()),
+                        ),
+                      );
                     },
                     child:
-                    Text(
+                    const Text(
                       'Detail',
                       style: TextStyle(
                           fontSize: 15,
@@ -102,7 +122,6 @@ class EditTourItem extends StatelessWidget{
                   const SizedBox(width: 10,),
                   ElevatedButton(
                     onPressed: (){
-
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red,

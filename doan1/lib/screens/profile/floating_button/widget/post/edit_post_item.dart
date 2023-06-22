@@ -1,16 +1,20 @@
 import 'package:doan1/BLOC/profile/edit_post/edit_post_bloc.dart';
 import 'package:doan1/BLOC/profile/manage_news/manage_news_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/dialog/post_delete_dialog.dart';
+import 'package:doan1/screens/profile/floating_button/widget/post/edit_post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
 
 class EditPostItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     var editPostBloc = context.read<EditPostBloc>();
     var manageNewsBloc = context.read<ManageNewsBloc>();
+    var profileBloc = context.read<ProfileBloc>();
     deletePost()=>{
       editPostBloc.add(DeletePostEvent(articleID: editPostBloc.article!.id!)),
       manageNewsBloc.add(DeleteNews(articleIndex: editPostBloc.index!)),
@@ -48,11 +52,6 @@ class EditPostItem extends StatelessWidget{
                       style: GoogleFonts.roboto(
                           fontSize: 18,
                           fontWeight: FontWeight.w600),),
-                    // const Spacer(),
-                    // Text('12/12/2021',
-                    //   style: GoogleFonts.roboto(
-                    //       fontSize: 15,
-                    //       fontWeight: FontWeight.bold),),
                   ],
                 ),
                 const SizedBox(height: 10,),
@@ -124,6 +123,17 @@ class EditPostItem extends StatelessWidget{
                     const Spacer(),
                     ElevatedButton(
                       onPressed: (){
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) =>
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider.value(value: editPostBloc),
+                                BlocProvider.value(value: manageNewsBloc),
+                                BlocProvider.value(value: profileBloc,),
+                                ],
+                                child: const EditPostScreen()),
+                            )
+                        );
                       },
                       child:
                       Text(

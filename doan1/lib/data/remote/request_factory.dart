@@ -100,4 +100,21 @@ class RequestFactory {
       "seats": seats
     };
   }
+
+  createRating(String user, String service, double rating, String comment, String type){
+    return {
+      "user": user,
+      "service": service,
+      "rating": rating,
+      "comment": comment,
+      "type": type
+    };
+  }
+
+  updateRating(double rating, String comment){
+    return {
+      "rating": rating,
+      "comment": comment,
+    };
+  }
 }
