@@ -92,7 +92,12 @@ abstract class AppService {
   Future<HttpResponse<BaseResponse>> getHotelById(@Path('id') String id);
 
   @GET("/hotel/page/{page}")
-  Future<HttpResponse<ListModelResponse>> getListHotelFromPage(@Path('page') int page);
+  Future<HttpResponse<ListModelResponse>> getListHotelFromQuery(
+      @Path('page') int page,
+      @Query('city') String? city,
+      @Query('province') String? province,
+      @Query('name') String? name,
+      @Query('owner') String? address);
 
   @GET("/hotel/{id}/room")
   Future<HttpResponse<ListModelResponse>> getListHotelRoomByIdWithDate(
@@ -257,9 +262,10 @@ abstract class AppService {
   Future<HttpResponse<ListModelResponse>> getTourList({
     @Header("Authorization") required String token,
     @Path('page') required int page,
-    @Query('city') required String city,
-    @Query('province') required String province,
-    @Query('referenceName') required String referenceName
+    @Query('user') String? user,
+    @Query('city') String? city,
+    @Query('province') String? province,
+    @Query('referenceName') String? referenceName
   });
 
 //Favorite API

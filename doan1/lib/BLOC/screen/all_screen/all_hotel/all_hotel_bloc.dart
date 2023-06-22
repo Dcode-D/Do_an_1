@@ -15,39 +15,62 @@ class AllHotelBloc extends Bloc<AllHotelEvent,AllHotelState>{
       getExtraListHotelSuccess: false,
       maxData: false,
       isLoadingMore: false)){
-
+    var _currentPage = 0;
+    var _searchQuery = "";
     on<GetHotelListEvent>((event, emit) async {
-      if(listHotel == null){
-        emit(AllHotelState(
-            getListHotelSuccess: false,
-            getExtraListHotelSuccess: state.getExtraListHotelSuccess,
-            maxData: state.maxData,
-            isLoadingMore: false));
-      }
-
-      listHotel = await getHotel(1);
-
-      if(listHotel != null){
-        emit(AllHotelState(
-            getListHotelSuccess: true,
-            isLoadingMore: false,
-            getExtraListHotelSuccess: state.getExtraListHotelSuccess,
-            maxData: state.maxData
-        ));
+      listHotel = [];
+      _currentPage++;
+      if(_searchQuery.isEmpty) {
+        var tempList = await getHotel(_currentPage, null, null, null, null);
+        if (tempList != null) {
+          listHotel!.addAll(tempList);
+          emit(AllHotelState(
+              getListHotelSuccess: true,
+              isLoadingMore: false,
+              getExtraListHotelSuccess: state.getExtraListHotelSuccess,
+              maxData: state.maxData
+          ));
+        }
+        else {
+          emit(AllHotelState(
+              getListHotelSuccess: false,
+              isLoadingMore: false,
+              getExtraListHotelSuccess: state.getExtraListHotelSuccess,
+              maxData: state.maxData
+          ));
+        }
       }
       else{
-        emit(AllHotelState(
-            getListHotelSuccess: false,
-            isLoadingMore: false,
-            getExtraListHotelSuccess: state.getExtraListHotelSuccess,
-            maxData: state.maxData
-        ));
+        var tempList = await getHotel(_currentPage, null, null, null, _searchQuery);
+        var tempList1 = await getHotel(_currentPage, null, null, _searchQuery, null);
+        var tempList2 = await getHotel(_currentPage, null, _searchQuery, null, null);
+        var tempList3 = await getHotel(_currentPage, _searchQuery, null, null, null);
+        if (tempList != null) {
+          listHotel!.addAll(tempList);
+          listHotel!.addAll(tempList1!);
+          listHotel!.addAll(tempList2!);
+          listHotel!.addAll(tempList3!);
+          emit(AllHotelState(
+              getListHotelSuccess: true,
+              isLoadingMore: false,
+              getExtraListHotelSuccess: state.getExtraListHotelSuccess,
+              maxData: state.maxData
+          ));
+        }
+        else {
+          emit(AllHotelState(
+              getListHotelSuccess: false,
+              isLoadingMore: false,
+              getExtraListHotelSuccess: state.getExtraListHotelSuccess,
+              maxData: state.maxData
+          ));
+        }
       }
     });
 
     on<GetHotelListExtraEvent>((event, emit) async{
       extraListHotel = null;
-      extraListHotel = await getHotel(event.page);
+      extraListHotel = await getHotel(event.page,null,null,null,null);
       if(extraListHotel == null){
         emit(AllHotelState(
             getExtraListHotelSuccess: false,
@@ -82,11 +105,24 @@ class AllHotelBloc extends Bloc<AllHotelEvent,AllHotelState>{
             isLoadingMore: false));
       }
     });
+
+    on<GetHotelByQuery>((event, emit) async {
+      emit(AllHotelState(
+          getListHotelSuccess: false,
+          isLoadingMore: false,
+          getExtraListHotelSuccess: state.getExtraListHotelSuccess,
+          maxData: state.maxData
+      ));
+      _searchQuery = event.query;
+      _currentPage = 0;
+      listHotel = [];
+      add(GetHotelListEvent());
+    });
   }
-  Future<List<Hotel>?> getHotel(int page) async {
+  Future<List<Hotel>?> getHotel(int page,String? city, String? province, String? name, String? address) async {
     var hotelRepo = GetIt.instance.get<HotelRepository>();
     try {
-      var listHotel = await hotelRepo.getListHotel(page);
+      var listHotel = await hotelRepo.getListHotelByQuery(page, city, province, name, address);
       return listHotel;
     }
     catch(e){

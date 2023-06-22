@@ -14,3 +14,8 @@ class GetVehicleForSearch extends SearchEvent {
   final String searchText;
   GetVehicleForSearch({required this.searchText});
 }
+
+class GetTourForSearch extends SearchEvent {
+  final String searchText;
+  GetTourForSearch({required this.searchText});
+}

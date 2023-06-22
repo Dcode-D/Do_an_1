@@ -13,6 +13,16 @@ class RemoveEditTourPlan extends EditTourEvent{
   RemoveEditTourPlan({required this.article});
 }
 
+class SetEditHotelPlan extends EditTourEvent{
+  List<Hotel> tourHotel;
+  SetEditHotelPlan({required this.tourHotel});
+}
+
+class RemoveEditHotelPlan extends EditTourEvent{
+  Hotel hotel;
+  RemoveEditHotelPlan({required this.hotel});
+}
+
 class UpdateTourEvent extends EditTourEvent{
   final String id;
   final String name;

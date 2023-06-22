@@ -1,4 +1,6 @@
 import 'package:doan1/BLOC/profile/edit_tour/edit_tour_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
+import 'package:doan1/screens/profile/floating_button/widget/dialog/add_edit_plan_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -6,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../../../BLOC/screen/all_screen/article/article_bloc.dart';
+import '../dialog/add_edit_hotel_dialog.dart';
 
 class EditTourScreen extends StatefulWidget {
   const EditTourScreen({Key? key}) : super(key: key);
@@ -181,36 +185,36 @@ class _EditTourScreenState extends State<EditTourScreen>{
                                   const Spacer(),
                                   InkWell(
                                       onTap: () {
-                                        // showGeneralDialog(
-                                        //     context: context,
-                                        //     barrierDismissible: true,
-                                        //     barrierLabel:
-                                        //     MaterialLocalizations.of(context)
-                                        //         .modalBarrierDismissLabel,
-                                        //     barrierColor: Colors.black54,
-                                        //     transitionDuration:
-                                        //     const Duration(milliseconds: 400),
-                                        //     transitionBuilder:
-                                        //         (context, anim1, anim2, child) {
-                                        //       return SlideTransition(
-                                        //         position: Tween(
-                                        //             begin: const Offset(0, 1),
-                                        //             end: const Offset(0, 0))
-                                        //             .animate(anim1),
-                                        //         child: child,
-                                        //       );
-                                        //     },
-                                        //     pageBuilder: (context, _, __) {
-                                        //       return MultiBlocProvider(providers: [
-                                        //         BlocProvider<CreateTourBloc>.value(
-                                        //           value: createTourBloc,
-                                        //         ),
-                                        //         BlocProvider<ArticleBloc>(
-                                        //           create: (context) =>
-                                        //           ArticleBloc()..add(GetArticleData()),
-                                        //         ),
-                                        //       ], child: AddPlanDialog());
-                                        //     });
+                                        showGeneralDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            barrierLabel:
+                                            MaterialLocalizations.of(context)
+                                                .modalBarrierDismissLabel,
+                                            barrierColor: Colors.black54,
+                                            transitionDuration:
+                                            const Duration(milliseconds: 400),
+                                            transitionBuilder:
+                                                (context, anim1, anim2, child) {
+                                              return SlideTransition(
+                                                position: Tween(
+                                                    begin: const Offset(0, 1),
+                                                    end: const Offset(0, 0))
+                                                    .animate(anim1),
+                                                child: child,
+                                              );
+                                            },
+                                            pageBuilder: (context, _, __) {
+                                              return MultiBlocProvider(providers: [
+                                                BlocProvider<EditTourBloc>.value(
+                                                  value: editTourBloc,
+                                                ),
+                                                BlocProvider<ArticleBloc>(
+                                                  create: (context) =>
+                                                  ArticleBloc()..add(GetArticleData()),
+                                                ),
+                                              ], child: AddEditPlanDialog());
+                                            });
                                       },
                                       child: Text(
                                         'Add plan',
@@ -295,6 +299,148 @@ class _EditTourScreenState extends State<EditTourScreen>{
                                                           .read<
                                                           EditTourBloc>()
                                                           .listSelectedTourPlan[
+                                                      index]));
+                                                },
+                                                child: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    )),
+                              ),
+                              const SizedBox(height: 10,),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Hotel',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                      onTap: () {
+                                        showGeneralDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            barrierLabel:
+                                            MaterialLocalizations.of(context)
+                                                .modalBarrierDismissLabel,
+                                            barrierColor: Colors.black54,
+                                            transitionDuration:
+                                            const Duration(milliseconds: 400),
+                                            transitionBuilder:
+                                                (context, anim1, anim2, child) {
+                                              return SlideTransition(
+                                                position: Tween(
+                                                    begin: const Offset(0, 1),
+                                                    end: const Offset(0, 0))
+                                                    .animate(anim1),
+                                                child: child,
+                                              );
+                                            },
+                                            pageBuilder: (context, _, __) {
+                                              return MultiBlocProvider(providers: [
+                                                BlocProvider<EditTourBloc>.value(
+                                                  value: editTourBloc,
+                                                ),
+                                                BlocProvider<AllHotelBloc>(
+                                                  create: (context) =>
+                                                  AllHotelBloc()..add(GetHotelListEvent()),
+                                                ),
+                                              ], child: AddEditHotelDialog());
+                                            });
+                                      },
+                                      child: Text(
+                                        'Add hotel',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 1.2,
+                                          color: Colors.orange,
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              const SizedBox(height: 10,),
+                              BlocBuilder<EditTourBloc, EditTourState>(
+                                buildWhen: (previous, current) =>
+                                current is EditTourInitial ||
+                                    current is EditHotelSetState,
+                                builder: (context, state) => Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.8),
+                                      border: Border.all(
+                                          color: Colors.black.withOpacity(0.2),
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(5),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          offset: Offset(0, 2),
+                                          blurRadius: 6.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: state is EditTourInitial ||
+                                        (state is EditHotelSetState &&
+                                            editTourBloc.listSelectedHotel.isEmpty)
+                                        ? Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Text(
+                                        'No hotel added yet',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 1.2,
+                                          color:
+                                          Colors.black.withOpacity(0.5),
+                                        ),
+                                      ),
+                                    )
+                                        :
+                                    //plan list here
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                      const NeverScrollableScrollPhysics(),
+                                      itemCount: editTourBloc
+                                          .listSelectedHotel.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '${editTourBloc.listSelectedHotel[index].name}',
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 1.2,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              InkWell(
+                                                onTap: () {
+                                                  context
+                                                      .read<EditTourBloc>()
+                                                      .add(RemoveEditHotelPlan(
+                                                      hotel: context
+                                                          .read<
+                                                          EditTourBloc>()
+                                                          .listSelectedHotel[
                                                       index]));
                                                 },
                                                 child: const Icon(

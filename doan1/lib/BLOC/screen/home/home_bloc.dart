@@ -1,4 +1,3 @@
-import 'package:doan1/data/model/article.dart';
 import 'package:doan1/data/repositories/vehicle_repo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -46,7 +45,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
   Future<List<Hotel>?> getHotel(int page) async {
     var hotelRepo = GetIt.instance.get<HotelRepository>();
     try {
-      var listHotel = await hotelRepo.getListHotel(page);
+      var listHotel = await hotelRepo.getListHotelByQuery(page, null, null, null, null);
       return listHotel;
     }
     catch(e){

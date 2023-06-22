@@ -61,7 +61,7 @@ class HotelItemForAll extends StatelessWidget{
                 ],
               ),
               child: Hero(
-                tag: hotelItemBloc.hotel!.id.toString(),
+                tag: hotelItemBloc.hotel!.id!,
                 child: Stack(
                   children: <Widget>[
                     SizedBox(

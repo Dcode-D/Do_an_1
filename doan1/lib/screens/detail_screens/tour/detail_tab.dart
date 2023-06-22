@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../BLOC/widget_item/tour_item/tour_item_bloc.dart';
 import '../../../models/tour_model.dart';
 
 class DetailTab extends StatelessWidget {
-  final Tour tour;
 
-  DetailTab({Key? key, required this.tour}) : super(key: key);
+  DetailTab({Key? key}) : super(key: key);
 
   final formatCurrency = NumberFormat("#,###");
 
-  double calculateRatingPoint() {
-    if (tour.ratingList.isEmpty) return 0;
-
-    var point = 0.0;
-    for (var cmt in tour.ratingList) {
-      point += cmt.ratingStar;
-    }
-    return point / tour.ratingList.length;
-  }
 
   @override
   Widget build(BuildContext context) {
+    var tourItemBloc = context.read<TourItemBloc>();
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(0.0),
@@ -66,7 +59,8 @@ class DetailTab extends StatelessWidget {
                               ),
                               const SizedBox(width: 4.0),
                               Text(
-                                calculateRatingPoint().toStringAsFixed(1),
+                                tourItemBloc.tour != null ?
+                                tourItemBloc.tour!.rating.toString() : "0.0",
                                 style: GoogleFonts.roboto(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w600,
@@ -77,7 +71,7 @@ class DetailTab extends StatelessWidget {
                           ),
                           const SizedBox(height: 5.0),
                           Text(
-                            '${tour.ratingList.length} reviews',
+                            '3 reviews',
                             style: const TextStyle(fontSize: 12.0),
                           ),
                         ],
@@ -110,7 +104,8 @@ class DetailTab extends StatelessWidget {
                                 size: 14.0,
                               ),
                               Text(
-                                formatCurrency.format(int.parse(tour.price)),
+                                tourItemBloc.tour != null ?
+                                formatCurrency.format(tourItemBloc.tour!.price) : "0",
                                 style: GoogleFonts.roboto(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w600,
@@ -155,7 +150,8 @@ class DetailTab extends StatelessWidget {
                                 size: 16.0,
                               ),
                               Text(
-                                tour.destinationIDList.length.toString(),
+                                tourItemBloc.tour != null ?
+                                tourItemBloc.tour!.articles!.length.toString() : "0",
                                 style: GoogleFonts.roboto(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w600,
@@ -187,7 +183,8 @@ class DetailTab extends StatelessWidget {
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      tour.description,
+                      tourItemBloc.tour != null ?
+                      tourItemBloc.tour!.description! : "",
                       style: const TextStyle(
                         color: Colors.grey,
                       ),

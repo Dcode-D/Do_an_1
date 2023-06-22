@@ -128,7 +128,7 @@ class HotelItem extends StatelessWidget{
                                   child: const Center(child: Icon(Icons.error)));
                             },
                             image:
-                        NetworkImage(hotelItemBloc.hotel!=null && hotelItemBloc.listImage!.length>0 ? hotelItemBloc.listImage![0]: ""),
+                        NetworkImage(hotelItemBloc.hotel!=null && hotelItemBloc.listImage!.isNotEmpty ? hotelItemBloc.listImage![0]: ""),
                             placeholder: const AssetImage('assets/images/loading.gif'),
                             fit: BoxFit.cover,
                           ),

@@ -56,9 +56,10 @@ class HotelRepository{
     });
   }
 
-  Future<List<Hotel>?> getListHotel(int page) async {
+  Future<List<Hotel>?> getListHotelByQuery(int page,String? city, String? province, String? name, String?  address) async {
     return _appService
-        .getListHotelFromPage(page)
+        .getListHotelFromQuery(
+        page,city, province, name, address)
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;

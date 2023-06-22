@@ -8,10 +8,11 @@ part 'tour.g.dart';
 class Tour{
   @JsonKey(name: '_id')
   final String? id;
+  final String? user;
   final String? name;
   final String? description;
   final List<String>? articles;
-  final String? hotel;
+  final List<String>? hotel;
   final double? price;
   final double? rating;
   final double? duration;
@@ -19,6 +20,7 @@ class Tour{
 
   Tour({
     required this.id,
+    required this.user,
     required this.name,
     required this.description,
     required this.articles,
@@ -48,7 +50,7 @@ extension TourListExtension on ListModelResponse{
 }
 
 extension TourDetailExtension on BaseResponse{
-  Tour? toHotel(){
+  Tour? toTour(){
     if(this.data == null)
       return null;
     return Tour.fromJson(this.data!);

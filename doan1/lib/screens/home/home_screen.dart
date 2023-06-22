@@ -1,5 +1,6 @@
 import 'package:doan1/BLOC/profile/edit_profile/edit_profile_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
+import 'package:doan1/BLOC/screen/all_screen/all_tour/all_tour_bloc.dart';
 import 'package:doan1/BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
 import 'package:doan1/BLOC/screen/home/home_bloc.dart';
 import 'package:doan1/screens/all/all_hotel_screen.dart';
@@ -190,7 +191,16 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       child: IconButton(
                                         onPressed: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AllTourScreen()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider<ProfileBloc>.value(
+                                                value: profileBloc,
+                                              ),
+                                              BlocProvider<AllTourBloc>(
+                                                create: (_) => AllTourBloc()..add(GetTourListEvent()),
+                                              ),
+                                            ],
+                                              child: AllTourScreen())));
                                         },
                                       icon: const Icon(
                                         FontAwesomeIcons.flag,
@@ -308,7 +318,17 @@ class HomeScreen extends StatelessWidget {
                       value: articleBloc,
                         child: DestinationCarousel()),
                     const SizedBox(height: 10,),
-                    TourCarousel(),
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider<AllTourBloc>(
+                          create: (_) => AllTourBloc()..add(GetTourListEvent()),
+                        ),
+                        BlocProvider<ProfileBloc>.value(
+                          value: profileBloc,
+                        ),
+                      ],
+                        //TODO: fix tour carousel
+                        child: TourCarousel()),
                     const SizedBox(height: 10,),
                     MultiBlocProvider(
                       providers: [

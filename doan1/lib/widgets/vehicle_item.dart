@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 
 import '../BLOC/profile/profile_view/profile_bloc.dart';
 import '../BLOC/screen/book_history/book_history_bloc.dart';
-import '../data/model/vehicle.dart';
 import '../screens/detail_screens/vehicle/vehicle_rent_detail_screen.dart';
 
 class VehicleItem extends StatelessWidget{

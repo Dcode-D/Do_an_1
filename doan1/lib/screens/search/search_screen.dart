@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../BLOC/screen/book_history/book_history_bloc.dart';
+import '../../BLOC/widget_item/tour_item/tour_item_bloc.dart';
 import '../../data/model/vehicle.dart';
 import '../../models/tour_model.dart';
 import '../../widgets/circle_indicator.dart';
@@ -124,10 +125,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                           ), suggestionsCallback: (String pattern) {
                             //TODO: implement suggestionsCallback for data
                             return [
-                              'suggestion 1',
-                              'suggestion 2',
-                              'suggestion 3',
-                              'suggestion 4',
+                              'Da lat',
+                              'Lanmark 81',
+                              'Vung Tau',
+                              'Quy Nhon',
                             ];
                         },
                           itemBuilder: (BuildContext context, String? itemData) {
@@ -181,16 +182,29 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             TabBarView(
               controller: _tabController,
               children: [
-
+                searchBloc.listTour != null ?
                 ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-                itemCount: tours.length,
+                itemCount: searchBloc.listTour!.length,
                 itemBuilder: (BuildContext context, int index) {
-                Tour tour = tours[index];
-                Image tourImg = Image.asset(tour.img);
-                return TourItem(tour: tour, tourImg: tourImg, type: 2);
-                  },
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(value: profileBloc),
+                      BlocProvider.value(value: searchBloc),
+                      BlocProvider<TourItemBloc>(create: (context) => TourItemBloc()..add(GetTourItemEvent(tourId: searchBloc.listTour![index].id!))),
+                    ],
+                      child: TourItem( type: 2));
+                    },
+                ) :
+                Center(
+                  child: Text('Don\'t found any tour that like your search',
+                  textAlign: TextAlign.center,
+                  style : GoogleFonts.raleway(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey
+                  ),),
                 ),
                 searchBloc.listHotel != null ?
                 ListView.builder(

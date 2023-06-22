@@ -105,7 +105,7 @@ class HotelCarousel extends StatelessWidget {
               spacing: 4.8,
             ),
           ) :
-            const CircularProgressIndicator()
+            const Center(child: CircularProgressIndicator())
         ),
       ],
     );

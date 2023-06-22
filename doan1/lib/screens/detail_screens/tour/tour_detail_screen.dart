@@ -2,9 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
+import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/widget_item/tour_item/tour_item_bloc.dart';
 import '../../../models/destination_model.dart';
 import '../../../models/tour_model.dart';
 import '../../../widgets/planning_item.dart';
@@ -12,14 +16,10 @@ import 'detail_tab.dart';
 import 'rating_tab.dart';
 
 class TourDetailScreen extends StatefulWidget {
-  final Tour tour;
-  final Image tourImg;
   final int type;
 
   const TourDetailScreen({
     Key? key,
-    required this.tour,
-    required this.tourImg,
     required this.type,
   }) : super(key: key);
 
@@ -29,6 +29,7 @@ class TourDetailScreen extends StatefulWidget {
 
 class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final PageController listController = PageController();
   String province = '';
 
   void loadDestinations() async {
@@ -44,107 +45,81 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var tourItemBloc = context.read<TourItemBloc>();
+    var profileBloc = context.read<ProfileBloc>();
+    final formatCurrency = NumberFormat("#,###");
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                // Main image
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
+            Hero(tag: tourItemBloc.tour!.id.toString(),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 8.0),
+                          blurRadius: 10.0,
+                        ),
+                      ],
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 6.0,
-                      ),
-                    ],
+                    child: PageView.builder(
+                      controller: listController,
+                      itemCount: tourItemBloc.listImage!.length,
+                      itemBuilder:(context, index) {
+                        return Container(
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0.0, 8.0),
+                                    blurRadius: 10.0,
+                                  ),
+                                ],
+                                image: DecorationImage(
+                                    image: NetworkImage(tourItemBloc.listImage![index]),
+                                    fit: BoxFit.cover
+                                )
+                            )// image:AssetImage(url),),
+                        );
+                      },
+                    ),
                   ),
-                  child: Hero(
-                    tag: widget.tour.id,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
+                  // buttons row
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 40.0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.black.withOpacity(0.3)
                       ),
-                      child: Image(
-                        image: widget.tourImg.image,
-                        fit: BoxFit.cover,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                        color: Colors.white,
+                        onPressed: () => Navigator.pop(context),
                       ),
                     ),
                   ),
-                ),
-                // buttons row
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 40.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.black.withOpacity(0.3)
-                        ),
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                          color: Colors.white,
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // name and province
-                Positioned(
-                  left: 20.0,
-                  right: 20.0,
-                  bottom: 20.0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        widget.tour.name,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.2,
-                          color: Colors.white.withOpacity(0.8),
-                        ),
-                      ),
-                      const SizedBox(height: 2.0),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            FontAwesomeIcons.locationArrow,
-                            size: 15.0,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 5.0),
-                          Text(
-                            province,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                  // name and province
+                ],
+              ),
             ),
             DefaultTabController(
               length: 3,
@@ -179,13 +154,18 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
                 controller: _tabController,
                 children: [
                   // description section
-                  DetailTab(tour: widget.tour),
+                  MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(value: profileBloc),
+                      BlocProvider.value(value: tourItemBloc),
+                    ],
+                      child: DetailTab()),
                   // planning section
-                  destinationList.isNotEmpty
+                  tourItemBloc.tour!.articles!.isNotEmpty
                       ? ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(15.0),
-                    itemCount: widget.tour.destinationIDList.length,
+                    itemCount: tourItemBloc.tour!.articles!.length,
                     itemBuilder: (BuildContext context, int index) {
                       Destination destination = destinationList[index];
                       return PlanningItem(
@@ -197,10 +177,10 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
                   )
                       : const Center(child: Text("No destination")),
                   // rating section
-                  RatingTab(
-                    tour: widget.tour,
-                    callbackUpdateRatingDetail: (){},
-                  ),
+                  // RatingTab(
+                  //   tour: widget.tour,
+                  //   callbackUpdateRatingDetail: (){},
+                  // ),
                 ],
               ),
             ),

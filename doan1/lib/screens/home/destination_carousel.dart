@@ -31,7 +31,7 @@ class _DestinationCarouselState extends State<DestinationCarousel> {
       controller = PageController(initialPage: articleBloc.listArticle!.length);
     }
     else{
-      controller = PageController(initialPage: 0);
+      controller = PageController(initialPage: 3);
     }
     controller.addListener(() {
       setState(() {

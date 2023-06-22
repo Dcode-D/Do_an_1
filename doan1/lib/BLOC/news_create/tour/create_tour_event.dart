@@ -13,6 +13,16 @@ class RemoveTourPlan extends CreateTourEvent{
   RemoveTourPlan({required this.article});
 }
 
+class SetHotelPlan extends CreateTourEvent{
+  List<Hotel> tourHotel;
+  SetHotelPlan({required this.tourHotel});
+}
+
+class RemoveHotelPlan extends CreateTourEvent{
+  Hotel hotel;
+  RemoveHotelPlan({required this.hotel});
+}
+
 class PostTour extends CreateTourEvent{
   final String name;
   final String description;

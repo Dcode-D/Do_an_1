@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/widget_item/car_item/car_item_bloc.dart';
 import '../../BLOC/widget_item/hotel_item/hotel_item_bloc.dart';
-import '../../data/model/hotel.dart';
 import '../../models/tour_model.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
@@ -118,9 +117,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
                       controller: listController,
                       itemCount: tours.length,
                       itemBuilder: (BuildContext context, int index){
-                        Tour tour = tours[index];
-                        Image tourImg = Image.asset(tour.img);
-                        return TourItemForAll(tour: tour, tourImg: tourImg,);
+                        return TourItemForAll();
                       }),
                 ),
                     favoriteBloc.listHotel != null?

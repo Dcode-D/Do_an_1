@@ -11,3 +11,9 @@ class GetHotelListExtraEvent extends AllHotelEvent{
     required this.page,
   });
 }
+
+class GetHotelByQuery extends AllHotelEvent {
+  final String query;
+
+  GetHotelByQuery(this.query);
+}

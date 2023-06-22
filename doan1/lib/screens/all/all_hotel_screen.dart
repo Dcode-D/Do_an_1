@@ -77,7 +77,6 @@ class AllHotelScreen extends StatelessWidget{
                   itemCount: state.isLoadingMore ? allHotelBloc.listHotel!.length + 1 : allHotelBloc.listHotel!.length,
                   itemBuilder: (BuildContext context, int index){
                     if(index < allHotelBloc.listHotel!.length){
-                      Hotel hotel = allHotelBloc.listHotel![index];
                       return MultiBlocProvider(
                         providers: [
                           BlocProvider<ProfileBloc>.value(value: profileBloc),

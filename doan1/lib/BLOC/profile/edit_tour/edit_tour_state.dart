@@ -10,6 +10,11 @@ class EditPlanSetState extends EditTourState {
   EditPlanSetState({required this.isPlanSet});
 }
 
+class EditHotelSetState extends EditTourState {
+  bool isHotelSet = false;
+  EditHotelSetState({required this.isHotelSet});
+}
+
 class UpdateTourState extends EditTourState {
   bool isSuccess = false;
   bool isPosting = false;

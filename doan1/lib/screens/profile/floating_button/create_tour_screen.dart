@@ -1,5 +1,7 @@
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
-import 'package:doan1/screens/profile/floating_button/widget/tour/add_plan_dialog.dart';
+import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
+import 'package:doan1/screens/profile/floating_button/widget/dialog/add_hotel_dialog.dart';
+import 'package:doan1/screens/profile/floating_button/widget/dialog/add_plan_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -341,6 +343,153 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                                           );
                                         },
                                       )),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Hotel',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 1.2,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const Spacer(),
+                              InkWell(
+                                  onTap: () {
+                                    showGeneralDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        barrierLabel:
+                                        MaterialLocalizations.of(context)
+                                            .modalBarrierDismissLabel,
+                                        barrierColor: Colors.black54,
+                                        transitionDuration:
+                                        const Duration(milliseconds: 400),
+                                        transitionBuilder:
+                                            (context, anim1, anim2, child) {
+                                          return SlideTransition(
+                                            position: Tween(
+                                                begin: const Offset(0, 1),
+                                                end: const Offset(0, 0))
+                                                .animate(anim1),
+                                            child: child,
+                                          );
+                                        },
+                                        pageBuilder: (context, _, __) {
+                                          return MultiBlocProvider(providers: [
+                                            BlocProvider<CreateTourBloc>.value(
+                                              value: createTourBloc,
+                                            ),
+                                            BlocProvider<AllHotelBloc>(
+                                              create: (context) =>
+                                              AllHotelBloc()..add(GetHotelListEvent()),
+                                            ),
+                                          ], child: AddHotelDialog());
+                                        });
+                                  },
+                                  child: Text(
+                                    'Add hotel',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 1.2,
+                                      color: Colors.orange,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          BlocBuilder<CreateTourBloc, CreateTourState>(
+                            buildWhen: (previous, current) =>
+                            current is CreateTourInitial ||
+                                current is PlanSetState,
+                            builder: (context, state) => Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.8),
+                                  border: Border.all(
+                                      color: Colors.black.withOpacity(0.2),
+                                      width: 1),
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0, 2),
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: state is CreateTourInitial ||
+                                    (state is PlanSetState &&
+                                        createTourBloc
+                                            .listSelectedTourPlan.isEmpty)
+                                    ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  child: Text(
+                                    'No hotel added yet',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.2,
+                                      color:
+                                      Colors.black.withOpacity(0.5),
+                                    ),
+                                  ),
+                                )
+                                    :
+                                //plan list here
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics:
+                                  const NeverScrollableScrollPhysics(),
+                                  itemCount: createTourBloc
+                                      .listSelectedTourHotel.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${createTourBloc.listSelectedTourHotel[index].name}',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1.2,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          InkWell(
+                                            onTap: () {
+                                              context
+                                                  .read<CreateTourBloc>()
+                                                  .add(RemoveHotelPlan(
+                                                  hotel: context
+                                                      .read<
+                                                      CreateTourBloc>()
+                                                      .listSelectedTourHotel[
+                                                  index]));
+                                            },
+                                            child: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                )),
                           ),
                           const SizedBox(
                             height: 10,

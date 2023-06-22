@@ -28,7 +28,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
       var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
       hotel = await getHotelById(event.hotelId!);
       for (var item in hotel!.images!){
-        listImage!.add('$baseUrl/files/${item}');
+        listImage!.add('$baseUrl/files/$item');
       }
       if(hotel != null && listImage != null){
         emit(HotelItemGetState(getHotelItemSuccess: true));

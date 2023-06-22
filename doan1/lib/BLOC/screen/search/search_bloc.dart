@@ -3,17 +3,18 @@ import 'package:doan1/data/model/vehicle.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import '../../../data/model/hotel.dart';
+import '../../../data/model/tour.dart';
 import '../../../data/repositories/hotel_repo.dart';
+import '../../../data/repositories/tour_repo.dart';
 import '../../../data/repositories/vehicle_repo.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
 
-//TODO: Bad design triggering multiple searching events for both car and hotel at once
-//TODO: Separate the logic of searching for car and hotel, add function to read more data and append to list when UI requires
 class SearchBloc extends Bloc<SearchEvent,SearchState>{
   List<Vehicle>? listVehicle;
   List<Hotel>? listHotel;
+  List<Tour>? listTour;
   SearchBloc() : super(SearchState(getHotelData: SearchStatus.initial,getCarData: SearchStatus.initial,getInitialData: SearchStatus.initial)){
     on<GetHotelForSearch>((event, emit) async {
       emit(SearchState(getHotelData: SearchStatus.initial));
@@ -39,9 +40,15 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
       }
     });
 
+    on<GetTourForSearch>((event,emit) async {
+      emit(SearchState(getTourData: SearchStatus.initial));
+
+    });
+
     on<GetInitialData>((event,emit) async{
         listVehicle = await getinitialVehicle();
         listHotel = await getinitialHotel();
+        listTour = await getinitialTour();
         if(listVehicle != null && listHotel != null){
           emit(SearchState(getInitialData: SearchStatus.success));
         }
@@ -78,7 +85,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
   Future<List<Hotel>?> getinitialHotel() async{
     var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
-      var listHotel = await hotelRepo.getListHotel(1);
+      var listHotel = await hotelRepo.getListHotelByQuery(1, null, null, null, null);
       return listHotel;
     }
     catch(e){
@@ -92,6 +99,18 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
     try{
       var listVehicle = await vehicleRepo.getListVehicle(1);
       return listVehicle;
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<List<Tour>?> getinitialTour() async{
+    var tourRepo = GetIt.instance.get<TourRepository>();
+    try{
+      var listTour = await tourRepo.getListTourByPage(1);
+      return listTour;
     }
     catch(e){
       print(e);

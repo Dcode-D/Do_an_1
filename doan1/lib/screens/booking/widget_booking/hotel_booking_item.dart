@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:doan1/models/hotel_model.dart';
 import 'package:doan1/screens/booking/detail_booking/booking_hotel_history_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 
 class HotelBookingItem extends StatelessWidget{
-
 
   @override
   Widget build(BuildContext context) {

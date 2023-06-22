@@ -64,12 +64,13 @@ class RequestFactory {
     };
   }
 
-  createPostTour(String name, String description, double rating, List<String> plans, int duration,double price, int maxGroupSize){
+  createPostTour(String name, String description, double rating, List<String> plans, List<String> hotels, int duration,double price, int maxGroupSize){
     return {
       "name": name,
       "description": description,
       "rating": rating,
       "articles": plans,
+      "hotels": hotels,
       "duration": duration,
       "price": price,
       "maxGroupSize": maxGroupSize
