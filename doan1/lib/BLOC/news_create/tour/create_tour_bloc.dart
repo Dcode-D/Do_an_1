@@ -21,7 +21,7 @@ class CreateTourBloc extends Bloc<CreateTourEvent,CreateTourState>{
       emit(PlanSetState(isPlanSet: true));
       });
     on<RemoveTourPlan>((event,emit) {
-      listSelectedTourPlan.remove(event.article);
+      listSelectedTourPlan.removeWhere((element) => element.id == event.article.id);
       emit(PlanSetState(isPlanSet: true));
     });
     on<PostTour>((event,emit) async {
