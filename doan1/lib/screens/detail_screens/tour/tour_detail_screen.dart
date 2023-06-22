@@ -54,7 +54,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
   Widget build(BuildContext context) {
     var tourItemBloc = context.read<TourItemBloc>();
     var profileBloc = context.read<ProfileBloc>();
-    final formatCurrency = NumberFormat("#,###");
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -161,21 +161,50 @@ class _TourDetailScreenState extends State<TourDetailScreen> with SingleTickerPr
                     ],
                       child: DetailTab()),
                   // planning section
-                  tourItemBloc.tour!.articles!.isNotEmpty
-                      ? ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.all(15.0),
-                    itemCount: tourItemBloc.tour!.articles!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Destination destination = destinationList[index];
-                      return PlanningItem(
-                        destination: destination,
-                        index: index + 1,
-                        type: 1,
-                      );
-                    },
+
+                  BlocBuilder<TourItemBloc,TourItemState>(
+                    buildWhen: (previous, current) => current is GetTourItemState || current is TourItemGetFavoriteState,
+                    builder: (context,state) =>
+                    state is GetTourItemState ?
+                      state.getTourItemSuccess == true ?
+                     ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(15.0),
+                      itemCount: tourItemBloc.tour!.articles!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(value: tourItemBloc),
+                          ],
+                          child: PlanningItem(
+                            index: index + 1,
+                            type: 1,
+                          ),
+                        );
+                      },
+                    ) :
+                    const Center(child: CircularProgressIndicator()) :
+                    state is TourItemGetFavoriteState ?
+                      state.getTourFavoriteSuccess == true ?
+                      ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.all(15.0),
+                        itemCount: tourItemBloc.tour!.articles!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(value: tourItemBloc),
+                            ],
+                            child: PlanningItem(
+                              index: index + 1,
+                              type: 1,
+                            ),
+                          );
+                        },
+                      ) :
+                      const Center(child: CircularProgressIndicator()) :
+                      const Center(child: CircularProgressIndicator())
                   )
-                      : const Center(child: Text("No destination")),
                   // rating section
                   // RatingTab(
                   //   tour: widget.tour,

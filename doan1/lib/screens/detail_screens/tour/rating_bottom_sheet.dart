@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,9 +5,6 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 
 
 
-import '../../../models/comment_model.dart';
-import '../../../widgets/error_snackbar.dart';
-import '../../../widgets/success_snackbar.dart';
 
 class RatingBottomSheet extends StatefulWidget {
   final Function callbackSubmitComment;

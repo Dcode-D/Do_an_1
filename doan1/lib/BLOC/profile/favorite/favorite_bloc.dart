@@ -5,8 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 import '../../../data/model/hotel.dart';
+import '../../../data/model/tour.dart';
 import '../../../data/model/vehicle.dart';
 import '../../../data/repositories/hotel_repo.dart';
+import '../../../data/repositories/tour_repo.dart';
 import '../../../data/repositories/vehicle_repo.dart';
 
 part 'favorite_event.dart';
@@ -15,9 +17,10 @@ part 'favorite_state.dart';
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   List<Hotel>? listHotel;
   List<Vehicle>? listCar;
+  List<Tour>? listTour;
   List<Favorite>? listHotelFavorite;
   List<Favorite>? listCarFavorite;
-  // List<Tour>? listTourFavorite;
+  List<Favorite>? listTourFavorite;
   FavoriteBloc() : super(FavoriteInitial()){
     on<GetListHotelFavoriteEvent>((event,emit) async {
       listHotel = [];
@@ -83,8 +86,36 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     });
 
-    on<GetListTourFavoriteEvent>((event, emit) {
-
+    on<GetListTourFavoriteEvent>((event, emit) async {
+      listTour = [];
+      listTourFavorite = [];
+      if(event.userId == null){
+        emit(FavoriteLoaded(false));
+        return;
+      }
+      var tempLs = await getListIdFavoriteByUserId("tour", event.userId!);
+      if(tempLs == null){
+        emit(FavoriteLoaded(false));
+        return;
+      }
+      for (var item in tempLs){
+        var favoriteTour = await getFavoriteById(item);
+        if(favoriteTour != null){
+          listTourFavorite!.add(favoriteTour);
+        }
+      }
+      for (var item in listTourFavorite!){
+        var car = await getTourById(item.element!);
+        if(car != null){
+          listTour!.add(car);
+        }
+      }
+      if(listTourFavorite != null && listTour != null){
+        emit(FavoriteLoaded(true));
+      }
+      else{
+        emit(FavoriteLoaded(false));
+      }
     });
   }
   Future<List<String>?> getListIdFavoriteByUserId(String type,String userId) async{
@@ -125,6 +156,17 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     try{
       var vehicle = await vehicleRepo.getVehicleById(id);
       return vehicle;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Tour?> getTourById(String id) async {
+    var tourRepo = GetIt.instance.get<TourRepository>();
+    try{
+      var tour = await tourRepo.getTourById(id);
+      return tour;
     }catch(e){
       print(e);
       return null;

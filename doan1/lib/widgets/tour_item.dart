@@ -23,7 +23,8 @@ class TourItem extends StatelessWidget {
     var tourItemBloc = context.read<TourItemBloc>();
     var profileBloc = context.read<ProfileBloc>();
     return BlocBuilder<TourItemBloc,TourItemState>(
-      builder: (context,state) => SizedBox(
+      builder: (context,state) =>
+      SizedBox(
         height: type == 1 ? 300 : 330,
         child: GestureDetector(
           onTap: () => Navigator.of(context).push(
@@ -115,7 +116,8 @@ class TourItem extends StatelessWidget {
                   ),
                   child: Stack(
                     children: <Widget>[
-                      tourItemBloc.listImage != null ?
+                      tourItemBloc.listImage != null && tourItemBloc.tour != null?
+                          tourItemBloc.listImage!.isNotEmpty ?
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: FadeInImage(
@@ -127,7 +129,7 @@ class TourItem extends StatelessWidget {
                           placeholder: const AssetImage('assets/images/loading.gif'),
                           fit: BoxFit.cover,
                         ),
-                      ): const Center(child: CircularProgressIndicator()),
+                      ): const Center(child: CircularProgressIndicator()) : const Center(child: CircularProgressIndicator()),
                       Positioned(
                         left: 10.0,
                         bottom: 10.0,

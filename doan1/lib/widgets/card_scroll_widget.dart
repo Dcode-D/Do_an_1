@@ -69,13 +69,10 @@ class CardScrollWidget extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          BlocProvider<ArticleBloc>.value(
-                            value: articleBloc,
-                            child: BlocProvider<ArticleItemBloc>(
-                              create: (context) => ArticleItemBloc()..add(GetArticleItemData(article: articleBloc.listArticle![i])),
-                              child: const DestinationDetailScreen(
-                                type: 1,
-                              ),
+                          BlocProvider<ArticleItemBloc>(
+                            create: (context) => ArticleItemBloc()..add(GetArticleItemData(article: articleBloc.listArticle![i])),
+                            child: const DestinationDetailScreen(
+                              type: 2,
                             ),
                           ),
                     ),
@@ -98,7 +95,7 @@ class CardScrollWidget extends StatelessWidget {
                         fit: StackFit.expand,
                         children: <Widget>[
                           Hero(
-                            tag: articleBloc.listArticle![i].id.toString(),
+                            tag: '${articleBloc.listArticle![i].id.toString()}1',
                             child:FadeInImage(
                               imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                               image:

@@ -1,6 +1,7 @@
 import 'package:doan1/BLOC/profile/favorite/favorite_bloc.dart';
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
 import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
+import 'package:doan1/BLOC/widget_item/tour_item/tour_item_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +38,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
     bookHistoryBloc = context.read<BookHistoryBloc>();
     favoriteBloc.add(GetListCarFavoriteEvent(userId: profileBloc.user!.id));
     favoriteBloc.add(GetListHotelFavoriteEvent(userId: profileBloc.user!.id));
+    favoriteBloc.add(GetListTourFavoriteEvent(userId: profileBloc.user!.id));
   }
 
   @override
@@ -110,16 +112,28 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
             builder: (context,state) => TabBarView(
               controller: _tabController,
               children: [
+                favoriteBloc.listTour != null?
+                favoriteBloc.listTour!.isNotEmpty ?
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       controller: listController,
-                      itemCount: tours.length,
+                      itemCount: favoriteBloc.listTour!.length,
                       itemBuilder: (BuildContext context, int index){
-                        return TourItemForAll();
+                        return MultiBlocProvider(
+                          providers: [
+                              BlocProvider<ProfileBloc>.value(value: profileBloc),
+                              BlocProvider<TourItemBloc>(
+                                  create: (context)=> TourItemBloc()..add(GetTourItemEvent(tourId: favoriteBloc.listTour![index].id)),
+                              )
+                            ],
+                            child: TourItemForAll());
                       }),
-                ),
+                ) :
+                const Center(child: Text("You haven\'t liked any tour yet.",style: TextStyle(fontSize: 20),))
+                    :
+                const Center(child:CircularProgressIndicator(),),
                     favoriteBloc.listHotel != null?
                     favoriteBloc.listHotel!.isNotEmpty ?
                   Padding(
@@ -155,7 +169,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
                       ),
                     )
                         :
-                    const Center(child: Text("No favorite vehicle for you.",style: TextStyle(fontSize: 20),))
+                    const Center(child: Text("You haven't liked any hotel yet.",style: TextStyle(fontSize: 20),))
                         :
                     const Center(child:CircularProgressIndicator(),),
                     favoriteBloc.listCar != null?
@@ -193,7 +207,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
                     ),
                   )
                     :
-                  const Center(child: Text("No favorite vehicle for you.",style: TextStyle(fontSize: 20),))
+                  const Center(child: Text("You haven't liked any vehicle yet.",style: TextStyle(fontSize: 20),))
                     :
                 const Center(child:CircularProgressIndicator(),),
               ],

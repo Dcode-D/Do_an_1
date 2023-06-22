@@ -11,11 +11,11 @@ class GetTourItemState extends TourItemState {
 }
 
 class TourItemGetFavoriteState extends TourItemState {
-  bool getHotelFavoriteSuccess;
-  TourItemGetFavoriteState({required this.getHotelFavoriteSuccess});
+  bool getTourFavoriteSuccess;
+  TourItemGetFavoriteState({required this.getTourFavoriteSuccess});
 }
 
 class TourItemLoveState extends TourItemState{
-  bool loveHotelSuccess;
-  TourItemLoveState({required this.loveHotelSuccess});
+  bool loveTourSuccess;
+  TourItemLoveState({required this.loveTourSuccess});
 }

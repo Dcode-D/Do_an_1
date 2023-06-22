@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import '../../../data/model/favorite.dart';
 import '../../../data/model/hotel.dart';
 import '../../../data/model/tour.dart';
+import '../../../data/repositories/favorite_repo.dart';
 import '../../../data/repositories/tour_repo.dart';
 
 part 'tour_item_event.dart';
@@ -28,13 +29,13 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
       return;
     }
     tour = await getTourById(event.tourId!);
-    listImage = [];
-    listArticle = [];
-    listHotel = [];
     if(tour == null){
       emit(GetTourItemState(getTourItemSuccess: false));
       return;
     }
+    listImage = [];
+    listArticle = [];
+    listHotel = [];
     for (var item in tour!.articles!){
       Article? article = await getArticleById(item);
       if(article == null){
@@ -66,6 +67,55 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
       emit(GetTourItemState(getTourItemSuccess: false));
     }
   });
+  on<LikeTourEvent>((event,emit) async {
+    if(tour == null){
+      emit(TourItemLoveState(loveTourSuccess: false));
+      return;
+    }
+    var result = await createFavoriteTour(tour!.id!,event.userId!);
+    if(result == true){
+      emit(TourItemLoveState(loveTourSuccess: true));
+    }
+    else{
+      emit(TourItemLoveState(loveTourSuccess: false));
+    }
+  });
+  on<DislikeTourEvent>((event,emit) async {
+    if(favorite == null){
+      emit(TourItemLoveState(loveTourSuccess: false));
+      return;
+    }
+    var result = await deleteFavoriteTour(favorite!.id!);
+    if(result == true){
+      emit(TourItemLoveState(loveTourSuccess: false));
+    }
+    else{
+      emit(TourItemLoveState(loveTourSuccess: true));
+    }
+  });
+  on<GetTourIsFavorite>((event,emit)async{
+    if(tour == null){
+      emit(TourItemGetFavoriteState(getTourFavoriteSuccess: false));
+      return;
+    }
+    var result = await isTourFavorite(tour!.id!);
+    if (result == null){
+      emit(TourItemGetFavoriteState(getTourFavoriteSuccess: false));
+    }
+    else{
+      if(result == ""){
+        emit(TourItemGetFavoriteState(getTourFavoriteSuccess: false));
+        return;
+      }
+      favorite = await getFavoriteById(result);
+      if(favorite == null){
+        emit(TourItemGetFavoriteState(getTourFavoriteSuccess: false));
+      }
+      else{
+        emit(TourItemGetFavoriteState(getTourFavoriteSuccess: true));
+      }
+    }
+  });
   }
 
   Future<Tour?> getTourById(String id) async {
@@ -76,5 +126,49 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
   Future<Article?> getArticleById(String id) async {
     var result = await GetIt.instance.get<ArticleRepository>().getArticleById(id);
     return result;
+  }
+
+  Future<Favorite?> getFavoriteById(String id) async {
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
+    try{
+      var result = await favoriteRepo.getFavoriteById(id);
+      return result;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> createFavoriteTour(String tourId,String userId) async {
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
+    try{
+      var result = await favoriteRepo.createFavorite("tour",userId,tourId);
+      return result;
+    }catch(e){
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteFavoriteTour(String favoriteTourId) async{
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
+    try{
+      var result = await favoriteRepo.deleteFavorite(favoriteTourId);
+      return result;
+    }catch(e){
+      print(e);
+      return false;
+    }
+  }
+
+  Future<String?> isTourFavorite(String tourId) async {
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
+    try{
+      var result = await favoriteRepo.getIsFavoriteByService("tour",tourId);
+      return result;
+    }catch(e){
+      print(e);
+      return null;
+    }
   }
 }
