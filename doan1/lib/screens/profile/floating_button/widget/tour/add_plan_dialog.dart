@@ -5,9 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../BLOC/news_create/create_tour/create_tour_bloc.dart';
+import '../../../../../BLOC/news_create/tour/create_tour_bloc.dart';
 
-class AddPlanDialog extends StatelessWidget {
+class AddPlanDialog extends StatefulWidget {
+  @override
+  _AddPlanDialogState createState() => _AddPlanDialogState();
+}
+
+class _AddPlanDialogState extends State<AddPlanDialog> {
   @override
   Widget build(BuildContext context) {
     var scrollController = ScrollController();
@@ -147,12 +152,23 @@ class AddPlanDialog extends StatelessWidget {
                           value: context.read<CreateTourBloc>().listSelectedTourPlan
                               .contains(context.read<ArticleBloc>().listArticle![index]),
                           onChanged: (value) {
-                            if (value!) {
-                              context.read<CreateTourBloc>().add(SetTourPlan(tourPlan: [context.read<ArticleBloc>().listArticle![index]]));
-                            } else {
-                              context.read<CreateTourBloc>().add(RemoveTourPlan(article: context.read<ArticleBloc>().listArticle![index]));
-                            }
-                          },
+                            setState(() {
+                              if (value!) {
+                                context.read<CreateTourBloc>().add(
+                                    SetTourPlan(tourPlan: [
+                                      context
+                                          .read<ArticleBloc>()
+                                          .listArticle![index]
+                                    ]));
+                              } else {
+                                context.read<CreateTourBloc>().add(
+                                    RemoveTourPlan(
+                                        article: context
+                                            .read<ArticleBloc>()
+                                            .listArticle![index]));
+                              }
+                            });
+                            },
                         );
                       },
                     ),

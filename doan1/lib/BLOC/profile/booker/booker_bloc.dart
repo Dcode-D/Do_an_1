@@ -47,7 +47,7 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
     });
   }
   Future<List<DateBooking>?> getListHotelBooking(String hoteId) async{
-    var dateBookingRepo = GetIt.instance.get<DateBookingRepo>();
+    var dateBookingRepo = GetIt.instance.get<DateBookingRepository>();
     try {
       var listHotelBooking = await dateBookingRepo.GetHotelBookingByHotelId(hoteId);
       return listHotelBooking;
@@ -59,7 +59,7 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
   }
 
   Future<List<DateBooking>?> getListVehicleBooking(String vehicleId) async{
-    var dateBookingRepo = GetIt.instance.get<DateBookingRepo>();
+    var dateBookingRepo = GetIt.instance.get<DateBookingRepository>();
     try {
       var listVehicleBooking = await dateBookingRepo.GetVehicleBookingByVehicleId(vehicleId);
       return listVehicleBooking;
@@ -71,7 +71,7 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
   }
 
   Future<List<Hotel>?> getListHotelByOwnerId(String owner, int page) async {
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try {
       var listHotel = await hotelRepo.getListHotelByOwner(owner, page);
       return listHotel;
@@ -83,7 +83,7 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
   }
 
   Future<List<Vehicle>?> getListVehicleByOwnerId(String owner, int page) async {
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try {
       var listVehicle = await vehicleRepo.getListVehicleByOwner(owner, page);
       return listVehicle;

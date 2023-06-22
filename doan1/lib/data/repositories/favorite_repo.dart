@@ -6,14 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../remote/app_service.dart';
 import '../remote/request_factory.dart';
 
-class FavoriteRepo {
+class FavoriteRepository {
   final EventBus _eventBus;
   final Logger _logger;
   final SharedPreferences _sharedPreferences;
   final AppService _appService;
   final RequestFactory _requestFactory;
 
-  FavoriteRepo(this._logger, this._sharedPreferences, this._appService,
+  FavoriteRepository(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
   Future<List<String>?> getListFavoriteIdByUserId(String type,String userId) async {

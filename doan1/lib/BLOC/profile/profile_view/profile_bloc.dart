@@ -27,7 +27,7 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
       emit(ProfileState(getUserSuccess: false));
       user = await getUser();
       if(user != null){
-        var userRepo = GetIt.instance.get<UserRepo>();
+        var userRepo = GetIt.instance.get<UserRepository>();
         var images = await userRepo.getListAvatarId(user!.id);
         image = '$baseUrl/avatar/${images!.last}';
         emit(ProfileState(getUserSuccess: true));
@@ -35,7 +35,7 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
     });
   }
   Future<User?> getUser() async {
-    var userRepo = GetIt.instance.get<UserRepo>();
+    var userRepo = GetIt.instance.get<UserRepository>();
     try {
       user = await userRepo.getUser();
       return user;

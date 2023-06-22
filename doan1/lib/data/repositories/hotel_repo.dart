@@ -9,14 +9,14 @@ import '../Preferences.dart';
 import '../remote/app_service.dart';
 import '../remote/request_factory.dart';
 
-class HotelRepo{
+class HotelRepository{
   final EventBus _eventBus;
   final Logger _logger;
   final SharedPreferences _sharedPreferences;
   final AppService _appService;
   final RequestFactory _requestFactory;
 
-  HotelRepo(this._logger, this._sharedPreferences, this._appService,
+  HotelRepository(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
   Future<List<Hotel>?> getListHotelByName(String name,int page) async{

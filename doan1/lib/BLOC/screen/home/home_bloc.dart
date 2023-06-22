@@ -32,7 +32,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
     });
   }
   Future<List<Vehicle>?> getVehicle(int page) async {
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try {
       listVehicle = await vehicleRepo.getListVehicle(page);
       return listVehicle;
@@ -44,7 +44,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
   }
 
   Future<List<Hotel>?> getHotel(int page) async {
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try {
       var listHotel = await hotelRepo.getListHotel(page);
       return listHotel;

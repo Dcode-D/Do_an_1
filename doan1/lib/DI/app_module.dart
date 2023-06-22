@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:doan1/data/remote/app_service.dart';
 import 'package:doan1/data/repositories/article_repo.dart';
 import 'package:doan1/data/repositories/favorite_repo.dart';
+import 'package:doan1/data/repositories/rating_repo.dart';
 import 'package:doan1/data/repositories/tour_repo.dart';
 import 'package:doan1/data/repositories/user_repo.dart';
 import 'package:doan1/socketio/socketioRepo.dart';
@@ -52,44 +53,44 @@ abstract class RegisterModule {
       Authenticator(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
-  UserRepo userRepo(Logger logger,
+  UserRepository userRepo(Logger logger,
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
-      UserRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+      UserRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
-  VehicleRepo vehicleRepo(Logger logger,
+  VehicleRepository vehicleRepo(Logger logger,
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
-      VehicleRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+      VehicleRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
-  HotelRepo hotelRepo(Logger logger,
+  HotelRepository hotelRepo(Logger logger,
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
-      HotelRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+      HotelRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
-  HotelRoomRepo hotelRoomRepo(Logger logger,
+  HotelRoomRepository hotelRoomRepo(Logger logger,
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
-      HotelRoomRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+      HotelRoomRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
-  ArticleRepo articleRepo(Logger logger,
+  ArticleRepository articleRepo(Logger logger,
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
-      ArticleRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+      ArticleRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
   SocketRepo socketRepo(SharedPreferences sharedPreferences, @Named("baseUrl")String baseUrl, EventBus eventBus) =>
       SocketRepo(sharedPreferences, baseUrl, eventBus);
 
   @singleton
-  DateBookingRepo dateBookingRepo(Logger logger,
+  DateBookingRepository dateBookingRepo(Logger logger,
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
-      DateBookingRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+      DateBookingRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
   TourRepository tourRepository(Logger logger,
@@ -98,8 +99,14 @@ abstract class RegisterModule {
       TourRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 
   @singleton
-  FavoriteRepo favoriteRepo(Logger logger,
+  FavoriteRepository favoriteRepo(Logger logger,
       SharedPreferences sharedPreferences,
       AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
-      FavoriteRepo(logger, sharedPreferences, appService, requestFactory, eventBus);
+      FavoriteRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
+
+  @singleton
+  RatingRepository ratingRepo(Logger logger,
+      SharedPreferences sharedPreferences,
+      AppService appService, RequestFactory requestFactory, EventBus eventBus) =>
+      RatingRepository(logger, sharedPreferences, appService, requestFactory, eventBus);
 }

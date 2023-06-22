@@ -84,7 +84,7 @@ class AllHotelBloc extends Bloc<AllHotelEvent,AllHotelState>{
     });
   }
   Future<List<Hotel>?> getHotel(int page) async {
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try {
       var listHotel = await hotelRepo.getListHotel(page);
       return listHotel;

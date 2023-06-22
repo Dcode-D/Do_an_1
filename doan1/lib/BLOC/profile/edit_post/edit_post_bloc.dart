@@ -48,6 +48,6 @@ class EditPostBloc extends Bloc<EditPostEvent,EditPostState>{
    });
   }
   Future<bool> deletePostById(String id){
-    return GetIt.instance.get<ArticleRepo>().deletePost(id);
+    return GetIt.instance.get<ArticleRepository>().deletePost(id);
   }
 }

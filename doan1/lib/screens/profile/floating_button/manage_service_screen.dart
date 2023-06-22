@@ -9,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../BLOC/profile/edit_vehicle/edit_vehicle_item_bloc.dart';
 import '../../../data/model/hotel.dart';
-import '../../../data/model/vehicle.dart';
 import '../../../widgets/circle_indicator.dart';
 import '../../../widgets/silver_appbar_delegate.dart';
 
@@ -84,123 +83,125 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
           }
         }
       },
-      child: Scaffold(
-          body: NestedScrollView(
-            controller: _scrollController,
-            headerSliverBuilder: (context, value) {
-              return [
-                SliverAppBar(
-                  leading: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.black,
-                    ),
-                  ),
-                  centerTitle: true,
-                  floating: true,
-                  pinned: true,
-                  snap: false,
-                  backgroundColor: Colors.white,
-                  automaticallyImplyLeading: false,
-                  elevation: 0,
-                  title: Text(
-                    'Manage Service',
-                    style: GoogleFonts.raleway(
-                        fontSize: 20,
+      child: SafeArea(
+        child: Scaffold(
+            body: NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (context, value) {
+                return [
+                  SliverAppBar(
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
                         color: Colors.black,
-                        fontWeight: FontWeight.w600
+                      ),
+                    ),
+                    centerTitle: true,
+                    floating: true,
+                    pinned: true,
+                    snap: false,
+                    backgroundColor: Colors.white,
+                    automaticallyImplyLeading: false,
+                    elevation: 0,
+                    title: Text(
+                      'Manage Service',
+                      style: GoogleFonts.raleway(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600
+                      ),
                     ),
                   ),
-                ),
-                SliverPersistentHeader(
-                    delegate: SliverAppBarDelegate(
-                      color: Colors.transparent,
-                      tabbar: TabBar(
-                        controller: _tabController,
-                        isScrollable: false,
-                        labelColor: Colors.black87,
-                        unselectedLabelColor: Colors.grey,
-                        labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-                        labelStyle: const TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.orange,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        unselectedLabelStyle: const TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        indicator: CircleTabIndicator(
-                          color: Colors.orange,
-                          radius: 4,
-                        ),
-                        tabs: const [
-                          Tab(text: 'Hotel',),
-                          Tab(text: 'Vehicle',)
-                        ],
-                      ),
-                    )),
-              ];
-            },
-            body:
-            BlocBuilder<ManageServiceBloc,ManageServiceState>(
-              builder: (context,state) {
-                print("triggered builder!");
-                return
-              TabBarView(
-                  controller: _tabController,
-                  children: [
-                    manageServiceBloc.listHotel != null ?
-                    ListView.builder(
-                      key: const PageStorageKey('hotel'),
-                      addAutomaticKeepAlives: true,
-                      controller: _HotelScrollController,
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-                      itemCount: context.read<ManageServiceBloc>().listHotel!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Hotel hotel = manageServiceBloc.listHotel![index];
-                        return MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(value: manageServiceBloc),
-                            BlocProvider.value(value: profileBloc),
+                  SliverPersistentHeader(
+                      delegate: SliverAppBarDelegate(
+                        color: Colors.transparent,
+                        tabbar: TabBar(
+                          controller: _tabController,
+                          isScrollable: false,
+                          labelColor: Colors.black87,
+                          unselectedLabelColor: Colors.grey,
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+                          labelStyle: const TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          unselectedLabelStyle: const TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          indicator: CircleTabIndicator(
+                            color: Colors.orange,
+                            radius: 4,
+                          ),
+                          tabs: const [
+                            Tab(text: 'Hotel',),
+                            Tab(text: 'Vehicle',)
                           ],
-                          child: BlocProvider<EditHotelItemBloc>(
-                              create: (context) => EditHotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
-                              child: EditHotelItem()),
-                        );
-                      },
-                    ) :
-                    const Center(child: Text('You don\'t have any hotel')),
-                    manageServiceBloc.listVehicle != null ?
-                    ListView.builder(
-                      key: const PageStorageKey('vehicle'),
-                      addAutomaticKeepAlives: true,
-                      controller: _VehicleScrollController,
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-                      itemCount: manageServiceBloc.listVehicle!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String vehicle = manageServiceBloc.listVehicle![index].id!;
-                        return MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(value: manageServiceBloc),
-                            BlocProvider.value(value: profileBloc),
-                          ],
-                            child: BlocProvider<EditVehicleItemBloc>(
-                                create: (context) => EditVehicleItemBloc()..add(GetVehicleItemEvent(vehicleId: vehicle)),
-                                child: EditVehicleItem()));
-                      },
-                    ):
-                    const Center(child: Text('You don\'t have any vehicle'))
-                  ]
-              );}
-            ),
-          )
+                        ),
+                      )),
+                ];
+              },
+              body:
+              BlocBuilder<ManageServiceBloc,ManageServiceState>(
+                builder: (context,state) {
+                  print("triggered builder!");
+                  return
+                TabBarView(
+                    controller: _tabController,
+                    children: [
+                      manageServiceBloc.listHotel != null ?
+                      ListView.builder(
+                        key: const PageStorageKey('hotel'),
+                        addAutomaticKeepAlives: true,
+                        controller: _HotelScrollController,
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+                        itemCount: context.read<ManageServiceBloc>().listHotel!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Hotel hotel = manageServiceBloc.listHotel![index];
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(value: manageServiceBloc),
+                              BlocProvider.value(value: profileBloc),
+                            ],
+                            child: BlocProvider<EditHotelItemBloc>(
+                                create: (context) => EditHotelItemBloc()..add(GetHotelItemEvent(hotel: hotel)),
+                                child: EditHotelItem()),
+                          );
+                        },
+                      ) :
+                      const Center(child: Text('You don\'t have any hotel')),
+                      manageServiceBloc.listVehicle != null ?
+                      ListView.builder(
+                        key: const PageStorageKey('vehicle'),
+                        addAutomaticKeepAlives: true,
+                        controller: _VehicleScrollController,
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
+                        itemCount: manageServiceBloc.listVehicle!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String vehicle = manageServiceBloc.listVehicle![index].id!;
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(value: manageServiceBloc),
+                              BlocProvider.value(value: profileBloc),
+                            ],
+                              child: BlocProvider<EditVehicleItemBloc>(
+                                  create: (context) => EditVehicleItemBloc()..add(GetVehicleItemEvent(vehicleId: vehicle)),
+                                  child: EditVehicleItem()));
+                        },
+                      ):
+                      const Center(child: Text('You don\'t have any vehicle'))
+                    ]
+                );}
+              ),
+            )
+        ),
       ),
     );
   }

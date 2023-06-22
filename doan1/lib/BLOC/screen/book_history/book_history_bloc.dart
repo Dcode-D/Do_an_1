@@ -37,7 +37,7 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
     });
   }
   Future<List<DateBooking>?> getHotelBooking(String userID,int page) async {
-    DateBookingRepo dateBookingRepo = GetIt.instance.get<DateBookingRepo>();
+    DateBookingRepository dateBookingRepo = GetIt.instance.get<DateBookingRepository>();
     try{
       var result = await dateBookingRepo.GetBookingDate(userID,page);
       return result;
@@ -47,7 +47,7 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
     }
   }
   Future<User?> getUser() async {
-    var userRepo = GetIt.instance.get<UserRepo>();
+    var userRepo = GetIt.instance.get<UserRepository>();
     try {
       user = await userRepo.getUser();
       return user;

@@ -6,7 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../BLOC/news_create/create_tour/create_tour_bloc.dart';
+import '../../../BLOC/news_create/tour/create_tour_bloc.dart';
 import '../../../BLOC/screen/all_screen/article/article_bloc.dart';
 
 class CreateTourScreen extends StatefulWidget {
@@ -27,7 +27,6 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var articleBloc = context.read<ArticleBloc>();
     var createTourBloc = context.read<CreateTourBloc>();
     return BlocListener<CreateTourBloc, CreateTourState>(
       listenWhen: (previous, current) => current is PostTourState,
@@ -151,13 +150,8 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              context.read<ProfileBloc>().user?.firstname !=
-                                          null &&
-                                      context
-                                              .read<ProfileBloc>()
-                                              .user
-                                              ?.lastname !=
-                                          null
+                              context.read<ProfileBloc>().user?.firstname != null &&
+                                  context.read<ProfileBloc>().user?.lastname != null
                                   ? "${context.read<ProfileBloc>().user!.firstname} ${context.read<ProfileBloc>().user!.lastname}"
                                   : "Firstname Lastname",
                               style: GoogleFonts.raleway(
@@ -170,9 +164,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -398,7 +390,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           TextFormField(
                             controller: duration,
                             decoration: InputDecoration(
-                              hintText: 'days',
+                              hintText: 'Days',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -458,8 +450,8 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
@@ -499,6 +491,9 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                           return null;
                         },
                         maxLines: 10,
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                     ],
                   ),

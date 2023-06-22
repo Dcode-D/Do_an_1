@@ -41,7 +41,7 @@ class HotelBookingBloc extends Bloc<HotelBookingEvent, HotelBookingState>{
     });
   }
   Future<bool?> CreateHotelBooking(List<String> attachedServices,String startDate,String endDate,String user,String note,bool approved,bool suspended,String type) async{
-    DateBookingRepo dateBookingRepo = GetIt.instance.get<DateBookingRepo>();
+    DateBookingRepository dateBookingRepo = GetIt.instance.get<DateBookingRepository>();
     try{
       var result = await dateBookingRepo.CreateBookingDate(attachedServices, startDate, endDate, user, note, approved, suspended, type);
       return result;

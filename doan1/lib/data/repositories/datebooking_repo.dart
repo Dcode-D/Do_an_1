@@ -7,14 +7,14 @@ import '../Preferences.dart';
 import '../remote/app_service.dart';
 import '../remote/request_factory.dart';
 
-class DateBookingRepo{
+class DateBookingRepository{
   final EventBus _eventBus;
   final Logger _logger;
   final SharedPreferences _sharedPreferences;
   final AppService _appService;
   final RequestFactory _requestFactory;
 
-  DateBookingRepo(this._logger, this._sharedPreferences, this._appService,
+  DateBookingRepository(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
   Future<bool> CreateBookingDate(List<String> attachedServices, String startDate, String endDate, String user, String note, bool approved, bool suspended,String type) async

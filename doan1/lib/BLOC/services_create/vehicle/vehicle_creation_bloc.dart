@@ -14,7 +14,7 @@ part 'vehicle_creation_state.dart';
 class VehicleCreationBloc extends Bloc<VehicleCreationEvent, VehicleCreationState> {
   List<File> listImages = [];
   VehicleCreationBloc() : super(VehicleCreationInitial()) {
-    final vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    final vehicleRepo = GetIt.instance.get<VehicleRepository>();
     on<VehicleCreationEvent>((event, emit) {
 
     });

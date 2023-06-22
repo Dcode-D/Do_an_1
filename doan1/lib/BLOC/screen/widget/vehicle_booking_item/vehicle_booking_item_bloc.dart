@@ -62,7 +62,7 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
     });
   }
   Future<Vehicle?> getVehicleFunc(String vehicleId) async{
-    var vehicleRepo = GetIt.instance<VehicleRepo>();
+    var vehicleRepo = GetIt.instance<VehicleRepository>();
     return vehicleRepo.getVehicleById(vehicleId).then((value) {
       if(value != null){
         return value;
@@ -74,7 +74,7 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
   }
 
   Future<User?> getOwner(String id) async{
-    var userRepo = GetIt.instance<UserRepo>();
+    var userRepo = GetIt.instance<UserRepository>();
     try {
       user = await userRepo.getUserById(id);
       return user;
@@ -86,18 +86,18 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
   }
 
   Future<bool> rejectDateBookingFunc(String dateBookingId) async{
-    return GetIt.instance<DateBookingRepo>().RejectBookingDate(dateBookingId);
+    return GetIt.instance<DateBookingRepository>().RejectBookingDate(dateBookingId);
   }
 
   Future<bool?> deleteDateBookingFunc(String dateBookingId) async{
-    return GetIt.instance<DateBookingRepo>().DeleteBookingDate(dateBookingId);
+    return GetIt.instance<DateBookingRepository>().DeleteBookingDate(dateBookingId);
   }
 
   Future<bool?> approveDateBookingFunc(String dateBookingId) async{
-    return GetIt.instance<DateBookingRepo>().ApproveBookingDate(dateBookingId);
+    return GetIt.instance<DateBookingRepository>().ApproveBookingDate(dateBookingId);
   }
 
   Future<User?> getUserFunc(String userId) async{
-    return GetIt.instance<UserRepo>().getUserById(userId);
+    return GetIt.instance<UserRepository>().getUserById(userId);
   }
 }

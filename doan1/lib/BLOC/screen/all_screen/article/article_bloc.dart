@@ -51,7 +51,7 @@ class ArticleBloc extends Bloc<ArticleEvent,ArticleState>{
     });
   }
   Future<List<Article>?> getArticle(int page, String? city, String? province, String? name) async {
-    var articleRepo = GetIt.instance.get<ArticleRepo>();
+    var articleRepo = GetIt.instance.get<ArticleRepository>();
     try {
       var listIdArticle = await articleRepo.getListId(page,city, province, name);
       List<Article> tempList = [];

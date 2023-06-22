@@ -234,6 +234,34 @@ abstract class AppService {
     @Body() required Map<String,dynamic> request
   });
 
+  @PUT("/tour/{id}")
+  Future<HttpResponse> updateTour({
+    @Header("Authorization") required String token,
+    @Path('id') required String id,
+    @Body() required Map<String,dynamic> request
+  });
+
+  @DELETE("/tour/{id}")
+  Future<HttpResponse> deleteTour({
+    @Header("Authorization") required String token,
+    @Path('id') required String id
+  });
+
+  @GET("/tour/id/{id}")
+  Future<HttpResponse<BaseResponse>> getTourById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id
+  });
+
+  @GET("/tour/page/{page}")
+  Future<HttpResponse<ListModelResponse>> getTourList({
+    @Header("Authorization") required String token,
+    @Path('page') required int page,
+    @Query('city') required String city,
+    @Query('province') required String province,
+    @Query('referenceName') required String referenceName
+  });
+
 //Favorite API
   @POST("/favorite/{type}")
   Future<HttpResponse> createFavorite({
@@ -287,4 +315,32 @@ abstract class AppService {
     @Path('id') required String car,
     @Body() required Map<String,dynamic> request});
 
+  //rating API
+  @GET("/rating/")
+  Future<HttpResponse<ListModelResponse>> getRatingList({
+    @Query('page') required int page,
+    @Query('service') required String service,
+    @Query('user') required String user,
+    @Query('rating') required double rating});
+
+  @GET("/rating/general/{type}/{service}")
+  Future<HttpResponse<ListModelResponse>> getGeneralRating({
+    @Path('type') required String type,
+    @Path('service') required String service});
+
+  @POST("/rating/")
+  Future<HttpResponse> createRating({
+    @Header("Authorization") required String token,
+    @Body() required Map<String,dynamic> request});
+
+  @PUT("/rating/{id}")
+  Future<HttpResponse> updateRating({
+    @Header("Authorization") required String token,
+    @Path('id') required String id,
+    @Body() required Map<String,dynamic> request});
+
+  @DELETE("/rating/{id}")
+  Future<HttpResponse> deleteRating({
+    @Header("Authorization") required String token,
+    @Path('id') required String id});
 }

@@ -62,7 +62,7 @@ class AllVehicleBloc extends Bloc<AllVehicleEvent,AllVehicleState>{
     });
   }
   Future<List<Vehicle>?> getVehicle(int page) async {
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try {
       var listHotel = await vehicleRepo.getListVehicle(page);
       return listHotel;

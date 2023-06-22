@@ -40,60 +40,62 @@ class AllHotelScreen extends StatelessWidget{
       child: BlocBuilder<AllHotelBloc,AllHotelState>(
         bloc: allHotelBloc,
         builder:(context,state) =>
-        Scaffold(
-          appBar: AppBar(
-            leading: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black,
+        SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              leading: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-              automaticallyImplyLeading: false,
-              elevation: 0,
-              backgroundColor: Colors.white,
-              centerTitle: true,
-              title: Text(
-                'Hotels for you',
-                style: GoogleFonts.raleway(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600
-                )
+                automaticallyImplyLeading: false,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                centerTitle: true,
+                title: Text(
+                  'Hotels for you',
+                  style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600
+                  )
+                ),
               ),
-            ),
-          body: state.getListHotelSuccess == true?
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-                child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                controller: scrollController,
-                itemCount: state.isLoadingMore ? allHotelBloc.listHotel!.length + 1 : allHotelBloc.listHotel!.length,
-                itemBuilder: (BuildContext context, int index){
-                  if(index < allHotelBloc.listHotel!.length){
-                    Hotel hotel = allHotelBloc.listHotel![index];
-                    return MultiBlocProvider(
-                      providers: [
-                        BlocProvider<ProfileBloc>.value(value: profileBloc),
-                        BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
-                      ],
-                      child: BlocProvider<HotelItemBloc>(
-                          create: (context)=> HotelItemBloc()..add(GetHotelItemEvent(hotelId: allHotelBloc.listHotel![index].id)),
-                          child: HotelItemForAll(type: 1,)),
-                    );
+            body: state.getListHotelSuccess == true?
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                  child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  controller: scrollController,
+                  itemCount: state.isLoadingMore ? allHotelBloc.listHotel!.length + 1 : allHotelBloc.listHotel!.length,
+                  itemBuilder: (BuildContext context, int index){
+                    if(index < allHotelBloc.listHotel!.length){
+                      Hotel hotel = allHotelBloc.listHotel![index];
+                      return MultiBlocProvider(
+                        providers: [
+                          BlocProvider<ProfileBloc>.value(value: profileBloc),
+                          BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
+                        ],
+                        child: BlocProvider<HotelItemBloc>(
+                            create: (context)=> HotelItemBloc()..add(GetHotelItemEvent(hotelId: allHotelBloc.listHotel![index].id)),
+                            child: HotelItemForAll(type: 1,)),
+                      );
+                    }
+                    else{
+                      return const Center(child: CircularProgressIndicator(),);
+                    }
                   }
-                  else{
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
-                }
-            ),
-          ) :
-          const Center(child: CircularProgressIndicator(),)
+              ),
+            ) :
+            const Center(child: CircularProgressIndicator(),)
+          ),
         ),
       ),
     );

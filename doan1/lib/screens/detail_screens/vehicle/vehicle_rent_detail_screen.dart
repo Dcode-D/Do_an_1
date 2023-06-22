@@ -36,335 +36,337 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
     return BlocBuilder<CarItemBloc,CarItemState>(
         buildWhen: (previous, current) => previous != current,
       builder: (context,state) =>
-      Scaffold(
-        body: Column(
-          children: <Widget>[
-            carItemBloc.vehicle != null ?
-            Hero(
-              tag: carItemBloc.vehicle!.id.toString(),
-              child: Stack(
-                children:<Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.45,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0.0, 8.0),
-                          blurRadius: 10.0,
-                        ),
-                      ],
-                    ),
-                    child: PageView.builder(
-                      controller: listController,
-                      itemCount: carItemBloc.vehicle!.images!.length,
-                      itemBuilder:(context, index) {
-                        return Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    offset: Offset(0.0, 8.0),
-                                    blurRadius: 10.0,
-                                  ),
-                                ],
-                                image: DecorationImage(
-                                    image: NetworkImage(carItemBloc.listImage![index]),
-                                    fit: BoxFit.cover
-                                )
-                            )// image:AssetImage(url),),
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 40.0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.black.withOpacity(0.3)
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                        color: Colors.white,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ),
-                  ),
-                ]
-              ),
-            )
-                : const Center(child: CircularProgressIndicator()),
-            const SizedBox(height: 10.0),
-            Center(
-              child:
+      SafeArea(
+        child: Scaffold(
+          body: Column(
+            children: <Widget>[
               carItemBloc.vehicle != null ?
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0.0, 2.0),
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                ),
-                child: SmoothPageIndicator(
-                  controller: listController,
-                  count: carItemBloc.vehicle!.images!.length,
-                  effect: const ExpandingDotsEffect(
-                    activeDotColor: Colors.orange,
-                    dotColor: Color(0xFFababab),
-                    dotHeight: 4.8,
-                    dotWidth: 6,
-                    spacing: 4.8,
-                  ),
-                ),
-              ) : const SizedBox(),
-            ),
-            const SizedBox(height: 10.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 5,
-                        child: Row(
-                          children:[
-                            const Icon(Icons.directions_car, size: 25.0, color: Colors.grey),
-                            const SizedBox(width: 10.0),
-                            Text(
-                              carItemBloc.vehicle!.brand!,
-                              style: GoogleFonts.raleway(
-                                fontSize: 23.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ]
+              Hero(
+                tag: carItemBloc.vehicle!.id.toString(),
+                child: Stack(
+                  children:<Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
                         ),
-                      ),
-                      Flexible(
-                        flex: 5,
-                        child: Text("${formatCurrency.format(carItemBloc.vehicle!.pricePerDay!)} VNĐ / Day",
-                          style: GoogleFonts.raleway(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500,),),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10.0),
-                  Row(
-                    children: [
-                      const Icon(Icons.airline_seat_legroom_extra_sharp, size: 25.0, color: Colors.grey),
-                      const SizedBox(width: 10.0),
-                      Text(
-                        '${carItemBloc.vehicle!.seats!} Seats',
-                        style: GoogleFonts.raleway(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        carItemBloc.vehicle!.color!,
-                        style: GoogleFonts.raleway(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      const Icon(FontAwesomeIcons.paintBrush, size: 25.0, color: Colors.grey),
-                    ],
-                  ),
-                  const SizedBox(height: 10.0),
-                  Row(
-                    children: [
-                      const Icon(Icons.location_on, size: 25.0, color: Colors.grey),
-                      const SizedBox(width: 10.0),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width*0.8,
-                        child: Text(
-                          carItemBloc.vehicle!.address??'',
-                          style: GoogleFonts.raleway(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w400,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 8.0),
+                            blurRadius: 10.0,
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 10.0),
-                  Row(
-                    children: [
-                      const Icon(FontAwesomeIcons.info, size: 25.0, color: Colors.grey),
-                      const SizedBox(width: 10.0),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width*0.8,
-                        child: Text(
-                          carItemBloc.vehicle!.description!,
-                          style: GoogleFonts.raleway(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        bottomNavigationBar:
-        Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                    MultiBlocProvider(
-                      providers: [
-                        BlocProvider.value(value: carItemBloc),
-                        BlocProvider.value(value: profileBloc),
-                        BlocProvider.value(value: bookHistoryBloc),
-                        BlocProvider<VehicleBookingBloc>(
-                            create: (context) => VehicleBookingBloc())
-                      ],
-                        child: VehicleRentBookInfoScreen())));
-              },
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
-                width: MediaQuery.of(context).size.width*0.6,
-                height: 50.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Book now",
-                      style: GoogleFonts.roboto(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                      child: PageView.builder(
+                        controller: listController,
+                        itemCount: carItemBloc.vehicle!.images!.length,
+                        itemBuilder:(context, index) {
+                          return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(0.0, 8.0),
+                                      blurRadius: 10.0,
+                                    ),
+                                  ],
+                                  image: DecorationImage(
+                                      image: NetworkImage(carItemBloc.listImage![index]),
+                                      fit: BoxFit.cover
+                                  )
+                              )// image:AssetImage(url),),
+                          );
+                        },
                       ),
                     ),
-                    const SizedBox(width: 4.0),
-                    const Icon(
-                      FontAwesomeIcons.angleDoubleRight,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            BlocBuilder<CarItemBloc,CarItemState>(
-              buildWhen: (previous, current) => current is CarItemGetFavoriteState,
-              builder:(context,state) =>
-              state is CarItemGetFavoriteState ?
-              state.getCarFavoriteSuccess == false ?
-              InkWell(
-                onTap: () {
-                  carItemBloc.add(LikeCarEvent(userId: profileBloc.user!.id));
-                  carItemBloc.add(GetCarIsFavorite());
-                },
-                child: Container(
-                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
-                  width: MediaQuery.of(context).size.width * 0.32,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Theme.of(context).primaryColor,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 5.0,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Like",
-                        style: GoogleFonts.roboto(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 40.0),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.black.withOpacity(0.3)
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: Colors.white,
+                          onPressed: () => Navigator.pop(context),
                         ),
                       ),
-                      const SizedBox(width: 4.0),
-                      const Icon(
-                        FontAwesomeIcons.solidHeart,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ]
                 ),
               )
-                  :
-              InkWell(
-                onTap: () {
-                  carItemBloc.add(DislikeCarEvent());
-                  carItemBloc.add(GetCarIsFavorite());
-                },
-                child: Container(
-                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
-                  width: MediaQuery.of(context).size.width * 0.32,
-                  height: 50.0,
+                  : const Center(child: CircularProgressIndicator()),
+              const SizedBox(height: 10.0),
+              Center(
+                child:
+                carItemBloc.vehicle != null ?
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
+                    borderRadius: BorderRadius.circular(10.0),
                     color: Colors.white,
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(0.0, 2.0),
-                        blurRadius: 5.0,
+                        blurRadius: 10.0,
                       ),
                     ],
+                  ),
+                  child: SmoothPageIndicator(
+                    controller: listController,
+                    count: carItemBloc.vehicle!.images!.length,
+                    effect: const ExpandingDotsEffect(
+                      activeDotColor: Colors.orange,
+                      dotColor: Color(0xFFababab),
+                      dotHeight: 4.8,
+                      dotWidth: 6,
+                      spacing: 4.8,
+                    ),
+                  ),
+                ) : const SizedBox(),
+              ),
+              const SizedBox(height: 10.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 5,
+                          child: Row(
+                            children:[
+                              const Icon(Icons.directions_car, size: 25.0, color: Colors.grey),
+                              const SizedBox(width: 10.0),
+                              Text(
+                                carItemBloc.vehicle!.brand!,
+                                style: GoogleFonts.raleway(
+                                  fontSize: 23.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ]
+                          ),
+                        ),
+                        Flexible(
+                          flex: 5,
+                          child: Text("${formatCurrency.format(carItemBloc.vehicle!.pricePerDay!)} VNĐ / Day",
+                            style: GoogleFonts.raleway(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w500,),),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    Row(
+                      children: [
+                        const Icon(Icons.airline_seat_legroom_extra_sharp, size: 25.0, color: Colors.grey),
+                        const SizedBox(width: 10.0),
+                        Text(
+                          '${carItemBloc.vehicle!.seats!} Seats',
+                          style: GoogleFonts.raleway(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          carItemBloc.vehicle!.color!,
+                          style: GoogleFonts.raleway(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(width: 10.0),
+                        const Icon(FontAwesomeIcons.paintBrush, size: 25.0, color: Colors.grey),
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on, size: 25.0, color: Colors.grey),
+                        const SizedBox(width: 10.0),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*0.8,
+                          child: Text(
+                            carItemBloc.vehicle!.address??'',
+                            style: GoogleFonts.raleway(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    Row(
+                      children: [
+                        const Icon(FontAwesomeIcons.info, size: 25.0, color: Colors.grey),
+                        const SizedBox(width: 10.0),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*0.8,
+                          child: Text(
+                            carItemBloc.vehicle!.description!,
+                            style: GoogleFonts.raleway(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar:
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                      MultiBlocProvider(
+                        providers: [
+                          BlocProvider.value(value: carItemBloc),
+                          BlocProvider.value(value: profileBloc),
+                          BlocProvider.value(value: bookHistoryBloc),
+                          BlocProvider<VehicleBookingBloc>(
+                              create: (context) => VehicleBookingBloc())
+                        ],
+                          child: VehicleRentBookInfoScreen())));
+                },
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+                  width: MediaQuery.of(context).size.width*0.6,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Theme.of(context).primaryColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Dislike",
+                        "Book now",
                         style: GoogleFonts.roboto(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.orange,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
                       ),
-                      const SizedBox(width: 10.0),
+                      const SizedBox(width: 4.0),
                       const Icon(
-                        FontAwesomeIcons.heart,
-                        color: Colors.orange,
+                        FontAwesomeIcons.angleDoubleRight,
+                        color: Colors.white,
                       ),
                     ],
                   ),
                 ),
-              )
-                  :
-              const Center(child: CircularProgressIndicator()),
-            ),
-          ],
+              ),
+
+              BlocBuilder<CarItemBloc,CarItemState>(
+                buildWhen: (previous, current) => current is CarItemGetFavoriteState,
+                builder:(context,state) =>
+                state is CarItemGetFavoriteState ?
+                state.getCarFavoriteSuccess == false ?
+                InkWell(
+                  onTap: () {
+                    carItemBloc.add(LikeCarEvent(userId: profileBloc.user!.id));
+                    carItemBloc.add(GetCarIsFavorite());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+                    width: MediaQuery.of(context).size.width * 0.32,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Theme.of(context).primaryColor,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 5.0,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Like",
+                          style: GoogleFonts.roboto(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 4.0),
+                        const Icon(
+                          FontAwesomeIcons.solidHeart,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                    :
+                InkWell(
+                  onTap: () {
+                    carItemBloc.add(DislikeCarEvent());
+                    carItemBloc.add(GetCarIsFavorite());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 2),
+                    width: MediaQuery.of(context).size.width * 0.32,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 5.0,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Dislike",
+                          style: GoogleFonts.roboto(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.orange,
+                          ),
+                        ),
+                        const SizedBox(width: 10.0),
+                        const Icon(
+                          FontAwesomeIcons.heart,
+                          color: Colors.orange,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                    :
+                const Center(child: CircularProgressIndicator()),
+              ),
+            ],
+          ),
         ),
       )
     );

@@ -10,14 +10,14 @@ import '../Preferences.dart';
 import '../remote/app_service.dart';
 import '../remote/request_factory.dart';
 
-class ArticleRepo {
+class ArticleRepository {
   final EventBus _eventBus;
   final Logger _logger;
   final SharedPreferences _sharedPreferences;
   final AppService _appService;
   final RequestFactory _requestFactory;
 
-  ArticleRepo(this._logger, this._sharedPreferences, this._appService,
+  ArticleRepository(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
   Future<int?> getMaxPage() async {

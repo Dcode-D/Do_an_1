@@ -42,166 +42,168 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (context, value) {
-        return [
-          SliverAppBar(
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
-            ),
-            centerTitle: true,
-            floating: true,
-            pinned: true,
-            snap: false,
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            title: Text(
-              'Favorite',
-              style: GoogleFonts.raleway(
-                  fontSize: 20,
+    return SafeArea(
+      child: Scaffold(
+        body: NestedScrollView(
+          controller: _scrollController,
+          headerSliverBuilder: (context, value) {
+          return [
+            SliverAppBar(
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
                   color: Colors.black,
-                  fontWeight: FontWeight.w600
+                ),
+              ),
+              centerTitle: true,
+              floating: true,
+              pinned: true,
+              snap: false,
+              backgroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              title: Text(
+                'Favorite',
+                style: GoogleFonts.raleway(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600
+                ),
               ),
             ),
-          ),
-          SliverPersistentHeader(
-              delegate: SliverAppBarDelegate(
-                color: Colors.transparent,
-                tabbar: TabBar(
-                  controller: _tabController,
-                  isScrollable: false,
-                  labelColor: Colors.black87,
-                  unselectedLabelColor: Colors.grey,
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  labelStyle: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.orange,
-                    fontWeight: FontWeight.w600,
+            SliverPersistentHeader(
+                delegate: SliverAppBarDelegate(
+                  color: Colors.transparent,
+                  tabbar: TabBar(
+                    controller: _tabController,
+                    isScrollable: false,
+                    labelColor: Colors.black87,
+                    unselectedLabelColor: Colors.grey,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+                    labelStyle: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    indicator: CircleTabIndicator(
+                      color: Colors.orange,
+                      radius: 4,
+                    ),
+                    tabs: const [
+                      Tab(text: 'Tour'),
+                      Tab(text: 'Hotel'),
+                      Tab(text: 'Vehicle',)
+                    ],
                   ),
-                  unselectedLabelStyle: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  indicator: CircleTabIndicator(
-                    color: Colors.orange,
-                    radius: 4,
-                  ),
-                  tabs: const [
-                    Tab(text: 'Tour'),
-                    Tab(text: 'Hotel'),
-                    Tab(text: 'Vehicle',)
-                  ],
-                ),
-              )),
-        ];
-      },
-        body: BlocBuilder<FavoriteBloc,FavoriteState>(
-          buildWhen: (previous, current) => current is FavoriteLoaded,
-          builder: (context,state) => TabBarView(
-            controller: _tabController,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    controller: listController,
-                    itemCount: tours.length,
-                    itemBuilder: (BuildContext context, int index){
-                      Tour tour = tours[index];
-                      Image tourImg = Image.asset(tour.img);
-                      return TourItemForAll(tour: tour, tourImg: tourImg,);
-                    }),
-              ),
-                  favoriteBloc.listHotel != null?
-                  favoriteBloc.listHotel!.isNotEmpty ?
+                )),
+          ];
+        },
+          body: BlocBuilder<FavoriteBloc,FavoriteState>(
+            buildWhen: (previous, current) => current is FavoriteLoaded,
+            builder: (context,state) => TabBarView(
+              controller: _tabController,
+              children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       controller: listController,
-                      itemCount: favoriteBloc.listHotel!.length,
+                      itemCount: tours.length,
                       itemBuilder: (BuildContext context, int index){
-                        if(index < favoriteBloc.listHotel!.length){
-                        return MultiBlocProvider(
-                          providers: [
-                            BlocProvider<ProfileBloc>.value(value: profileBloc),
-                            BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
-                          ],
-                          child: BlocProvider<HotelItemBloc>(
-                              create: (context)=> HotelItemBloc()..add(GetHotelItemEvent(hotelId: favoriteBloc.listHotel![index].id)),
-                              child: HotelItemForAll(type: 1,)),
-                          );
-                        } else{
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Center(
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator(),
+                        Tour tour = tours[index];
+                        Image tourImg = Image.asset(tour.img);
+                        return TourItemForAll(tour: tour, tourImg: tourImg,);
+                      }),
+                ),
+                    favoriteBloc.listHotel != null?
+                    favoriteBloc.listHotel!.isNotEmpty ?
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        controller: listController,
+                        itemCount: favoriteBloc.listHotel!.length,
+                        itemBuilder: (BuildContext context, int index){
+                          if(index < favoriteBloc.listHotel!.length){
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider<ProfileBloc>.value(value: profileBloc),
+                              BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
+                            ],
+                            child: BlocProvider<HotelItemBloc>(
+                                create: (context)=> HotelItemBloc()..add(GetHotelItemEvent(hotelId: favoriteBloc.listHotel![index].id)),
+                                child: HotelItemForAll(type: 1,)),
+                            );
+                          } else{
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              child: Center(
+                                child: SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: CircularProgressIndicator(),
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         }
-                      }
+                      ),
+                    )
+                        :
+                    const Center(child: Text("No favorite vehicle for you.",style: TextStyle(fontSize: 20),))
+                        :
+                    const Center(child:CircularProgressIndicator(),),
+                    favoriteBloc.listCar != null?
+                    favoriteBloc.listCar!.isNotEmpty ?
+                    Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        controller: listController,
+                        itemCount: favoriteBloc.listCar!.length,
+                        itemBuilder: (BuildContext context, int index){
+                          if(index < favoriteBloc.listCar!.length){
+                            return MultiBlocProvider(
+                                providers: [
+                                  BlocProvider<ProfileBloc>.value(value: profileBloc),
+                                  BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
+                                ],
+                                child: BlocProvider<CarItemBloc>(
+                                    create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicleId: favoriteBloc.listCar![index].id!)),
+                                    child: VehicleItemForAll(type: 1,)));
+                          }
+                          else{
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              child: Center(
+                                child: SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                            );
+                          }
+                        }
                     ),
                   )
-                      :
+                    :
                   const Center(child: Text("No favorite vehicle for you.",style: TextStyle(fontSize: 20),))
-                      :
-                  const Center(child:CircularProgressIndicator(),),
-                  favoriteBloc.listCar != null?
-                  favoriteBloc.listCar!.isNotEmpty ?
-                  Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      controller: listController,
-                      itemCount: favoriteBloc.listCar!.length,
-                      itemBuilder: (BuildContext context, int index){
-                        if(index < favoriteBloc.listCar!.length){
-                          return MultiBlocProvider(
-                              providers: [
-                                BlocProvider<ProfileBloc>.value(value: profileBloc),
-                                BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
-                              ],
-                              child: BlocProvider<CarItemBloc>(
-                                  create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicleId: favoriteBloc.listCar![index].id!)),
-                                  child: VehicleItemForAll(type: 1,)));
-                        }
-                        else{
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Center(
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          );
-                        }
-                      }
-                  ),
-                )
-                  :
-                const Center(child: Text("No favorite vehicle for you.",style: TextStyle(fontSize: 20),))
-                  :
-              const Center(child:CircularProgressIndicator(),),
-            ],
+                    :
+                const Center(child:CircularProgressIndicator(),),
+              ],
+            ),
           ),
-        ),
-      )
+        )
+      ),
     );
   }
 }

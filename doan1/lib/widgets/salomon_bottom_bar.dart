@@ -9,7 +9,6 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../BLOC/navigation/navigation_bloc.dart';
 import '../BLOC/profile/profile_view/profile_bloc.dart';
-import '../BLOC/screen/book_history/book_history_bloc.dart';
 
 class NavigationNavBar extends StatelessWidget{
   int current_tab = 0;
@@ -59,17 +58,17 @@ Widget build(BuildContext context){
 }
 
 class Salomon_nav_bar extends StatelessWidget{
-@override
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationInfoState>(
         builder: (context, state){
           return AnimatedContainer  (
             duration: const Duration(milliseconds: 1000),
-            height: 58 + 25,
+            height: 70,
             child: Wrap(
               children: [
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 15.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),

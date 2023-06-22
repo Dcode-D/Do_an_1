@@ -16,7 +16,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   PostsBloc() : super(PostsInitial()) {
     final sharedPrefs = GetIt.instance.get<SharedPreferences>();
     final token ="Bearer ${sharedPrefs.getString(Preferences.token) as String}" ;
-    final articleRepo = GetIt.instance.get<ArticleRepo>();
+    final articleRepo = GetIt.instance.get<ArticleRepository>();
     on<PostsEvent>((event, emit) {
     });
     on<AddImageEvent>((event, emit) async {

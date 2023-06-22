@@ -88,7 +88,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     });
   }
   Future<List<String>?> getListIdFavoriteByUserId(String type,String userId) async{
-    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
     try{
       var listIdFavorite = await favoriteRepo.getListFavoriteIdByUserId(type, userId);
       return listIdFavorite;
@@ -99,7 +99,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     }
   }
   Future<Favorite?> getFavoriteById(String id) async{
-    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
     try{
       var favorite = await favoriteRepo.getFavoriteById(id);
       return favorite;
@@ -110,7 +110,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     }
   }
   Future<Hotel?> getHotelById(String id) async{
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
       var hotel = await hotelRepo.getHotelById(id);
       return hotel;
@@ -121,7 +121,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   }
 
   Future<Vehicle?> getVehicleById(String id) async {
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try{
       var vehicle = await vehicleRepo.getVehicleById(id);
       return vehicle;

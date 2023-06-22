@@ -34,311 +34,313 @@ class HomeScreen extends StatelessWidget {
       BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state)=>
           BlocBuilder<HomeBloc,HomeState>(
           builder: (context,state) =>
-          Scaffold(
-            body: SingleChildScrollView(
-              controller: scrollController,
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height*0.5,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: const Offset(0, 7), // changes position of shadow
-                        ),],
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/home_background.jpg"),
-                        fit: BoxFit.cover,
+          SafeArea(
+            child: Scaffold(
+              body: SingleChildScrollView(
+                controller: scrollController,
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height*0.4,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 7), // changes position of shadow
+                          ),],
+                        image: const DecorationImage(
+                          image: AssetImage("assets/images/home_background.jpg"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                  InkWell(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                      BlocProvider<ProfileBloc>.value(
-                                        value: profileBloc,
-                                        child:
-                                          BlocProvider(
-                                            create: (_) => EditProfileBloc(context),
-                                            child: EditProfileScreen(),
-                                          )
-                                      ))
-                                      );
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(50),
-                                        border: Border.all(
-                                          color: Colors.white,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child:
-                                      profileBloc.image != null ?
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(50),
-                                        child: FadeInImage(
-                                            width: MediaQuery.of(context).size.width,
-                                            height: MediaQuery.of(context).size.height / 2.5,
-                                            imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
-                                            image:
-                                            NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
-                                            placeholder: const AssetImage('assets/images/loading.gif'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        )
-                                          :
-                                          const CircleAvatar(
-                                          radius: 40,
-                                          backgroundImage:
-                                            AssetImage("assets/images/undefine-wallpaper.jpg")
-                                          ),
-                                      ),
-                                    ),
-                                  const SizedBox(width: 10,),
-                                  profileBloc.user != null ?
-                                  Text("Hi, ${profileBloc.user!.firstname}",
-                                    style: GoogleFonts.raleway(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ) : const Text('Loading...'),
-                                  const Spacer(),
-                                  Stack(
-                                    children: [
-                                      Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: IconButton(onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationInfoScreen()));
-                                      },
-                                          icon: const Icon(
-                                            FontAwesomeIcons.solidBell,
-                                            color: Colors.white,
-                                            size: 25,
-                                          )
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    InkWell(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                        BlocProvider<ProfileBloc>.value(
+                                          value: profileBloc,
                                           child:
-                                            Container(
-                                              height: 18,
-                                              width: 18,
-                                              decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius: BorderRadius.circular(50),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                    notifications.length.toString(),
-                                                    style: GoogleFonts.raleway(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w700,
-                                                    )
-                                                ),
-                                              ),
+                                            BlocProvider(
+                                              create: (_) => EditProfileBloc(context),
+                                              child: EditProfileScreen(),
+                                            )
+                                        ))
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(50),
+                                          border: Border.all(
+                                            color: Colors.white,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child:
+                                        profileBloc.image != null ?
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(50),
+                                          child: FadeInImage(
+                                              width: MediaQuery.of(context).size.width,
+                                              height: MediaQuery.of(context).size.height / 2.5,
+                                              imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                                              image:
+                                              NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
+                                              placeholder: const AssetImage('assets/images/loading.gif'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                            :
+                                            const CircleAvatar(
+                                            radius: 40,
+                                            backgroundImage:
+                                              AssetImage("assets/images/undefine-wallpaper.jpg")
                                             ),
                                         ),
-                                    ]
-                                  ),
-                              ],
-                            ),
-                          const Spacer(),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Where's your\nnext destination?",
-                              style: GoogleFonts.raleway(
-                                  fontSize: 40,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600
-                              )
-                            ),
-                          ),
-                          const SizedBox(height: 20,),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              children: [
-                                Column(
-                                  children:[
-                                  Container(
-                                    height: 64, width: 64,
-                                    decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10),
                                       ),
-                                    child: IconButton(
-                                      onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => AllTourScreen()));
-                                      },
-                                    icon: const Icon(
-                                      FontAwesomeIcons.flag,
-                                      color: Colors.white,
-                                      size: 25,),
-                                      ),
-                                    ),
-                                  const SizedBox(height: 10,),
-                                    Text(
-                                    "Tours",
-                                    style: GoogleFonts.raleway(
-                                        fontSize: 20,
+                                    const SizedBox(width: 10,),
+                                    profileBloc.user != null ?
+                                    Text("Hi, ${profileBloc.user!.firstname}",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 16,
                                         color: Colors.white,
-                                        fontWeight: FontWeight.w600
-                                    )
-                                  ),
-                                  ],),
-                                const Spacer(),
-                                Column(
-                                  children:[
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ) : const Text('Loading...'),
+                                    const Spacer(),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        child: IconButton(onPressed: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationInfoScreen()));
+                                        },
+                                            icon: const Icon(
+                                              FontAwesomeIcons.solidBell,
+                                              color: Colors.white,
+                                              size: 25,
+                                            )
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 0,
+                                            child:
+                                              Container(
+                                                height: 18,
+                                                width: 18,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  borderRadius: BorderRadius.circular(50),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                      notifications.length.toString(),
+                                                      style: GoogleFonts.raleway(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w700,
+                                                      )
+                                                  ),
+                                                ),
+                                              ),
+                                          ),
+                                      ]
+                                    ),
+                                ],
+                              ),
+                            const Spacer(),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Where's your\nnext destination?",
+                                style: GoogleFonts.raleway(
+                                    fontSize: 40,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600
+                                )
+                              ),
+                            ),
+                            const SizedBox(height: 20,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children:[
                                     Container(
-                                      height: 64,
-                                      width: 64,
+                                      height: 64, width: 64,
                                       decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(10),
+                                      color: Colors.black.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(10),
                                         ),
                                       child: IconButton(
                                         onPressed: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                              MultiBlocProvider(
-                                                providers: [
-                                                  BlocProvider<ProfileBloc>.value(
-                                                    value: profileBloc,
-                                                  ),
-                                                  BlocProvider<AllHotelBloc>(
-                                                    create: (_) => AllHotelBloc()..add(GetHotelListEvent()),
-                                                  ),
-                                                  BlocProvider.value(
-                                                      value: bookHistoryBloc
-                                                  ),
-                                                ],
-                                                  child: AllHotelScreen())));
-                                      },
-                                        icon: const Icon(
-                                          FontAwesomeIcons.building,
-                                          color: Colors.white,
-                                          size: 25,),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    Text(
-                                      "Hotels",
-                                      style: GoogleFonts.raleway(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600
-                                      )
-                                    ),
-                                  ],),
-                                const Spacer(),
-                                Column(
-                                  children:[
-                                    Container(
-                                      height: 64,
-                                      width: 64,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                              MultiBlocProvider(
-                                                providers: [
-                                                  BlocProvider<AllVehicleBloc>(
-                                                    create: (BuildContext context)=>AllVehicleBloc()..add(GetVehicleListEvent()),),
-                                                  BlocProvider<ProfileBloc>.value(
-                                                    value: profileBloc,
-                                                  ),
-                                                  BlocProvider.value(
-                                                    value: bookHistoryBloc
-                                                  )
-                                                ],
-                                                  child: Builder(
-                                                    builder: (context) {
-                                                      return AllVehicleScreen();
-                                                    }
-                                                  ))));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AllTourScreen()));
                                         },
-                                        icon: const Icon(
-                                          FontAwesomeIcons.car,
-                                          color: Colors.white,
-                                          size: 25,),),
-                                    ),
+                                      icon: const Icon(
+                                        FontAwesomeIcons.flag,
+                                        color: Colors.white,
+                                        size: 25,),
+                                        ),
+                                      ),
                                     const SizedBox(height: 10,),
-                                    Text(
-                                      "Vehicles",
+                                      Text(
+                                      "Tours",
                                       style: GoogleFonts.raleway(
                                           fontSize: 20,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600
                                       )
                                     ),
-                                  ],),
-                              ],),
-                          ),
-                          const SizedBox(height: 10,),
-                        ],
-                      ),
-                    )
-                    ),
-                  const SizedBox(height: 15,),
-                  BlocProvider<ArticleBloc>.value(
-                    value: articleBloc,
-                      child: DestinationCarousel()),
-                  const SizedBox(height: 10,),
-                  TourCarousel(),
-                  const SizedBox(height: 10,),
-                  MultiBlocProvider(
-                    providers: [
-                      BlocProvider<AllHotelBloc>(
-                        create: (_) => AllHotelBloc()..add(GetHotelListEvent()),
-                      ),
-                      BlocProvider<ProfileBloc>.value(
-                        value: profileBloc,
-                      ),
-                      BlocProvider.value(
-                          value: bookHistoryBloc
+                                    ],),
+                                  const Spacer(),
+                                  Column(
+                                    children:[
+                                      Container(
+                                        height: 64,
+                                        width: 64,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        child: IconButton(
+                                          onPressed: (){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                MultiBlocProvider(
+                                                  providers: [
+                                                    BlocProvider<ProfileBloc>.value(
+                                                      value: profileBloc,
+                                                    ),
+                                                    BlocProvider<AllHotelBloc>(
+                                                      create: (_) => AllHotelBloc()..add(GetHotelListEvent()),
+                                                    ),
+                                                    BlocProvider.value(
+                                                        value: bookHistoryBloc
+                                                    ),
+                                                  ],
+                                                    child: AllHotelScreen())));
+                                        },
+                                          icon: const Icon(
+                                            FontAwesomeIcons.building,
+                                            color: Colors.white,
+                                            size: 25,),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      Text(
+                                        "Hotels",
+                                        style: GoogleFonts.raleway(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600
+                                        )
+                                      ),
+                                    ],),
+                                  const Spacer(),
+                                  Column(
+                                    children:[
+                                      Container(
+                                        height: 64,
+                                        width: 64,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: (){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                MultiBlocProvider(
+                                                  providers: [
+                                                    BlocProvider<AllVehicleBloc>(
+                                                      create: (BuildContext context)=>AllVehicleBloc()..add(GetVehicleListEvent()),),
+                                                    BlocProvider<ProfileBloc>.value(
+                                                      value: profileBloc,
+                                                    ),
+                                                    BlocProvider.value(
+                                                      value: bookHistoryBloc
+                                                    )
+                                                  ],
+                                                    child: Builder(
+                                                      builder: (context) {
+                                                        return AllVehicleScreen();
+                                                      }
+                                                    ))));
+                                          },
+                                          icon: const Icon(
+                                            FontAwesomeIcons.car,
+                                            color: Colors.white,
+                                            size: 25,),),
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      Text(
+                                        "Vehicles",
+                                        style: GoogleFonts.raleway(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600
+                                        )
+                                      ),
+                                    ],),
+                                ],),
+                            ),
+                            const SizedBox(height: 10,),
+                          ],
+                        ),
                       )
-                    ],
-                      child: HotelCarousel()),
-                  const SizedBox(height: 10,),
-                  MultiBlocProvider(
-                    providers: [
-                      BlocProvider<AllVehicleBloc>(
-                        create: (BuildContext context)=>AllVehicleBloc()..add(GetVehicleListEvent()),),
-                      BlocProvider<ProfileBloc>.value(
-                        value: profileBloc,
                       ),
-                      BlocProvider.value(
-                          value: bookHistoryBloc
-                      )
-                    ],
-                      child: VehicleRentCarousel()),
-                  const SizedBox(height: 80),
-                ],
-              ),
-            )
+                    const SizedBox(height: 15,),
+                    BlocProvider<ArticleBloc>.value(
+                      value: articleBloc,
+                        child: DestinationCarousel()),
+                    const SizedBox(height: 10,),
+                    TourCarousel(),
+                    const SizedBox(height: 10,),
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider<AllHotelBloc>(
+                          create: (_) => AllHotelBloc()..add(GetHotelListEvent()),
+                        ),
+                        BlocProvider<ProfileBloc>.value(
+                          value: profileBloc,
+                        ),
+                        BlocProvider.value(
+                            value: bookHistoryBloc
+                        )
+                      ],
+                        child: HotelCarousel()),
+                    const SizedBox(height: 10,),
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider<AllVehicleBloc>(
+                          create: (BuildContext context)=>AllVehicleBloc()..add(GetVehicleListEvent()),),
+                        BlocProvider<ProfileBloc>.value(
+                          value: profileBloc,
+                        ),
+                        BlocProvider.value(
+                            value: bookHistoryBloc
+                        )
+                      ],
+                        child: VehicleRentCarousel()),
+                    const SizedBox(height: 80),
+                  ],
+                ),
+              )
+            ),
           )
         )
       );

@@ -70,14 +70,14 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
     });
     on<DeleteHotelImageEvent>((event,emit)async{
       if(hotel!=null) {
-        var hotelRepo = GetIt.instance.get<HotelRepo>();
+        var hotelRepo = GetIt.instance.get<HotelRepository>();
         var result = await hotelRepo.DeleteHotelImage(hotel!.id!, hotel!.images![event.index]);
         emit(EditHotelResult(result as bool));
       }
     });
     on<AddImageEvent>((event,emit) async{
       if(hotel!=null) {
-        var hotelRepo = GetIt.instance.get<HotelRepo>();
+        var hotelRepo = GetIt.instance.get<HotelRepository>();
         if(event.method == ImagePickMethod.CAMERA){
           final file = await FilesPicking.pickImageFromCamera();
           if(file != null){
@@ -106,7 +106,7 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
     });
     on<SaveHotelInfoEvent>((event,emit) async{
       if(hotel!=null) {
-        var hotelRepo = GetIt.instance.get<HotelRepo>();
+        var hotelRepo = GetIt.instance.get<HotelRepository>();
         List<String> facilities = [];
         for(var item in event.facilities.split(",")){
           facilities.add(item.trim());
@@ -132,7 +132,7 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
 
   }
   Future<List<HotelRoom>?> getListHotelRoomFunc(String hotelID) async{
-    var hotelRoomRepo = GetIt.instance.get<HotelRoomRepo>();
+    var hotelRoomRepo = GetIt.instance.get<HotelRoomRepository>();
     try{
       var listHotelRoom = await hotelRoomRepo.getHotelRoomList(hotelID);
       return listHotelRoom;
@@ -143,7 +143,7 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
   }
 
   Future<Hotel?> getHotelById(String id) async{
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
       var hotel = await hotelRepo.getHotelById(id);
       return hotel;
@@ -154,7 +154,7 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
   }
 
   Future<bool?> deleteHotelById(String id) async{
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
       var result = await hotelRepo.DeleteHotelById(id);
       return result;

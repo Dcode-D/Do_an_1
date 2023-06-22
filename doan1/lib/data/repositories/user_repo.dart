@@ -11,14 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../remote/app_service.dart';
 import '../remote/request_factory.dart';
 
-class UserRepo{
+class UserRepository{
   final EventBus _eventBus;
   final Logger _logger;
   final SharedPreferences _sharedPreferences;
   final AppService _appService;
   final RequestFactory _requestFactory;
 
-  UserRepo(this._logger, this._sharedPreferences, this._appService,
+  UserRepository(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
   Future<User?> getUser() async {

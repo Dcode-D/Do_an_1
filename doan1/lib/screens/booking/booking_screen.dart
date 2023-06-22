@@ -54,186 +54,188 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
     ProfileBloc profileBloc = context.read<ProfileBloc>();
     BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
     bookHistoryBloc.add(GetBookingHistory());
-    return Scaffold(
-    body: NestedScrollView(
-    controller: _scrollController,
-    headerSliverBuilder: (context, value) {
-    return [
-    SliverAppBar(
-      leading: const Icon(
-        FontAwesomeIcons.planeArrival,
-        color: Colors.white,
-      ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Icon(
-              FontAwesomeIcons.car,
+    return SafeArea(
+      child: Scaffold(
+      body: NestedScrollView(
+      controller: _scrollController,
+      headerSliverBuilder: (context, value) {
+      return [
+      SliverAppBar(
+        leading: const Icon(
+          FontAwesomeIcons.planeArrival,
+          color: Colors.white,
+        ),
+          actions: const [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Icon(
+                FontAwesomeIcons.car,
+                color: Colors.white,
+              ),
+            ),
+          ],
+          centerTitle: true,
+          floating: true,
+          pinned: true,
+          snap: false,
+          backgroundColor: Colors.white,
+          flexibleSpace: Container(
+          decoration: const BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment(0.8, 1),
+        colors: <Color>[
+        Color(0xffe16b5c),
+        Color(0xfff39060),
+        Color(0xffffb56b),
+        ], // Gradient from https://learnui.design/tools/gradient-generator.html
+        tileMode: TileMode.mirror,
+              ),
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          title: Text(
+            'Your booking history',
+            style: GoogleFonts.raleway(
+              fontSize: 20,
               color: Colors.white,
+              fontWeight: FontWeight.w600
             ),
           ),
-        ],
-        centerTitle: true,
-        floating: true,
-        pinned: true,
-        snap: false,
-        backgroundColor: Colors.white,
-        flexibleSpace: Container(
-        decoration: const BoxDecoration(
-        gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment(0.8, 1),
-      colors: <Color>[
-      Color(0xffe16b5c),
-      Color(0xfff39060),
-      Color(0xffffb56b),
-      ], // Gradient from https://learnui.design/tools/gradient-generator.html
-      tileMode: TileMode.mirror,
-            ),
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        title: Text(
-          'Your booking history',
-          style: GoogleFonts.raleway(
-            fontSize: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.w600
-          ),
-        ),
-    ),
-    SliverPersistentHeader(
-        delegate: SliverAppBarDelegate(
-          color: Colors.transparent,
-          tabbar: TabBar(
-            controller: _tabController,
-            isScrollable: true,
-            labelColor: Colors.black87,
-            unselectedLabelColor: Colors.grey,
-            labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-            labelStyle: const TextStyle(
-              fontSize: 20.0,
-              color: Colors.orange,
-              fontWeight: FontWeight.w600,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 20.0,
-              color: Colors.grey,
-              fontWeight: FontWeight.w400,
-            ),
-            indicator: CircleTabIndicator(
-              color: Colors.orange,
-              radius: 4,
-            ),
-            tabs: const [
+      ),
+      SliverPersistentHeader(
+          delegate: SliverAppBarDelegate(
+            color: Colors.transparent,
+            tabbar: TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              labelColor: Colors.black87,
+              unselectedLabelColor: Colors.grey,
+              labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+              labelStyle: const TextStyle(
+                fontSize: 20.0,
+                color: Colors.orange,
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 20.0,
+                color: Colors.grey,
+                fontWeight: FontWeight.w400,
+              ),
+              indicator: CircleTabIndicator(
+                color: Colors.orange,
+                radius: 4,
+              ),
+              tabs: const [
 
-              Tab(text: 'Hotel'),
-              Tab(text: 'Vehicle',)
-            ],
-          ),
-        )),
-      ];
-    },
-    body: TabBarView(
-      controller: _tabController,
-      children: [
-        BlocListener<BookHistoryBloc,BookHistoryState>(
-          listenWhen: (previous, current) => current is BookHistoryInitial,
-          listener: (context, state) {
-            if (state is BookHistoryInitial) {
-              if (state.isBookingHistoryLoaded == true) {
-                hotelPage = 1;
-                vehiclePage = 1;
+                Tab(text: 'Hotel'),
+                Tab(text: 'Vehicle',)
+              ],
+            ),
+          )),
+        ];
+      },
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          BlocListener<BookHistoryBloc,BookHistoryState>(
+            listenWhen: (previous, current) => current is BookHistoryInitial,
+            listener: (context, state) {
+              if (state is BookHistoryInitial) {
+                if (state.isBookingHistoryLoaded == true) {
+                  hotelPage = 1;
+                  vehiclePage = 1;
+                }
               }
-            }
-          },
-          child: BlocBuilder<BookHistoryBloc,BookHistoryState>(
+            },
+            child: BlocBuilder<BookHistoryBloc,BookHistoryState>(
+              buildWhen: (previous, current) =>
+              current is BookHistoryInitial,
+              builder:(context,state) =>
+              state is BookHistoryInitial ?
+                state.isBookingHistoryLoaded == true ?
+                    bookHistoryBloc.lsHotelBooking!.isEmpty ?
+                    Center(
+                      child:
+                      Text('No hotel booking history',
+                        style: GoogleFonts.raleway(
+                          fontSize: 20,
+                          color: Colors.black.withOpacity(0.5),
+                          fontWeight: FontWeight.w600
+                          )))
+                      :
+                    ListView.builder(
+                      controller: hotelBookingController,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
+                      itemCount: bookHistoryBloc.lsHotelBooking!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider<ProfileBloc>.value(
+                              value: profileBloc),
+                            BlocProvider<HotelBookingItemBloc>(
+                              create: (context) => HotelBookingItemBloc()..add(
+                                  HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index],index: index)),
+                            ),
+                            BlocProvider<BookHistoryBloc>.value(
+                              value: bookHistoryBloc),
+                          ],
+                            child: HotelBookingItem());
+                      },)
+                  :
+                const Center(
+                  child: CircularProgressIndicator(),
+                ) :
+              const Center(child: CircularProgressIndicator(),)
+            ),
+          ),
+
+          BlocBuilder<BookHistoryBloc,BookHistoryState>(
             buildWhen: (previous, current) =>
             current is BookHistoryInitial,
             builder:(context,state) =>
             state is BookHistoryInitial ?
               state.isBookingHistoryLoaded == true ?
-                  bookHistoryBloc.lsHotelBooking!.isEmpty ?
-                  Center(
-                    child:
-                    Text('No hotel booking history',
+                bookHistoryBloc.lsVehicleBooking!.isEmpty ?
+                  Center(child:
+                    Text('No vehicle booking history',
                       style: GoogleFonts.raleway(
-                        fontSize: 20,
-                        color: Colors.black.withOpacity(0.5),
-                        fontWeight: FontWeight.w600
-                        )))
+                          fontSize: 20,
+                          color: Colors.black.withOpacity(0.5),
+                          fontWeight: FontWeight.w600
+                      ),
+                    )
+                  )
                     :
                   ListView.builder(
-                    controller: hotelBookingController,
+                    controller: vehicleBookingController,
                     physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-                    itemCount: bookHistoryBloc.lsHotelBooking!.length,
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
+                    itemCount: bookHistoryBloc.lsVehicleBooking!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return MultiBlocProvider(
                         providers: [
                           BlocProvider<ProfileBloc>.value(
-                            value: profileBloc),
-                          BlocProvider<HotelBookingItemBloc>(
-                            create: (context) => HotelBookingItemBloc()..add(
-                                HotelBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsHotelBooking![index],index: index)),
+                              value: profileBloc),
+                          BlocProvider<VehicleBookingItemBloc>(
+                              create: (context) => VehicleBookingItemBloc()..add(
+                                  VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index],index: index))
                           ),
                           BlocProvider<BookHistoryBloc>.value(
-                            value: bookHistoryBloc),
+                              value: bookHistoryBloc),
                         ],
-                          child: HotelBookingItem());
-                    },)
-                :
-              const Center(
-                child: CircularProgressIndicator(),
-              ) :
-            const Center(child: CircularProgressIndicator(),)
-          ),
-        ),
-
-        BlocBuilder<BookHistoryBloc,BookHistoryState>(
-          buildWhen: (previous, current) =>
-          current is BookHistoryInitial,
-          builder:(context,state) =>
-          state is BookHistoryInitial ?
-            state.isBookingHistoryLoaded == true ?
-              bookHistoryBloc.lsVehicleBooking!.isEmpty ?
-                Center(child:
-                  Text('No vehicle booking history',
-                    style: GoogleFonts.raleway(
-                        fontSize: 20,
-                        color: Colors.black.withOpacity(0.5),
-                        fontWeight: FontWeight.w600
-                    ),
-                  )
-                )
+                          child: VehicleBookingItem());},)
                   :
-                ListView.builder(
-                  controller: vehicleBookingController,
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-                  itemCount: bookHistoryBloc.lsVehicleBooking!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return MultiBlocProvider(
-                      providers: [
-                        BlocProvider<ProfileBloc>.value(
-                            value: profileBloc),
-                        BlocProvider<VehicleBookingItemBloc>(
-                            create: (context) => VehicleBookingItemBloc()..add(
-                                VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index],index: index))
-                        ),
-                        BlocProvider<BookHistoryBloc>.value(
-                            value: bookHistoryBloc),
-                      ],
-                        child: VehicleBookingItem());},)
-                :
-          const Center(child: CircularProgressIndicator(),)
-            :
-          const Center(child: CircularProgressIndicator(),),
-        )
-      ],
-    ),
-        )
-      );
+            const Center(child: CircularProgressIndicator(),)
+              :
+            const Center(child: CircularProgressIndicator(),),
+          )
+        ],
+      ),
+          )
+        ),
+    );
   }
 }

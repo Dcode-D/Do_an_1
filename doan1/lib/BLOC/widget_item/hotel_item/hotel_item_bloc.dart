@@ -102,7 +102,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
     });
   }
   Future<List<HotelRoom>?> getListHotelRoomFunc(String hotelID,String startDate,String endDate) async{
-    var hotelRoomRepo = GetIt.instance.get<HotelRoomRepo>();
+    var hotelRoomRepo = GetIt.instance.get<HotelRoomRepository>();
     try{
       var listHotelRoom = await hotelRoomRepo.getHotelRoomListWithDate(hotelID,startDate,endDate);
       return listHotelRoom;
@@ -113,7 +113,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   }
 
   Future<Hotel?> getHotelById(String id)async {
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
       var hotel = await hotelRepo.getHotelById(id);
       return hotel;
@@ -124,7 +124,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   }
 
   Future<bool> createFavoriteHotel(String hotelId,String userId) async{
-    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
     try{
       var result = await favoriteRepo.createFavorite("hotel",userId,hotelId);
       return result;
@@ -134,7 +134,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
     }
   }
   Future<bool> deleteFavoriteHotel(String favoriteHotelId) async{
-    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
     try{
       var result = await favoriteRepo.deleteFavorite(favoriteHotelId);
       return result;
@@ -145,7 +145,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   }
 
   Future<String?> isHotelFavorite(String hotelId) async {
-    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
     try{
       var result = await favoriteRepo.getIsFavoriteByService("hotel",hotelId);
       return result;
@@ -156,7 +156,7 @@ class HotelItemBloc extends Bloc<HotelItemEvent,HotelItemState> {
   }
 
   Future<Favorite?> getFavoriteById(String id) async {
-    var favoriteRepo = GetIt.instance.get<FavoriteRepo>();
+    var favoriteRepo = GetIt.instance.get<FavoriteRepository>();
     try{
       var result = await favoriteRepo.getFavoriteById(id);
       return result;

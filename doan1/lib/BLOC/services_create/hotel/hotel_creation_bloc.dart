@@ -13,7 +13,7 @@ part 'hotel_creation_state.dart';
 class HotelCreationBloc extends Bloc<HotelCreationEvent, HotelCreationState> {
   var listImages = <File>[];
   HotelCreationBloc() : super(HotelCreationInitial()) {
-    final hotelRepo = GetIt.instance.get<HotelRepo>();
+    final hotelRepo = GetIt.instance.get<HotelRepository>();
     on<HotelCreationEvent>((event, emit) {
     });
     on<HotelCreationImageEvent>((event, emit) async {

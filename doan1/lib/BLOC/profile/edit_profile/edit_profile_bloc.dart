@@ -37,7 +37,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
             formKey: state.formKey,)));
 
     on<EditProfileEventSubmit>((event, emit) async {
-        var userRepo = GetIt.instance.get<UserRepo>();
+        var userRepo = GetIt.instance.get<UserRepository>();
         try{
           bool updateState = await userRepo.updateUser(
               event.Username as String,
@@ -60,7 +60,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
     });
 
     on<EditProfileEventSubmitPassword>((event, emit) async {
-      var userRepo = GetIt.instance.get<UserRepo>();
+      var userRepo = GetIt.instance.get<UserRepository>();
       try{
         bool updateState = await userRepo.changePassWord(event.Password as String);
         if(updateState) {
@@ -76,7 +76,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
     });
 
     on<EditProfileEventgetAvatarFromCamera>((event, emit) async {
-      var userRepo = GetIt.instance.get<UserRepo>();
+      var userRepo = GetIt.instance.get<UserRepository>();
       try{
         image = await pickImageFromCamera();
         bool updateImageState = await userRepo.updateAvatar(image!);
@@ -93,7 +93,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
     });
 
     on<EditProfileEventgetAvatarFromGallery>((event, emit) async {
-      var userRepo = GetIt.instance.get<UserRepo>();
+      var userRepo = GetIt.instance.get<UserRepository>();
 
       try{
         image = await pickImageFromGallery();

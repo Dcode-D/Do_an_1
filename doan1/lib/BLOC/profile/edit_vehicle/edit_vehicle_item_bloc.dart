@@ -47,7 +47,7 @@ class EditVehicleItemBloc extends Bloc<EditVehicleItemEvent,EditVehicleItemState
     on<VehicleItemDeleteImageEvent>(
         (event,emit) async {
           if (vehicle != null){
-            final vehicleRepo = GetIt.instance.get<VehicleRepo>();
+            final vehicleRepo = GetIt.instance.get<VehicleRepository>();
             var result = await vehicleRepo.deleteVehicleImage(vehicle!.id!, vehicle!.images![event.index]);
             emit(EditVehicleItemModified(result));
             add(VehicleItemRefreshEvent());
@@ -69,7 +69,7 @@ class EditVehicleItemBloc extends Bloc<EditVehicleItemEvent,EditVehicleItemState
               file = await FilesPicking.pickImageFromCamera();
             }
             if(file != null){
-              final vehicleRepo = GetIt.instance.get<VehicleRepo>();
+              final vehicleRepo = GetIt.instance.get<VehicleRepository>();
               var result = await vehicleRepo.addVehicleImage(vehicle!.id!, file);
               emit(EditVehicleItemModified(result));
               add(VehicleItemRefreshEvent());
@@ -87,7 +87,7 @@ class EditVehicleItemBloc extends Bloc<EditVehicleItemEvent,EditVehicleItemState
     on<VehicleItemEditEvent>(
         (event, emit)async{
           if (vehicle != null){
-            final vehicleRepo = GetIt.instance.get<VehicleRepo>();
+            final vehicleRepo = GetIt.instance.get<VehicleRepository>();
             var result = await vehicleRepo.updateVehicle(vehicle!.id!, event.brand, event.price, event.color, event.description, event.address, event.seats);
             emit(EditVehicleItemModified(result));
             add(VehicleItemRefreshEvent());
@@ -114,7 +114,7 @@ class EditVehicleItemBloc extends Bloc<EditVehicleItemEvent,EditVehicleItemState
     });
   }
   Future<Vehicle?> getVehicleById(String id) async{
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try{
       var vehicle = await vehicleRepo.getVehicleById(id);
       return vehicle;
@@ -126,7 +126,7 @@ class EditVehicleItemBloc extends Bloc<EditVehicleItemEvent,EditVehicleItemState
   }
 
   Future<bool?> DeleteVehicleById(String id) async{
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try{
       var result = await vehicleRepo.DeleteVehicleById(id);
       return result;

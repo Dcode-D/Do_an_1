@@ -52,7 +52,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
   }
 
   Future<List<Hotel>?> getHotelByName(String name) async{
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
       var listHotel = await hotelRepo.getListHotelByName(name,1);
       return listHotel;
@@ -64,7 +64,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
   }
 
   Future<List<Vehicle>?> getVehicleByBrand(String brand) async{
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try{
       //TODO: pass in the page number from outside
       var listVehicle = await vehicleRepo.getListVehicleByBrand(brand,1);
@@ -76,7 +76,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
     }
   }
   Future<List<Hotel>?> getinitialHotel() async{
-    var hotelRepo = GetIt.instance.get<HotelRepo>();
+    var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
       var listHotel = await hotelRepo.getListHotel(1);
       return listHotel;
@@ -88,7 +88,7 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
   }
 
   Future<List<Vehicle>?> getinitialVehicle() async{
-    var vehicleRepo = GetIt.instance.get<VehicleRepo>();
+    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
     try{
       var listVehicle = await vehicleRepo.getListVehicle(1);
       return listVehicle;

@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../BLOC/screen/book_history/book_history_bloc.dart';
-import '../../data/model/vehicle.dart';
 
 class AllVehicleScreen extends StatelessWidget{
   final ScrollController scrollController = ScrollController();
@@ -39,71 +38,73 @@ class AllVehicleScreen extends StatelessWidget{
       },
       child: BlocBuilder<AllVehicleBloc,AllVehicleState>(
         builder: (context,state) =>
-         Scaffold(
-          appBar: AppBar(
-            leading: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black,
+         SafeArea(
+           child: Scaffold(
+            appBar: AppBar(
+              leading: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            automaticallyImplyLeading: false,
-              elevation: 0,
-              backgroundColor: Colors.white,
-              centerTitle: true,
-              title: Text(
-                'Vehicle for you',
-                style: GoogleFonts.raleway(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600
-                )
+              automaticallyImplyLeading: false,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                centerTitle: true,
+                title: Text(
+                  'Vehicle for you',
+                  style: GoogleFonts.raleway(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600
+                  )
+                ),
               ),
-            ),
-          body: state.getListVehicleSuccess == true
-             ?
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
-              child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  controller: scrollController,
-                  itemCount: state.isLoadingMore ? allVehicleBloc.listVehicle!.length + 1 : allVehicleBloc.listVehicle!.length,
-                  itemBuilder: (BuildContext context, int index){
-                    if(index < allVehicleBloc.listVehicle!.length){
-                      return MultiBlocProvider(
-                        providers: [
-                          BlocProvider<ProfileBloc>.value(value: profileBloc),
-                          BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
-                        ],
-                          child: BlocProvider<CarItemBloc>(
-                            create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicleId: allVehicleBloc.listVehicle![index].id!)),
-                              child: VehicleItemForAll(type: 1,)));
-                    }
-                    else{
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        child: Center(
-                          child: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: CircularProgressIndicator(),
+            body: state.getListVehicleSuccess == true
+               ?
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    controller: scrollController,
+                    itemCount: state.isLoadingMore ? allVehicleBloc.listVehicle!.length + 1 : allVehicleBloc.listVehicle!.length,
+                    itemBuilder: (BuildContext context, int index){
+                      if(index < allVehicleBloc.listVehicle!.length){
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider<ProfileBloc>.value(value: profileBloc),
+                            BlocProvider<BookHistoryBloc>.value(value: bookHistoryBloc),
+                          ],
+                            child: BlocProvider<CarItemBloc>(
+                              create: (context) => CarItemBloc()..add(GetCarItemEvent(vehicleId: allVehicleBloc.listVehicle![index].id!)),
+                                child: VehicleItemForAll(type: 1,)));
+                      }
+                      else{
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Center(
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: CircularProgressIndicator(),
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     }
-                  }
-              ),
-          ) :
-          const Center(
-            child: CircularProgressIndicator(),
-          ),
+                ),
+            ) :
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
         ),
+         ),
       ),
     );
   }

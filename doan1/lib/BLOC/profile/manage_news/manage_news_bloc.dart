@@ -45,7 +45,7 @@ class ManageNewsBloc extends Bloc<ManageNewsEvent,ManageNewsState>{
     });
   }
   Future<List<Article>?> getListArticleByUserId(String userID,int page) async {
-    var articleRepo = GetIt.instance.get<ArticleRepo>();
+    var articleRepo = GetIt.instance.get<ArticleRepository>();
     try{
       var result = await articleRepo.getListIdArticleFromUser(page,userID);
       if (result == null){
