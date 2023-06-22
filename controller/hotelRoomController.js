@@ -37,6 +37,10 @@ const deleteHotelRoom = async (req, res) => {
         if (req.params.id) {
             const hotelRoom = await hotelRoomModel.findById(req.params.id);
             if (!hotelRoom) return res.status(404).json({status: "error", message: "Hotel room not found"});
+            const checkDateBookings = await dateBookingModel.find({attachedServices: {$in: [hotelRoom._id]}}).where({startDate: {$gte: new Date()}}).where({suspended: false});
+            if (checkDateBookings.length > 0) {
+                return res.status(400).json({status: "error", message: "Hotel room is in use"});
+            }
             await hotelRoom.deleteOne();
             return res.status(200).json({status: "success", message: "Hotel room deleted"});
         }
