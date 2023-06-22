@@ -41,6 +41,7 @@ const getTourList = async (req, res) => {
         const province = req.query.province;
         const city = req.query.city;
         const referenceName = req.query.referenceName;
+        const user = req.query.user;
         const query = TourModel.find();
         let articlesList = [];
         if(province){
@@ -50,6 +51,9 @@ const getTourList = async (req, res) => {
         if(city){
             const articles = await ArticleModel.find().where('city', new RegExp(city, 'i'));
             articlesList.push(...articles);
+        }
+        if(user){
+            query.where("user").equals(user);
         }
         if(referenceName){
             const articles = await ArticleModel.find().where('referenceName', new RegExp(referenceName, 'i'));
