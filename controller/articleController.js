@@ -94,7 +94,7 @@ const getArticleById = async (req, res) => {
         let result = {};
         const files = await FileModel.find({attachedId: article._id}).select('_id').exec();
         if (files) {
-            result = {_id:article._id,title: article.title, description: article.description, province: article.province, city: article.city, referenceName: article.referenceName, images: files};
+            result = {_id:article._id,title: article.title, description: article.description, province: article.province, city: article.city, referenceName: article.referenceName, images: files, publishedDate: article.publishedDate, publishBy: article.publishBy};
         }
         return res.status(200).json({status: "success", data: result});
     }catch (e) {

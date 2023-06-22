@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const {Schema} = require("mongoose");
 
 const TourSchema = Schema({
+    user:{
+        type: Schema.Types.ObjectId,
+        require: true,
+        notnull: true,
+    },
     name: {
         type: String,
         require:true,

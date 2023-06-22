@@ -4,6 +4,9 @@ const ArticleModel = require('../models/articleModel');
 //all require auth except get
 const createTour = async (req, res) => {
     try{
+        if(!req.user)
+            return res.status(403).json({status: "error", message: "Not permitted"});
+        req.body.user = req.user._id;
         const tour = new TourModel(req.body);
         await tour.save();
         res.status(200).json({status: "success", message: "Tour created"});
