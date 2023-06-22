@@ -56,7 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
           Address: addressController.text,
           Username: usernameController.text,
           Phone: phoneController.text,
-          Gender: bloc.user!.gender,
+          Gender: profileBloc.user!.gender,
       ));
     }
 
@@ -160,8 +160,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: bloc.image != null ?
-                                    Image.file(bloc.image!,fit: BoxFit.cover,)
+                                    child: profileBloc.image != null ?
+                                    Image.network(profileBloc.image!,fit: BoxFit.cover,)
                                         :
                                     Image.asset(
                                       'assets/images/avatar-wallpaper.jpg',
