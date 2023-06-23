@@ -57,38 +57,36 @@ class PlanningItem extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(100.0, 20.0, 20.0, 20.0),
-                child: Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    tourItemBloc.tour != null && tourItemBloc.listArticle != null ?
+                    tourItemBloc.listArticle!.isNotEmpty ?
+                    Text(
+                      tourItemBloc.listArticle![index].title!,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ) : const Text('Loading') :
+                    const Text('Loading'),
+                    const SizedBox(height: 5.0),
+                    Text(
                       tourItemBloc.tour != null && tourItemBloc.listArticle != null ?
                       tourItemBloc.listArticle!.isNotEmpty ?
-                      Text(
-                        tourItemBloc.listArticle![index].title!,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ) : const Text('Loading') :
-                      const Text('Loading'),
-                      const SizedBox(height: 5.0),
-                      Text(
-                        tourItemBloc.tour != null && tourItemBloc.listArticle != null ?
-                        tourItemBloc.listArticle!.isNotEmpty ?
-                        tourItemBloc.listArticle![index].description! :
-                        'Loading' :
-                        'Loading',
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                        ),
+                      tourItemBloc.listArticle![index].description! :
+                      'Loading' :
+                      'Loading',
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.grey,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -108,8 +106,8 @@ class PlanningItem extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: FadeInImage(
-                          height: 110,
-                          width: 200,
+                          height: 200,
+                          width: 110,
                           imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                           image:
                           NetworkImage('$baseUrl/files/${tourItemBloc.listArticle![index].images![0]['_id']}'),
@@ -121,7 +119,7 @@ class PlanningItem extends StatelessWidget {
                     type == 1
                         ? Positioned(
                       top: 0,
-                      left: -20,
+                      left: -40,
                       child: Text(
                         index.toString(),
                         style: GoogleFonts.playfairDisplay(
