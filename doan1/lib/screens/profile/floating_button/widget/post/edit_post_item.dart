@@ -109,7 +109,7 @@ class EditPostItem extends StatelessWidget{
                     Text(
                       editPostBloc.article != null ?
                           editPostBloc.article!.publishedDate != null ?
-                      '${editPostBloc.article!.publishedDate!.day}/'
+                      'Published Date: ${editPostBloc.article!.publishedDate!.day}/'
                           '${editPostBloc.article!.publishedDate!.month}/'
                           '${editPostBloc.article!.publishedDate!.year}' :
                       'Loading...' : 'Loading...',
