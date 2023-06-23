@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../../BLOC/widget_item/tour_item/tour_item_bloc.dart';
@@ -73,7 +74,7 @@ class _TourDetailScreenState extends State<TourDetailScreen>
               child: Stack(
                 children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.4,
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       boxShadow: [
@@ -131,6 +132,32 @@ class _TourDetailScreenState extends State<TourDetailScreen>
                 ],
               ),
             ),
+            tourItemBloc.tour != null ?
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 10.0,
+                  ),
+                ],
+              ),
+              child: SmoothPageIndicator(
+                controller: listController,
+                count: tourItemBloc.listImage!.length,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: Colors.orange,
+                  dotColor: Color(0xFFababab),
+                  dotHeight: 4.8,
+                  dotWidth: 6,
+                  spacing: 4.8,
+                ),
+              ),
+            ) : const SizedBox(),
             DefaultTabController(
               length: 3,
               child: TabBar(
@@ -174,9 +201,7 @@ class _TourDetailScreenState extends State<TourDetailScreen>
                           current is GetTourItemState,
                       builder: (context, state) =>
                       (state is GetTourItemState)?
-                      (state as GetTourItemState)
-                                  .getTourItemSuccess ==
-                              true
+                      state.getTourItemSuccess == true
                           ? ListView.builder(
                               physics: const BouncingScrollPhysics(),
                               padding: const EdgeInsets.all(15.0),
