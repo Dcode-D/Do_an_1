@@ -198,7 +198,6 @@ class _TourDetailScreenState extends State<TourDetailScreen>
                       Center(child: CircularProgressIndicator())
                   )
                   ,
-                  //TODO: RatingTab
                   CircularProgressIndicator()
                 ],
               ),

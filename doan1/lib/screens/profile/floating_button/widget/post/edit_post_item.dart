@@ -127,7 +127,7 @@ class EditPostItem extends StatelessWidget{
                             MaterialPageRoute(builder: (context) =>
                             MultiBlocProvider(
                               providers: [
-                                BlocProvider.value(value: editPostBloc),
+                                BlocProvider.value(value: editPostBloc..add(RefreshPostEvent())),
                                 BlocProvider.value(value: manageNewsBloc),
                                 BlocProvider.value(value: profileBloc,),
                                 ],

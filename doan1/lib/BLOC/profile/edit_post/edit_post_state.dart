@@ -14,3 +14,8 @@ class DeletePostState extends EditPostState {
   bool deleteSuccess = false;
   DeletePostState(this.deleteSuccess);
 }
+
+class EditPostResultState extends EditPostState {
+  final bool editSuccess;
+  EditPostResultState({required this.editSuccess});
+}

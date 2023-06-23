@@ -15,6 +15,7 @@ class Article{
   String? city;
   String? referenceName;
   DateTime? publishedDate;
+  String? address;
 
   Article({
     this.id,
@@ -25,6 +26,7 @@ class Article{
      this.city,
      this.referenceName,
      this.publishedDate,
+     this.address
   });
 
   factory Article.fromJson(Map<String, dynamic> json) => _$ArticleFromJson(json);

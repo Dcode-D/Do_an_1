@@ -349,4 +349,23 @@ abstract class AppService {
   Future<HttpResponse> deleteRating({
     @Header("Authorization") required String token,
     @Path('id') required String id});
+
+  @POST("/article/upload_img/{id}")
+  @MultiPart()
+  Future<HttpResponse> uploadArticleImage({
+    @Header("Authorization") required String token,
+    @Path('id') required String article,
+    @Part(name: "file") required File file});
+
+  @DELETE("/article/delete_img/{id}")
+  Future<HttpResponse> deleteArticleImage({
+    @Header("Authorization") required String token,
+    @Path('id') required String article,
+    @Body() required Map<String,dynamic> request});
+
+  @PUT("/article/info/{id}")
+  Future<HttpResponse> updateArticleInfo({
+    @Header("Authorization") required String token,
+    @Path('id') required String article,
+    @Body() required Map<String,dynamic> request});
 }

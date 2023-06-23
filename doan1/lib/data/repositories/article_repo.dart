@@ -93,4 +93,47 @@ class ArticleRepository {
       }
     });
   }
+
+  Future<bool> deleteArticleImage(String id, String imageId) async {
+    return _appService.deleteArticleImage(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        article: id,
+        request: _requestFactory.deleteImage(imageId)
+    ).then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool> uploadArticleImage(String id, File file){
+    return _appService.uploadArticleImage(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        article: id,
+        file: file).then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    });
+    }
+
+    Future<bool> updateArticleInfo(String id, String title, String address, String description, String referenceName){
+      return _appService.updateArticleInfo(
+          token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+          article: id,
+          request: _requestFactory.updateArticleInfo(title, address, description, referenceName)
+      ).then((http) async {
+        if (http.response.statusCode != 200) {
+          return false;
+        }
+        else {
+          return true;
+        }
+      });
+    }
 }

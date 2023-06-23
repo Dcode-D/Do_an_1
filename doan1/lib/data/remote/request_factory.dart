@@ -118,4 +118,13 @@ class RequestFactory {
       "comment": comment,
     };
   }
+
+  updateArticleInfo(String tile, String address, String description, String referenceName){
+    return {
+      "title": tile,
+      "address": address,
+      "description": description,
+      "referenceName": referenceName
+    };
+  }
 }
