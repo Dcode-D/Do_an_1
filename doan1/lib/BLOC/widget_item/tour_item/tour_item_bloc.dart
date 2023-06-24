@@ -8,8 +8,10 @@ import 'package:meta/meta.dart';
 
 import '../../../data/model/favorite.dart';
 import '../../../data/model/hotel.dart';
+import '../../../data/model/rating.dart';
 import '../../../data/model/tour.dart';
 import '../../../data/repositories/favorite_repo.dart';
+import '../../../data/repositories/rating_repo.dart';
 import '../../../data/repositories/tour_repo.dart';
 
 part 'tour_item_event.dart';
@@ -21,6 +23,8 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
   List<Article>? listArticle;
   List<Hotel>? listHotel;
   Favorite? favorite;
+  List<Rating>? listRating;
+  double? ratingByCustomer;
   var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
   TourItemBloc() : super(InitialTourItemState()){
   on<GetTourItemEvent>((event,emit) async {
@@ -34,6 +38,7 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
       return;
     }
     listImage = [];
+    listImage!.clear();
     listArticle = [];
     listHotel = [];
     for (var item in tour!.articles!){
@@ -67,6 +72,7 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
       emit(GetTourItemState(getTourItemSuccess: false));
     }
   });
+
   on<LikeTourEvent>((event,emit) async {
     if(tour == null){
       emit(TourItemLoveState(loveTourSuccess: false));
@@ -116,7 +122,8 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
       }
     }
   });
-  }
+
+}
 
   Future<Tour?> getTourById(String id) async {
     var result = await GetIt.instance.get<TourRepository>().getTourById(id);
@@ -171,4 +178,5 @@ class TourItemBloc extends Bloc<TourItemEvent,TourItemState>{
       return null;
     }
   }
+
 }

@@ -21,7 +21,6 @@ class DetailTab extends StatelessWidget {
     tourItemBloc.add(GetTourIsFavorite());
     var profileBloc = context.read<ProfileBloc>();
     return BlocBuilder<TourItemBloc,TourItemState>(
-      buildWhen: (previous, current) => previous != current,
       builder: (context,state) => Scaffold(
         body: ListView(
           padding: const EdgeInsets.all(0.0),

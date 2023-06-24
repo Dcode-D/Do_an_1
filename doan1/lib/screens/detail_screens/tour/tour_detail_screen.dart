@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/widget_item/rating/rating_bloc.dart';
 import '../../../BLOC/widget_item/tour_item/tour_item_bloc.dart';
 import '../../../models/destination_model.dart';
 import '../../../models/tour_model.dart';
@@ -34,15 +35,9 @@ class _TourDetailScreenState extends State<TourDetailScreen>
   final PageController listController = PageController();
   String province = '';
 
-  void loadDestinations() async {
-    province = destinationList[0].province;
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
-    loadDestinations();
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -56,9 +51,6 @@ class _TourDetailScreenState extends State<TourDetailScreen>
   Widget build(BuildContext context) {
     var tourItemBloc = context.read<TourItemBloc>();
     var profileBloc = context.read<ProfileBloc>();
-    if(tourItemBloc.tour!=null) {
-      tourItemBloc.add(GetTourItemEvent(tourId: tourItemBloc.tour!.id));
-    }
     _tabController.addListener(() {
       if(tourItemBloc.tour != null) {
         tourItemBloc.add(GetTourItemEvent(tourId: tourItemBloc.tour!.id));
@@ -220,10 +212,20 @@ class _TourDetailScreenState extends State<TourDetailScreen>
                             )
                           : const Center(child: CircularProgressIndicator())
                           :
-                      Center(child: CircularProgressIndicator())
-                  )
-                  ,
-                  CircularProgressIndicator()
+                      const Center(child: CircularProgressIndicator())
+                  ),
+                  MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(value: profileBloc),
+                        BlocProvider(
+                          create: (context) => RatingBloc()..add(GetRatingListEvent(
+                              page: 1,
+                              serviceId: tourItemBloc.tour!.id,
+                              type: 'tour')),
+                        ),
+                        BlocProvider.value(value: tourItemBloc)
+                      ],
+                      child: RatingTab()),
                 ],
               ),
             ),

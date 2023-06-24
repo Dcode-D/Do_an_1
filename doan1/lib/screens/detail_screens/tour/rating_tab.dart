@@ -1,22 +1,21 @@
 
+import 'package:doan1/BLOC/widget_item/rating/rating_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-import '../../../models/comment_model.dart';
-import '../../../models/customer_model.dart';
-import '../../../models/tour_model.dart';
+import '../../../BLOC/profile/profile_view/profile_bloc.dart';
+import '../../../BLOC/widget_item/rating_item/rating_item_bloc.dart';
+import '../../../BLOC/widget_item/tour_item/tour_item_bloc.dart';
 import '../../../widgets/comment_item.dart';
 import 'rating_bottom_sheet.dart';
 
 class RatingTab extends StatefulWidget {
-  final Tour tour;
-  final Function callbackUpdateRatingDetail;
 
   const RatingTab({
     Key? key,
-    required this.tour,
-    required this.callbackUpdateRatingDetail,
   }) : super(key: key);
 
   @override
@@ -24,215 +23,162 @@ class RatingTab extends StatefulWidget {
 }
 
 class _RatingTabState extends State<RatingTab> {
-  var ratingPoint = 0.0;
-  var countRating = 0;
-  var ratingOne = 0;
-  var ratingTwo = 0;
-  var ratingThree = 0;
-  var ratingFour = 0;
-  var ratingFive = 0;
-
-  bool canComment = false;
-  bool isLoading = true;
-
-  List<Customer> customers = [];
-
-  void checkCanComment() async {
-    // get current customer
-    setState(() {});
-  }
-
-  // void onSubmitComment(Comment comment) async {
-  //   isLoading = true;
-  //
-  //   customerService.submitComment(widget.tour.id, comment);
-  //
-  //   setState(() {
-  //     bool isExist = false;
-  //     for (var element in widget.tour.ratingList) {
-  //       if (element.customerId == comment.customerId) {
-  //         element.comment = comment.comment;
-  //         element.ratingStar = comment.ratingStar;
-  //         element.time = comment.time;
-  //         isExist = true;
-  //       }
-  //     }
-  //
-  //     if (!isExist) {
-  //       widget.tour.ratingList.add(comment);
-  //     }
-  //
-  //     widget.callbackUpdateRatingDetail(widget.tour.ratingList);
-  //
-  //     loadData();
-  //   });
-  // }
-
-  void loadData() async {
-    ratingPoint = 0.0;
-    countRating = 0;
-    ratingOne = 0;
-    ratingTwo = 0;
-    ratingThree = 0;
-    ratingFour = 0;
-    ratingFive = 0;
-
-    customers.clear();
-
-    for (var comment in widget.tour.ratingList) {
-      var customer = customers[0];
-      customers.add(customer);
-
-      ratingPoint += comment.ratingStar;
-      switch (comment.ratingStar) {
-        case 1:
-          ratingOne++;
-          break;
-        case 2:
-          ratingTwo++;
-          break;
-        case 3:
-          ratingThree++;
-          break;
-        case 4:
-          ratingFour++;
-          break;
-        case 5:
-          ratingFive++;
-          break;
-      }
-    }
-
-    countRating = ratingOne + ratingTwo + ratingThree + ratingFour + ratingFive;
-    if (countRating != 0) {
-      ratingPoint = ratingPoint / countRating;
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-    checkCanComment();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        children: [
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        ratingPoint.toStringAsFixed(1),
-                        style: GoogleFonts.lato(
-                          fontSize: 60.0,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.blue[900],
+    var profileBloc = context.read<ProfileBloc>();
+    var ratingBloc = context.read<RatingBloc>();
+    var tourItemBloc = context.read<TourItemBloc>();
+
+
+    return BlocBuilder<RatingBloc,RatingState>(
+      buildWhen: (previous, current) => current is GetRatingListState,
+      builder: (context,state) =>
+      Scaffold(
+        body: ListView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          children: [
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        ratingBloc.ratingByCustomer == null ?
+                        Text(
+                          '0.0',
+                          style: GoogleFonts.lato(
+                            fontSize: 60.0,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.blue[900],
+                          ),
+                        ) :
+                        Text(
+                          ratingBloc.ratingByCustomer!.toStringAsFixed(1),
+                          style: GoogleFonts.lato(
+                            fontSize: 60.0,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.blue[900],
+                          ),
                         ),
-                      ),
-                      Text('Total: $countRating'),
-                    ],
-                  ),
-                  const SizedBox(width: 20.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "⭐⭐⭐⭐⭐  $ratingFive",
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        "⭐⭐⭐⭐  $ratingFour",
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        "⭐⭐⭐  $ratingThree",
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        "⭐⭐  $ratingTwo",
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        "⭐  $ratingOne",
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          isLoading
-              ? Column(
-                  children: const [
-                    SizedBox(height: 40),
-                    CircularProgressIndicator(),
+                      ],
+                    ),
+                    const SizedBox(width: 20.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          ratingBloc.FiveStarRatingList!=null ?
+                          "⭐⭐⭐⭐⭐  ${ratingBloc.FiveStarRatingList.toString()}" : "⭐⭐⭐⭐⭐  0",
+                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          ratingBloc.FourStarRatingList!=null ?
+                          "⭐⭐⭐⭐  ${ratingBloc.FourStarRatingList.toString()}" : "⭐⭐⭐⭐  0",
+                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          ratingBloc.ThreeStarRatingList!=null ?
+                          "⭐⭐⭐  ${ratingBloc.ThreeStarRatingList.toString()}" : "⭐⭐⭐  0",
+                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          ratingBloc.TwoStarRatingList!=null ?
+                          "⭐⭐  ${ratingBloc.TwoStarRatingList.toString()}" : "⭐⭐  0",
+                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          ratingBloc.OneStarRatingList!=null ?
+                          "⭐  ${ratingBloc.OneStarRatingList.toString()}" : "⭐  0",
+                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
                   ],
-                )
-              : customers.isNotEmpty
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      reverse: true,
-                      padding: const EdgeInsets.all(10.0),
-                      itemCount: widget.tour.ratingList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Comment comment = widget.tour.ratingList[index];
-                        Customer customer = customers[index];
-                        return CommentItem(context, customer, comment);
-                      },
-                    )
-                  : Center(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 40.0),
-                        child: const Text('No comment yet'),
-                      ),
-                    ),
-        ],
-      ),
-      floatingActionButton: canComment
-          ? FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              child: const Image(
-                color: Colors.white,
-                image: AssetImage('assets/icons/icon-write.png'),
-              ),
-              onPressed: () {
-                showModalBottomSheet(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20.0),
-                      ),
-                    ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) {
-                      return Container(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: RatingBottomSheet(
-                              callbackSubmitComment: (){}),
+                ),
+              ],
+            ),
+          state is GetRatingListState ?
+            state.getRatingSuccess == true ?
+              ListView.builder(
+               shrinkWrap: true,
+               physics: const ClampingScrollPhysics(),
+               reverse: true,
+               padding: const EdgeInsets.all(10.0),
+               itemCount: ratingBloc.listRating!.length,
+               itemBuilder: (BuildContext context, int index) {
+                  return
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: profileBloc,
                         ),
-                      );
-                    });
-              },
+                        BlocProvider.value(
+                          value: ratingBloc,
+                        ),
+                        BlocProvider.value(
+                          value: tourItemBloc,),
+                        BlocProvider<RatingItemBloc>(create: (context) => RatingItemBloc()..add(GetRatingItemEvent(rating: ratingBloc.listRating![index]))),
+                      ],
+                        child: CommentItem(index: index,));
+                },
             )
-          : Container(),
+                    :
+              Center(
+                 child: Container(
+                 margin: const EdgeInsets.only(top: 40.0),
+                 child: const Text('No rating yet'),),
+              )
+            :
+              const Center(
+                child: CircularProgressIndicator(),
+              )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+                backgroundColor: Theme.of(context).primaryColor,
+                child: const Icon(
+                    FontAwesomeIcons.pen,
+                    color: Colors.white,),
+                onPressed: () {
+                  showModalBottomSheet(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.0),
+                        ),
+                      ),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                bottom: MediaQuery.of(context).viewInsets.bottom),
+                            child:
+                            RatingBottomSheet(
+                                callbackSubmitComment:(rating,comment) {
+                                  ratingBloc.add(CreateRatingEvent(
+                                      serviceId: tourItemBloc.tour!.id!,
+                                      userId: profileBloc.user!.id,
+                                      content: comment,
+                                      rating: rating.toDouble(),
+                                      type: 'tour'
+                                  ));
+                                  ratingBloc.add(GetRatingListEvent(
+                                      page: 1,
+                                      serviceId: tourItemBloc.tour!.id!,
+                                      type: 'tour'
+                                  ));
+                                }
+                          ),
+                        ),);
+                      });
+                },
+              )
+      ),
     );
   }
 }

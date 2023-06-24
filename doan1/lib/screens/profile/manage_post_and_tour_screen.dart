@@ -158,7 +158,7 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                             ),
                             BlocProvider.value(value: profileBloc),
                             BlocProvider<EditPostBloc>(create: (context) =>
-                            EditPostBloc()..add(EditPostInitialEvent(article: article,index: index))),
+                            EditPostBloc()..add(EditPostInitialEvent(article: article))),
                           ],
                             child: EditPostItem());
                       },

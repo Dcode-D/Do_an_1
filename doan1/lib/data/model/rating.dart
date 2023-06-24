@@ -1,5 +1,6 @@
 import 'package:doan1/data/model/remote/base_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
+import 'package:doan1/data/model/remote/rating_point_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'rating.g.dart';
@@ -42,9 +43,17 @@ extension RatingListExtension on ListModelResponse{
 }
 
 extension RatingDetailExtension on BaseResponse{
-  Rating? toHotel(){
+  Rating? toRating(){
     if(this.data == null)
       return null;
     return Rating.fromJson(this.data!);
+  }
+}
+
+extension RatingPointExtension on RatingPointResponse{
+  double? toRatingPoint(){
+    if(this.data == null)
+      return null;
+    return this.data;
   }
 }

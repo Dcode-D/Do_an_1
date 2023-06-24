@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
+import '../../../BLOC/widget_item/rating_item/rating_item_bloc.dart';
 
 
-
-class RatingBottomSheet extends StatefulWidget {
+class EditRatingBottomSheet extends StatefulWidget {
   final Function(double,String) callbackSubmitComment;
 
-  const RatingBottomSheet({
+  const EditRatingBottomSheet({
     Key? key,
     required this.callbackSubmitComment,
   }) : super(key: key);
 
   @override
-  State<RatingBottomSheet> createState() => _RatingBottomSheetState();
+  State<EditRatingBottomSheet> createState() => _EditRatingBottomSheetState();
 }
 
-class _RatingBottomSheetState extends State<RatingBottomSheet> {
+class _EditRatingBottomSheetState extends State<EditRatingBottomSheet> {
 
   final _commentController = TextEditingController();
   var _ratingPoint = 0.0;
   var _ratingText = "";
+  late RatingItemBloc ratingItemBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    ratingItemBloc = context.read<RatingItemBloc>();
+    _ratingPoint = ratingItemBloc.rating!.rating!;
+    _commentController.text = ratingItemBloc.rating!.comment!;
+  }
 
   void ratingText() {
     switch (_ratingPoint.toInt()) {
@@ -90,38 +100,38 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
         ),
         const SizedBox(height: 20.0),
         ElevatedButton(onPressed: (){
-            widget.callbackSubmitComment(_ratingPoint, _commentController.text);
-            Navigator.pop(context);
-          },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.orange,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical: 10.0,
-              ),
+          widget.callbackSubmitComment(_ratingPoint, _commentController.text);
+          Navigator.pop(context);
+        },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.orange,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Submit",
-                  style: GoogleFonts.roboto(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 4.0),
-                const Icon(
-                  FontAwesomeIcons.locationArrow,
-                  size: 18,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 10.0,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Submit",
+                style: GoogleFonts.roboto(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
-              ],
-            ),),
+              ),
+              const SizedBox(width: 4.0),
+              const Icon(
+                FontAwesomeIcons.locationArrow,
+                size: 18,
+                color: Colors.white,
+              ),
+            ],
+          ),),
         const SizedBox(height: 20.0),
       ],
     );

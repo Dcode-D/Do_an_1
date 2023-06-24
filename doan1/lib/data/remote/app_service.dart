@@ -1,12 +1,11 @@
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:doan1/data/model/remote/avatar_file_response.dart';
 import 'package:doan1/data/model/remote/id_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:doan1/data/model/remote/login_response.dart';
-import '../model/hotelroom.dart';
+import 'package:doan1/data/model/remote/rating_point_response.dart';
 import '../model/remote/base_response.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -325,12 +324,16 @@ abstract class AppService {
   @GET("/rating/")
   Future<HttpResponse<ListModelResponse>> getRatingList({
     @Query('page') required int page,
-    @Query('service') required String service,
-    @Query('user') required String user,
-    @Query('rating') required double rating});
+    @Query('service') String? service,
+    @Query('user') String? user,
+    @Query('rating') double? rating});
+
+  @GET("/rating/{id}")
+  Future<HttpResponse<BaseResponse>> getRatingById({
+    @Path('id') required String id});
 
   @GET("/rating/general/{type}/{service}")
-  Future<HttpResponse<ListModelResponse>> getGeneralRating({
+  Future<HttpResponse<RatingPointResponse>> getGeneralRating({
     @Path('type') required String type,
     @Path('service') required String service});
 

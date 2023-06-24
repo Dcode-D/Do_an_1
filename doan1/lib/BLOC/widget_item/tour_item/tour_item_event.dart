@@ -18,3 +18,10 @@ class LikeTourEvent extends TourItemEvent {
 class DislikeTourEvent extends TourItemEvent {
 }
 
+
+
+
+
+
+
+
