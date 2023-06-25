@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import '../../../data/model/article.dart';
 import '../../../data/model/tour.dart';
 import '../../../data/repositories/article_repo.dart';
+import '../../../data/repositories/tour_repo.dart';
 
 part 'manage_news_event.dart';
 part 'manage_news_state.dart';
@@ -20,13 +21,15 @@ class ManageNewsBloc extends Bloc<ManageNewsEvent,ManageNewsState>{
       lsArticle!.clear();
       lsTour!.clear();
       lsArticle = await getListArticleByUserId(event.userID,1);
-      if(lsArticle != null){
+      lsTour = await getListTourByUserId(event.userID,1);
+      if(lsArticle != null && lsTour != null){
         emit(GetNewsInitialState(isNewsLoaded: true));
       }
       else{
         emit(GetNewsInitialState(isNewsLoaded: false));
       }
     });
+
     on<LoadMoreNews>((event,emit) async{
       listExtraArticle = null;
       listExtraArticle = await getListArticleByUserId(event.userID,event.page);
@@ -39,6 +42,7 @@ class ManageNewsBloc extends Bloc<ManageNewsEvent,ManageNewsState>{
       }
       emit(LoadMoreNewsState(isNewsLoaded: true));
     });
+
     on<DeleteNews>((event,emit) async{
       if(lsArticle == null){
         emit(DeleteNewsState(isDeleted: false));
@@ -46,6 +50,28 @@ class ManageNewsBloc extends Bloc<ManageNewsEvent,ManageNewsState>{
       }
       lsArticle!.removeAt(event.articleIndex);
       emit(DeleteNewsState(isDeleted: true));
+    });
+
+    on<LoadMoreTours>((event,emit) async {
+      lsExtraTour = null;
+      lsExtraTour = await getListTourByUserId(event.userID,event.page);
+      if(lsExtraTour == null){
+        emit(LoadMoreTourState(isTourLoaded: false));
+        return;
+      }
+      for (var i = 0; i < lsExtraTour!.length; i++) {
+        lsTour!.add(lsExtraTour![i]);
+      }
+      emit(LoadMoreTourState(isTourLoaded: true));
+    });
+
+    on<DeleteTour>((event,emit) async {
+      if(lsTour == null){
+        emit(DeleteTourState(isDeleted: false));
+        return;
+      }
+      lsTour!.removeAt(event.tourIndex);
+      emit(DeleteTourState(isDeleted: true));
     });
   }
   Future<List<Article>?> getListArticleByUserId(String userID,int page) async {
@@ -65,6 +91,24 @@ class ManageNewsBloc extends Bloc<ManageNewsEvent,ManageNewsState>{
         }
       }
       return lsArticle;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<List<Tour>?> getListTourByUserId(String userId, int page) async {
+    var tourRepo = GetIt.instance.get<TourRepository>();
+    try{
+      var result = await tourRepo.getListTourByUser(page,userId);
+      if (result == null){
+        return null;
+      }
+      for (var i in result){
+        Tour? tour = i;
+        lsTour!.add(tour);
+      }
+      return lsTour;
     }catch(e){
       print(e);
       return null;

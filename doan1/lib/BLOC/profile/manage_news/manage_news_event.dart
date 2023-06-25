@@ -18,3 +18,14 @@ class DeleteNews extends ManageNewsEvent {
   final int articleIndex;
   DeleteNews({required this.articleIndex});
 }
+
+class LoadMoreTours extends ManageNewsEvent {
+  final String userID;
+  final int page;
+  LoadMoreTours({required this.userID, required this.page});
+}
+
+class DeleteTour extends ManageNewsEvent {
+  final int tourIndex;
+  DeleteTour({required this.tourIndex});
+}

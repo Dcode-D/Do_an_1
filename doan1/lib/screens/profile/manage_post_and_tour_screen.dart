@@ -168,7 +168,7 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                       controller: _tourController,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-                      itemCount: vehicles.length,
+                      itemCount: manageNewsBloc.lsTour!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return MultiBlocProvider(
                           providers: [
@@ -177,7 +177,7 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                             ),
                             BlocProvider.value(value: profileBloc),
                             BlocProvider<EditTourBloc>(create: (context) =>
-                            EditTourBloc()),
+                            EditTourBloc()..add(EditTourInitialEvent(tourId: manageNewsBloc.lsTour![index].id))),
                             ],
                             child: EditTourItem());
                       },
