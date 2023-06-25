@@ -88,14 +88,4 @@ class RatingRepository{
     });
   }
 
-  Future<Rating?> getRatingById(String id) async {
-    return _appService.getRatingById(id: id).then((http)async{
-      if(http.response.statusCode != 200){
-        return null;
-      }
-      else{
-        return http.data.toRating();
-      }
-    });
-  }
 }

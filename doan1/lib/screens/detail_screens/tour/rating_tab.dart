@@ -30,7 +30,6 @@ class _RatingTabState extends State<RatingTab> {
     var ratingBloc = context.read<RatingBloc>();
     var tourItemBloc = context.read<TourItemBloc>();
 
-
     return BlocBuilder<RatingBloc,RatingState>(
       buildWhen: (previous, current) => current is GetRatingListState,
       builder: (context,state) =>
@@ -39,91 +38,90 @@ class _RatingTabState extends State<RatingTab> {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: 10),
           children: [
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        ratingBloc.ratingByCustomer == null ?
-                        Text(
-                          '0.0',
-                          style: GoogleFonts.lato(
-                            fontSize: 60.0,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.blue[900],
-                          ),
-                        ) :
-                        Text(
-                          ratingBloc.ratingByCustomer!.toStringAsFixed(1),
-                          style: GoogleFonts.lato(
-                            fontSize: 60.0,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.blue[900],
-                          ),
-                        ),
-                      ],
+                    ratingBloc.ratingByCustomer == null ?
+                    Text(
+                      '0.0',
+                      style: GoogleFonts.lato(
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.blue[900],
+                      ),
+                    ) :
+                    Text(
+                      ratingBloc.ratingByCustomer!.toStringAsFixed(1),
+                      style: GoogleFonts.lato(
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.blue[900],
+                      ),
                     ),
-                    const SizedBox(width: 20.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          ratingBloc.FiveStarRatingList!=null ?
-                          "⭐⭐⭐⭐⭐  ${ratingBloc.FiveStarRatingList.toString()}" : "⭐⭐⭐⭐⭐  0",
-                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          ratingBloc.FourStarRatingList!=null ?
-                          "⭐⭐⭐⭐  ${ratingBloc.FourStarRatingList.toString()}" : "⭐⭐⭐⭐  0",
-                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          ratingBloc.ThreeStarRatingList!=null ?
-                          "⭐⭐⭐  ${ratingBloc.ThreeStarRatingList.toString()}" : "⭐⭐⭐  0",
-                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          ratingBloc.TwoStarRatingList!=null ?
-                          "⭐⭐  ${ratingBloc.TwoStarRatingList.toString()}" : "⭐⭐  0",
-                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          ratingBloc.OneStarRatingList!=null ?
-                          "⭐  ${ratingBloc.OneStarRatingList.toString()}" : "⭐  0",
-                          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                  ],
+                ),
+                const SizedBox(width: 20.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ratingBloc.FiveStarRatingList!=null ?
+                      "⭐⭐⭐⭐⭐  ${ratingBloc.FiveStarRatingList.toString()}" : "⭐⭐⭐⭐⭐  0",
+                      style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      ratingBloc.FourStarRatingList!=null ?
+                      "⭐⭐⭐⭐  ${ratingBloc.FourStarRatingList.toString()}" : "⭐⭐⭐⭐  0",
+                      style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      ratingBloc.ThreeStarRatingList!=null ?
+                      "⭐⭐⭐  ${ratingBloc.ThreeStarRatingList.toString()}" : "⭐⭐⭐  0",
+                      style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      ratingBloc.TwoStarRatingList!=null ?
+                      "⭐⭐  ${ratingBloc.TwoStarRatingList.toString()}" : "⭐⭐  0",
+                      style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      ratingBloc.OneStarRatingList!=null ?
+                      "⭐  ${ratingBloc.OneStarRatingList.toString()}" : "⭐  0",
+                      style: GoogleFonts.lato(fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
               ],
             ),
-          state is GetRatingListState ?
-            state.getRatingSuccess == true ?
-              ListView.builder(
-               shrinkWrap: true,
-               physics: const ClampingScrollPhysics(),
-               reverse: true,
-               padding: const EdgeInsets.all(10.0),
-               itemCount: ratingBloc.listRating!.length,
-               itemBuilder: (BuildContext context, int index) {
-                  return
-                    MultiBlocProvider(
-                      providers: [
-                        BlocProvider.value(
-                          value: profileBloc,
-                        ),
-                        BlocProvider.value(
-                          value: ratingBloc,
-                        ),
-                        BlocProvider.value(
-                          value: tourItemBloc,),
-                        BlocProvider<RatingItemBloc>(create: (context) => RatingItemBloc()..add(GetRatingItemEvent(rating: ratingBloc.listRating![index]))),
-                      ],
-                        child: CommentItem(index: index,));
-                },
+              BlocBuilder<RatingBloc,RatingState>(
+                buildWhen: (previous, current) =>previous is GetRatingListState || current is GetRatingListState,
+                builder: (context,state) =>
+                state is GetRatingListState ?
+                  state.getRatingSuccess == true ?
+                    ListView.builder(
+                     shrinkWrap: true,
+                     physics: const ClampingScrollPhysics(),
+                     reverse: true,
+                     padding: const EdgeInsets.all(10.0),
+                     itemCount: ratingBloc.listRating!.length,
+                     itemBuilder: (BuildContext context, int index) {
+                    return
+                      MultiBlocProvider(
+                        providers: [
+                          BlocProvider.value(
+                            value: profileBloc,
+                          ),
+                          BlocProvider.value(
+                            value: ratingBloc,
+                          ),
+                          BlocProvider.value(
+                            value: tourItemBloc,),
+                          BlocProvider<RatingItemBloc>(create: (context) => RatingItemBloc()..add(GetRatingItemEvent(rating: ratingBloc.listRating![index]))),
+                        ],
+                          child: CommentItem(index: index,));
+                  },
             )
                     :
               Center(
@@ -135,7 +133,7 @@ class _RatingTabState extends State<RatingTab> {
               const Center(
                 child: CircularProgressIndicator(),
               )
-          ],
+          ),]
         ),
         floatingActionButton: FloatingActionButton(
                 backgroundColor: Theme.of(context).primaryColor,

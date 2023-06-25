@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../BLOC/profile/profile_view/profile_bloc.dart';
+import '../BLOC/widget_item/rating/rating_bloc.dart';
 
 class HotelItem extends StatelessWidget{
   final int type;
@@ -36,7 +37,12 @@ class HotelItem extends StatelessWidget{
                 providers: [
                   BlocProvider.value(value: profileBloc),
                   BlocProvider.value(value: hotelItemBloc),
-                  BlocProvider.value(value: bookHistoryBloc)
+                  BlocProvider.value(value: bookHistoryBloc),
+                  BlocProvider<RatingBloc>(create: (context) =>
+                  RatingBloc()..add(GetRatingListEvent(
+                      page: 1,
+                      serviceId: hotelItemBloc.hotel!.id,
+                      type: 'hotel')))
                 ],
                 child: HotelDetailScreen(
                   type: type,

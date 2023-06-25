@@ -32,89 +32,96 @@ class CommentItem extends StatelessWidget {
     return rating;
   }
   return BlocBuilder<RatingItemBloc,RatingItemState>(
-    builder: (context,state) => Container(
-    width: MediaQuery.of(context).size.width,
-    padding: const EdgeInsets.all(10.0),
-    child: Column(
-    children: [
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    builder: (context,state) =>
+    state is GetRatingItemState ?
+      state.getRatingItemSuccess == true ?
+        Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
         children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
   // circle avatar
   // CircleAvatar(
   //   radius: 26.0,
   //   backgroundImage: MemoryImage(base64Decode()),
   // ),
         const SizedBox(width: 10),
-      Expanded(
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ratingItemBloc.user == null ?
-            const Center(child: CircularProgressIndicator(),) :
-          Text(
-            '${ratingItemBloc.user!.lastname} ${ratingItemBloc.user!.firstname}',
-            style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            ),
-          ),
-            const Spacer(),
-            ratingItemBloc.user != null ?
-                ratingItemBloc.user!.id == profileBloc.user!.id ?
-                IconButton(
-                    onPressed: (){
-                      showModalBottomSheet(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20.0),
-                            ),
-                          ),
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                                child:
-                                MultiBlocProvider(
-                                  providers: [
-                                    BlocProvider.value(value: profileBloc),
-                                    BlocProvider.value(value: ratingItemBloc),
-                                  ],
-                                  child: EditRatingBottomSheet(
-                                      callbackSubmitComment:(rating,comment) {
-                                        ratingBloc.add(UpdateRatingEvent(
-                                            ratingId: ratingItemBloc.rating!.id!,
-                                            content: comment,
-                                            rating: rating.toDouble(),
-                                        ));
-                                        ratingBloc.add(GetRatingListEvent(
-                                            page: 1,
-                                            serviceId: tourItemBloc.tour!.id!,
-                                            type: 'tour'
-                                        ));
-                                      }
-                                  ),
-                                ),
-                              ),);
-                          });
-                    },
-                    style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all(const Size(15, 15)),
-                      backgroundColor: MaterialStateProperty.all(Colors.orange),
-                    ),
-                    icon: const Icon(FontAwesomeIcons.penToSquare,
-                          color: Colors.orange,
-                          size: 18,))
-                :
-                const SizedBox() :
-            const Center(child: CircularProgressIndicator(),),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ratingItemBloc.user == null ?
+                const Center(child: CircularProgressIndicator(),) :
+              Text(
+                '${ratingItemBloc.user!.lastname} ${ratingItemBloc.user!.firstname}',
+                style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                ),
+              ),
+                const Spacer(),
+            //     ratingItemBloc.user != null ?
+            //     ratingItemBloc.user!.id == profileBloc.user!.id ?
+            //     IconButton(
+            //         onPressed: (){
+            //           showModalBottomSheet(
+            //               shape: const RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.vertical(
+            //                   top: Radius.circular(20.0),
+            //                 ),
+            //               ),
+            //               isScrollControlled: true,
+            //               context: context,
+            //               builder: (context) {
+            //                 return Container(
+            //                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            //                   child: Padding(
+            //                     padding: EdgeInsets.only(
+            //                         bottom: MediaQuery.of(context).viewInsets.bottom),
+            //                     child:
+            //                     MultiBlocProvider(
+            //                       providers: [
+            //                         BlocProvider.value(value: profileBloc),
+            //                         BlocProvider.value(value: ratingItemBloc),
+            //                         BlocProvider.value(value: ratingBloc),
+            //                       ],
+            //                       child: EditRatingBottomSheet(
+            //                           callbackSubmitComment:(rating,comment) {
+            //                             ratingBloc.add(UpdateRatingEvent(
+            //                                 ratingId: ratingItemBloc.rating!.id!,
+            //                                 content: comment,
+            //                                 rating: rating.toDouble(),
+            //                             ));
+            //                             ratingBloc.add(GetRatingListEvent(
+            //                                 page: 1,
+            //                                 serviceId: tourItemBloc.tour!.id!,
+            //                                 type: 'tour'
+            //                             ));
+            //                             ratingItemBloc.add(GetRatingItemEvent(
+            //                                 rating: ratingBloc.listRating![index!]
+            //                             ));
+            //                           }
+            //                       ),
+            //                     ),
+            //                   ),);
+            //               });
+            //         },
+            //         style: ButtonStyle(
+            //           fixedSize: MaterialStateProperty.all(const Size(15, 15)),
+            //           backgroundColor: MaterialStateProperty.all(Colors.orange),
+            //         ),
+            //         icon: const Icon(FontAwesomeIcons.penToSquare,
+            //               color: Colors.orange,
+            //               size: 18,))
+            //     :
+            //     const SizedBox() :
+            // const Center(child: CircularProgressIndicator(),),
             ratingItemBloc.user != null ?
             ratingItemBloc.user!.id == profileBloc.user!.id ?
             InkWell(
@@ -130,7 +137,7 @@ class CommentItem extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('Hủy'),
+                            child: const Text('No'),
                           ),
                           TextButton(
                             onPressed: () {
@@ -145,7 +152,7 @@ class CommentItem extends StatelessWidget {
                               ));
                               Navigator.of(context).pop();
                             },
-                            child: const Text('Xóa'),
+                            child: const Text('Yes'),
                           ),
                         ],
                       );
@@ -163,7 +170,10 @@ class CommentItem extends StatelessWidget {
         const SizedBox(height: 2),
         ratingItemBloc.rating == null ?
           const Center(child: CircularProgressIndicator(),) :
-        Text(displayRating()),
+        Text(
+          ratingItemBloc.rating == null ?
+          '' :
+            displayRating()),
         const SizedBox(height: 6),
         ratingItemBloc.rating == null ?
         const Center(child: CircularProgressIndicator(),) :
@@ -181,7 +191,7 @@ class CommentItem extends StatelessWidget {
           ),
         ],
      ),
-    ),
+    ) : const Center(child: CircularProgressIndicator(),) : const Center(child: CircularProgressIndicator(),),
     );
   }
 }

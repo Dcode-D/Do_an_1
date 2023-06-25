@@ -31,11 +31,6 @@ class RatingItemBloc extends Bloc<RatingItemEvent,RatingItemState>{
     });
   }
 
-  Future<Rating?> getRatingItem(String ratingId)async{
-    var ratingRepo = GetIt.instance<RatingRepository>();
-    return await ratingRepo.getRatingById(ratingId);
-  }
-
   Future<User?> getUser(String userId)async{
     var userRepo = GetIt.instance<UserRepository>();
     return await userRepo.getUserById(userId);

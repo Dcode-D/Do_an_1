@@ -1,5 +1,5 @@
 import 'package:doan1/BLOC/widget_item/car_item/car_item_bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:doan1/BLOC/widget_item/rating/rating_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -36,7 +36,12 @@ class VehicleItem extends StatelessWidget{
                 providers: [
                   BlocProvider.value(value: profileBloc),
                   BlocProvider.value(value: carItemBloc),
-                  BlocProvider.value(value: bookHistoryBloc)
+                  BlocProvider.value(value: bookHistoryBloc),
+                  BlocProvider<RatingBloc>(create: (context) =>
+                  RatingBloc()..add(GetRatingListEvent(
+                      page: 1,
+                      serviceId: carItemBloc.vehicle!.id,
+                      type: 'car')))
                 ],
                 child: VehicleRentDetailScreen(
                   type: type,
