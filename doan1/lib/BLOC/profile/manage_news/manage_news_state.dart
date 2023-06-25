@@ -20,3 +20,13 @@ class DeleteNewsState extends ManageNewsState {
   final bool isDeleted;
   DeleteNewsState({required this.isDeleted});
 }
+
+class LoadMoreTourState extends ManageNewsState {
+  final bool isTourLoaded;
+  LoadMoreTourState({required this.isTourLoaded});
+}
+
+class DeleteTourState extends ManageNewsState {
+  final bool isDeleted;
+  DeleteTourState({required this.isDeleted});
+}

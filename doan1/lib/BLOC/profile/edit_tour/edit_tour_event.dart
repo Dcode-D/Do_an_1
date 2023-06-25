@@ -3,6 +3,16 @@ part of 'edit_tour_bloc.dart';
 @immutable
 abstract class EditTourEvent {}
 
+class EditTourInitialEvent extends EditTourEvent {
+  String? tourId;
+  EditTourInitialEvent({required this.tourId});
+}
+
+class DeleteTourEvent extends EditTourEvent {
+  final String tourID;
+  DeleteTourEvent({required this.tourID});
+}
+
 class SetEditTourPlan extends EditTourEvent{
   List<Article> tourPlan;
   SetEditTourPlan({required this.tourPlan});

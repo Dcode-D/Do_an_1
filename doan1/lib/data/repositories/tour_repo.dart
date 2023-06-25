@@ -44,6 +44,14 @@ class TourRepository {
     );
   }
 
+  Future<bool> deleteTour(String id) async{
+    final response = await _appService.deleteTour(
+        token:"Bearer ${_sharedPreferences.getString("token")!}",
+        id: id,
+    );
+    return response.response.statusCode == 200;
+  }
+
   Future<List<Tour>?> getListTourByPage(int page) async{
     return _appService.getTourList(
       token:"Bearer ${_sharedPreferences.getString("token")!}",

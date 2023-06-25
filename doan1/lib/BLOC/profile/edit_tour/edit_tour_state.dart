@@ -5,6 +5,16 @@ abstract class EditTourState {}
 
 class EditTourInitial extends EditTourState {}
 
+class EditTourDataInitial extends EditTourState {
+  bool getDataSuccess = false;
+  EditTourDataInitial(this.getDataSuccess);
+}
+
+class DeleteTourState extends EditTourState {
+  bool deleteSuccess = false;
+  DeleteTourState(this.deleteSuccess);
+}
+
 class EditPlanSetState extends EditTourState {
   bool isPlanSet = false;
   EditPlanSetState({required this.isPlanSet});
