@@ -69,6 +69,7 @@ dependencies:
   socket_io_client: ^2.0.2
   event_bus: ^2.0.0
   flutter_rating_bar: ^4.0.1
+  flutter_local_notifications: ^14.1.1
 
 
 

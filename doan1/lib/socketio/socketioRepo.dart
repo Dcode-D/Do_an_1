@@ -5,6 +5,8 @@ import 'package:event_bus/event_bus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../Notifications/notification_service.dart';
+
 class SocketRepo{
   final SharedPreferences _sharedPreferences;
   final EventBus _eventBus;
@@ -28,6 +30,28 @@ class SocketRepo{
           _socket!.on("message", (data) =>
           {
             _eventBus.fire(EBTestEvent(data))
+          });
+
+          _socket!.on("CreateBooking", (data) async
+          {
+            print(data);
+            await LocalNotificationService.display("New booking!", "You have a new booking request", null);
+          }
+          );
+
+          _socket!.on("RejectBookingOwner", (data)
+          {
+            print(data);
+          });
+
+          _socket!.on("RejectBookingUser", (data)
+          {
+            print(data);
+          });
+
+          _socket!.on("ApproveBooking", (data)
+          {
+            print(data);
           });
         }
       }else{

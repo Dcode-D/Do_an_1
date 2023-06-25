@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:doan1/dependency.dart';
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
@@ -24,6 +25,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationInfoSta
         if(loginstate) {
           print("Login success");
           emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorized));
+          FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+          FlutterLocalNotificationsPlugin();
+          final permission = await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()!.requestPermission();
         }
       }
       catch(e)
