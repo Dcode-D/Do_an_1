@@ -99,17 +99,25 @@ const updateTour = async (req, res) => {
             return res.status(404).json({status: "error", message: "Tour not found"});
         if(!tour.user.equals(req.user._id))
             return res.status(403).json({status: "error", message: "Not permitted"});
-        const {name, description, price, duration, maxGroupSize, rating, articles, startDates, province, city} = req.body;
-        tour.name = name;
-        tour.description = description;
-        tour.price = price;
-        tour.duration = duration;
-        tour.maxGroupSize = maxGroupSize;
-        tour.rating = rating;
-        tour.startDates = startDates;
-        tour.articles = articles;
-        tour.province = province;
-        tour.city = city;
+        const {name, description, price, duration, maxGroupSize, rating, articles, startDates, hotels} = req.body;
+        if(name)
+            tour.name = name;
+        if(description)
+            tour.description = description;
+        if(price)
+            tour.price = price;
+        if(duration)
+            tour.duration = duration;
+        if(maxGroupSize)
+            tour.maxGroupSize = maxGroupSize;
+        if(rating)
+            tour.rating = rating;
+        if(startDates)
+            tour.startDates = startDates;
+        if(articles)
+            tour.articles = articles;
+        if(hotels)
+            tour.hotels = hotels;
         await tour.save();
         return res.status(200).json({status: "success", message: "Tour updated"});
     }

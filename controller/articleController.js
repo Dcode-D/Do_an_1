@@ -3,6 +3,7 @@ const FileModel = require('../models/files_model');
 const path = require("path");
 const fs = require("fs");
 const Article = require("../models/articleModel");
+const TourModel = require("../models/tourModel");
 
 const articleFileExt = file_ext_limiter(['.jpg', '.png', '.jpeg', '.doc', '.docx', '.pdf']);
 const articleImageExt = file_ext_limiter(['.jpg', '.png', '.jpeg']);
@@ -109,7 +110,7 @@ const deleteArticle = async (req, res) => {
         const articleid = req.params.id;
         const article = await Article.findById(articleid);
         if(!article) return res.status(404).json({status: "error", message: "Article not found"});
-        if(article.publishBy.equals(req.user._id)){
+        if(!article.publishBy.equals(req.user._id)){
             return res.status(401).json({status: "error", message: "You are not authorized to delete this article"});
         }
         const articleFiles = await FileModel.find({attachedId: article._id});
@@ -117,6 +118,12 @@ const deleteArticle = async (req, res) => {
             for(const articleFile of articleFiles){
                 fs.unlinkSync(articleFile.path)
                 await articleFile.deleteOne();
+            }
+        }
+        const tours = await TourModel.find({articles:{ $in: [article._id] }});
+        if(tours.length > 0){
+            for(const tour of tours){
+                await tour.updateOne({$pull: {articles: article._id}});
             }
         }
         await article.deleteOne();
