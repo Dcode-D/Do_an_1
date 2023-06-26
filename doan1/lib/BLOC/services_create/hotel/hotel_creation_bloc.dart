@@ -11,6 +11,7 @@ part 'hotel_creation_event.dart';
 part 'hotel_creation_state.dart';
 
 class HotelCreationBloc extends Bloc<HotelCreationEvent, HotelCreationState> {
+  var hotelid = "";
   var listImages = <File>[];
   HotelCreationBloc() : super(HotelCreationInitial()) {
     final hotelRepo = GetIt.instance.get<HotelRepository>();
@@ -44,7 +45,7 @@ class HotelCreationBloc extends Bloc<HotelCreationEvent, HotelCreationState> {
           event.facilities[i]
         );
       }
-      final rs = await hotelRepo.createHotel(
+      final (rs,hotelid) = await hotelRepo.createHotel(
         event.name,
         event.description,
         event.address,
@@ -53,7 +54,7 @@ class HotelCreationBloc extends Bloc<HotelCreationEvent, HotelCreationState> {
         facilities,
         listImages,
       );
-      emit(HotelCreationPostState(rs));
+      emit(HotelCreationPostState(rs,hotelid));
     });
   }
 }

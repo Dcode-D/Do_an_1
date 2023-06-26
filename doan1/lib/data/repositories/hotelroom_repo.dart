@@ -54,4 +54,21 @@ class HotelRoomRepository{
       }
     });
   }
+
+  Future<bool> createHotelRoom(List<HotelRoom> hotelRooms, String hotelid) async {
+    return _appService
+        .createRooms(
+      token: "Bearer ${_sharedPreferences.getString("token")}",
+      hotel: hotelid,
+      request: _requestFactory.createRooms(hotelRooms),
+    )
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
 }

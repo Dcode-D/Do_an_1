@@ -12,5 +12,6 @@ class HotelCreationImageState extends HotelCreationState {
 
 class HotelCreationPostState extends HotelCreationState {
   final bool success;
-  HotelCreationPostState(this.success);
+  final String hotelid;
+  HotelCreationPostState(this.success, this.hotelid);
 }

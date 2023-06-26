@@ -30,7 +30,6 @@ abstract class AppService {
   @PUT("/user/update")
   Future<HttpResponse> updateUser(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
 
-  //TODO: Bug in this API
   @GET("/user/id/{id}")
   Future<HttpResponse<BaseResponse>> getUserById(@Path('id') String id);
 
@@ -169,7 +168,7 @@ abstract class AppService {
 
   @POST("/hotel/")
   @MultiPart()
-  Future<HttpResponse> createHotel({
+  Future<HttpResponse<BaseResponse>> createHotel({
     @Header("Authorization") required String token,
     @Part(name: "name") required String name,
     @Part(name: "description") required String description,
@@ -370,5 +369,11 @@ abstract class AppService {
   Future<HttpResponse> updateArticleInfo({
     @Header("Authorization") required String token,
     @Path('id') required String article,
+    @Body() required Map<String,dynamic> request});
+
+  @POST("/hotel/{hotel}/room")
+  Future<HttpResponse> createRooms({
+    @Header("Authorization") required String token,
+    @Path('hotel') required String hotel,
     @Body() required Map<String,dynamic> request});
 }

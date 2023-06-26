@@ -70,7 +70,7 @@ class HotelRepository{
     });
   }
 
-  Future<bool> createHotel(
+  Future<(bool, String)> createHotel(
       String name,
       String description,
       String address,
@@ -84,10 +84,10 @@ class HotelRepository{
         name: name, description: description, address: address, province: province, district: district, files: files, facilities: facilities)
         .then((http) async {
       if (http.response.statusCode != 200) {
-        return false;
+        return (false, "");
       }
       else{
-        return true;
+        return (true, http.data.data?["_id"] as String);
       }
     });
   }

@@ -44,7 +44,7 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
               ,
               listener: (context, state) {
                 if((state as HotelCreationPostState).success){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateHotelRoomScreen()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CreateHotelRoomScreen(hotelId: state.hotelid,)));
                 }
                 else{
                   ScaffoldMessenger.of(context).showSnackBar(

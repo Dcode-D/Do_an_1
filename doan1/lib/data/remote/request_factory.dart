@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../model/hotelroom.dart';
+
 @injectable
 class RequestFactory {
   RequestFactory();
@@ -137,6 +139,13 @@ class RequestFactory {
       "duration": duration,
       "price": price,
       "maxGroupSize": maxGroupSize
+    };
+  }
+
+  createRooms(List<HotelRoom> hotelRooms){
+    var hotelroomsjson = hotelRooms.map((e) => e.toJson()).toList();
+    return {
+      "hotelRooms": hotelroomsjson
     };
   }
 }
