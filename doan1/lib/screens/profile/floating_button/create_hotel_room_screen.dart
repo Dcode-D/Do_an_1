@@ -112,7 +112,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: IconButton(
                             onPressed: () {
-                              if(context.read<CreateHotelRoomsBloc>().hotelRooms.length > 0) {
+                              if(context.read<CreateHotelRoomsBloc>().hotelRooms.isNotEmpty) {
                                 context.read<CreateHotelRoomsBloc>().add(
                                     CreateHotelRoomsPostEvent());
                               } else {
@@ -164,9 +164,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                 return Row(
                                                   children: [
                                                     Text(
-                                                      "Hotel rooms list(" +
-                                                          length +
-                                                          ")",
+                                                      "Hotel rooms list($length)",
                                                       style:
                                                           GoogleFonts.raleway(
                                                         fontSize: 15,
@@ -176,7 +174,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                         color: Colors.black,
                                                       ),
                                                     ),
-                                                    Spacer(),
+                                                    const Spacer(),
 
                                                     //Show list all hotel rooms
                                                     TextButton(
@@ -196,9 +194,15 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                           },
                                                                           builder:
                                                                               (context, state) {
-                                                                            return Container(
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(10),
+                                                                            return
+                                                                            state is CreateHotelRoomsListRoomsChangedState
+                                                                                ?
+                                                                              Container(
+                                                                              decoration: const BoxDecoration(
+                                                                                borderRadius: BorderRadius.only(
+                                                                                  topLeft: Radius.circular(10),
+                                                                                  topRight: Radius.circular(10),
+                                                                                ),
                                                                                 color: Colors.white,
                                                                               ),
                                                                               child: SingleChildScrollView(
@@ -215,26 +219,25 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                                         leading:
                                                                                             Column(
                                                                                                 mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                children: [Text("Room " + createBloc.hotelRooms[index].number.toString())])
+                                                                                                children: [Text("Room ${createBloc.hotelRooms[index].number}")])
                                                                                         ,
-                                                                                        title: Text("Price:"+ context.read<CreateHotelRoomsBloc>().hotelRooms[index].price.toString()),
+                                                                                        title: Text("Price:${context.read<CreateHotelRoomsBloc>().hotelRooms[index].price}"),
                                                                                         subtitle:
-                                                                                        Text("Adults: " + context.read<CreateHotelRoomsBloc>().hotelRooms[index].adultCapacity.toString() + " Children: " +
-                                                                                            context.read<CreateHotelRoomsBloc>().hotelRooms[index].childrenCapacity.toString()),
+                                                                                        Text("Adults: ${context.read<CreateHotelRoomsBloc>().hotelRooms[index].adultCapacity} Children: ${context.read<CreateHotelRoomsBloc>().hotelRooms[index].childrenCapacity}"),
                                                                                         trailing: Wrap(
                                                                                           spacing: 10,
                                                                                           children: [
 
                                                                                             IconButton(onPressed: (){
                                                                                               createBloc.add(CreateHotelRoomsCopyEvent(createBloc.hotelRooms[index]));
-                                                                                            }, icon: Icon(Icons.copy,
+                                                                                            }, icon: const Icon(Icons.copy,
                                                                                               color: Colors.orange,)),
 
                                                                                             IconButton(
                                                                                               onPressed: () {
                                                                                                 context.read<CreateHotelRoomsBloc>().add(CreateHotelRoomsRemoveRoomEvent(context.read<CreateHotelRoomsBloc>().hotelRooms[index]));
                                                                                               },
-                                                                                              icon: Icon(
+                                                                                              icon: const Icon(
                                                                                                 Icons.delete,
                                                                                                 color: Colors.red,
                                                                                               ),
@@ -246,7 +249,14 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                            );
+                                                                            ) : Container(
+                                                                                height:
+                                                                                MediaQuery.of(context).size.height * 0.8,
+                                                                                decoration: const BoxDecoration(
+                                                                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                                child: const Center(child: Text("No hotel room added!"),));
                                                                           },
                                                                         );
                                                                       }
@@ -254,7 +264,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                   ));
                                                         },
 
-                                                        child: Text(
+                                                        child: const Text(
                                                           "See all",
                                                           style: TextStyle(
                                                               color:
@@ -382,7 +392,6 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                             const SizedBox(
                                               height: 10,
                                             ),
-                                            //TODO: Add list of room if we added to hotel
                                             const SizedBox(
                                               height: 10,
                                             ),
@@ -631,8 +640,9 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                         23 ||
                                                                     int.parse(
                                                                             value) <
-                                                                        0)
+                                                                        0) {
                                                                   return 'Please enter valid check in hour';
+                                                                }
                                                                 return null;
                                                               },
                                                             ),
@@ -716,8 +726,9 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                         59 ||
                                                                     int.parse(
                                                                             value) <
-                                                                        0)
+                                                                        0) {
                                                                   return 'Please enter valid minute';
+                                                                }
                                                                 return null;
                                                               },
                                                             ),
@@ -893,8 +904,9 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                         59 ||
                                                                     int.parse(
                                                                             value) <
-                                                                        0)
+                                                                        0) {
                                                                   return 'Please enter valid minute';
+                                                                }
                                                                 return null;
                                                               },
                                                             ),
