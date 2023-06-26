@@ -58,6 +58,19 @@ const createDateBooking = async (req, res) => {
             note: note,
         });
         await dateBooking.save();
+        if(type === "car"){
+            const io = req.app.get("io");
+            const cars = await carModel.find({_id: {$in: attachedServices}});
+            const owner = await UserModel.findById(cars[0].owner);
+            io.to(owner.username).emit("CreateBooking", dateBooking);
+        }
+        if(type === "hotel"){
+            const io = req.app.get("io");
+            const hotelRooms = await  HotelRoomModel.find({_id:{ $in: attachedServices}});
+            const hotel = await hotelModel.findById(hotelRooms[0].hotel);
+            const owner = await UserModel.findById(hotel.owner);
+            io.to(owner.username).emit("CreateBooking", dateBooking);
+        }
         return res.status(200).json({status: "success", message: "Date booking created"});
     } catch (e) {
         console.log(e.message);
@@ -117,7 +130,7 @@ const approveDateBooking = async (req, res) => {
         await datebooking.save();
         const io = req.app.get('io');
         const user = await  UserModel.findById(datebooking.user);
-        io.to(user.username).emit('approveDateBooking', {id: datebooking._id});
+        io.to(user.username).emit('ApproveBooking', datebooking);
         return res.status(200).json({status: "success", message: "Date booking approved"});
     }catch (e) {
         console.log(e.message);
@@ -160,6 +173,16 @@ const rejectDateBooking = async (req, res) => {
             return res.status(403).json({status: "error", message: "Not permitted"});
         datebooking.suspended = true;
         await datebooking.save();
+        //if the sender is equal to the user
+        if(datebooking.user.equals(req.user._id)){
+            const io = req.app.get('io');
+            io.to(owner.username).emit('RejectBookingOwner', datebooking);
+        }
+        else if (owner.equals(req.user._id)){
+            const io = req.app.get('io');
+            const user = await UserModel.findById(datebooking.user);
+            io.to(user.username).emit('RejectBookingUser', datebooking);
+        }
         return res.status(200).json({status: "success", message: "Date booking suspended"});
     }catch (e){
         console.log(e.message);

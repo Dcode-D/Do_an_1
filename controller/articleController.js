@@ -94,7 +94,7 @@ const getArticleById = async (req, res) => {
         let result = {};
         const files = await FileModel.find({attachedId: article._id}).select('_id').exec();
         if (files) {
-            result = {_id:article._id,title: article.title, description: article.description, province: article.province, city: article.city, referenceName: article.referenceName, images: files, publishedDate: article.publishedDate, publishBy: article.publishBy};
+            result = {_id:article._id,title: article.title, description: article.description, province: article.province, city: article.city, referenceName: article.referenceName, images: files, publishedDate: article.publishedDate, publishBy: article.publishBy, address: article.address};
         }
         return res.status(200).json({status: "success", data: result});
     }catch (e) {
@@ -135,7 +135,7 @@ const updateArticleInfo = async (req, res) => {
         const articleid = req.params.id;
         const article = await Article.findById(articleid);
         if(!article) return res.status(404).json({status: "error", message: "Article not found"});
-        if(article.publishBy.equals(req.user._id)){
+        if(!article.publishBy.equals(req.user._id)){
             return res.status(401).json({status: "error", message: "You are not authorized to update this article"});
         }
         const {title, city, province, address, referenceName, description} = req.body;
@@ -145,24 +145,6 @@ const updateArticleInfo = async (req, res) => {
         if(address) article.address = address;
         if(referenceName) article.referenceName = referenceName;
         if(description) article.description = description;
-        if(req.files){
-            for(const key in req.files) {
-                const file = req.files[key];
-                const filename = Date.now().toString() + file.name;
-                const filepath = path.join(__dirname, '../upload/files', filename)
-                const fileModel = new FileModel({
-                    "name": filename,
-                    "path": filepath,
-                    "description": "",
-                    "attachedId": article._id,
-                    "publishBy": req.user._id,
-                });
-                await fileModel.save();
-                await file.mv(filepath, (err) => {
-                    if (err) return res.status(500).json({status: "error", message: err})
-                });
-            }
-        }
         await article.save();
         return res.status(200).json({status: "success", message: "Article updated successfully"});
     }catch (e) {
@@ -171,5 +153,71 @@ const updateArticleInfo = async (req, res) => {
     }
 }
 
+const deleteArticleImage = async (req, res) => {
+    try{
+        const id = req.params.id;
+        if(!id)
+            return res.status(400).json({status: "error", message: "Article id is required"});
+        const article = await Article.findById(id);
+        if(!article)
+            return res.status(404).json({status: "error", message: "Article not found"});
+        if(!article.publishBy.equals(req.user._id)){
+            return res.status(401).json({status: "error", message: "You are not authorized to edit this article"});
+        }
+        const imageId = req.body.imageId;
+        if(!imageId)
+            return res.status(400).json({status: "error", message: "Image id is required"});
+        const file = await FileModel.findById(imageId);
+        if(!file)
+            return res.status(404).json({status: "error", message: "Image not found"});
+        if(!file.attachedId.equals(article._id))
+            return res.status(401).json({status: "error", message: "You are not authorized to delete this image"});
+        fs.unlinkSync(file.path);
+        await file.deleteOne();
+        return res.status(200).json({status: "success", message: "Image deleted successfully"});
+    }
+    catch (e){
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
 
-module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, updateArticleInfo, getMaxPage };
+const uploadArticleImage = async (req, res) => {
+    try{
+        const id = req.params.id;
+        if(!id)
+            return res.status(400).json({status: "error", message: "Article id is required"});
+        const article = await Article.findById(id);
+        if(!article)
+            return res.status(404).json({status: "error", message: "Article not found"});
+        if(!article.publishBy.equals(req.user._id)){
+            return res.status(401).json({status: "error", message: "You are not authorized to edit this article"});
+        }
+        if(!req.files)
+            return res.status(400).json({status: "error", message: "Image is required"});
+        for(const key in req.files) {
+            const file = req.files[key];
+            const filename = Date.now().toString() + file.name;
+            const filepath = path.join(__dirname, '../upload/files', filename)
+            const fileModel = new FileModel({
+                "name": filename,
+                "path": filepath,
+                "description": "",
+                "attachedId": article._id,
+                "publishBy": req.user._id,
+            });
+            await fileModel.save();
+            await file.mv(filepath, (err) => {
+                if (err) return res.status(500).json({status: "error", message: err})
+            });
+        }
+        return res.status(200).json({status: "success", message: "Image uploaded successfully"});
+    }
+    catch (e){
+        console.log(e.message);
+        return res.status(503).json({status: "error", message: e.message});
+    }
+}
+
+
+module.exports = { createArticle, getArticle, deleteArticle, articleFileExt, articleImageExt, getArticleById, updateArticleInfo, getMaxPage, deleteArticleImage, uploadArticleImage };
