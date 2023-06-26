@@ -127,4 +127,16 @@ class RequestFactory {
       "referenceName": referenceName
     };
   }
+
+  updateTourInfo(String name, String description, double rating, List<String> plans, int duration,double price, int maxGroupSize){
+    return {
+      "name": name,
+      "description": description,
+      "rating": rating,
+      "articles": plans,
+      "duration": duration,
+      "price": price,
+      "maxGroupSize": maxGroupSize
+    };
+  }
 }

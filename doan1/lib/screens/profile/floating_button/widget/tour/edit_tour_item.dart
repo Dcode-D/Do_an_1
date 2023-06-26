@@ -21,7 +21,6 @@ class EditTourItem extends StatelessWidget{
     deleteTour()=>{
       editTourBloc.add(DeleteTourEvent(tourID: editTourBloc.tour!.id!)),
       manageNewsBloc.add(DeleteTour(tourIndex: editTourBloc.index!)),
-      Navigator.pop(context)
     };
 
     return BlocBuilder<EditTourBloc,EditTourState>(
@@ -133,7 +132,7 @@ class EditTourItem extends StatelessWidget{
                             builder: (context) => MultiBlocProvider(
                                 providers: [
                                   BlocProvider.value(value: profileBloc),
-                                  BlocProvider.value(value: editTourBloc),
+                                  BlocProvider.value(value: editTourBloc..add(RefreshTourInfo())),
                                   BlocProvider.value(value: manageNewsBloc),
                                 ],
                                 child: EditTourScreen()),
@@ -166,7 +165,10 @@ class EditTourItem extends StatelessWidget{
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
-                                  onPressed: deleteTour,
+                                  onPressed: (){
+                                    deleteTour();
+                                    Navigator.pop(context);
+                                  },
                                   child: const Text('Delete'),
                                 ),
                               ],
@@ -194,5 +196,4 @@ class EditTourItem extends StatelessWidget{
       ),
     );
   }
-
 }

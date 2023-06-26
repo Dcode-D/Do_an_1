@@ -106,4 +106,12 @@ class TourRepository {
       }
     });
   }
+
+  Future<bool> updateTourInfo(String id, String name, String description, double rating, List<String> plans, int duration,double price, int maxGroupSize) async{
+    final response = await _appService.updateTour(
+        token:"Bearer ${_sharedPreferences.getString("token")!}",
+        id: id,
+        request:_requestFactory.updateTourInfo(name, description, rating, plans, duration, price, maxGroupSize));
+    return response.response.statusCode == 200;
+  }
 }

@@ -15,12 +15,8 @@ part 'edit_tour_state.dart';
 
 class EditTourBloc extends Bloc<EditTourEvent,EditTourState>{
   List<Article> listSelectedTourPlan = [];
-  List<Hotel> listSelectedHotel = [];
-
   Tour? tour;
   List<String>? images;
-  List<Article>? listArticle;
-  List<Hotel>? listHotel;
   int? index;
   var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
   EditTourBloc() : super(EditTourInitial()){
@@ -36,37 +32,33 @@ class EditTourBloc extends Bloc<EditTourEvent,EditTourState>{
       }
       images = [];
       images!.clear();
-      listArticle = [];
-      listHotel = [];
+      listSelectedTourPlan = [];
       for (var item in tour!.articles!){
         Article? article = await getArticleById(item);
         if(article == null){
           emit(EditTourDataInitial(false));
           return;
         }
-        listArticle!.add(article);
+        listSelectedTourPlan.add(article);
         for(var i in article.images!){
           images!.add('$baseUrl/files/' + i['_id']);
         }
       }
-      if(tour!.hotel == null){
 
-      }
-      else if (tour!.hotel!.isNotEmpty){
-        for (var item in tour!.hotel!){
-          Hotel? hotel = await GetIt.instance.get<HotelRepository>().getHotelById(item);
-          if(hotel == null){
-            emit(EditTourDataInitial(false));
-            return;
-          }
-          listHotel!.add(hotel);
-        }
-      }
-      if(tour != null && listArticle != null){
+      if(tour != null){
         emit(EditTourDataInitial(true));
       }
       else{
         emit(EditTourDataInitial(false));
+      }
+    });
+
+    on<RefreshTourInfo>((event, emit){
+      if(tour == null){
+        emit(EditTourDataInitial(false));
+        return;
+      }else{
+        add(EditTourInitialEvent(tourId: tour!.id));
       }
     });
 
@@ -96,18 +88,17 @@ class EditTourBloc extends Bloc<EditTourEvent,EditTourState>{
       emit(EditPlanSetState(isPlanSet: true));
     });
 
-    on<SetEditHotelPlan>((event,emit) {
-      for(var i = 0; i < event.tourHotel.length; i++){
-        listSelectedHotel.add(event.tourHotel[i]);
+    on<UpdateTourEvent>((event,emit) async{
+      if(tour!=null){
+        final tourrepo = GetIt.instance.get<TourRepository>();
+        emit(EditTourResultState(isSuccess: false, isPosting: true));
+        final result = await tourrepo.updateTourInfo(tour!.id!, event.name, event.description, event.rating,
+            listSelectedTourPlan.map((e) => (e.id as String)).toList(), event.duration, event.price, event.maxGroupSize);
+        emit(EditTourResultState(isSuccess: result, isPosting: false));
+        add(RefreshTourInfo());
       }
-      listSelectedHotel = listSelectedHotel.toSet().toList();
-      emit(EditHotelSetState(isHotelSet: true));
     });
 
-    on<RemoveEditHotelPlan>((event,emit) {
-      listSelectedHotel.removeWhere((element) => element.id == event.hotel.id);
-      emit(EditHotelSetState(isHotelSet: true));
-    });
   }
 
   Future<Article?> getArticleById(String id) async {

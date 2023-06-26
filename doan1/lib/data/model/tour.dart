@@ -15,8 +15,8 @@ class Tour{
   final List<String>? hotel;
   final double? price;
   final double? rating;
-  final double? duration;
-  final double? maxGroupSize;
+  final int? duration;
+  final int? maxGroupSize;
 
   Tour({
     required this.id,

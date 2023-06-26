@@ -30,3 +30,9 @@ class UpdateTourState extends EditTourState {
   bool isPosting = false;
   UpdateTourState({required this.isSuccess, required this.isPosting});
 }
+
+class EditTourResultState extends EditTourState {
+  bool isSuccess = false;
+  bool isPosting = false;
+  EditTourResultState({required this.isSuccess, required this.isPosting});
+}
