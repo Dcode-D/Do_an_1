@@ -1,8 +1,11 @@
 import 'package:doan1/BLOC/hotel_rooms/create_hotel_rooms_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../data/model/hotelroom.dart';
 
 class CreateHotelRoomScreen extends StatefulWidget {
   final String hotelId;
@@ -17,6 +20,13 @@ class CreateHotelRoomScreen extends StatefulWidget {
 class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
   final _formKey = GlobalKey<FormState>();
   final roomNumberController = TextEditingController();
+  final adultNumberController = TextEditingController();
+  final childrenNumberController = TextEditingController();
+  final priceController = TextEditingController();
+  final checkInHrController = TextEditingController();
+  final checkOutHrController = TextEditingController();
+  final checkInMinController = TextEditingController();
+  final checkOutMinController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,34 +37,46 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
             .read<CreateHotelRoomsBloc>()
             .add(CreateHotelRoomsInitialHotelEvent(widget.hotelId));
 
+        //copy events and post result are handled here
         return BlocListener<CreateHotelRoomsBloc, CreateHotelRoomsState>(
           listenWhen: (previous, current) {
-            return current is CreateHotelRoomsSuccessState || current is CreateHotelRoomsReadyState;
+            return current is CreateHotelRoomsSuccessState ||
+                current is CreateHotelRoomsCopyState;
           },
           listener: (context, state) {
-            if(state is CreateHotelRoomsSuccessState){
-              if(state.isSuccess){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor:  Colors.red,
-                    content: Text("Failed to create hotel room!"),
-                  ),
-                );
-                Navigator.of(context).popUntil((route) => route.isFirst);
+            if (state is CreateHotelRoomsSuccessState) {
+              if(state.isloading){
+                SmartDialog.showLoading(msg: "Posting...");
               }
               else{
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor:  Colors.red,
-                    content: Text("Failed to create hotel room!"),
-                  ),
-                );
+                SmartDialog.dismiss();
+                if (state.isSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Colors.green,
+                      content: Text("Create hotel rooms succeeded!"),
+                    ),
+                  );
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text("Failed to create hotel room!"),
+                    ),
+                  );
+                }
               }
             }
-            if(state is CreateHotelRoomsReadyState){
-              if(state.isready){
-
-              }
+            if (state is CreateHotelRoomsCopyState) {
+              roomNumberController.text = state.hotelRoom.number.toString();
+              adultNumberController.text = state.hotelRoom.adultCapacity.toString();
+              childrenNumberController.text = state.hotelRoom.childrenCapacity.toString();
+              priceController.text = state.hotelRoom.price.toString();
+              checkInHrController.text = state.hotelRoom.checkInHour.toString();
+              checkOutHrController.text = state.hotelRoom.checkOutHour.toString();
+              checkInMinController.text = state.hotelRoom.checkOutHour.toString();
+              checkOutMinController.text = state.hotelRoom.checkOutMinute.toString();
             }
           },
 
@@ -90,8 +112,16 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: IconButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
+                              if(context.read<CreateHotelRoomsBloc>().hotelRooms.length > 0) {
+                                context.read<CreateHotelRoomsBloc>().add(
+                                    CreateHotelRoomsPostEvent());
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text("Please add at least 1 room!"),
+                                  ),
+                                );
                               }
                             },
                             icon: const Icon(
@@ -118,6 +148,124 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            BlocBuilder<CreateHotelRoomsBloc,
+                                                CreateHotelRoomsState>(
+                                              buildWhen: (previous, current) {
+                                                return current
+                                                    is CreateHotelRoomsListRoomsChangedState;
+                                              },
+                                              builder: (context, state) {
+                                                final length = context
+                                                    .read<
+                                                        CreateHotelRoomsBloc>()
+                                                    .hotelRooms
+                                                    .length
+                                                    .toString();
+                                                return Row(
+                                                  children: [
+                                                    Text(
+                                                      "Hotel rooms list(" +
+                                                          length +
+                                                          ")",
+                                                      style:
+                                                          GoogleFonts.raleway(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        letterSpacing: 1.2,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    Spacer(),
+
+                                                    //Show list all hotel rooms
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          final createBloc =
+                                                              context.read<CreateHotelRoomsBloc>();
+                                                          SmartDialog.show(
+                                                            alignment: Alignment.bottomCenter,
+                                                              builder: (context) =>
+                                                                  BlocProvider<CreateHotelRoomsBloc>.value(
+                                                                    value: createBloc,
+                                                                    child: Builder(
+                                                                      builder: (context) {
+                                                                        return BlocBuilder<CreateHotelRoomsBloc, CreateHotelRoomsState>(
+                                                                          buildWhen: (previous, current) {
+                                                                            return current is CreateHotelRoomsListRoomsChangedState;
+                                                                          },
+                                                                          builder:
+                                                                              (context, state) {
+                                                                            return Container(
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(10),
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              child: SingleChildScrollView(
+                                                                                child: SizedBox(
+                                                                                  height:
+                                                                                      MediaQuery.of(context).size.height * 0.8,
+                                                                                  child:
+                                                                                      ListView.builder(
+                                                                                    itemCount:
+                                                                                        context.read<CreateHotelRoomsBloc>().hotelRooms.length,
+                                                                                    itemBuilder:
+                                                                                        (context, index) {
+                                                                                      return ListTile(
+                                                                                        leading:
+                                                                                            Column(
+                                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                children: [Text("Room " + createBloc.hotelRooms[index].number.toString())])
+                                                                                        ,
+                                                                                        title: Text("Price:"+ context.read<CreateHotelRoomsBloc>().hotelRooms[index].price.toString()),
+                                                                                        subtitle:
+                                                                                        Text("Adults: " + context.read<CreateHotelRoomsBloc>().hotelRooms[index].adultCapacity.toString() + " Children: " +
+                                                                                            context.read<CreateHotelRoomsBloc>().hotelRooms[index].childrenCapacity.toString()),
+                                                                                        trailing: Wrap(
+                                                                                          spacing: 10,
+                                                                                          children: [
+
+                                                                                            IconButton(onPressed: (){
+                                                                                              createBloc.add(CreateHotelRoomsCopyEvent(createBloc.hotelRooms[index]));
+                                                                                            }, icon: Icon(Icons.copy,
+                                                                                              color: Colors.orange,)),
+
+                                                                                            IconButton(
+                                                                                              onPressed: () {
+                                                                                                context.read<CreateHotelRoomsBloc>().add(CreateHotelRoomsRemoveRoomEvent(context.read<CreateHotelRoomsBloc>().hotelRooms[index]));
+                                                                                              },
+                                                                                              icon: Icon(
+                                                                                                Icons.delete,
+                                                                                                color: Colors.red,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      );
+                                                                                    },
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      }
+                                                                    ),
+                                                                  ));
+                                                        },
+
+                                                        child: Text(
+                                                          "See all",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.orange,
+                                                              fontSize: 15),
+                                                        ))
+                                                  ],
+                                                );
+                                              },
+                                            ),
+
                                             Row(
                                               children: [
                                                 Column(
@@ -140,7 +288,12 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                       height: 5,
                                                     ),
                                                     Text(
-                                                      context.read<CreateHotelRoomsBloc>().hotel!.name??"",
+                                                      context
+                                                              .read<
+                                                                  CreateHotelRoomsBloc>()
+                                                              .hotel!
+                                                              .name ??
+                                                          "",
                                                       style:
                                                           GoogleFonts.raleway(
                                                         fontSize: 20,
@@ -154,7 +307,64 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                 ),
                                                 const Spacer(),
                                                 ElevatedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    if (_formKey.currentState!
+                                                        .validate()) {
+                                                      _formKey.currentState!
+                                                          .save();
+                                                      final intRoomNumber =
+                                                          int.parse(
+                                                              roomNumberController
+                                                                  .text);
+                                                      final intAdultNumber =
+                                                          int.parse(
+                                                              adultNumberController
+                                                                  .text);
+                                                      final intChildrenNumber =
+                                                          int.parse(
+                                                              childrenNumberController
+                                                                  .text);
+                                                      final doublePrice =
+                                                          double.parse(
+                                                              priceController
+                                                                  .text);
+                                                      final intCheckInHr =
+                                                          int.parse(
+                                                              checkInHrController
+                                                                  .text);
+                                                      final intCheckOutHr =
+                                                          int.parse(
+                                                              checkOutHrController
+                                                                  .text);
+                                                      final intCheckInMin =
+                                                          int.parse(
+                                                              checkInMinController
+                                                                  .text);
+                                                      final intCheckOutMin =
+                                                          int.parse(
+                                                              checkOutMinController
+                                                                  .text);
+                                                      final hotelroom =
+                                                          HotelRoom(
+                                                        null,
+                                                        intRoomNumber,
+                                                        widget.hotelId,
+                                                        intAdultNumber,
+                                                        intChildrenNumber,
+                                                        doublePrice,
+                                                        intCheckInHr,
+                                                        intCheckInMin,
+                                                        intCheckOutHr,
+                                                        intCheckOutMin,
+                                                      );
+                                                      context
+                                                          .read<
+                                                              CreateHotelRoomsBloc>()
+                                                          .add(
+                                                              CreateHotelRoomsAddRoomEvent(
+                                                                  hotelroom));
+                                                    }
+                                                  },
                                                   child: Text(
                                                     'Add room',
                                                     style: GoogleFonts.raleway(
@@ -190,6 +400,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                               height: 5,
                                             ),
                                             TextFormField(
+                                              controller: roomNumberController,
                                               keyboardType:
                                                   TextInputType.number,
                                               decoration: InputDecoration(
@@ -230,6 +441,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                               height: 5,
                                             ),
                                             TextFormField(
+                                              controller: adultNumberController,
                                               keyboardType:
                                                   TextInputType.number,
                                               decoration: InputDecoration(
@@ -270,6 +482,8 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                               height: 5,
                                             ),
                                             TextFormField(
+                                              controller:
+                                                  childrenNumberController,
                                               keyboardType:
                                                   TextInputType.number,
                                               decoration: InputDecoration(
@@ -310,6 +524,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                               height: 5,
                                             ),
                                             TextFormField(
+                                              controller: priceController,
                                               keyboardType:
                                                   TextInputType.number,
                                               decoration: InputDecoration(
@@ -374,6 +589,8 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                           Flexible(
                                                             child:
                                                                 TextFormField(
+                                                              controller:
+                                                                  checkInHrController,
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
@@ -409,6 +626,13 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                     .isEmpty) {
                                                                   return 'Please enter check in hour';
                                                                 }
+                                                                if (int.parse(
+                                                                            value) >
+                                                                        23 ||
+                                                                    int.parse(
+                                                                            value) <
+                                                                        0)
+                                                                  return 'Please enter valid check in hour';
                                                                 return null;
                                                               },
                                                             ),
@@ -450,6 +674,8 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                             flex: 1,
                                                             child:
                                                                 TextFormField(
+                                                              controller:
+                                                                  checkInMinController,
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
@@ -485,6 +711,13 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                     .isEmpty) {
                                                                   return 'Please enter check in minute';
                                                                 }
+                                                                if (int.parse(
+                                                                            value) >
+                                                                        59 ||
+                                                                    int.parse(
+                                                                            value) <
+                                                                        0)
+                                                                  return 'Please enter valid minute';
                                                                 return null;
                                                               },
                                                             ),
@@ -510,7 +743,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                         children: [
                                                           Flexible(
                                                             child: Text(
-                                                              'Check in hour',
+                                                              'Check out hour',
                                                               style: GoogleFonts
                                                                   .raleway(
                                                                 fontSize: 16,
@@ -532,6 +765,8 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                           Flexible(
                                                             child:
                                                                 TextFormField(
+                                                              controller:
+                                                                  checkOutHrController,
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
@@ -565,7 +800,15 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                   (value) {
                                                                 if (value!
                                                                     .isEmpty) {
-                                                                  return 'Please enter check in hour';
+                                                                  return 'Please enter check out hour';
+                                                                }
+                                                                if (int.parse(
+                                                                            value) >
+                                                                        23 ||
+                                                                    int.parse(
+                                                                            value) <
+                                                                        0) {
+                                                                  return 'Please enter valid hour';
                                                                 }
                                                                 return null;
                                                               },
@@ -585,7 +828,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                         children: [
                                                           Flexible(
                                                             child: Text(
-                                                              'Check in minute',
+                                                              'Check out minute',
                                                               style: GoogleFonts
                                                                   .raleway(
                                                                 fontSize: 16,
@@ -608,6 +851,8 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                             flex: 1,
                                                             child:
                                                                 TextFormField(
+                                                              controller:
+                                                                  checkOutMinController,
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
@@ -641,8 +886,15 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                   (value) {
                                                                 if (value!
                                                                     .isEmpty) {
-                                                                  return 'Please enter check in minute';
+                                                                  return 'Please enter check out minute';
                                                                 }
+                                                                if (int.parse(
+                                                                            value) >
+                                                                        59 ||
+                                                                    int.parse(
+                                                                            value) <
+                                                                        0)
+                                                                  return 'Please enter valid minute';
                                                                 return null;
                                                               },
                                                             ),

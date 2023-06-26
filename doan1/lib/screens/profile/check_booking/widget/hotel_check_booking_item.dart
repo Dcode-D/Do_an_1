@@ -17,8 +17,8 @@ class HotelCheckBookingItem extends StatelessWidget{
     var bookerBloc = context.read<BookerBloc>();
     final formatCurrency = NumberFormat("#,###");
 
-    int calculateTotalPrice() {
-      int totalPrice = 0;
+    double calculateTotalPrice() {
+      double totalPrice = 0;
       for (var i = 0; i < hotelBookingItemBloc.lsHotelRoom!.length; i++) {
         totalPrice += hotelBookingItemBloc.lsHotelRoom![i].price!;
       }

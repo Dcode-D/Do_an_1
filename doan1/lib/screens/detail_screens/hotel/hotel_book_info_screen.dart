@@ -38,8 +38,8 @@ class HotelBookingInfoScreen extends StatelessWidget{
       Navigator.pop(context),
     };
 
-    int calculateTotalPrice() {
-      int totalPrice = 0;
+    double calculateTotalPrice() {
+      double totalPrice = 0;
       for (var i = 0; i < hotelBookingBloc.listSelectedHotelRoom.length; i++) {
         totalPrice += hotelBookingBloc.listSelectedHotelRoom[i].price!;
       }

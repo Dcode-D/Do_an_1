@@ -12,7 +12,7 @@ class HotelRoom{
   final String? hotel;
   final int? adultCapacity;
   final int? childrenCapacity;
-  final int? price;
+  final double? price;
   final int? checkInHour;
   final int? checkInMinute;
   final int? checkOutHour;

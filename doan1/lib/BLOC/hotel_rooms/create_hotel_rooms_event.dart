@@ -21,3 +21,8 @@ class CreateHotelRoomsRemoveRoomEvent extends CreateHotelRoomsEvent {
 class CreateHotelRoomsPostEvent extends CreateHotelRoomsEvent {
   CreateHotelRoomsPostEvent();
 }
+
+class CreateHotelRoomsCopyEvent extends CreateHotelRoomsEvent {
+  final HotelRoom hotelRoom;
+  CreateHotelRoomsCopyEvent(this.hotelRoom);
+}

@@ -21,3 +21,8 @@ class CreateHotelRoomsSuccessState extends CreateHotelRoomsState {
   final bool isloading;
   CreateHotelRoomsSuccessState(this.isSuccess, this.isloading);
 }
+
+class CreateHotelRoomsCopyState extends CreateHotelRoomsState {
+  final HotelRoom hotelRoom;
+  CreateHotelRoomsCopyState(this.hotelRoom);
+}

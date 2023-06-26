@@ -18,8 +18,8 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
     var bookerBloc = context.read<BookerBloc>();
     var hotelBookingItemBloc = context.read<HotelBookingItemBloc>();
-    int calculateTotalPrice() {
-      int totalPrice = 0;
+    double calculateTotalPrice() {
+      double totalPrice = 0;
       for (var i = 0; i < hotelBookingItemBloc.lsHotelRoom!.length; i++) {
         totalPrice += hotelBookingItemBloc.lsHotelRoom![i].price!;
       }
@@ -710,7 +710,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                             const Text('Loading...') :
                             Text(
                               // "${widget.totalPrice} \$",
-                              "${formatCurrency.format(calculateTotalPrice())} VNĐ",
+                              "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price)} VNĐ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts.raleway().fontFamily,
@@ -739,7 +739,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                             const Text('Loading...') :
                             Text(
                               // "${widget.totalPrice} \$",
-                              "${formatCurrency.format(calculateTotalPrice()*0.1)} VNĐ",
+                              "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price??0*0.1)} VNĐ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts.raleway().fontFamily,
@@ -768,7 +768,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                             const Text('Loading...') :
                             Text(
                               // "${widget.totalPrice} \$",
-                              "${formatCurrency.format(calculateTotalPrice()*1.1)} VNĐ",
+                              "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price??0*1.1)} VNĐ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts.raleway().fontFamily,

@@ -50,5 +50,9 @@ class CreateHotelRoomsBloc extends Bloc<CreateHotelRoomsEvent, CreateHotelRoomsS
         emit(CreateHotelRoomsSuccessState(false, false));
       }
     });
+
+    on<CreateHotelRoomsCopyEvent>((event, emit) async {
+      emit(CreateHotelRoomsCopyState(event.hotelRoom));
+    });
   }
 }
