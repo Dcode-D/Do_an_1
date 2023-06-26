@@ -90,7 +90,7 @@ const hotelController = async (req,res)=>{
             "facilities": req.body.facilities,
         });
         await hotel.save();
-        return res.status(200).send('Hotel information uploaded');
+        return res.status(200).json({status: "success", message: "Hotel created",data:hotel});
     }catch (e) {
         console.log(e.message);
         return res.status(503).json({status: "error", message: e.message});
