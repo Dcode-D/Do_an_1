@@ -150,8 +150,6 @@ class RequestFactory {
   }
 
   updateRoom(HotelRoom hotelRoom){
-    return {
-      "hotelRoom": hotelRoom.toJson()
-    };
+    return hotelRoom.toJson();
   }
 }
