@@ -8,3 +8,7 @@ class GetBookerEvent extends BookerEvent {
   final int page;
   GetBookerEvent({required this.ownerId,required this.page});
 }
+
+class BookingRefreshed extends BookerEvent {
+
+}

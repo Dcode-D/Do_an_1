@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:doan1/EventBus/Events/NewBookingEvent.dart';
 import 'package:doan1/data/model/datebooking.dart';
 import 'package:doan1/data/model/vehicle.dart';
 import 'package:doan1/data/repositories/datebooking_repo.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
@@ -33,17 +35,39 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
         if(listHotelBooking == null){
           continue;
         }
-        listHotelBookingOrder!.addAll(listHotelBooking);
+        listHotelBookingOrder!.addAll(listHotelBooking.reversed.toList());
       }
       for(var i in lsVehicle){
         List<DateBooking>? listVehicleBooking = await getListVehicleBooking(i.id!);
         if(listVehicleBooking == null){
           continue;
         }
-        listVehicleBookingOrder!.addAll(listVehicleBooking);
+        listVehicleBookingOrder!.addAll(listVehicleBooking.reversed.toList());
       }
 
       emit(BookingOrderLoad(listVehicleBookingOrder!,listHotelBookingOrder!));
+
+
+    });
+
+    on<BookingRefreshed>((event, emit) {
+      emit(BookingOrderLoad(listVehicleBookingOrder!,listHotelBookingOrder!));
+    });
+    final eventbus = GetIt.instance.get<EventBus>();
+    eventbus.on<NewBookingEvent>().listen((event) {
+      if(event.booking.type=="hotel"){
+        var tmplist = <DateBooking>[];
+        tmplist.add(event.booking);
+        tmplist.addAll(listHotelBookingOrder!);
+        listHotelBookingOrder = tmplist;
+      }
+      else if(event.booking.type=="car"){
+        var tmplist = <DateBooking>[];
+        tmplist.add(event.booking);
+        tmplist.addAll(listVehicleBookingOrder!);
+        listVehicleBookingOrder = tmplist;
+      }
+      add(BookingRefreshed());
     });
   }
   Future<List<DateBooking>?> getListHotelBooking(String hoteId) async{
