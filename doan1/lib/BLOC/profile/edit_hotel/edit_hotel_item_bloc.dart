@@ -32,7 +32,7 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
       for (var item in hotel!.images!){
         images!.add('$baseUrl/files/$item');
       }
-      // listHotelRoom = await getListHotelRoomFunc(hotel!.id!);
+      listHotelRoom = await getListHotelRoomFunc(hotel!.id!);
 
       if(hotel != null && images != null && listHotelRoom != null){
         emit(EditHotelItemLoaded(true, loading: false));
@@ -41,6 +41,41 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
         emit(EditHotelItemLoaded(false, loading: false));
       }
     });
+
+    on<DeleteHotelRoomEvent>((event,emit) async {
+      if(hotel == null || listHotelRoom == null){
+        emit(DeleteHotelRoomState(false));
+        return;
+      }
+      bool? result = await deleteHotelRoomById(hotel!.id!,listHotelRoom![event.index].id!);
+      if(result == true){
+        listHotelRoom!.removeAt(event.index);
+        emit(DeleteHotelRoomState(true));
+        emit(EditHotelItemLoaded(true, loading: false));
+      }
+      else{
+        emit(DeleteHotelRoomState(false));
+        emit(EditHotelItemLoaded(true, loading: false));
+      }
+    });
+
+    on<UpdateHotelRoomEvent>((event,emit) async {
+      if(hotel == null || listHotelRoom == null){
+        emit(UpdateHotelRoomState(false));
+        return;
+      }
+      bool? result = await updateHotelRoomById(hotel!.id!,listHotelRoom![event.index].id!,event.hotelRoom);
+      if(result == true){
+        listHotelRoom![event.index] = event.hotelRoom;
+        emit(UpdateHotelRoomState(true));
+        emit(EditHotelItemLoaded(true, loading: false));
+      }
+      else{
+        emit(UpdateHotelRoomState(false));
+        emit(EditHotelItemLoaded(true, loading: false));
+      }
+    });
+
     on<DeleteHotelItemEvent>((event,emit) async{
       if(event.hotelId == null){
         emit(DeleteHotelItemState(false));
@@ -104,6 +139,7 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
         }
       }
     });
+
     on<SaveHotelInfoEvent>((event,emit) async{
       if(hotel!=null) {
         var hotelRepo = GetIt.instance.get<HotelRepository>();
@@ -157,6 +193,28 @@ class EditHotelItemBloc extends Bloc<EditHotelItemEvent,EditHotelItemState>{
     var hotelRepo = GetIt.instance.get<HotelRepository>();
     try{
       var result = await hotelRepo.DeleteHotelById(id);
+      return result;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool?> updateHotelRoomById(String id, String room, HotelRoom hotelRoom) async{
+    var hotelRoomRepo = GetIt.instance.get<HotelRoomRepository>();
+    try{
+      var result = await hotelRoomRepo.updateHotelRoom(id,room,hotelRoom);
+      return result;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool?> deleteHotelRoomById(String id, String room) async {
+    var hotelRoomRepo = GetIt.instance.get<HotelRoomRepository>();
+    try{
+      var result = await hotelRoomRepo.deleteHotelRoom(id,room);
       return result;
     }catch(e){
       print(e);

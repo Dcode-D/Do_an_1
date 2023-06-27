@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data/model/hotelroom.dart';
 
@@ -27,6 +28,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
   final checkOutHrController = TextEditingController();
   final checkInMinController = TextEditingController();
   final checkOutMinController = TextEditingController();
+  final formatCurrency = NumberFormat("#,###");
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +223,7 @@ class _CreateHotelRoomScreenState extends State<CreateHotelRoomScreen> {
                                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                                 children: [Text("Room ${createBloc.hotelRooms[index].number}")])
                                                                                         ,
-                                                                                        title: Text("Price:${context.read<CreateHotelRoomsBloc>().hotelRooms[index].price}"),
+                                                                                        title: Text("Price: ${formatCurrency.format(context.read<CreateHotelRoomsBloc>().hotelRooms[index].price)} vnđ"),
                                                                                         subtitle:
                                                                                         Text("Adults: ${context.read<CreateHotelRoomsBloc>().hotelRooms[index].adultCapacity} Children: ${context.read<CreateHotelRoomsBloc>().hotelRooms[index].childrenCapacity}"),
                                                                                         trailing: Wrap(

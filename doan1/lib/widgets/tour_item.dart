@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import '../BLOC/profile/profile_view/profile_bloc.dart';
 import '../BLOC/widget_item/tour_item/tour_item_bloc.dart';
-import '../models/tour_model.dart';
 import '../screens/detail_screens/tour/tour_detail_screen.dart';
 
 class TourItem extends StatelessWidget {

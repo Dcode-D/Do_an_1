@@ -8,6 +8,17 @@ class GetHotelItemEvent extends EditHotelItemEvent {
   GetHotelItemEvent({required this.hotel});
 }
 
+class UpdateHotelRoomEvent extends EditHotelItemEvent {
+  final int index;
+  final HotelRoom hotelRoom;
+  UpdateHotelRoomEvent({required this.index, required this.hotelRoom});
+}
+
+class DeleteHotelRoomEvent extends EditHotelItemEvent {
+  final int index;
+  DeleteHotelRoomEvent(this.index);
+}
+
 class DeleteHotelItemEvent extends EditHotelItemEvent {
   final String hotelId;
   DeleteHotelItemEvent(this.hotelId);

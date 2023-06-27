@@ -1,6 +1,4 @@
 import 'package:doan1/BLOC/profile/profile_view/profile_bloc.dart';
-import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
-import 'package:doan1/screens/profile/floating_button/widget/dialog/add_hotel_dialog.dart';
 import 'package:doan1/screens/profile/floating_button/widget/dialog/add_plan_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -228,7 +226,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
                                           return SlideTransition(
                                             position: Tween(
                                                     begin: const Offset(0, 1),
-                                                    end: const Offset(0, 0))
+                                                    end: const Offset(0, 0.008))
                                                 .animate(anim1),
                                             child: child,
                                           );

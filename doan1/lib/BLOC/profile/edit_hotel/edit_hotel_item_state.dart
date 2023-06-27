@@ -16,6 +16,16 @@ class DeleteHotelItemState extends EditHotelItemState {
   DeleteHotelItemState(this.deleteSuccess);
 }
 
+class DeleteHotelRoomState extends EditHotelItemState {
+  bool deleteSuccess;
+  DeleteHotelRoomState(this.deleteSuccess);
+}
+
+class UpdateHotelRoomState extends EditHotelItemState {
+  bool updateSuccess;
+  UpdateHotelRoomState(this.updateSuccess);
+}
+
 class EditHotelResult extends EditHotelItemState {
   bool success;
   EditHotelResult(this.success);

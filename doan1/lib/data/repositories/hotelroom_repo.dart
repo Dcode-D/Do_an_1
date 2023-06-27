@@ -71,4 +71,39 @@ class HotelRoomRepository{
       }
     });
   }
+
+  Future<bool> updateHotelRoom(String id, String room, HotelRoom hotelRoom) async {
+    return _appService
+        .updateHotelRoomById(
+      token: "Bearer ${_sharedPreferences.getString("token")}",
+      id: id,
+      room: room,
+      request: _requestFactory.updateRoom(hotelRoom),
+    )
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
+
+  Future<bool> deleteHotelRoom(String id,String room) async {
+    return _appService
+        .deleteHotelRoomById(
+      token: "Bearer ${_sharedPreferences.getString("token")}",
+      id: id,
+      room: room,
+    )
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+  }
 }

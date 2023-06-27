@@ -113,6 +113,19 @@ abstract class AppService {
     @Path('id') required String id
   });
 
+  @DELETE("/hotel/{id}/room/{room}")
+  Future<HttpResponse> deleteHotelRoomById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id,
+    @Path('room') required String room});
+
+  @PUT("/hotel/{id}/room/{room}")
+  Future<HttpResponse> updateHotelRoomById({
+    @Header("Authorization") required String token,
+    @Path('id') required String id,
+    @Path('room') required String room,
+    @Body() required Map<String,dynamic> request});
+
   @DELETE("/hotel/delete_img/{id}")
   Future<HttpResponse> deleteHotelImage({
     @Header("Authorization") required String token,

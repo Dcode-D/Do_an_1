@@ -1,4 +1,6 @@
 # Miscellaneous
+*.config.dart
+*.g.dart
 *.class
 *.log
 *.pyc

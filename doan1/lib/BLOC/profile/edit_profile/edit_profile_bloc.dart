@@ -114,7 +114,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
   Future<File?> pickImageFromGallery() async {
     try{
       final picker = ImagePicker();
-      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
         if (pickedFile != null) {
           image = File(pickedFile.path);
           return image;
@@ -130,7 +130,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileInfoState> {
   Future<File?> pickImageFromCamera() async {
     try{
       final picker = ImagePicker();
-      final pickedFile = await picker.getImage(source: ImageSource.camera);
+      final pickedFile = await picker.pickImage(source: ImageSource.camera);
         if (pickedFile != null) {
           image = File(pickedFile.path);
           return image;

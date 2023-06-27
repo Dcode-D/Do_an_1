@@ -1,5 +1,4 @@
 import 'package:doan1/BLOC/profile/edit_tour/edit_tour_bloc.dart';
-import 'package:doan1/BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
 import 'package:doan1/screens/profile/floating_button/widget/dialog/add_edit_plan_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../../../../BLOC/screen/all_screen/article/article_bloc.dart';
-import '../dialog/add_edit_hotel_dialog.dart';
 
 class EditTourScreen extends StatefulWidget {
   const EditTourScreen({Key? key}) : super(key: key);
@@ -263,7 +261,7 @@ class _EditTourScreenState extends State<EditTourScreen> {
                                                           begin: const Offset(
                                                               0, 1),
                                                           end: const Offset(
-                                                              0, 0))
+                                                              0, 0.008))
                                                       .animate(anim1),
                                                   child: child,
                                                 );
