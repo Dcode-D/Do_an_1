@@ -43,7 +43,7 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
         listVehicleBookingOrder!.addAll(listVehicleBooking);
       }
 
-      emit(BookingOrderLoad(listHotelBookingOrder!,listVehicleBookingOrder!));
+      emit(BookingOrderLoad(listVehicleBookingOrder!,listHotelBookingOrder!));
     });
   }
   Future<List<DateBooking>?> getListHotelBooking(String hoteId) async{
