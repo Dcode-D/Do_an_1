@@ -64,6 +64,24 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
         emit(HotelBookingItemApproveSuccess(approveSuccess: false));
       }
     });
+
+    on<HotelBookingItemRefreshEvent>((event,emit)async{
+      if(dateBooking == null){
+        emit(HotelBookingItemInitial(getDataSuccess: false));
+      }
+      dateBooking = await getDateBookingFunc(dateBooking!.id!);
+      lsHotelRoom = [];
+      for (String room in dateBooking!.attachedServices!) {
+        lsHotelRoom!.add(await getHotelRoomFunc(room) as HotelRoom);
+      }
+      hotel = await getHotelFunc(lsHotelRoom![0].hotel!);
+      if(hotel != null && lsHotelRoom != null){
+        emit(HotelBookingItemInitial(getDataSuccess: true));
+      }
+      else{
+        emit(HotelBookingItemInitial(getDataSuccess: false));
+      }
+    });
   }
 
   Future<HotelRoom?> getHotelRoomFunc(String hotelRoomId) async{
@@ -103,5 +121,9 @@ class HotelBookingItemBloc extends Bloc<HotelBookingItemEvent,HotelBookingItemSt
 
   Future<User?> getUserFunc(String userId) async{
     return GetIt.instance<UserRepository>().getUserById(userId);
+  }
+
+  Future<DateBooking?> getDateBookingFunc(String dateBookingId) async{
+    return GetIt.instance<DateBookingRepository>().GetDateBookingById(dateBookingId);
   }
 }
