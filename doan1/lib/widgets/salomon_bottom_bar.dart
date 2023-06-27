@@ -9,60 +9,130 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../BLOC/navigation/navigation_bloc.dart';
 import '../BLOC/profile/profile_view/profile_bloc.dart';
+import '../BLOC/screen/all_screen/all_hotel/all_hotel_bloc.dart';
+import '../BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
+import '../BLOC/screen/all_screen/article/article_bloc.dart';
+import '../BLOC/screen/book_history/book_history_bloc.dart';
+import '../BLOC/screen/home/home_bloc.dart';
+import '../BLOC/screen/search/search_bloc.dart';
 
-class NavigationNavBar extends StatelessWidget{
+class NavigationNavBar extends StatelessWidget {
   int current_tab = 0;
 
   @override
-Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     var bloc = context.read<ProfileBloc>();
     bloc.add(getProfileScreenEvent());
 
-    return Builder(builder: (context)=>
-        BlocProvider(create: (context) => NavigationBloc(),
-            child:  BlocBuilder<NavigationBloc, NavigationInfoState>(
-                builder: (context, state){
-                  return
-                    Scaffold(
-                      extendBody: true,
-                      body:IndexedStack(
-                      index: state.selectedIndex,
-                      children:[
-                        HomeScreen(),
-                        SearchScreen(),
-                        BookingScreen(),
-                        ProfileScreen(),
-                      ]
+    return Builder(
+        builder: (context) =>
+            BlocProvider(
+                create: (context) => NavigationBloc(),
+                child: Scaffold(
+                  extendBody: true,
+                  body: BlocBuilder<NavigationBloc, NavigationInfoState>(
+                    builder: (context, state) {
+                      switch (state.selectedIndex) {
+                        case 0:
+                          return
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider<HomeBloc>(
+                                    create: (context) =>
+                                    HomeBloc()
+                                      ..add(GetDataForScreenEvent())),
+                                BlocProvider<AllHotelBloc>(
+                                    create: (context) =>
+                                    AllHotelBloc()
+                                      ..add(GetHotelListEvent())),
+                                BlocProvider<AllVehicleBloc>(
+                                    create: (context) =>
+                                    AllVehicleBloc()
+                                      ..add(GetVehicleListEvent())),
+                                BlocProvider<ArticleBloc>(
+                                    create: (context) =>
+                                    ArticleBloc()
+                                      ..add(GetArticleData())),
+                                BlocProvider<BookHistoryBloc>(
+                                    create: (context) =>
+                                        BookHistoryBloc()),
+                              ],
+                              child: Builder(builder: (context) {
+                                return HomeScreen();
+                              }),
+                            );
+                        case 1:
+                          return
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider<SearchBloc>(
+                                    create: (context) => SearchBloc()),
+                                BlocProvider<BookHistoryBloc>(
+                                    create: (context) =>
+                                        BookHistoryBloc()),
+                              ],
+                              child: Builder(builder: (context) {
+                                return SearchScreen();
+                              }),
+                            );
+                        case 2:
+                          return
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider<BookHistoryBloc>(
+                                    create: (context) =>
+                                        BookHistoryBloc()),
+                              ],
+                              child: Builder(builder: (context) {
+                                return BookingScreen();
+                              }),
+                            );
+                        case 3:
+                          return
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider<ArticleBloc>(
+                                    create: (context) =>
+                                    ArticleBloc()
+                                      ..add(GetArticleData())),
+                                BlocProvider<BookHistoryBloc>(
+                                    create: (context) =>
+                                        BookHistoryBloc()),
+                              ],
+                              child: ProfileScreen(),
+                            );
+                        default:
+                          return
+                            Center(
+                                child: Text('Error'));
+                      }
+                    }
                   ),
-                      bottomNavigationBar: Salomon_nav_bar(),
-                    );
-                }
-            )
-        ));
+                  bottomNavigationBar: Salomon_nav_bar(),
+                )));
   }
+
   Widget findSelectedIndex(NavigationInfoState state) {
-    if ( state.selectedIndex == 0 ) {
+    if (state.selectedIndex == 0) {
       return HomeScreen();
-    } else if(state.selectedIndex == 1 ) {
+    } else if (state.selectedIndex == 1) {
       return SearchScreen();
     } else if (state.selectedIndex == 2) {
       return BookingScreen();
-    }
-    else if (state.selectedIndex == 3) {
+    } else if (state.selectedIndex == 3) {
       return ProfileScreen();
-    }
-    else {
+    } else {
       return HomeScreen();
     }
   }
 }
 
-class Salomon_nav_bar extends StatelessWidget{
+class Salomon_nav_bar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationInfoState>(
-        builder: (context, state){
-          return AnimatedContainer  (
+        builder: (context, state) {
+          return AnimatedContainer(
             duration: const Duration(milliseconds: 1000),
             height: 70,
             child: Wrap(
@@ -77,7 +147,7 @@ class Salomon_nav_bar extends StatelessWidget{
                         color: Colors.black.withOpacity(0.1),
                         spreadRadius: 1,
                         blurRadius: 10,
-                        offset: const Offset(2,4),
+                        offset: const Offset(2, 4),
                       ),
                     ],
                   ),
@@ -86,7 +156,8 @@ class Salomon_nav_bar extends StatelessWidget{
                     child: SalomonBottomBar(
                       currentIndex: state.selectedIndex,
                       onTap: (index) {
-                        BlocProvider.of<NavigationBloc>(context).add(NavigateEvent(selectedIndex: index));
+                        BlocProvider.of<NavigationBloc>(context)
+                            .add(NavigateEvent(selectedIndex: index));
                       },
                       selectedItemColor: Colors.orange,
                       unselectedItemColor: Colors.grey,
@@ -154,7 +225,6 @@ class Salomon_nav_bar extends StatelessWidget{
               ],
             ),
           );
-        }
-    );
+        });
   }
 }
