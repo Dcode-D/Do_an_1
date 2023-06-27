@@ -42,7 +42,6 @@ class _EditHotelRoomScreenState extends State<EditHotelRoomScreen> {
                     content: Text('Update hotel room success!'),
                   ));
               Navigator.pop(context);
-              Navigator.pop(context);
             }
             else{
               ScaffoldMessenger.of(context).showSnackBar(
