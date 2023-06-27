@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../BLOC/profile/booker/booker_bloc.dart';
-import '../../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
+import '../../../../BLOC/screen/booking_widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 
 class HotelCheckBookingItem extends StatelessWidget{
   @override

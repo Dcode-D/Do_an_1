@@ -259,13 +259,10 @@ class ProfileScreen extends StatelessWidget {
                                 bottomLeft: Radius.circular(30),
                                 bottomRight: Radius.circular(30),
                               ),
-                              child: FadeInImage(
+                              child: Image.asset(
+                                'assets/images/undefine-wallpaper.jpg',
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height / 2.5,
-                                imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
-                                image:
-                                NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
-                                placeholder: const AssetImage('assets/images/loading.gif'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -331,6 +328,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
 
                     ),
+
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(

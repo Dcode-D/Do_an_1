@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../BLOC/hotel_booking/hotel_booking_bloc.dart';
 import '../../../../data/model/hotelroom.dart';
@@ -17,6 +18,7 @@ class _RoomSettingDialogState extends State<RoomSettingDialog>{
   Widget build(BuildContext context) {
     var hotelBookingBloc = context.read<HotelBookingBloc>();
     var hotelItemBloc = context.read<HotelItemBloc>();
+    final formatCurrency = NumberFormat("#,###");
     return BlocBuilder<HotelItemBloc,HotelItemState>(
       builder:(context,state) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
@@ -89,7 +91,7 @@ class _RoomSettingDialogState extends State<RoomSettingDialog>{
                           ),
                           Text(
                             hotelItemBloc.listHotelRoom![index].price == null ? 'No price' :
-                            '${hotelItemBloc.listHotelRoom![index].price!}\$ / night',
+                            '${formatCurrency.format(hotelItemBloc.listHotelRoom![index].price!)} vnđ / night',
                             style: GoogleFonts.raleway(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,

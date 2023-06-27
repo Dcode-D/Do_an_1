@@ -14,3 +14,5 @@ class VehicleBookingItemRejectEvent extends VehicleBookingItemEvent {}
 class VehicleBookingItemDeleteEvent extends VehicleBookingItemEvent {}
 
 class VehicleBookingItemApproveEvent extends VehicleBookingItemEvent {}
+
+class VehicleBookingItemRefreshEvent extends VehicleBookingItemEvent {}

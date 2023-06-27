@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../../BLOC/screen/book_history/book_history_bloc.dart';
-import '../../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
+import '../../../BLOC/screen/booking_widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 import '../../detail_screens/setting_booking/checking_information_screen.dart';
 
 class BookingHotelHistoryScreen extends StatelessWidget {

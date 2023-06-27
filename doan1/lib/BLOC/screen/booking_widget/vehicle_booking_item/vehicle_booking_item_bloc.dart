@@ -27,7 +27,6 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
       user = await getUserFunc(event.dateBooking!.user!);
       if(vehicle != null && user != null){
         emit(VehicleBookingItemInitial(getDataSuccess: true));
-        emit(VehicleBookingItemRejectSuccess(rejectSuccess: false));
       }
       else{
         emit(VehicleBookingItemInitial(getDataSuccess: false));
@@ -58,6 +57,22 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
       }
       else{
         emit(VehicleBookingItemApproveSuccess(approveSuccess: false));
+      }
+    });
+
+    on<VehicleBookingItemRefreshEvent>((event,emit) async {
+      if(dateBooking == null){
+        emit(VehicleBookingItemInitial(getDataSuccess: false));
+      }
+      dateBooking = await getDateBookingById(dateBooking!.id!);
+      vehicle = await getVehicleFunc(dateBooking!.attachedServices![0]) as Vehicle;
+      owner = await getOwner(vehicle!.owner!);
+      user = await getUserFunc(dateBooking!.user!);
+      if(vehicle != null && user != null){
+        emit(VehicleBookingItemInitial(getDataSuccess: true));
+      }
+      else{
+        emit(VehicleBookingItemInitial(getDataSuccess: false));
       }
     });
   }
@@ -99,5 +114,9 @@ class VehicleBookingItemBloc extends Bloc<VehicleBookingItemEvent,VehicleBooking
 
   Future<User?> getUserFunc(String userId) async{
     return GetIt.instance<UserRepository>().getUserById(userId);
+  }
+
+  Future<DateBooking?> getDateBookingById(String id) async {
+    return GetIt.instance<DateBookingRepository>().GetDateBookingById(id);
   }
 }

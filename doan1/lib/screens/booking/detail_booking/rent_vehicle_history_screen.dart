@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
 import '../../../BLOC/screen/book_history/book_history_bloc.dart';
-import '../../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
+import '../../../BLOC/screen/booking_widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import '../../detail_screens/setting_booking/checking_information_screen.dart';
 
 class RentVehicleHistoryScreen extends StatelessWidget {
