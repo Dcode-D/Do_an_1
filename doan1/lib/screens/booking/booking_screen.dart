@@ -185,9 +185,14 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                             child: HotelBookingItem());
                       },)
                   :
-                const Center(
-                  child: CircularProgressIndicator(),
-                ) :
+                Center(
+                    child:
+                    Text('No hotel booking history',
+                        style: GoogleFonts.raleway(
+                            fontSize: 20,
+                            color: Colors.black.withOpacity(0.5),
+                            fontWeight: FontWeight.w600
+                        ))) :
               const Center(child: CircularProgressIndicator(),)
             ),
           ),
@@ -228,7 +233,15 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                         ],
                           child: VehicleBookingItem());},)
                   :
-            const Center(child: CircularProgressIndicator(),)
+              Center(child:
+              Text('No vehicle booking history',
+                style: GoogleFonts.raleway(
+                    fontSize: 20,
+                    color: Colors.black.withOpacity(0.5),
+                    fontWeight: FontWeight.w600
+                ),
+              )
+              )
               :
             const Center(child: CircularProgressIndicator(),),
           )

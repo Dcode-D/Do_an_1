@@ -247,10 +247,89 @@ class ProfileScreen extends StatelessWidget {
                       ]
                     ),
 
-                  ) : Center(
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).primaryColor,
+                  ) :
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 2.8,
+                      child: Stack(
+                          children:
+                          [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                              ),
+                              child: FadeInImage(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height / 2.5,
+                                imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                                image:
+                                NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
+                                placeholder: const AssetImage('assets/images/loading.gif'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  bottomRight: Radius.circular(30),
+                                ),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.transparent,
+                                    Theme.of(context).primaryColor,
+                                  ],
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            FontAwesomeIcons.envelope,
+                                            color: Colors.white,
+                                            size: 16,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                              profileBloc.user!=null?profileBloc.user!.email:"loading...",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white,
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]
                       ),
+
                     ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
