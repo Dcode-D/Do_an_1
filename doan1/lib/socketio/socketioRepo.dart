@@ -1,6 +1,8 @@
 import 'package:doan1/EventBus/Events/Authenevent.dart';
+import 'package:doan1/EventBus/Events/NewBookingEvent.dart';
 import 'package:doan1/EventBus/Events/TestEvent.dart';
 import 'package:doan1/data/Preferences.dart';
+import 'package:doan1/data/model/datebooking.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -36,6 +38,14 @@ class SocketRepo{
           {
             print(data);
             await LocalNotificationService.display("New booking!", "You have a new booking request", null);
+            try{
+              final booking = DateBooking.fromJson(data);
+              _eventBus.fire(NewBookingEvent(booking));
+            }
+            catch(e){
+              print(e);
+            }
+
           }
           );
 
