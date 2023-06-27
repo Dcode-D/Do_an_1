@@ -39,6 +39,7 @@ class HotelBookingBloc extends Bloc<HotelBookingEvent, HotelBookingState>{
         emit(HotelBookingState(isDateSet: state.isDateSet,isRoomSet: state.isRoomSet,isBookingSuccess: BookingState.failure));
       }
     });
+
   }
   Future<bool?> CreateHotelBooking(List<String> attachedServices,String startDate,String endDate,String user,String note,bool approved,bool suspended,String type) async{
     DateBookingRepository dateBookingRepo = GetIt.instance.get<DateBookingRepository>();

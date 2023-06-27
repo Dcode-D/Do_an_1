@@ -243,6 +243,11 @@ abstract class AppService {
   Future<HttpResponse<ListModelResponse>> getCarDateBookingList({
     @Header("Authorization") required String token,
     @Path('id') required String idCar});
+
+  @GET("/dateBooking/{id}")
+  Future<HttpResponse<BaseResponse>> getDateBookingById({
+    @Header("Authorization") required String token,
+    @Path('id') required String idDateBooking});
 //tour API
   @POST("/tour/")
   Future<HttpResponse> createTour({

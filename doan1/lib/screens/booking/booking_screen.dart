@@ -1,4 +1,3 @@
-import 'package:doan1/BLOC/components/places/places_bloc.dart';
 import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/screens/booking/widget_booking/hotel_booking_item.dart';
 import 'package:doan1/screens/booking/widget_booking/vehicle_booking_item.dart';
@@ -8,8 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/profile/profile_view/profile_bloc.dart';
-import '../../BLOC/screen/widget/hotel_booking_item/hotel_booking_item_bloc.dart';
-import '../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
+import '../../BLOC/screen/booking_widget/hotel_booking_item/hotel_booking_item_bloc.dart';
+import '../../BLOC/screen/booking_widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import '../../widgets/circle_indicator.dart';
 import '../../widgets/silver_appbar_delegate.dart';
 
@@ -36,7 +35,6 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
       if (hotelBookingController.position.pixels ==
           hotelBookingController.position.maxScrollExtent) {
         hotelPage++;
-
       }
     });
 
@@ -44,7 +42,6 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
       if (vehicleBookingController.position.pixels ==
           vehicleBookingController.position.maxScrollExtent) {
         vehiclePage++;
-
       }
     });
   }
@@ -128,7 +125,6 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                 radius: 4,
               ),
               tabs: const [
-
                 Tab(text: 'Hotel'),
                 Tab(text: 'Vehicle',)
               ],

@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../BLOC/profile/booker/booker_bloc.dart';
-import '../../../../BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
+import '../../../../BLOC/screen/booking_widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import '../detail_booking/vehicle_check_booking_detail_screen.dart';
 
 class VehicleCheckBookingItem extends StatelessWidget{

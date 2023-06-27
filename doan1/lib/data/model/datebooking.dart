@@ -1,4 +1,5 @@
 
+import 'package:doan1/data/model/remote/base_response.dart';
 import 'package:doan1/data/model/remote/list_model_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -46,5 +47,13 @@ extension DateBookingExtension on ListModelResponse{
     }
     print("List date booking: $rs");
     return rs;
+  }
+}
+
+extension DateBookingItemExtension on BaseResponse{
+  DateBooking? toDateBooking(){
+    if(this.data == null)
+      return null;
+    return DateBooking.fromJson(this.data!);
   }
 }

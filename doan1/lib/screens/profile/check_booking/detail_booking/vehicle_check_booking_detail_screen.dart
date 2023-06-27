@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:doan1/BLOC/screen/widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
+import 'package:doan1/BLOC/screen/booking_widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -699,7 +699,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                             ),
                                             TextButton(
                                               onPressed: (){
-                                                vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                                vehicleBookingItemBloc.add(VehicleBookingItemDeleteEvent());
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",
@@ -808,6 +808,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                                 onPressed: (){
                                                   vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
                                                   bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                                  vehicleBookingItemBloc.add(VehicleBookingItemRefreshEvent());
                                                   Navigator.pop(context);
                                                 },
                                                 child: Text("Yes",
@@ -845,6 +846,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                     onPressed: (){
                                       vehicleBookingItemBloc.add(VehicleBookingItemApproveEvent());
                                       bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                      vehicleBookingItemBloc.add(VehicleBookingItemRefreshEvent());
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.orange,
@@ -940,6 +942,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                                 onPressed: (){
                                                   vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
                                                   bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                                  vehicleBookingItemBloc.add(VehicleBookingItemRefreshEvent());
                                                   Navigator.pop(context);
                                                 },
                                                 child: Text("Yes",
@@ -977,6 +980,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                     onPressed: (){
                                       vehicleBookingItemBloc.add(VehicleBookingItemApproveEvent());
                                       bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                      vehicleBookingItemBloc.add(VehicleBookingItemRefreshEvent());
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.orange,
@@ -1103,6 +1107,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                                 onPressed: (){
                                                   vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
                                                   bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                                  vehicleBookingItemBloc.add(VehicleBookingItemRefreshEvent());
                                                   Navigator.pop(context);
                                                 },
                                                 child: Text("Yes",
@@ -1140,6 +1145,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                     onPressed: (){
                                       vehicleBookingItemBloc.add(VehicleBookingItemApproveEvent());
                                       bookerBloc.add(GetBookerEvent(ownerId: vehicleBookingItemBloc.user!.id,page: 1));
+                                      vehicleBookingItemBloc.add(VehicleBookingItemRefreshEvent());
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.orange,

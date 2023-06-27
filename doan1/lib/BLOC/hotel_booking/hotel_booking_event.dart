@@ -25,3 +25,7 @@ class BookingRoomEvent extends HotelBookingEvent{
   String? type;
   BookingRoomEvent({required this.attachedServices,required this.startDate,required this.endDate,required this.user,required this.note,required this.approved,required this.suspended,required this.type});
 }
+
+class RefreshHotelBookingEvent extends HotelBookingEvent {
+  RefreshHotelBookingEvent();
+}

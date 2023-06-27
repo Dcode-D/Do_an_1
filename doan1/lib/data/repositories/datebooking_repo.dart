@@ -83,4 +83,12 @@ class DateBookingRepository{
     return response.response.statusCode == 200 ?
     response.data.toListDateBooking() : null;
   }
+
+  Future<DateBooking?> GetDateBookingById(String id) async {
+    final response = await _appService.getDateBookingById(
+        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+        idDateBooking: id);
+    return response.response.statusCode == 200 ?
+    response.data.toDateBooking() : null;
+  }
 }
