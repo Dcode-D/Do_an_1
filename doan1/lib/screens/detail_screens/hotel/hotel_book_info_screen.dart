@@ -24,7 +24,6 @@ class HotelBookingInfoScreen extends StatelessWidget{
     var profileBloc = context.read<ProfileBloc>();
     var hotelItemBloc = context.read<HotelItemBloc>();
     var hotelBookingBloc = context.read<HotelBookingBloc>();
-    var bookHistoryBloc = context.read<BookHistoryBloc>();
     final formatCurrency = NumberFormat("#,###");
     final today = DateTime(
         DateTime.now().year,
@@ -53,7 +52,6 @@ class HotelBookingInfoScreen extends StatelessWidget{
               BlocListener<HotelBookingBloc,HotelBookingState>(
                 listener: (context,state){
                   if(state.isBookingSuccess == BookingState.success){
-                    bookHistoryBloc.add(GetBookingHistory());
                     Navigator.push(context, MaterialPageRoute(builder: (context) => HotelBookingSuccessScreen()));
                   }
                   else if (state.isBookingSuccess == BookingState.failure){

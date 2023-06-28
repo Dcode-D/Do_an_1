@@ -1,6 +1,7 @@
 import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/screens/booking/widget_booking/hotel_booking_item.dart';
 import 'package:doan1/screens/booking/widget_booking/vehicle_booking_item.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,20 +29,27 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
   late final TabController _tabController = TabController(length: 2, vsync: this);
   int hotelPage = 1;
   int vehiclePage = 1;
+
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(LifecycleEventHandler(
+      resumeCallBack: ()async {
+        context.read<BookHistoryBloc>().add(RefreshBookingHistoryEvent());
+      },
+    ));
     hotelBookingController.addListener(() {
       if (hotelBookingController.position.pixels ==
           hotelBookingController.position.maxScrollExtent) {
-        hotelPage++;
+        context.read<BookHistoryBloc>().add(GetNextHotelBooking());
       }
     });
 
     vehicleBookingController.addListener(() {
       if (vehicleBookingController.position.pixels ==
           vehicleBookingController.position.maxScrollExtent) {
-        vehiclePage++;
+        context.read<BookHistoryBloc>().add(GetNextVehicleBooking());
       }
     });
   }
@@ -50,7 +58,8 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     ProfileBloc profileBloc = context.read<ProfileBloc>();
     BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
-    bookHistoryBloc.add(GetBookingHistory());
+    bookHistoryBloc.add(GetNextVehicleBooking());
+    bookHistoryBloc.add(GetNextHotelBooking());
     return SafeArea(
       child: Scaffold(
       body: NestedScrollView(
@@ -147,7 +156,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
             },
             child: BlocBuilder<BookHistoryBloc,BookHistoryState>(
               buildWhen: (previous, current) =>
-              current is BookHistoryInitial,
+              current is BookHistoryInitial && current.isBookingHistoryLoaded == true,
               builder:(context,state) =>
               state is BookHistoryInitial ?
                 state.isBookingHistoryLoaded == true ?
@@ -195,7 +204,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
 
           BlocBuilder<BookHistoryBloc,BookHistoryState>(
             buildWhen: (previous, current) =>
-            current is BookHistoryInitial,
+            current is BookHistoryInitial && current.isBookingHistoryLoaded == true,
             builder:(context,state) =>
             state is BookHistoryInitial ?
               state.isBookingHistoryLoaded == true ?
@@ -246,5 +255,35 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
           )
         ),
     );
+  }
+}
+
+
+class LifecycleEventHandler extends WidgetsBindingObserver {
+  final AsyncCallback? resumeCallBack;
+  final AsyncCallback? suspendingCallBack;
+
+  LifecycleEventHandler({
+    this.resumeCallBack,
+    this.suspendingCallBack,
+  });
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    print("Change state detected");
+    switch (state) {
+      case AppLifecycleState.resumed:
+        if (resumeCallBack != null) {
+          await resumeCallBack!();
+        }
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        if (suspendingCallBack != null) {
+          await suspendingCallBack!();
+        }
+        break;
+    }
   }
 }

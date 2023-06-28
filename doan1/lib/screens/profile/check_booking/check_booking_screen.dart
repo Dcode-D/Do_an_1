@@ -28,7 +28,6 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
   void initState() {
     super.initState();
     bookerBloc = context.read<BookerBloc>();
-    bookHistoryBloc = context.read<BookHistoryBloc>();
   }
 
   @override
@@ -42,7 +41,6 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
               SliverAppBar(
                 leading: IconButton(
                   onPressed: () {
-                    bookHistoryBloc.add(GetBookingHistory());
                     Navigator.pop(context);
                   },
                   icon: const Icon(

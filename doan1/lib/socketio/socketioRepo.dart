@@ -7,6 +7,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../EventBus/Events/ApprovedEvent.dart';
 import '../Notifications/notification_service.dart';
 
 class SocketRepo{
@@ -36,7 +37,6 @@ class SocketRepo{
 
           _socket!.on("CreateBooking", (data) async
           {
-            print(data);
             await LocalNotificationService.display("New booking!", "You have a new booking request", null);
             try{
               final booking = DateBooking.fromJson(data);
@@ -60,8 +60,16 @@ class SocketRepo{
           });
 
           _socket!.on("ApproveBooking", (data)
+          async
           {
-            print(data);
+            await LocalNotificationService.display("Booking approved!", "Your booking request has been approved", null);
+            try{
+              final booking = DateBooking.fromJson(data);
+              _eventBus.fire(ApprovedEvent(booking));
+            }
+            catch(e){
+              print(e);
+            }
           });
         }
       }else{

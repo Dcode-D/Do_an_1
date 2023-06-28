@@ -58,9 +58,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: IconButton(
                   onPressed: () {
-                    vehicleBookingItemBloc.add(VehicleBookingItemInitialEvent(
-                        dateBooking: bookHistoryBloc.lsVehicleBooking![vehicleBookingItemBloc.index!],
-                        index: vehicleBookingItemBloc.index!));
+                    context.read<BookHistoryBloc>().add( RefreshBookingHistoryEvent());
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -704,7 +702,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                             TextButton(
                                               onPressed: (){
                                                 vehicleBookingItemBloc.add(VehicleBookingItemDeleteEvent());
-                                                bookHistoryBloc.add(GetBookingHistory());
+                                                context.read<BookHistoryBloc>().add(RefreshBookingHistoryEvent());
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",
@@ -768,7 +766,6 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                         TextButton(
                                           onPressed: (){
                                             vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
-                                            bookHistoryBloc.add(GetBookingHistory());
                                             Navigator.pop(context);
                                           },
                                           child: Text("Yes",
@@ -850,7 +847,6 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                             TextButton(
                                               onPressed: (){
                                                 vehicleBookingItemBloc.add(VehicleBookingItemDeleteEvent());
-                                                bookHistoryBloc.add(GetBookingHistory());
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",
@@ -913,7 +909,6 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                         TextButton(
                                           onPressed: (){
                                             vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
-                                            bookHistoryBloc.add(GetBookingHistory());
                                             Navigator.pop(context);
                                           },
                                           child: Text("Yes",

@@ -217,7 +217,9 @@ abstract class AppService {
   Future<HttpResponse<ListModelResponse>> getUserDateBookingList({
   @Header("Authorization") required String token,
   @Query('page') required int page,
-  @Query('user') required String userId});
+  @Query('user') required String userId,
+  @Query('type') required String type
+  });
 
   @GET("/dateBooking/{id}/reject")
   Future<HttpResponse> rejectDateBooking({

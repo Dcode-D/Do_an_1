@@ -23,7 +23,6 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
     var profileBloc = context.read<ProfileBloc>();
     var carItemBloc = context.read<CarItemBloc>();
     var vehicleBookingBloc = context.read<VehicleBookingBloc>();
-    var bookHistoryBloc = context.read<BookHistoryBloc>();
     final formatCurrency = NumberFormat("#,###");
     final today = DateTime(
         DateTime.now().year,
@@ -61,7 +60,6 @@ class VehicleRentBookInfoScreen extends StatelessWidget{
                   );
                 }
                 else if (state.isBookingSuccess == BookingState.success){
-                  bookHistoryBloc.add(GetBookingHistory());
                   Navigator.push(context, MaterialPageRoute(builder: (context) => VehicleRentSuccess()));
                 }
               },
