@@ -250,7 +250,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 const SizedBox(width: 35,),
                                 Container(
-                                  width: 180,
+                                  width: 165,
                                   height: 1,
                                   color: Colors.orange,
                                 ),

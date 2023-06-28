@@ -1,7 +1,7 @@
 part of 'register_bloc.dart';
 
 enum RegisterStatus
-  { Initial ,InvalidInfo, Success }
+  { Initial ,InvalidInfo, SameInfo, Success }
 
 @immutable
 abstract class RegisterState {}
