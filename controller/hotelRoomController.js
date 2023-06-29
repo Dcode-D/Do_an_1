@@ -11,6 +11,7 @@ const updateHotelRoom = async (req, res) => {
         if (req.params.id) {
             const hotelRoom = await hotelRoomModel.findById(req.params.id);
             if (!hotelRoom) return res.status(404).json({status: "error", message: "Hotel room not found"});
+            if(!hotelRoom.hotel.equals(hotel._id)) return res.status(403).json({status: "error", message: "Not permitted"});
             if (req.body.number) hotelRoom.number = req.body.number;
             if (req.body.adultCapacity) hotelRoom.adultCapacity = req.body.adultCapacity;
             if (req.body.childrenCapacity) hotelRoom.childrenCapacity = req.body.childrenCapacity;
@@ -22,6 +23,7 @@ const updateHotelRoom = async (req, res) => {
             await hotelRoom.save();
             return res.status(200).json({status: "success", message: "Hotel room updated"});
         }
+        return res.status(400).json({status: "error", message: "Missing id"});
     } catch (e) {
         console.log(e.message);
         return res.status(503).json({status: "error", message: e.message});
