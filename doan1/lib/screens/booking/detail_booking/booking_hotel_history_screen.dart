@@ -58,7 +58,6 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: IconButton(
                   onPressed: () {
-                    context.read<BookHistoryBloc>().add(RefreshBookingHistoryEvent());
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -824,7 +823,6 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                                             TextButton(
                                               onPressed: (){
                                                 hotelBookingItemBloc.add(HotelBookingItemDeleteEvent());
-                                                context.read<BookHistoryBloc>().add(RefreshBookingHistoryEvent());
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",

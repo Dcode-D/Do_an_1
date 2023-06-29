@@ -1,3 +1,4 @@
+import 'package:doan1/EventBus/Events/NeedRefreshBookHistoryEvent.dart';
 import 'package:doan1/data/model/datebooking.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
@@ -52,6 +53,7 @@ class DateBookingRepository{
     final response = await _appService.rejectDateBooking(
         token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
         idDateBooking: dateBookingId);
+    _eventBus.fire(NeedRefreshBookHistoryEvent());
     return response.response.statusCode == 200;
   }
 
@@ -59,6 +61,7 @@ class DateBookingRepository{
     final response = await _appService.deleteDateBooking(
         token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
         idDateBooking: dateBookingId);
+    _eventBus.fire(NeedRefreshBookHistoryEvent());
     return response.response.statusCode == 200;
   }
 
@@ -66,6 +69,7 @@ class DateBookingRepository{
     final response = await _appService.approveDateBooking(
         token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
         idDateBooking: dateBookingId);
+    _eventBus.fire(NeedRefreshBookHistoryEvent());
     return response.response.statusCode == 200;
   }
 

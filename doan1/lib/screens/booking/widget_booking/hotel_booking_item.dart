@@ -184,7 +184,6 @@ class HotelBookingItem extends StatelessWidget{
                             providers: [
                               BlocProvider.value(value: profileBloc,),
                               BlocProvider.value(value: hotelBookingItemBloc,),
-                              BlocProvider.value(value: bookHistoryBloc)
                             ],
                               child: BookingHotelHistoryScreen())));
                         },

@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
+import '../../../EventBus/Events/NeedRefreshBookHistoryEvent.dart';
 import '../../../data/model/datebooking.dart';
 import '../../../data/model/user.dart';
 import '../../../data/repositories/datebooking_repo.dart';
@@ -16,6 +18,12 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
   int hotelPage =0, vehiclePage = 0;
   User? user;
   BookHistoryBloc() : super(BookHistoryInitial(isBookingHistoryLoaded: false)) {
+    final eventbus = GetIt.instance.get<EventBus>();
+    if(eventbus != null){
+      eventbus.on<NeedRefreshBookHistoryEvent>().listen((event) {
+        add(RefreshBookingHistoryEvent());
+      });
+    }
     on<GetNextHotelBooking>(
         (event, emit) async{
           user = await getUser();

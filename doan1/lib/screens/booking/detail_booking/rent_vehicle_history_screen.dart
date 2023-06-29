@@ -17,7 +17,6 @@ class RentVehicleHistoryScreen extends StatelessWidget {
     final formatCurrency = NumberFormat("#,###");
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
     var profileBloc = context.read<ProfileBloc>();
-    var bookHistoryBloc = context.read<BookHistoryBloc>();
     var vehicleBookingItemBloc = context.read<VehicleBookingItemBloc>();
 
     return BlocListener<VehicleBookingItemBloc,VehicleBookingItemState>(
@@ -58,7 +57,6 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: IconButton(
                   onPressed: () {
-                    context.read<BookHistoryBloc>().add( RefreshBookingHistoryEvent());
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -702,7 +700,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                             TextButton(
                                               onPressed: (){
                                                 vehicleBookingItemBloc.add(VehicleBookingItemDeleteEvent());
-                                                context.read<BookHistoryBloc>().add(RefreshBookingHistoryEvent());
+
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",
@@ -949,7 +947,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                             ElevatedButton(
                               onPressed: (){
                                 vehicleBookingItemBloc.add(VehicleBookingItemInitialEvent(
-                                    dateBooking: bookHistoryBloc.lsVehicleBooking![vehicleBookingItemBloc.index!],
+                                    dateBooking: vehicleBookingItemBloc.dateBooking!,
                                     index: vehicleBookingItemBloc.index!));
                                 Navigator.pop(context);
                               },
