@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doan1/EventBus/Events/DeleteVehicleEventEVB.dart';
 import 'package:doan1/data/model/vehicle.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
@@ -100,9 +101,11 @@ class VehicleRepository{
         id: id)
         .then((http) async{
       if(http.response.statusCode != 200){
+        _eventBus.fire(DeleteVehicleEventEVB(vehicle: ""));
         return false;
       }
       else{
+        _eventBus.fire(DeleteVehicleEventEVB(vehicle: id));
         return true;
       }
     });

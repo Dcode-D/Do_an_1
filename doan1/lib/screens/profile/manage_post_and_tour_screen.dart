@@ -163,6 +163,7 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                             child: EditPostItem());
                       },
                     ),
+                    manageNewsBloc.lsTour != null ?
                     ListView.builder(
                       key: const PageStorageKey('tour'),
                       controller: _tourController,
@@ -181,7 +182,15 @@ class _ManagePostAndTourScreenState extends State<ManagePostAndTourScreen> with 
                             ],
                             child: EditTourItem());
                       },
+                    ):
+                    Center(child: Text('No tour for you',
+                      style: GoogleFonts.raleway(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600
+                      ),
                     ),
+                    )
                   ]
               ),
             ),

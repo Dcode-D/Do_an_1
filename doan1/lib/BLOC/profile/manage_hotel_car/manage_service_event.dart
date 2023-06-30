@@ -22,11 +22,11 @@ class LoadMoreHotelData extends ManageServiceEvent{
 }
 
 class DeleteVehicleItem extends ManageServiceEvent{
-  final int index;
-  DeleteVehicleItem(this.index);
+  final String? vehicle;
+  DeleteVehicleItem(this.vehicle);
 }
 
 class DeleteHotelItem extends ManageServiceEvent{
-  final int index;
-  DeleteHotelItem(this.index);
+  final String? hotel;
+  DeleteHotelItem(this.hotel);
 }

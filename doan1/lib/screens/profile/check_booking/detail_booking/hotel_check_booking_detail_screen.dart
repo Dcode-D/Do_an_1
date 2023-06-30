@@ -972,7 +972,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                   onPressed: (){
                                     hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
                                     bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
-                                    hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.orange,
@@ -1106,7 +1105,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                 onPressed: (){
                                   hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
                                   bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
-                                  hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
+
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.orange,
@@ -1271,7 +1270,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                   onPressed: (){
                                     hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
                                     bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
-                                    hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.orange,

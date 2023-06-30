@@ -23,7 +23,6 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
   late final TabController _tabController = TabController(length: 2, vsync: this);
 
   late BookerBloc bookerBloc;
-  late BookHistoryBloc bookHistoryBloc;
   @override
   void initState() {
     super.initState();

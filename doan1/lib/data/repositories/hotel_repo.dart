@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doan1/EventBus/Events/DeleteHotelEventEVB.dart';
 import 'package:doan1/data/model/hotel.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
@@ -98,9 +99,11 @@ class HotelRepository{
         id: id)
         .then((http) async{
       if(http.response.statusCode != 200){
+        _eventBus.fire(DeleteHotelEventEVB(hotel: ""));
         return false;
       }
       else{
+        _eventBus.fire(DeleteHotelEventEVB(hotel: id));
         return true;
       }
     });

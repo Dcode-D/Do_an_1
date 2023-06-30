@@ -55,7 +55,10 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
       listenWhen: (previous, current) {
         return current is GetInitialDataState ||
             current is LoadMoreHotelDataState ||
-            current is LoadMoreVehicleDataState;},
+            current is LoadMoreVehicleDataState ||
+            current is DeleteVehicleItemState ||
+            current is DeleteHotelItemOnManageState
+        ;},
       listener: (context,state){
         print("triggered listener!");
         if(state is GetInitialDataState){
@@ -80,6 +83,35 @@ class _ManageServiceScreenState extends State<ManageServiceScreen> with SingleTi
           if (state.getDataSuccess == false) {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('No more vehicle for you.')));
+          }
+        }
+        if(state is DeleteVehicleItemState){
+          if(state.isDeleted == false){
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text('Delete vehicle failed')));
+          }
+          else{
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text('Delete vehicle success')));
+          }
+        }
+
+        if(state is DeleteHotelItemOnManageState){
+          if(state.isDeleted == false){
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text('Delete hotel failed')));
+          }
+          else{
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text('Delete hotel success')));
           }
         }
       },

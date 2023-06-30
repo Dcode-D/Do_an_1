@@ -63,18 +63,8 @@ class NavigationNavBar extends StatelessWidget {
                             );
                         case 1:
                           return
-                            MultiBlocProvider(
-                              providers: [
-                                BlocProvider<SearchBloc>(
-                                    create: (context) => SearchBloc()),
-                                BlocProvider<BookHistoryBloc>(
-                                    create: (context) =>
-                                        BookHistoryBloc()),
-                              ],
-                              child: Builder(builder: (context) {
-                                return SearchScreen();
-                              }),
-                            );
+                            SearchScreen();
+
                         case 2:
                           return
                             MultiBlocProvider(
@@ -89,18 +79,7 @@ class NavigationNavBar extends StatelessWidget {
                             );
                         case 3:
                           return
-                            MultiBlocProvider(
-                              providers: [
-                                BlocProvider<ArticleBloc>(
-                                    create: (context) =>
-                                    ArticleBloc()
-                                      ..add(GetArticleData())),
-                                BlocProvider<BookHistoryBloc>(
-                                    create: (context) =>
-                                        BookHistoryBloc()),
-                              ],
-                              child: ProfileScreen(),
-                            );
+                            ProfileScreen();
                         default:
                           return
                             Center(
@@ -112,19 +91,6 @@ class NavigationNavBar extends StatelessWidget {
                 )));
   }
 
-  Widget findSelectedIndex(NavigationInfoState state) {
-    if (state.selectedIndex == 0) {
-      return HomeScreen();
-    } else if (state.selectedIndex == 1) {
-      return SearchScreen();
-    } else if (state.selectedIndex == 2) {
-      return BookingScreen();
-    } else if (state.selectedIndex == 3) {
-      return ProfileScreen();
-    } else {
-      return HomeScreen();
-    }
-  }
 }
 
 class Salomon_nav_bar extends StatelessWidget {

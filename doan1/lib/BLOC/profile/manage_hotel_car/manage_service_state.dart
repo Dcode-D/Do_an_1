@@ -26,7 +26,7 @@ class DeleteVehicleItemState extends ManageServiceState{
   DeleteVehicleItemState(this.isDeleted);
 }
 
-class DeleteHotelItemState extends ManageServiceState{
+class DeleteHotelItemOnManageState extends ManageServiceState{
   bool? isDeleted;
-  DeleteHotelItemState(this.isDeleted);
+  DeleteHotelItemOnManageState(this.isDeleted);
 }

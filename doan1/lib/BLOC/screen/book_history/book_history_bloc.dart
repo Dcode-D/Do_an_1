@@ -21,7 +21,7 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
     final eventbus = GetIt.instance.get<EventBus>();
     if(eventbus != null){
       eventbus.on<NeedRefreshBookHistoryEvent>().listen((event) {
-        add(RefreshBookingHistoryEvent());
+          add(RefreshBookingHistoryEvent());
       });
     }
     on<GetNextHotelBooking>(

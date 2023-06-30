@@ -15,11 +15,6 @@ class EditHotelItem extends StatelessWidget{
   Widget build(BuildContext context) {
     var editHotelBloc = context.read<EditHotelItemBloc>();
     var manageServiceBloc = context.read<ManageServiceBloc>();
-    deleteHotel()=>{
-      editHotelBloc.add(DeleteHotelItemEvent(editHotelBloc.hotel!.id!)),
-      manageServiceBloc.add(DeleteHotelItem(editHotelBloc.index!)),
-      Navigator.pop(context)
-    };
     return BlocBuilder<EditHotelItemBloc,EditHotelItemState>(
       builder: (context,state)=>
       editHotelBloc.hotel != null ?
@@ -139,7 +134,10 @@ class EditHotelItem extends StatelessWidget{
                         showGeneralDialog(context: context,
                             pageBuilder:
                             (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                              return HotelDeleteDialog(deleteHotel: deleteHotel,);
+                              return HotelDeleteDialog(deleteHotel: (){
+                                editHotelBloc.add(DeleteHotelItemEvent(editHotelBloc.hotel!.id!));
+                                Navigator.of(context).pop();
+                              },);
                             },
                         );
                       },

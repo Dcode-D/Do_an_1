@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:doan1/EventBus/Events/DeleteHotelEventEVB.dart';
+import 'package:doan1/EventBus/Events/DeleteVehicleEventEVB.dart';
 import 'package:doan1/data/repositories/vehicle_repo.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
@@ -58,17 +61,34 @@ class ManageServiceBloc extends Bloc<ManageServiceEvent,ManageServiceState>{
         emit(DeleteVehicleItemState(false));
         return;
       }
-      listVehicle!.removeAt(event.index);
+      if(event.vehicle == ""){
+        emit(DeleteVehicleItemState(false));
+        return;
+      }
+      listVehicle!.removeWhere((element) => element.id == event.vehicle);
       emit(DeleteVehicleItemState(true));
     });
 
     on<DeleteHotelItem>((event,emit) async {
       if(listHotel == null){
-        emit(DeleteHotelItemState(false));
+        emit(DeleteHotelItemOnManageState(false));
         return;
       }
-      listHotel!.removeAt(event.index);
-      emit(DeleteHotelItemState(true));
+      if(event.hotel == ""){
+        emit(DeleteHotelItemOnManageState(false));
+        return;
+      }
+      listHotel!.removeWhere((element) => element.id == event.hotel);
+      emit(DeleteHotelItemOnManageState(true));
+    });
+
+    //listen when hotel or vehicle is deleted
+    final eventBus = GetIt.instance.get<EventBus>();
+    eventBus.on<DeleteVehicleEventEVB>().listen((event) {
+      add(DeleteVehicleItem(event.vehicle));
+    });
+    eventBus.on<DeleteHotelEventEVB>().listen((event) {
+      add(DeleteHotelItem(event.hotel));
     });
   }
   Future<List<Hotel>?> getListHotelByOwnerId(String owner, int page) async {

@@ -30,228 +30,157 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Logout()=>{
-      context.read<AuthenticationBloc>().add(LogoutEvent())
-    };
-
-    ProfileBloc profileBloc = context.read<ProfileBloc>();
-    ArticleBloc articleBloc = context.read<ArticleBloc>();
-    BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
-
-    return BlocBuilder<ProfileBloc,ProfileState>(
-      builder: (context,state) =>
-      SafeArea(
-        child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
-            child: SpeedDial(
-              animatedIcon: AnimatedIcons.add_event,
-              animatedIconTheme: const IconThemeData(size: 22.0),
-              backgroundColor: Colors.orange,
-              visible: true,
-              curve: Curves.bounceIn,
-              children: [
-                SpeedDialChild(
-                  child: const Icon(Icons.post_add),
+    return
+      MultiBlocProvider(
+          providers: [
+            BlocProvider<ArticleBloc>(
+                create: (context) =>
+                ArticleBloc()
+                  ..add(GetArticleData())),
+            BlocProvider<BookHistoryBloc>(
+                create: (context) =>
+                    BookHistoryBloc()),
+          ],
+      child:
+      Builder(
+        builder: (context) {
+          Logout()=>{
+            context.read<AuthenticationBloc>().add(LogoutEvent())
+          };
+          ProfileBloc profileBloc = context.read<ProfileBloc>();
+          ArticleBloc articleBloc = context.read<ArticleBloc>();
+          BookHistoryBloc bookHistoryBloc = context.read<BookHistoryBloc>();
+          return BlocBuilder<ProfileBloc,ProfileState>(
+          builder: (context,state) =>
+          SafeArea(
+            child: Scaffold(
+              floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                child: SpeedDial(
+                  animatedIcon: AnimatedIcons.add_event,
+                  animatedIconTheme: const IconThemeData(size: 22.0),
                   backgroundColor: Colors.orange,
-                  onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_) =>
-                      BlocProvider<ProfileBloc>.value(
-                          value: BlocProvider.of<ProfileBloc>(context),
-                          child: CreatePostScreen()
+                  visible: true,
+                  curve: Curves.bounceIn,
+                  children: [
+                    SpeedDialChild(
+                      child: const Icon(Icons.post_add),
+                      backgroundColor: Colors.orange,
+                      onTap: () => Navigator.push(context,MaterialPageRoute(builder: (_) =>
+                          BlocProvider<ProfileBloc>.value(
+                              value: BlocProvider.of<ProfileBloc>(context),
+                              child: CreatePostScreen()
+                          )
                       )
-                  )
-                  ),
-                  label: 'Create post',
-                  labelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                  labelBackgroundColor: Colors.orange,
-                ),
-                SpeedDialChild(
-                  child: const Icon(FontAwesomeIcons.flag),
-                  backgroundColor: Colors.orange,
-                  onTap: ()
-                  => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
+                      ),
+                      label: 'Create post',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                      labelBackgroundColor: Colors.orange,
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(FontAwesomeIcons.flag),
+                      backgroundColor: Colors.orange,
+                      onTap: ()
+                      => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
+                          MultiBlocProvider(
+                            providers: [
+                              BlocProvider<ProfileBloc>.value(
+                                  value: BlocProvider.of<ProfileBloc>(context)),
+                              BlocProvider<ArticleBloc>.value(
+                                  value: articleBloc),
+                            ],
+                              child: BlocProvider<CreateTourBloc>(
+                                create: (context) => CreateTourBloc(),
+                                  child: CreateTourScreen()))
+                      )
+                      ),
+                      label: 'Create tour',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                      labelBackgroundColor: Colors.orange,
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(FontAwesomeIcons.hotel),
+                      backgroundColor: Colors.orange,
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
                       MultiBlocProvider(
                         providers: [
                           BlocProvider<ProfileBloc>.value(
                               value: BlocProvider.of<ProfileBloc>(context)),
-                          BlocProvider<ArticleBloc>.value(
-                              value: articleBloc),
                         ],
-                          child: BlocProvider<CreateTourBloc>(
-                            create: (context) => CreateTourBloc(),
-                              child: CreateTourScreen()))
-                  )
-                  ),
-                  label: 'Create tour',
-                  labelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                  labelBackgroundColor: Colors.orange,
-                ),
-                SpeedDialChild(
-                  child: const Icon(FontAwesomeIcons.hotel),
-                  backgroundColor: Colors.orange,
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
-                  MultiBlocProvider(
-                    providers: [
-                      BlocProvider<ProfileBloc>.value(
-                          value: BlocProvider.of<ProfileBloc>(context)),
-                    ],
-                      child: CreateHotelServiceScreen()))),
-                  label: 'Create hotel service',
-                  labelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                  labelBackgroundColor: Colors.orange,
-                ),
-                SpeedDialChild(
-                  child: const Icon(FontAwesomeIcons.car),
-                  backgroundColor: Colors.orange,
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreateCarServiceScreen())),
-                  label: 'Create car service',
-                  labelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                  labelBackgroundColor: Colors.orange,
-                ),
-                SpeedDialChild(
-                  child: const Icon(FontAwesomeIcons.checkCircle),
-                  backgroundColor: Colors.orange,
-                  onTap: ()
-                  => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
-                      MultiBlocProvider(
-                        providers: [
-                          BlocProvider.value(value: profileBloc),
-                          BlocProvider.value(value: bookHistoryBloc),
-                          BlocProvider<BookerBloc>(
-                              create: (_) => BookerBloc()..add(GetBookerEvent(ownerId: profileBloc.user!.id,page: 1))
-                          )
-                        ],
-                          child: CheckBookingScreen()))),
-                  label: 'Check booking',
-                  labelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                  labelBackgroundColor: Colors.orange,
-                ),
-                SpeedDialChild(
-                  child: const Icon(FontAwesomeIcons.businessTime),
-                  backgroundColor: Colors.orange,
-                  onTap: ()
-                  => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                      MultiBlocProvider(
-                        providers: [
-                          BlocProvider.value(value: profileBloc),
-                          BlocProvider<ManageServiceBloc>(
-                            create:(_) => ManageServiceBloc()..add(GetDataByOwner(profileBloc.user!.id,1)),
-                          ),
-                        ],
-                          child: ManageServiceScreen()))),
-                  label: 'Manage service',
-                  labelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                  labelBackgroundColor: Colors.orange,
-                ),
-              ],),
-          ),
-          body: Stack(
-            children:[
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children:[
-                    profileBloc.image != null ?
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 2.8,
-                    child: Stack(
-                      children:
-                      [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            bottomRight: Radius.circular(30),
-                          ),
-                          child: FadeInImage(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 2.5,
-                            imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
-                            image:
-                            NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
-                            placeholder: const AssetImage('assets/images/loading.gif'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            bottomRight: Radius.circular(30),
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Theme.of(context).primaryColor,
-                            ],
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      FontAwesomeIcons.envelope,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                        profileBloc.user!=null?profileBloc.user!.email:"loading...",
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.white,
-                                        )
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      ]
+                          child: CreateHotelServiceScreen()))),
+                      label: 'Create hotel service',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                      labelBackgroundColor: Colors.orange,
                     ),
-
-                  ) :
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 2.8,
-                      child: Stack(
+                    SpeedDialChild(
+                      child: const Icon(FontAwesomeIcons.car),
+                      backgroundColor: Colors.orange,
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreateCarServiceScreen())),
+                      label: 'Create car service',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                      labelBackgroundColor: Colors.orange,
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(FontAwesomeIcons.checkCircle),
+                      backgroundColor: Colors.orange,
+                      onTap: ()
+                      => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
+                          MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(value: profileBloc),
+                              BlocProvider.value(value: bookHistoryBloc),
+                              BlocProvider<BookerBloc>(
+                                  create: (_) => BookerBloc()..add(GetBookerEvent(ownerId: profileBloc.user!.id,page: 1))
+                              )
+                            ],
+                              child: CheckBookingScreen()))),
+                      label: 'Check booking',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                      labelBackgroundColor: Colors.orange,
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(FontAwesomeIcons.businessTime),
+                      backgroundColor: Colors.orange,
+                      onTap: ()
+                      => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                          MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(value: profileBloc),
+                              BlocProvider<ManageServiceBloc>(
+                                create:(_) => ManageServiceBloc()..add(GetDataByOwner(profileBloc.user!.id,1)),
+                              ),
+                            ],
+                              child: ManageServiceScreen()))),
+                      label: 'Manage service',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                      labelBackgroundColor: Colors.orange,
+                    ),
+                  ],),
+              ),
+              body: Stack(
+                children:[
+                  SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children:[
+                        profileBloc.image != null ?
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height / 2.8,
+                        child: Stack(
                           children:
                           [
                             ClipRRect(
@@ -259,446 +188,531 @@ class ProfileScreen extends StatelessWidget {
                                 bottomLeft: Radius.circular(30),
                                 bottomRight: Radius.circular(30),
                               ),
-                              child: Image.asset(
-                                'assets/images/undefine-wallpaper.jpg',
+                              child: FadeInImage(
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height / 2.5,
+                                imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                                image:
+                                NetworkImage(profileBloc.image!=null ? profileBloc.image as String:""),
+                                placeholder: const AssetImage('assets/images/loading.gif'),
                                 fit: BoxFit.cover,
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
                               ),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  bottomRight: Radius.circular(30),
-                                ),
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Colors.transparent,
-                                    Theme.of(context).primaryColor,
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Theme.of(context).primaryColor,
+                                ],
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          FontAwesomeIcons.envelope,
+                                          color: Colors.white,
+                                          size: 16,
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                            profileBloc.user!=null?profileBloc.user!.email:"loading...",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.white,
+                                            )
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                              ],
+                            ),
+                          ),
+                          ]
+                        ),
+
+                      ) :
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 2.8,
+                          child: Stack(
+                              children:
+                              [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                  ),
+                                  child: Image.asset(
+                                    'assets/images/undefine-wallpaper.jpg',
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height / 2.5,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(30),
+                                      bottomRight: Radius.circular(30),
+                                    ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        Theme.of(context).primaryColor,
+                                      ],
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Row(
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          const Icon(
-                                            FontAwesomeIcons.envelope,
-                                            color: Colors.white,
-                                            size: 16,
-                                          ),
-                                          const SizedBox(width: 5),
                                           Text(
-                                              profileBloc.user!=null?profileBloc.user!.email:"loading...",
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
+                                            profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                FontAwesomeIcons.envelope,
                                                 color: Colors.white,
-                                              )
+                                                size: 16,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Text(
+                                                  profileBloc.user!=null?profileBloc.user!.email:"loading...",
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.white,
+                                                  )
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          ]
-                      ),
+                                ),
+                              ]
+                          ),
 
-                    ),
+                        ),
 
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Personal Information",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                                Row(
+                                  children:[
+                                    InkWell(
+                                      onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                        MultiBlocProvider(
+                                          providers: [
+                                            BlocProvider<ProfileBloc>.value(value: profileBloc),
+                                            BlocProvider<ManageNewsBloc>(
+                                              create:(_) => ManageNewsBloc()..add(GetNews(userID: profileBloc.user!.id)),
+                                            ),
+                                          ],
+                                            child: ManagePostAndTourScreen())));
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: Colors.white.withOpacity(0.3),
+                                        ),
+                                        child: const Icon(
+                                          FontAwesomeIcons.solidNewspaper,
+                                          color: Colors.orange,
+                                          size: 28,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 15),
+                                    InkWell(
+                                      onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                            MultiBlocProvider(
+                                              providers: [
+                                                BlocProvider.value(value: profileBloc),
+                                                BlocProvider.value(value: bookHistoryBloc),
+                                                BlocProvider(create:(_) => FavoriteBloc())
+                                              ],
+                                                child: FavoriteScreen())));
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: Colors.white.withOpacity(0.3),
+                                        ),
+                                        child: const Icon(
+                                          FontAwesomeIcons.heart,
+                                          color: Colors.orange,
+                                          size: 28,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 15),
+                                    InkWell(
+                                      onTap: (){
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) =>
+                                            BlocProvider.value(
+                                                value: profileBloc,
+                                              child:
+                                                BlocProvider(
+                                                  create: (_) => EditProfileBloc(context),
+                                                  child: EditProfileScreen(),
+                                                )
+                                            ))
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: Colors.white.withOpacity(0.3),
+                                        ),
+                                        child: const Icon(
+                                          FontAwesomeIcons.edit,
+                                          color: Colors.orange,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                              ],),
+                            const SizedBox(height: 20),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white.withOpacity(0.3),
+                                border: Border.all(
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                  "Full name",
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                    children:[
+                                    const Icon(
+                                    FontAwesomeIcons.user,
+                                    color: Colors.black,
+                                    size: 20,
+                                    ), const SizedBox(width: 20),
+                                      Text(
+                                        profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
+                                        style:GoogleFonts.raleway(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,),
+                                      ),
+                                    ]),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 1,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Text(
+                                    "Address",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                      children:[
+                                        const Icon(
+                                          FontAwesomeIcons.mapMarkerAlt,
+                                          color: Colors.black,
+                                          size: 20,
+                                        ), const SizedBox(width: 20),
+                                        Text(
+                                          profileBloc.user!=null?profileBloc.user!.address:"loading...",
+                                          style:GoogleFonts.raleway(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,),
+                                        ),
+                                      ]),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 1,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  const Text(
+                                    "Date of birth",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'Raleway',
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  const Row(
+                                      children:[
+                                        Icon(
+                                          FontAwesomeIcons.cakeCandles,
+                                          color: Colors.black,
+                                          size: 20,
+                                        ), SizedBox(width: 20),
+                                        Text(
+                                          "15/10/2002",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Raleway',
+                                            color: Colors.black,),
+                                        ),
+                                      ]),
+                                  const SizedBox(height: 15),
+                            ])
+                            ),
+                            const SizedBox(height: 20),
                             Text(
-                              "Personal Information",
+                              "Contact",
                               style: GoogleFonts.raleway(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 color: Theme.of(context).primaryColor,
                               ),
                             ),
-                            Row(
-                              children:[
-                                InkWell(
-                                  onTap: (){
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                                    MultiBlocProvider(
-                                      providers: [
-                                        BlocProvider<ProfileBloc>.value(value: profileBloc),
-                                        BlocProvider<ManageNewsBloc>(
-                                          create:(_) => ManageNewsBloc()..add(GetNews(userID: profileBloc.user!.id)),
-                                        ),
-                                      ],
-                                        child: ManagePostAndTourScreen())));
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.white.withOpacity(0.3),
-                                    ),
-                                    child: const Icon(
-                                      FontAwesomeIcons.solidNewspaper,
-                                      color: Colors.orange,
-                                      size: 28,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 15),
-                                InkWell(
-                                  onTap: (){
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                                        MultiBlocProvider(
-                                          providers: [
-                                            BlocProvider.value(value: profileBloc),
-                                            BlocProvider.value(value: bookHistoryBloc),
-                                            BlocProvider(create:(_) => FavoriteBloc())
-                                          ],
-                                            child: FavoriteScreen())));
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.white.withOpacity(0.3),
-                                    ),
-                                    child: const Icon(
-                                      FontAwesomeIcons.heart,
-                                      color: Colors.orange,
-                                      size: 28,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 15),
-                                InkWell(
-                                  onTap: (){
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) =>
-                                        BlocProvider.value(
-                                            value: profileBloc,
-                                          child:
-                                            BlocProvider(
-                                              create: (_) => EditProfileBloc(context),
-                                              child: EditProfileScreen(),
-                                            )
-                                        ))
-                                    );
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.white.withOpacity(0.3),
-                                    ),
-                                    child: const Icon(
-                                      FontAwesomeIcons.edit,
-                                      color: Colors.orange,
-                                      size: 30,
-                                    ),
-                                  ),
-                                )
-                              ]),
-                          ],),
-                        const SizedBox(height: 20),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white.withOpacity(0.3),
-                            border: Border.all(
-                              color: Colors.black.withOpacity(0.3),
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                              "Full name",
-                              style: GoogleFonts.raleway(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
+                            const SizedBox(height: 20),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
                               ),
-                            ),
-                              const SizedBox(height: 15),
-                              Row(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white.withOpacity(0.3),
+                                border: Border.all(
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children:[
-                                const Icon(
-                                FontAwesomeIcons.user,
-                                color: Colors.black,
-                                size: 20,
-                                ), const SizedBox(width: 20),
                                   Text(
-                                    profileBloc.user!=null?"${profileBloc.user!.firstname} ${profileBloc.user!.lastname}":"loading...",
-                                    style:GoogleFonts.raleway(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,),
+                                    "Email",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                    ),),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                      children:[
+                                        const Icon(
+                                          FontAwesomeIcons.envelope,
+                                          color: Colors.black,
+                                          size: 20,
+                                        ), const SizedBox(width: 20),
+                                        Text(
+                                          profileBloc.user!=null?profileBloc.user!.email:"loading...",
+                                          style:GoogleFonts.raleway(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,),
+                                        ),
+                                      ]),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 1,
+                                    color: Colors.black.withOpacity(0.3),
                                   ),
-                                ]),
-                              const SizedBox(height: 15),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              const SizedBox(height: 15),
-                              Text(
-                                "Address",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              Row(
-                                  children:[
-                                    const Icon(
-                                      FontAwesomeIcons.mapMarkerAlt,
+                                  const SizedBox(height: 15),
+                                  Text(
+                                    "Phone Number",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
                                       color: Colors.black,
-                                      size: 20,
-                                    ), const SizedBox(width: 20),
-                                    Text(
-                                      profileBloc.user!=null?profileBloc.user!.address:"loading...",
-                                      style:GoogleFonts.raleway(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,),
                                     ),
-                                  ]),
-                              const SizedBox(height: 15),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              const SizedBox(height: 15),
-                              const Text(
-                                "Date of birth",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              const Row(
-                                  children:[
-                                    Icon(
-                                      FontAwesomeIcons.cakeCandles,
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                      children:[
+                                        const Icon(
+                                          FontAwesomeIcons.phone,
+                                          color: Colors.black,
+                                          size: 20,
+                                        ), const SizedBox(width: 20),
+                                        Text(
+                                          profileBloc.user!=null?profileBloc.user!.phonenumber:"loading...",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,),
+                                        ),
+                                      ]),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 1,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Text(
+                                    "Social Network",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
                                       color: Colors.black,
-                                      size: 20,
-                                    ), SizedBox(width: 20),
-                                    Text(
-                                      "15/10/2002",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'Raleway',
-                                        color: Colors.black,),
                                     ),
-                                  ]),
-                              const SizedBox(height: 15),
-                        ])
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          "Contact",
-                          style: GoogleFonts.raleway(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white.withOpacity(0.3),
-                            border: Border.all(
-                              color: Colors.black.withOpacity(0.3),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                      children:[
+                                        const Icon(
+                                          FontAwesomeIcons.globe,
+                                          color: Colors.black,
+                                          size: 20,
+                                        ),
+                                        const SizedBox(width: 20),
+                                        Text(
+                                          "Not Linked",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          )
+                                        ),
+                                      ]),
+                                  const SizedBox(height: 15),
+                                ]
+                              ),
                             ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children:[
-                              Text(
-                                "Email",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),),
-                              const SizedBox(height: 15),
-                              Row(
-                                  children:[
-                                    const Icon(
-                                      FontAwesomeIcons.envelope,
-                                      color: Colors.black,
-                                      size: 20,
-                                    ), const SizedBox(width: 20),
-                                    Text(
-                                      profileBloc.user!=null?profileBloc.user!.email:"loading...",
-                                      style:GoogleFonts.raleway(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,),
-                                    ),
-                                  ]),
-                              const SizedBox(height: 15),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              const SizedBox(height: 15),
-                              Text(
-                                "Phone Number",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 15),
-                              Row(
-                                  children:[
+                                onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return LogOutDialog(logout: Logout,);
+                                      },
+                                    );
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
                                     const Icon(
-                                      FontAwesomeIcons.phone,
-                                      color: Colors.black,
+                                      FontAwesomeIcons.signOutAlt,
+                                      color: Colors.red,
                                       size: 20,
-                                    ), const SizedBox(width: 20),
+                                    ),
+                                    const SizedBox(width: 10),
                                     Text(
-                                      profileBloc.user!=null?profileBloc.user!.phonenumber:"loading...",
+                                      "Sign Out",
                                       style: GoogleFonts.raleway(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,)
                                     ),
-                                  ]),
-                              const SizedBox(height: 15),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              const SizedBox(height: 15),
-                              Text(
-                                "Social Network",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(height: 15),
-                              Row(
-                                  children:[
-                                    const Icon(
-                                      FontAwesomeIcons.globe,
-                                      color: Colors.black,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Text(
-                                      "Not Linked",
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      )
-                                    ),
-                                  ]),
-                              const SizedBox(height: 15),
-                            ]
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder: (BuildContext context) {
-                                    return LogOutDialog(logout: Logout,);
-                                  },
-                                );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  FontAwesomeIcons.signOutAlt,
-                                  color: Colors.red,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  "Sign Out",
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,)
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 80),
+                            const SizedBox(height: 80),
+                          ]),
+                      ),
                       ]),
                   ),
-                  ]),
-              ),
-            ])
-        ),
-      )
-
+                ])
+            ),
+          )
     );
+        }
+      )
+      );
   }
 }

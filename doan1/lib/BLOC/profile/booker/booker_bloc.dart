@@ -67,7 +67,9 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
         tmplist.addAll(listVehicleBookingOrder!);
         listVehicleBookingOrder = tmplist;
       }
-      add(BookingRefreshed());
+      if(!isClosed){
+        add(BookingRefreshed());
+      }
     });
   }
   Future<List<DateBooking>?> getListHotelBooking(String hoteId) async{

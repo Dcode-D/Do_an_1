@@ -15,11 +15,6 @@ class EditVehicleItem extends StatelessWidget{
   Widget build(BuildContext context) {
     var editVehicleItemBloc = context.read<EditVehicleItemBloc>();
     var manageServiceBloc = context.read<ManageServiceBloc>();
-    deleteVehicle()=>{
-      editVehicleItemBloc.add(VehicleItemDeleteEvent(editVehicleItemBloc.vehicle!.id!)),
-      manageServiceBloc.add(DeleteVehicleItem(editVehicleItemBloc.index!)),
-      Navigator.pop(context)
-    };
 
     return BlocBuilder<EditVehicleItemBloc,EditVehicleItemState>(
       builder: (context,state)=>
@@ -143,7 +138,10 @@ class EditVehicleItem extends StatelessWidget{
                       onPressed: (){
                         showGeneralDialog(context: context,
                             pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                              return VehicleDeleteDialog(deleteVehicle: deleteVehicle,);
+                              return VehicleDeleteDialog(deleteVehicle: (){
+                                editVehicleItemBloc.add(VehicleItemDeleteEvent(editVehicleItemBloc.vehicle!.id!));
+                                Navigator.of(context).pop();
+                              });
                             },);
                       },
                       style: ElevatedButton.styleFrom(
