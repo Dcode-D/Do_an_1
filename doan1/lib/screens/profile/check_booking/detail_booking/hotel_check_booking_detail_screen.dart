@@ -66,7 +66,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                 child: IconButton(
                   onPressed: () {
                     hotelBookingItemBloc.add(HotelBookingItemInitialEvent(
-                        dateBooking: bookerBloc.listHotelBookingOrder![hotelBookingItemBloc.index!],
+                        dateBooking: bookerBloc.listBookings[hotelBookingItemBloc.index!],
                         index: hotelBookingItemBloc.index!));
                     Navigator.pop(context);
                   },
@@ -933,7 +933,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                             TextButton(
                                               onPressed: (){
                                                 hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                                bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                                bookerBloc.add(GetBookerEvent());
                                                 hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                                 Navigator.pop(context);
                                               },
@@ -971,7 +971,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                 child: ElevatedButton(
                                   onPressed: (){
                                     hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                                    bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                    bookerBloc.add(GetBookerEvent());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.orange,
@@ -1066,7 +1066,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                           TextButton(
                                             onPressed: (){
                                               hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                              bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                              bookerBloc.add(GetBookerEvent());
                                               hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                               Navigator.pop(context);
                                             },
@@ -1104,7 +1104,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                               child: ElevatedButton(
                                 onPressed: (){
                                   hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                                  bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                  bookerBloc.add(GetBookerEvent());
 
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -1231,7 +1231,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                             TextButton(
                                               onPressed: (){
                                                 hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                                bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                                bookerBloc.add(GetBookerEvent());
                                                 hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                                 Navigator.pop(context);
                                               },
@@ -1269,7 +1269,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                 child: ElevatedButton(
                                   onPressed: (){
                                     hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                                    bookerBloc.add(GetBookerEvent(ownerId: hotelBookingItemBloc.user!.id,page: 1));
+                                    bookerBloc.add(GetBookerEvent());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.orange,

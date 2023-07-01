@@ -73,18 +73,20 @@ class DateBookingRepository{
     return response.response.statusCode == 200;
   }
 
-  Future<List<DateBooking>?> GetHotelBookingByHotelId(String hotelId) async{
+  Future<List<DateBooking>?> GetHotelBookingByHotelId(String hotelId, int page) async{
     final response = await _appService.getHotelDateBookingList(
         token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        idHotel: hotelId);
+        idHotel: hotelId,
+        page: page);
     return response.response.statusCode == 200 ?
     response.data.toListDateBooking() : null;
   }
 
-  Future<List<DateBooking>?> GetVehicleBookingByVehicleId(String vehicleId) async{
+  Future<List<DateBooking>?> GetVehicleBookingByVehicleId(String vehicleId, int page) async{
     final response = await _appService.getCarDateBookingList(
         token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        idCar: vehicleId);
+        idCar: vehicleId,
+        page: page);
     return response.response.statusCode == 200 ?
     response.data.toListDateBooking() : null;
   }

@@ -1,22 +1,27 @@
-import 'package:doan1/BLOC/profile/edit_hotel/edit_hotel_item_bloc.dart';
-import 'package:doan1/screens/profile/floating_button/widget/dialog/hotel_delete_dialog.dart';
-import 'package:doan1/screens/profile/floating_button/widget/hotel/edit_hotel_screen.dart';
+import 'package:doan1/BLOC/profile/edit_vehicle/edit_vehicle_item_bloc.dart';
+import 'package:doan1/BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
+import 'package:doan1/screens/profile/floating_button/widget/dialog/vehicle_delete_dialog.dart';
+import 'package:doan1/screens/profile/floating_button/widget/vehicle/edit_vehicle_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
+import '../../../../BLOC/profile/booker/booker_bloc.dart';
+import '../check_booking_screen.dart';
 
-class EditHotelItem extends StatelessWidget{
+
+class BookingVehicleItem extends StatelessWidget{
   final formatCurrency = NumberFormat("#,###");
   @override
   Widget build(BuildContext context) {
-    var editHotelBloc = context.read<EditHotelItemBloc>();
-    return BlocBuilder<EditHotelItemBloc,EditHotelItemState>(
+    var editVehicleItemBloc = context.read<EditVehicleItemBloc>();
+    var manageServiceBloc = context.read<ManageServiceBloc>();
+
+    return BlocBuilder<EditVehicleItemBloc,EditVehicleItemState>(
       builder: (context,state)=>
-      editHotelBloc.hotel != null ?
+      editVehicleItemBloc.vehicle != null ?
       Padding(
         padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
         child: Container(
@@ -38,11 +43,11 @@ class EditHotelItem extends StatelessWidget{
               children: [
                 Row(
                   children: [
-                     const Icon(
-                      FontAwesomeIcons.hotel, size: 25,
+                    const Icon(
+                      FontAwesomeIcons.car, size: 25,
                     ),
                     const SizedBox(width: 10,),
-                    Text('Hotel',
+                    Text('Vehicle',
                       style: GoogleFonts.roboto(
                           fontSize: 20,
                           fontWeight: FontWeight.bold),),
@@ -57,13 +62,13 @@ class EditHotelItem extends StatelessWidget{
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    editHotelBloc.hotel!=null ?
+                    editVehicleItemBloc.vehicle!=null ?
                     FadeInImage(
                       width: MediaQuery.of(context).size.width * 0.325,
                       height: MediaQuery.of(context).size.height * 0.15,
                       imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                       image:
-                      NetworkImage(editHotelBloc.hotel!=null && editHotelBloc.images!.isNotEmpty ? editHotelBloc.images![0]: ""),
+                      NetworkImage(editVehicleItemBloc.vehicle!=null && editVehicleItemBloc.images!.isNotEmpty ? editVehicleItemBloc.images![0]: ""),
                       placeholder: const AssetImage('assets/images/loading.gif'),
                       fit: BoxFit.cover,
                     )
@@ -73,15 +78,20 @@ class EditHotelItem extends StatelessWidget{
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(editHotelBloc.hotel!=null? editHotelBloc.hotel!.name as String :"loading..."
-                          ,style: GoogleFonts.roboto(
+                        Text(editVehicleItemBloc.vehicle!=null? editVehicleItemBloc.vehicle!.brand as String :"loading...",
+                          style: GoogleFonts.roboto(
                               fontSize: 15,
                               fontWeight: FontWeight.bold),),
                         const SizedBox(height: 5,),
+                        Text(editVehicleItemBloc.vehicle!=null? '${editVehicleItemBloc.vehicle!.seats} seats' :"loading...",
+                          style: GoogleFonts.roboto(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400),),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.52,
-                          child: Text(editHotelBloc.hotel!=null? '${editHotelBloc.hotel!.province!}, ${editHotelBloc.hotel!.city}' :"loading..."
-                            ,style: GoogleFonts.roboto(
+                          child: Text(editVehicleItemBloc.vehicle!=null? '${editVehicleItemBloc.vehicle!.province}, ${editVehicleItemBloc.vehicle!.city}' :"loading...",
+                            softWrap: true,
+                            style: GoogleFonts.roboto(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400),),
                         ),
@@ -98,8 +108,7 @@ class EditHotelItem extends StatelessWidget{
                 Row(
                   children: [
                     Text(
-                      editHotelBloc.hotel?.maxPrice !=null && editHotelBloc.hotel?.minPrice !=null?
-                      '${formatCurrency.format(((editHotelBloc.hotel!.maxPrice as double) + (editHotelBloc.hotel!.minPrice as double))/2)} VNĐ / night':'?',
+                      editVehicleItemBloc.vehicle!=null? '${formatCurrency.format(editVehicleItemBloc.vehicle!.pricePerDay)} VNĐ / day' :"loading...",
                       style: GoogleFonts.roboto(
                           fontSize: 15,
                           color: Colors.black54,
@@ -110,48 +119,28 @@ class EditHotelItem extends StatelessWidget{
                     const Spacer(),
                     ElevatedButton(
                       onPressed: (){
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) =>
-                              BlocProvider.value(
-                              value: editHotelBloc..add(RefreshHotelItemEvent()),
-                              child: EditHotelScreen(),
-                            ))
-                        );
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BlocProvider<BookerBloc>(
+                                  create: (context) => BookerBloc("car", editVehicleItemBloc.vehicle!.id!)..add(GetBookerEvent()),
+                                  child: Builder(
+                                      builder: (context) {
+                                        return CheckBookingScreen();
+                                      }
+                                  ),
+                                )));
                       },
                       child:
                       Text(
-                        'Detail',
+                        'Bookings',
                         style: GoogleFonts.roboto(
                             fontSize: 15,
                             color: Colors.white,
                             fontWeight: FontWeight.w500
                         ),),
                     ),
-                    const SizedBox(width: 10,),
-                    ElevatedButton(
-                      onPressed: (){
-                        showGeneralDialog(context: context,
-                            pageBuilder:
-                            (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                              return HotelDeleteDialog(deleteHotel: (){
-                                editHotelBloc.add(DeleteHotelItemEvent(editHotelBloc.hotel!.id!));
-                                Navigator.of(context).pop();
-                              },);
-                            },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                      ),
-                      child:
-                      Text(
-                        'Delete',
-                        style: GoogleFonts.roboto(
-                            fontSize: 15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500
-                        ),),
-                    ),
+
                   ],
                 )
               ],
@@ -159,8 +148,8 @@ class EditHotelItem extends StatelessWidget{
           ),
         ),
       )
-      :
-      Center(
+          :
+      const Center(
         child: CircularProgressIndicator(),
       ),
     );

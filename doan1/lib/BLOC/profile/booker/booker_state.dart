@@ -6,9 +6,8 @@ abstract class BookerState {}
 class BookerInitial extends BookerState {}
 
 class BookingOrderLoad extends BookerState {
-  final List<DateBooking> listHotelBookingOrder;
-  final List<DateBooking> listVehicleBookingOrder;
-  BookingOrderLoad(this.listVehicleBookingOrder, this.listHotelBookingOrder);
+  final List<DateBooking> listBooking;
+  BookingOrderLoad(this.listBooking);
 }
 
 class BookingOrderLoadFail extends BookerState {}

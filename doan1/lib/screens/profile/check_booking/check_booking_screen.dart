@@ -20,7 +20,6 @@ class CheckBookingScreen extends StatefulWidget{
 
 class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
-  late final TabController _tabController = TabController(length: 2, vsync: this);
 
   late BookerBloc bookerBloc;
   @override
@@ -63,43 +62,12 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                   ),
                 ),
               ),
-              SliverPersistentHeader(
-                  delegate: SliverAppBarDelegate(
-                    color: Colors.transparent,
-                    tabbar: TabBar(
-                      controller: _tabController,
-                      isScrollable: false,
-                      labelColor: Colors.black87,
-                      unselectedLabelColor: Colors.grey,
-                      labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-                      labelStyle: const TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.orange,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      unselectedLabelStyle: const TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      indicator: CircleTabIndicator(
-                        color: Colors.orange,
-                        radius: 4,
-                      ),
-                      tabs: const [
-                        Tab(text: 'Hotel',),
-                        Tab(text: 'Vehicle',)
-                      ],
-                    ),
-                  )),
             ];
           },
           body: BlocBuilder<BookerBloc,BookerState>(
             builder: (context, state) =>
-            TabBarView(
-              controller: _tabController,
-              children: [
-                bookerBloc.listHotelBookingOrder == null ?
+            bookerBloc.type == 'hotel' ?
+                bookerBloc.listBookings.isEmpty ?
                 Center(
                   child: Text(
                     'No hotel booking for you',
@@ -113,7 +81,7 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                 ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
-                  itemCount: bookerBloc.listHotelBookingOrder!.length,
+                  itemCount: bookerBloc.listBookings.length,
                   itemBuilder: (BuildContext context, int index) {
                     return MultiBlocProvider(
                       providers: [
@@ -122,12 +90,12 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                         ),
                         BlocProvider<HotelBookingItemBloc>(
                         create: (context) => HotelBookingItemBloc()..add(
-                        HotelBookingItemInitialEvent(dateBooking: bookerBloc.listHotelBookingOrder![index],index: index)),),
+                        HotelBookingItemInitialEvent(dateBooking: bookerBloc.listBookings[index],index: index)),),
                       ],
                         child: HotelCheckBookingItem());
                   },
-                ),
-                bookerBloc.listVehicleBookingOrder == null ?
+                ):
+                bookerBloc.listBookings.isEmpty ?
                 Center(
                   child: Text(
                     'No vehicle booking for you',
@@ -141,7 +109,7 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                 ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
-                  itemCount: bookerBloc.listVehicleBookingOrder!.length,
+                  itemCount: bookerBloc.listBookings.length,
                   itemBuilder: (BuildContext context, int index) {
                     return MultiBlocProvider(
                       providers: [
@@ -150,16 +118,14 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                         ),
                         BlocProvider<VehicleBookingItemBloc>(
                         create: (context) => VehicleBookingItemBloc()..add(
-                        VehicleBookingItemInitialEvent(dateBooking: bookerBloc.listVehicleBookingOrder![index],index: index)),),
+                        VehicleBookingItemInitialEvent(dateBooking: bookerBloc.listBookings[index],index: index)),),
                       ],
                         child: VehicleCheckBookingItem());
                   },
                 ),
-              ]
             ),
           ),
         )
-      ),
-    );
+      );
   }
 }

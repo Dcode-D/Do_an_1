@@ -11,6 +11,7 @@ import 'package:doan1/screens/profile/floating_button/create_hotel_service_scree
 import 'package:doan1/screens/profile/floating_button/create_tour_screen.dart';
 import 'package:doan1/screens/profile/favorite_screen.dart';
 import 'package:doan1/screens/profile/floating_button/manage_service_screen.dart';
+import 'package:doan1/screens/profile/floating_button/service_booking_screen.dart';
 import 'package:doan1/screens/profile/manage_post_and_tour_screen.dart';
 import 'package:doan1/widgets/dialog/log_out_dialog.dart';
 import 'package:flutter/material.dart';
@@ -137,12 +138,9 @@ class ProfileScreen extends StatelessWidget {
                           MultiBlocProvider(
                             providers: [
                               BlocProvider.value(value: profileBloc),
-                              BlocProvider.value(value: bookHistoryBloc),
-                              BlocProvider<BookerBloc>(
-                                  create: (_) => BookerBloc()..add(GetBookerEvent(ownerId: profileBloc.user!.id,page: 1))
-                              )
+                              BlocProvider(create: (context)=>ManageServiceBloc()..add(GetDataByOwner(profileBloc.user!.id, 1))),
                             ],
-                              child: CheckBookingScreen()))),
+                              child: ServiceBookingScreen()))),
                       label: 'Check booking',
                       labelStyle: const TextStyle(
                           color: Colors.white,

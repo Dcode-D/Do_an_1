@@ -239,12 +239,14 @@ abstract class AppService {
   @GET("/dateBooking/hotel/{id}")
   Future<HttpResponse<ListModelResponse>> getHotelDateBookingList({
     @Header("Authorization") required String token,
-    @Path('id') required String idHotel});
+    @Path('id') required String idHotel,
+    @Query('page') required int page,});
 
   @GET("/dateBooking/car/{id}")
   Future<HttpResponse<ListModelResponse>> getCarDateBookingList({
     @Header("Authorization") required String token,
-    @Path('id') required String idCar});
+    @Path('id') required String idCar,
+    @Query('page') required int page,});
 
   @GET("/dateBooking/{id}")
   Future<HttpResponse<BaseResponse>> getDateBookingById({

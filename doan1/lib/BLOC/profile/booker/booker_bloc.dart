@@ -15,67 +15,75 @@ part 'booker_event.dart';
 part 'booker_state.dart';
 
 class BookerBloc extends Bloc<BookerEvent,BookerState>{
-  List<DateBooking>? listHotelBookingOrder;
-  List<DateBooking>? listVehicleBookingOrder;
+  String type;
+  String serviceId;
+  late int page;
+  List<DateBooking> listBookings = [];
 
-  BookerBloc() : super(BookerInitial()){
+  BookerBloc(this.type, this.serviceId) : super(BookerInitial()){
+    page =0;
     on<BookerEvent>((event, emit) {
     });
     on<GetBookerEvent>((event, emit) async {
-      List<Hotel>? lsHotel = await getListHotelByOwnerId(event.ownerId, event.page);
-      List<Vehicle>? lsVehicle = await getListVehicleByOwnerId(event.ownerId, event.page);
-      if(lsHotel == null || lsVehicle == null){
-        emit(BookingOrderLoadFail());
-        return;
-      }
-      listHotelBookingOrder=[];
-      listVehicleBookingOrder=[];
-      for(var i in lsHotel){
-        List<DateBooking>? listHotelBooking = await getListHotelBooking(i.id!);
-        if(listHotelBooking == null){
-          continue;
+      page++;
+      if(type == 'hotel'){
+        var listHotelBooking = await getListHotelBooking(serviceId, page);
+        if(listHotelBooking != null){
+          listBookings.addAll(listHotelBooking);
+          emit(BookingOrderLoad(listBookings));
         }
-        listHotelBookingOrder!.addAll(listHotelBooking.reversed.toList());
-      }
-      for(var i in lsVehicle){
-        List<DateBooking>? listVehicleBooking = await getListVehicleBooking(i.id!);
-        if(listVehicleBooking == null){
-          continue;
+        else{
+          emit(BookingOrderLoadFail());
         }
-        listVehicleBookingOrder!.addAll(listVehicleBooking.reversed.toList());
       }
-
-      emit(BookingOrderLoad(listVehicleBookingOrder!,listHotelBookingOrder!));
-
-
+      else if(type == 'car'){
+        var listVehicleBooking = await getListVehicleBooking(serviceId, page);
+        if(listVehicleBooking != null){
+          listBookings.addAll(listVehicleBooking);
+          emit(BookingOrderLoad(listBookings));
+        }
+        else{
+          emit(BookingOrderLoadFail());
+        }
+      }
     });
 
-    on<BookingRefreshed>((event, emit) {
-      emit(BookingOrderLoad(listVehicleBookingOrder!,listHotelBookingOrder!));
+    on<BookingRefreshed>((event, emit) async {
+      listBookings = [];
+      for(int i =1; i<=page; i++){
+        if(type == 'hotel'){
+          var listHotelBooking = await getListHotelBooking(serviceId, page);
+          if(listHotelBooking != null){
+            listBookings.addAll(listHotelBooking);
+            emit(BookingOrderLoad(listBookings));
+          }
+          else{
+            emit(BookingOrderLoadFail());
+          }
+        }
+        else if(type == 'car'){
+          var listVehicleBooking = await getListVehicleBooking(serviceId, page);
+          if(listVehicleBooking != null){
+            listBookings.addAll(listVehicleBooking);
+            emit(BookingOrderLoad(listBookings));
+          }
+          else{
+            emit(BookingOrderLoadFail());
+          }
+        }
+      }
     });
     final eventbus = GetIt.instance.get<EventBus>();
     eventbus.on<NewBookingEvent>().listen((event) {
-      if(event.booking.type=="hotel"){
-        var tmplist = <DateBooking>[];
-        tmplist.add(event.booking);
-        tmplist.addAll(listHotelBookingOrder!);
-        listHotelBookingOrder = tmplist;
-      }
-      else if(event.booking.type=="car"){
-        var tmplist = <DateBooking>[];
-        tmplist.add(event.booking);
-        tmplist.addAll(listVehicleBookingOrder!);
-        listVehicleBookingOrder = tmplist;
-      }
       if(!isClosed){
         add(BookingRefreshed());
       }
     });
   }
-  Future<List<DateBooking>?> getListHotelBooking(String hoteId) async{
+  Future<List<DateBooking>?> getListHotelBooking(String hoteId, int pg) async{
     var dateBookingRepo = GetIt.instance.get<DateBookingRepository>();
     try {
-      var listHotelBooking = await dateBookingRepo.GetHotelBookingByHotelId(hoteId);
+      var listHotelBooking = await dateBookingRepo.GetHotelBookingByHotelId(hoteId,pg);
       return listHotelBooking;
     }
     catch(e){
@@ -84,35 +92,11 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
     }
   }
 
-  Future<List<DateBooking>?> getListVehicleBooking(String vehicleId) async{
+  Future<List<DateBooking>?> getListVehicleBooking(String vehicleId, int pg) async{
     var dateBookingRepo = GetIt.instance.get<DateBookingRepository>();
     try {
-      var listVehicleBooking = await dateBookingRepo.GetVehicleBookingByVehicleId(vehicleId);
+      var listVehicleBooking = await dateBookingRepo.GetVehicleBookingByVehicleId(vehicleId, pg);
       return listVehicleBooking;
-    }
-    catch(e){
-      print(e);
-      return null;
-    }
-  }
-
-  Future<List<Hotel>?> getListHotelByOwnerId(String owner, int page) async {
-    var hotelRepo = GetIt.instance.get<HotelRepository>();
-    try {
-      var listHotel = await hotelRepo.getListHotelByOwner(owner, page);
-      return listHotel;
-    }
-    catch(e){
-      print(e);
-      return null;
-    }
-  }
-
-  Future<List<Vehicle>?> getListVehicleByOwnerId(String owner, int page) async {
-    var vehicleRepo = GetIt.instance.get<VehicleRepository>();
-    try {
-      var listVehicle = await vehicleRepo.getListVehicleByOwner(owner, page);
-      return listVehicle;
     }
     catch(e){
       print(e);
