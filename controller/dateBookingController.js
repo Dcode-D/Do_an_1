@@ -48,6 +48,8 @@ const createDateBooking = async (req, res) => {
         }
         if(type !== "hotel" && type !== "car") return res.status(400).json({status: "error", message: "Invalid type"});
 
+        price *= (new Date(endDate).getDate()-new Date(startDate).getDate())
+
         const dateBooking = new dateBookingModel({
             type: type,
             attachedServices: attachedServices,
@@ -84,7 +86,21 @@ const deleteDateBooking = async (req, res) => {
     try {
         const dateBooking = await dateBookingModel.findById(req.params.id);
         if (!dateBooking) return res.status(404).json({status: "error", message: "Date booking not found"});
-        if (!dateBooking.user.equals(req.user._id)) return res.status(403).json({status: "error", message: "Not permitted"});
+        let permitflag = false;
+        if (dateBooking.user.equals(req.user._id))
+            permitflag = true;
+        if(dateBooking.type ==="car"){
+            const cars = await carModel.find({_id: {$in: dateBooking.attachedServices}});
+            const owner = await UserModel.findById(cars[0].owner);
+            if(owner._id.equals(req.user._id)) permitflag = true;
+        }
+        if(dateBooking.type ==="hotel"){
+            const hotelRooms = await  HotelRoomModel.find({_id:{ $in: dateBooking.attachedServices}});
+            const hotel = await hotelModel.findById(hotelRooms[0].hotel);
+            const owner = await UserModel.findById(hotel.owner);
+            if(owner._id.equals(req.user._id)) permitflag = true;
+        }
+        if(!permitflag) return res.status(400).json({status: "error", message: "You are not allowed to delete this date booking"});
         if(!dateBooking.suspended) return res.status(400).json({status: "error", message: "Date booking cannot be removed before suspended"});
         await dateBooking.deleteOne();
         return res.status(200).json({status: "success", message: "Date booking deleted"});
@@ -206,7 +222,7 @@ const getBookingsOfUser = async (req, res) => {
             query.where({type: type});
         if(page)
             query.skip((parseInt(page)-1)*10).limit(10);
-        const datebookings = await query.exec();
+        const datebookings = await query.sort({_id:-1}).exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
         console.log(e.message);
@@ -237,7 +253,7 @@ const getDateBookingOfHotel = async (req, res) => {
         if (attachedServices)
             query.where({attachedServices: {$in: attachedServices}});
         if(page)
-            query.skip((intPage-1)*10).limit(10);
+            query.sort({_id:-1}).skip((intPage-1)*10).limit(10);
         const datebookings = await query.exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
@@ -268,7 +284,7 @@ const getDateBookingOfCar = async (req, res) => {
         if (attachedServices)
             query.where({attachedService: {$in: attachedServices}});
         if(page)
-            query.skip((intPage-1)*10).limit(10);
+            query.sort({_id:-1}).skip((intPage-1)*10).limit(10);
         const datebookings = await query.exec();
         return res.status(200).json({status: "success", message: "Date bookings found", data: datebookings});
     }catch (e){
