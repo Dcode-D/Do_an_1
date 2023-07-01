@@ -21,113 +21,137 @@ class ArticleRepository {
       this._requestFactory, this._eventBus);
 
   Future<int?> getMaxPage() async {
-    return _appService
-        .getArticleMaxPage()
-        .then((http) async {
-      if (http.response.statusCode != 200) {
-        return null;
-      }
-      else{
-        return http.data;
-      }
-    });
+    try{
+      return _appService
+          .getArticleMaxPage()
+          .then((http) async {
+        if (http.response.statusCode != 200) {
+          return null;
+        }
+        else{
+          return http.data;
+        }
+      });
+    }catch(e){
+      return null;
+    }
+
   }
 
   Future<Article?> getArticleById(String id) async {
-    return _appService.getArticleById(id).then((http) async {
-      if (http.response.statusCode != 200) {
-        return null;
-      }
-      else{
-        return http.data.toArticle();
-      }
-    });
+    try{
+      return _appService.getArticleById(id).then((http) async {
+        if (http.response.statusCode != 200) {
+          return null;
+        }
+        else{
+          return http.data.toArticle();
+        }
+      });
+    }catch(e){
+      return null;
+    }
+
   }
 
   Future<List<String>?> getListId(int page, String? city, String? province, String? name) async {
-    return _appService
-        .getListIdArticleFromPage(page, city, province, name)
-        .then((http) async {
-      if (http.response.statusCode != 200) {
-        return null;
-      }
-      else{
-        return http.data.toListIdArticle();
-      }
-    });
+    try{
+      return _appService
+          .getListIdArticleFromPage(page, city, province, name)
+          .then((http) async {
+        if (http.response.statusCode != 200) {
+          return null;
+        }
+        else{
+          return http.data.toListIdArticle();
+        }
+      });
+    }catch(e){
+      return null;
+    }
+
   }
 
   Future<bool> createPost(String token, String title, String description, String address, String province, String district, String referenceName, List<File> files) async {
     return _appService.createArticle(title: title, description: description, address: address, province :province, district: district, referenceName: referenceName, token: token, files: files).then((http) async {
-      if (http.response.statusCode != 200) {
+      try{
+        if (http.response.statusCode != 200) {
+          return false;
+        }
+        else{
+          return true;
+        }
+      }catch(e){
         return false;
       }
-      else{
-        return true;
-      }
+
     });
   }
 
-  Future<bool> deletePost(String id){
-    return _appService.deleteArticleById(
-        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        id: id).then((http) async {
-      if (http.response.statusCode != 200) {
-        return false;
-      }
-      else{
-        return true;
-      }
-    });
+  Future<bool> deletePost(String id) async{
+    try{
+      return _appService.deleteArticleById(
+          token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+          id: id).then((http) async {
+        if (http.response.statusCode != 200) {
+          return false;
+        }
+        else{
+          return true;
+        }
+      });
+    }catch(e){
+      return false;
+    }
   }
 
   Future<List<String>?> getListIdArticleFromUser(int page, String publishBy) async {
-    return _appService
-        .getListIdArticleFromUser(page, publishBy)
-        .then((http) async {
-      if (http.response.statusCode != 200) {
-        return null;
-      }
-      else{
-        return http.data.toListIdArticle();
-      }
-    });
+    try{
+      return _appService
+          .getListIdArticleFromUser(page, publishBy)
+          .then((http) async {
+        if (http.response.statusCode != 200) {
+          return null;
+        }
+        else{
+          return http.data.toListIdArticle();
+        }
+      });
+    }
+    catch(e){
+      return null;
+    }
+
   }
 
   Future<bool> deleteArticleImage(String id, String imageId) async {
-    return _appService.deleteArticleImage(
-        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        article: id,
-        request: _requestFactory.deleteImage(imageId)
-    ).then((http) async {
-      if (http.response.statusCode != 200) {
-        return false;
-      }
-      else{
-        return true;
-      }
-    });
-  }
-
-  Future<bool> uploadArticleImage(String id, File file){
-    return _appService.uploadArticleImage(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        article: id,
-        file: file).then((http) async {
-      if (http.response.statusCode != 200) {
-        return false;
-      }
-      else {
-        return true;
-      }
-    });
-    }
-
-    Future<bool> updateArticleInfo(String id, String title, String address, String description, String referenceName){
-      return _appService.updateArticleInfo(
+    try{
+      return _appService.deleteArticleImage(
           token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
           article: id,
-          request: _requestFactory.updateArticleInfo(title, address, description, referenceName)
+          request: _requestFactory.deleteImage(imageId)
       ).then((http) async {
+        if (http.response.statusCode != 200) {
+          return false;
+        }
+        else{
+          return true;
+        }
+      });
+    }
+    catch(e){
+      return false;
+    }
+
+  }
+
+  Future<bool> uploadArticleImage(String id, File file) async {
+    try {
+      return _appService.uploadArticleImage(
+          token: "Bearer ${_sharedPreferences.getString(
+              Preferences.token) as String}",
+          article: id,
+          file: file).then((http) async {
         if (http.response.statusCode != 200) {
           return false;
         }
@@ -135,5 +159,31 @@ class ArticleRepository {
           return true;
         }
       });
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+    Future<bool> updateArticleInfo(String id, String title, String address, String description, String referenceName) async {
+      try {
+        return _appService.updateArticleInfo(
+            token: "Bearer ${_sharedPreferences.getString(
+                Preferences.token) as String}",
+            article: id,
+            request: _requestFactory.updateArticleInfo(
+                title, address, description, referenceName)
+        ).then((http) async {
+          if (http.response.statusCode != 200) {
+            return false;
+          }
+          else {
+            return true;
+          }
+        });
+      }
+      catch (e) {
+        return false;
+      }
     }
 }

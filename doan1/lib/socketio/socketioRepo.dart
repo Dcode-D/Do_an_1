@@ -1,4 +1,5 @@
 import 'package:doan1/EventBus/Events/Authenevent.dart';
+import 'package:doan1/EventBus/Events/BookingRejectedEVB.dart';
 import 'package:doan1/EventBus/Events/NewBookingEvent.dart';
 import 'package:doan1/EventBus/Events/TestEvent.dart';
 import 'package:doan1/data/Preferences.dart';
@@ -55,8 +56,16 @@ class SocketRepo{
           });
 
           _socket!.on("RejectBookingUser", (data)
+          async
           {
-            print(data);
+            await LocalNotificationService.display("Booking Declined!", "Your booking request has been declined", null);
+            try{
+              final booking = DateBooking.fromJson(data);
+              _eventBus.fire(BookingRejectedEVB(booking.id as String));
+            }
+            catch(e){
+              print(e);
+            }
           });
 
           _socket!.on("ApproveBooking", (data)

@@ -141,7 +141,7 @@ class VehicleCheckBookingItem extends StatelessWidget{
                       const Spacer(),
                       vehicleBookingItemBloc.vehicle == null ? const Text('Loading...') :
                       Text(
-                        'Total: ${formatCurrency.format(vehicleBookingItemBloc.vehicle!.pricePerDay!*1.1)} VNĐ',
+                        'Total: ${formatCurrency.format(vehicleBookingItemBloc.dateBooking!.price!*1.1)} VNĐ',
                         style: GoogleFonts.raleway(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,

@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:doan1/EventBus/Events/ApprovedEvent.dart';
+import 'package:doan1/EventBus/Events/BookingRejectedEVB.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -22,6 +24,12 @@ class BookHistoryBloc extends Bloc<BookHistoryEvent,BookHistoryState>{
     if(eventbus != null){
       eventbus.on<NeedRefreshBookHistoryEvent>().listen((event) {
           add(RefreshBookingHistoryEvent());
+      });
+      eventbus.on<BookingRejectedEVB>().listen((event) {
+        add(RefreshBookingHistoryEvent());
+      });
+      eventbus.on<ApprovedEvent>().listen((event) {
+        add(RefreshBookingHistoryEvent());
       });
     }
     on<GetNextHotelBooking>(

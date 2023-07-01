@@ -65,9 +65,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: IconButton(
                   onPressed: () {
-                    hotelBookingItemBloc.add(HotelBookingItemInitialEvent(
-                        dateBooking: bookerBloc.listBookings[hotelBookingItemBloc.index!],
-                        index: hotelBookingItemBloc.index!));
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -739,7 +736,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                             const Text('Loading...') :
                             Text(
                               // "${widget.totalPrice} \$",
-                              "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price??0*0.1)} VNĐ",
+                              "${formatCurrency.format((hotelBookingItemBloc.dateBooking!.price??0)*0.1)} VNĐ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts.raleway().fontFamily,

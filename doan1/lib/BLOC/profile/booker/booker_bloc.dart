@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:doan1/EventBus/Events/NeedRefreshBookHistoryEvent.dart';
 import 'package:doan1/EventBus/Events/NewBookingEvent.dart';
 import 'package:doan1/data/model/datebooking.dart';
 import 'package:doan1/data/model/vehicle.dart';
@@ -52,29 +53,33 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
       listBookings = [];
       for(int i =1; i<=page; i++){
         if(type == 'hotel'){
-          var listHotelBooking = await getListHotelBooking(serviceId, page);
+          var listHotelBooking = await getListHotelBooking(serviceId, i);
           if(listHotelBooking != null){
             listBookings.addAll(listHotelBooking);
-            emit(BookingOrderLoad(listBookings));
           }
           else{
             emit(BookingOrderLoadFail());
           }
         }
         else if(type == 'car'){
-          var listVehicleBooking = await getListVehicleBooking(serviceId, page);
+          var listVehicleBooking = await getListVehicleBooking(serviceId, i);
           if(listVehicleBooking != null){
             listBookings.addAll(listVehicleBooking);
-            emit(BookingOrderLoad(listBookings));
           }
           else{
             emit(BookingOrderLoadFail());
           }
         }
+        emit(BookingOrderLoad(listBookings));
       }
     });
     final eventbus = GetIt.instance.get<EventBus>();
     eventbus.on<NewBookingEvent>().listen((event) {
+      if(!isClosed){
+        add(BookingRefreshed());
+      }
+    });
+    eventbus.on<NeedRefreshBookHistoryEvent>().listen((event) {
       if(!isClosed){
         add(BookingRefreshed());
       }

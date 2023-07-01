@@ -150,7 +150,7 @@ class HotelCheckBookingItem extends StatelessWidget{
                       Spacer(),
                       hotelBookingItemBloc.lsHotelRoom != null ?
                       Text(
-                          'Total: ${formatCurrency.format(calculateTotalPrice()*1.1)} VNĐ',
+                          'Total: ${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price??0)} VNĐ',
                           style: GoogleFonts.raleway(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,

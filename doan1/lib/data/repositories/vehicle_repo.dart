@@ -96,19 +96,25 @@ class VehicleRepository{
   }
 
   Future<bool?> DeleteVehicleById(String id) async{
-    return _appService.deleteCarById(
-        token: "Bearer ${_sharedPreferences.getString("token")!}",
-        id: id)
-        .then((http) async{
-      if(http.response.statusCode != 200){
-        _eventBus.fire(DeleteVehicleEventEVB(vehicle: ""));
-        return false;
-      }
-      else{
-        _eventBus.fire(DeleteVehicleEventEVB(vehicle: id));
-        return true;
-      }
-    });
+    try{
+      return _appService.deleteCarById(
+          token: "Bearer ${_sharedPreferences.getString("token")!}",
+          id: id)
+          .then((http) async{
+        if(http.response.statusCode != 200){
+          _eventBus.fire(DeleteVehicleEventEVB(vehicle: ""));
+          return false;
+        }
+        else{
+          _eventBus.fire(DeleteVehicleEventEVB(vehicle: id));
+          return true;
+        }
+      });
+    }
+    catch(e){
+      return false;
+    }
+
   }
 
   Future<int?> GetMaxPageOfVehicle() async{

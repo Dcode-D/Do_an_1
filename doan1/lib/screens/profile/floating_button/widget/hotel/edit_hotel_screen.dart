@@ -256,45 +256,45 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                                                   color: Colors
                                                                       .white,
                                                                 ),
-                                                                child: SingleChildScrollView(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal: 15.0),
-                                                                        child: Row(
-                                                                          children: [
-                                                                            Text(
-                                                                              'List of rooms',
-                                                                              style: GoogleFonts
-                                                                                  .raleway(
-                                                                                fontSize: 18,
-                                                                                fontWeight: FontWeight
-                                                                                    .w400,
-                                                                                letterSpacing: 1.2,
-                                                                                color: Colors
-                                                                                    .black,
-                                                                              ),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal: 15.0),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            'List of rooms',
+                                                                            style: GoogleFonts
+                                                                                .raleway(
+                                                                              fontSize: 18,
+                                                                              fontWeight: FontWeight
+                                                                                  .w400,
+                                                                              letterSpacing: 1.2,
+                                                                              color: Colors
+                                                                                  .black,
                                                                             ),
-                                                                            const Spacer(),
-                                                                            IconButton(
-                                                                              onPressed: () {
-                                                                                SmartDialog
-                                                                                    .dismiss();
-                                                                                NavigateToCreateHotelRoom();
-                                                                              },
-                                                                              icon: const Icon(
-                                                                                Icons
-                                                                                    .add,
-                                                                                color: Colors
-                                                                                    .orange,
-                                                                              ),
+                                                                          ),
+                                                                          const Spacer(),
+                                                                          IconButton(
+                                                                            onPressed: () {
+                                                                              SmartDialog
+                                                                                  .dismiss();
+                                                                              NavigateToCreateHotelRoom();
+                                                                            },
+                                                                            icon: const Icon(
+                                                                              Icons
+                                                                                  .add,
+                                                                              color: Colors
+                                                                                  .orange,
                                                                             ),
-                                                                          ],
-                                                                        ),
+                                                                          ),
+                                                                        ],
                                                                       ),
-                                                                      ListView
+                                                                    ),
+                                                                    Expanded(
+                                                                      child: ListView
                                                                           .builder(
                                                                         padding: EdgeInsets.zero,
                                                                         shrinkWrap: true,
@@ -361,8 +361,8 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                                                           );
                                                                         },
                                                                       ),
-                                                                    ],
-                                                                  ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               )
                                                                   : Padding(

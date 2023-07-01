@@ -58,9 +58,6 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: IconButton(
                   onPressed: () {
-                    vehicleBookingItemBloc.add(VehicleBookingItemInitialEvent(
-                        dateBooking: bookerBloc.listBookings[vehicleBookingItemBloc.index!],
-                        index: vehicleBookingItemBloc.index!));
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -586,7 +583,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                   Text(
                                     vehicleBookingItemBloc.vehicle == null ?
                                     "Loading..." :
-                                    "${formatCurrency.format(vehicleBookingItemBloc.vehicle!.pricePerDay)} VNĐ",
+                                    "${formatCurrency.format(vehicleBookingItemBloc.dateBooking!.price)} VNĐ",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontFamily: GoogleFonts.raleway().fontFamily,
@@ -614,7 +611,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                   Text(
                                     vehicleBookingItemBloc.vehicle == null ?
                                     "Loading..." :
-                                    "${formatCurrency.format(vehicleBookingItemBloc.vehicle!.pricePerDay!*0.1)} VNĐ",
+                                    "${formatCurrency.format(vehicleBookingItemBloc.dateBooking!.price!*0.1)} VNĐ",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontFamily: GoogleFonts.raleway().fontFamily,
@@ -642,7 +639,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                   Text(
                                     vehicleBookingItemBloc.vehicle == null ?
                                     "Loading..." :
-                                    "${formatCurrency.format(vehicleBookingItemBloc.vehicle!.pricePerDay!*1.1)} VNĐ",
+                                    "${formatCurrency.format(vehicleBookingItemBloc.dateBooking!.price!*1.1)} VNĐ",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontFamily: GoogleFonts.raleway().fontFamily,

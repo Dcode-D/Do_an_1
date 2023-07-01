@@ -26,6 +26,12 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
   void initState() {
     super.initState();
     bookerBloc = context.read<BookerBloc>();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        bookerBloc.add(GetBookerEvent());
+      }
+    });
   }
 
   @override
@@ -65,6 +71,7 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
             ];
           },
           body: BlocBuilder<BookerBloc,BookerState>(
+            buildWhen: (previous, current) => current is BookingOrderLoad,
             builder: (context, state) =>
             bookerBloc.type == 'hotel' ?
                 bookerBloc.listBookings.isEmpty ?

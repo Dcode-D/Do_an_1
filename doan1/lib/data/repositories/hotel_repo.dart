@@ -94,32 +94,42 @@ class HotelRepository{
   }
 
   Future<bool?> DeleteHotelById(String id) async{
-    return _appService.deleteHotelById(
-        token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        id: id)
-        .then((http) async{
-      if(http.response.statusCode != 200){
-        _eventBus.fire(DeleteHotelEventEVB(hotel: ""));
-        return false;
-      }
-      else{
-        _eventBus.fire(DeleteHotelEventEVB(hotel: id));
-        return true;
-      }
-    });
+    try{
+      return _appService.deleteHotelById(
+          token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+          id: id)
+          .then((http) async{
+        if(http.response.statusCode != 200){
+          _eventBus.fire(DeleteHotelEventEVB(hotel: ""));
+          return false;
+        }
+        else{
+          _eventBus.fire(DeleteHotelEventEVB(hotel: id));
+          return true;
+        }
+      });
+    }
+    catch(e){
+      return false;
+    }
   }
 
   Future<bool?> DeleteHotelImage(String hotel, String imageId) async{
-    return _appService.deleteHotelImage(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
-        hotel: hotel, request: _requestFactory.deleteImage(imageId))
-        .then((http) async {
-      if(http.response.statusCode != 200){
-        return false;
-      }
-      else{
-        return true;
-      }
-    });
+    try{
+      return _appService.deleteHotelImage(token: "Bearer ${_sharedPreferences.getString(Preferences.token) as String}",
+          hotel: hotel, request: _requestFactory.deleteImage(imageId))
+          .then((http) async {
+        if(http.response.statusCode != 200){
+          return false;
+        }
+        else{
+          return true;
+        }
+      });
+    }
+    catch(e){
+      return false;
+    }
   }
 
   Future<bool> UploadHotelImage(String hotel, File file){
