@@ -130,11 +130,11 @@ class VehicleItemForAll extends StatelessWidget{
                           Row(
                             children: <Widget>[
                               const Icon(
-                                FontAwesomeIcons.dollarSign,
+                                FontAwesomeIcons.moneyBill,
                                 size: 16.0,
                                 color: Colors.white,
                               ),
-                              const SizedBox(width: 2.0),
+                              const SizedBox(width: 5.0),
                               Text(
                                 carItemBloc.vehicle!.pricePerDay != null ?
                                 '${formatCurrency.format(carItemBloc.vehicle!.pricePerDay)} VND / Day' : 'Loading...',

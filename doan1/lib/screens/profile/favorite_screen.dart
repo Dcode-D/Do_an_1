@@ -131,7 +131,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProvid
                             child: TourItemForAll());
                       }),
                 ) :
-                const Center(child: Text("You haven\'t liked any tour yet.",style: TextStyle(fontSize: 20),))
+                const Center(child: Text("You haven't liked any tour yet.",style: TextStyle(fontSize: 20),))
                     :
                 const Center(child:CircularProgressIndicator(),),
                     favoriteBloc.listHotel != null?

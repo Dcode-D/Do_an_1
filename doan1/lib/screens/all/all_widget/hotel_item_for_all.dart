@@ -134,14 +134,14 @@ class HotelItemForAll extends StatelessWidget{
                           Row(
                             children: <Widget>[
                               const Icon(
-                                FontAwesomeIcons.dollarSign,
+                                FontAwesomeIcons.moneyBill,
                                 size: 16.0,
                                 color: Colors.white,
                               ),
-                              const SizedBox(width: 2.0),
+                              const SizedBox(width: 5.0),
                               Text(
                                 hotelItemBloc.hotel?.maxPrice !=null && hotelItemBloc.hotel?.minPrice !=null?
-                                '${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)}\$ / night':'?',
+                                '${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)} VNĐ / night':'?',
                                 style: GoogleFonts.raleway(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
