@@ -21,9 +21,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../BLOC/news_create/tour/create_tour_bloc.dart';
-import '../../BLOC/profile/booker/booker_bloc.dart';
 import '../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
-import 'check_booking/check_booking_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {

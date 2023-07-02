@@ -58,6 +58,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
           Phone: phoneController.text,
           Gender: profileBloc.user!.gender,
       ));
+      profileBloc.add(getProfileScreenEvent());
     }
 
     return SafeArea(
@@ -69,11 +70,11 @@ class _EditProfileScreenState extends State<EditProfileScreen>{
           bloc: bloc,
           listener: (context,state){
             if(state.updateSuccess == EditProfileStatus.success){
-              SmartDialog.showToast("Update success!");
+              SmartDialog.showToast("Update success!",displayTime: const Duration(milliseconds: 500));
               Navigator.pop(context);
             }
             if(state.updateSuccess == EditProfileStatus.failure){
-              SmartDialog.showToast("Update failed!");
+              SmartDialog.showToast("Update failed!",displayTime: const Duration(milliseconds: 500));
             }
             if(state.getImageSuccess == EditProfileStatus.success){
               profileBloc.add(getProfileScreenEvent());

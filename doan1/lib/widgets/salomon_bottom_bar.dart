@@ -14,15 +14,12 @@ import '../BLOC/screen/all_screen/all_vehicle/all_vehicle_bloc.dart';
 import '../BLOC/screen/all_screen/article/article_bloc.dart';
 import '../BLOC/screen/book_history/book_history_bloc.dart';
 import '../BLOC/screen/home/home_bloc.dart';
-import '../BLOC/screen/search/search_bloc.dart';
 
 class NavigationNavBar extends StatelessWidget {
   int current_tab = 0;
 
   @override
   Widget build(BuildContext context) {
-    var bloc = context.read<ProfileBloc>();
-    bloc.add(getProfileScreenEvent());
 
     return Builder(
         builder: (context) =>
@@ -56,6 +53,10 @@ class NavigationNavBar extends StatelessWidget {
                                 BlocProvider<BookHistoryBloc>(
                                     create: (context) =>
                                         BookHistoryBloc()),
+                                BlocProvider<ProfileBloc>(
+                                    create: (context) =>
+                                    ProfileBloc(context)
+                                      ..add(getProfileScreenEvent())),
                               ],
                               child: Builder(builder: (context) {
                                 return HomeScreen();
@@ -63,12 +64,23 @@ class NavigationNavBar extends StatelessWidget {
                             );
                         case 1:
                           return
-                            SearchScreen();
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider<ProfileBloc>(
+                                    create: (context) =>
+                                    ProfileBloc(context)
+                                      ..add(getProfileScreenEvent())),
+                              ],
+                                child: SearchScreen());
 
                         case 2:
                           return
                             MultiBlocProvider(
                               providers: [
+                                BlocProvider<ProfileBloc>(
+                                    create: (context) =>
+                                    ProfileBloc(context)
+                                      ..add(getProfileScreenEvent())),
                                 BlocProvider<BookHistoryBloc>(
                                     create: (context) =>
                                         BookHistoryBloc()),
@@ -79,10 +91,21 @@ class NavigationNavBar extends StatelessWidget {
                             );
                         case 3:
                           return
-                            ProfileScreen();
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider<ProfileBloc>(
+                                    create: (context) =>
+                                    ProfileBloc(context)
+                                      ..add(getProfileScreenEvent())),
+                              ],
+                                child: Builder(
+                                  builder: (context) {
+                                    return ProfileScreen();
+                                  }
+                                ));
                         default:
                           return
-                            Center(
+                            const Center(
                                 child: Text('Error'));
                       }
                     }
