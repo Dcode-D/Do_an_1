@@ -807,6 +807,7 @@ class VehicleCheckBookingDetailScreen extends StatelessWidget{
                                                   bookerBloc.add(GetBookerEvent());
                                                   vehicleBookingItemBloc.add(VehicleBookingItemRefreshEvent());
                                                   Navigator.pop(context);
+                                                  Navigator.pop(context);
                                                 },
                                                 child: Text("Yes",
                                                   style: GoogleFonts.raleway(

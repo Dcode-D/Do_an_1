@@ -17,13 +17,6 @@ class HotelCheckBookingItem extends StatelessWidget{
     var bookerBloc = context.read<BookerBloc>();
     final formatCurrency = NumberFormat("#,###");
 
-    double calculateTotalPrice() {
-      double totalPrice = 0;
-      for (var i = 0; i < hotelBookingItemBloc.lsHotelRoom!.length; i++) {
-        totalPrice += hotelBookingItemBloc.lsHotelRoom![i].price!;
-      }
-      return totalPrice;
-    }
 
     return BlocBuilder<HotelBookingItemBloc,HotelBookingItemState>(
       buildWhen: (previous, current) =>
@@ -188,10 +181,16 @@ class HotelCheckBookingItem extends StatelessWidget{
                       onPressed: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => MultiBlocProvider(
                           providers: [
-                            BlocProvider.value(value: hotelBookingItemBloc),
+                        BlocProvider<HotelBookingItemBloc>(
+                        create: (context) => HotelBookingItemBloc()..add(
+                            HotelBookingItemInitialEvent(dateBooking: hotelBookingItemBloc.dateBooking,index: 0))),
                             BlocProvider.value(value: bookerBloc),
                           ],
-                            child: HotelCheckBookingDetailScreen())));
+                            child: Builder(
+                              builder: (context) {
+                                return HotelCheckBookingDetailScreen();
+                              }
+                            ))));
                       },
                       child: Text(
                         'Detail',
