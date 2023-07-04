@@ -261,7 +261,7 @@ class _EditTourScreenState extends State<EditTourScreen> {
                                                           begin: const Offset(
                                                               0, 1),
                                                           end: const Offset(
-                                                              0, 0.008))
+                                                              0, 0.1))
                                                       .animate(anim1),
                                                   child: child,
                                                 );
@@ -355,19 +355,21 @@ class _EditTourScreenState extends State<EditTourScreen> {
                                                       horizontal: 10,
                                                       vertical: 10),
                                                   child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      Text(
-                                                        '${editTourBloc.listSelectedTourPlan[index].title}',
-                                                        style:
-                                                            GoogleFonts.raleway(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          letterSpacing: 1.2,
-                                                          color: Colors.black,
+                                                      Flexible(
+                                                        child: Text(
+                                                          '${editTourBloc.listSelectedTourPlan[index].title}',
+                                                          style:
+                                                              GoogleFonts.raleway(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            letterSpacing: 1.2,
+                                                            color: Colors.black,
+                                                          ),
                                                         ),
                                                       ),
-                                                      const Spacer(),
                                                       InkWell(
                                                         onTap: () {
                                                           context
