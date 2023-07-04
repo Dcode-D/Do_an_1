@@ -147,18 +147,18 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              hotelItemBloc.hotel == null ? 'Loading...' :
-                              hotelItemBloc.hotel!.name!,
-                              style: GoogleFonts.raleway(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w700,
+                            Flexible(
+                              child: Text(
+                                hotelItemBloc.hotel == null ? 'Loading...' :
+                                hotelItemBloc.hotel!.name!,
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-                            const Spacer(),
                             hotelItemBloc.hotel?.maxPrice !=null && hotelItemBloc.hotel?.minPrice !=null?
                             Flexible(
-                              flex: 3,
                               child: Text(
                                 "${formatCurrency.format((hotelItemBloc.hotel!.maxPrice! + hotelItemBloc.hotel!.minPrice!)/2)} VNĐ / Night",
                                 style: GoogleFonts.raleway(
@@ -577,7 +577,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
         return const Icon(FontAwesomeIcons.wifi, size: 18.0, color: Colors.grey);
       case 'Pool' || 'pool':
         return const Icon(FontAwesomeIcons.swimmingPool, size: 18.0, color: Colors.grey);
-      case 'Utility' || 'utility':
+      case 'Kitchen' || 'kitchen':
         return const Icon(FontAwesomeIcons.utensils, size: 18.0, color: Colors.grey);
       case 'Bed' || 'bed':
         return const Icon(FontAwesomeIcons.bed, size: 18.0, color: Colors.grey);

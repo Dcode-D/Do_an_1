@@ -364,6 +364,10 @@ class _CreateHotelServiceScreenState extends State<CreateHotelServiceScreen> {
                                         TextFormField(
                                           controller: facilitiesController,
                                           decoration: InputDecoration(
+                                            prefixIcon: const Icon(
+                                              FontAwesomeIcons.listUl,
+                                              color: Colors.black45,
+                                            ),
                                             hintText: 'Enter hotel facilities',
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(5),

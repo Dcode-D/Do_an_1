@@ -20,8 +20,6 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var provinceCode = -1;
-    var districtCode = -1;
     var provinceName = '';
     var districtName = '';
     final brandController = TextEditingController();
@@ -360,7 +358,7 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                             controller: colorController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
-                                FontAwesomeIcons.dollarSign,
+                                FontAwesomeIcons.paintBrush,
                                 color: Colors.black45,
                               ),
                               hintText: 'Enter vehicle color',
@@ -394,7 +392,7 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                             controller: seatsController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
-                                FontAwesomeIcons.dollarSign,
+                                Icons.event_seat,
                                 color: Colors.black45,
                               ),
                               hintText: 'Enter vehicle seats',
@@ -530,14 +528,12 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                                         },
                                         onChanged: (value) {context.read<PlacesBloc>().add(
                                             GetDistrictEvent(value?['code']));
-                                        provinceCode = value?['code'];
                                         provinceName = value?['name'];
                                         },
                                         onSaved: (value) {
                                           context.read<PlacesBloc>().add(
                                               GetDistrictEvent(
                                                   value?['code']));
-                                          provinceCode = value?['code'];
                                           provinceName = value?['name'];
                                         },
                                       ),
@@ -601,11 +597,9 @@ class _CreateCarServiceScreenState extends State<CreateCarServiceScreen> {
                                           return null;
                                         },
                                         onChanged: (value) {
-                                          districtCode = value?['code'];
                                           districtName = value?['name'];
                                         },
                                         onSaved: (value) {
-                                          districtCode = value?['code'];
                                           districtName = value?['name'];
                                         },
                                       ),

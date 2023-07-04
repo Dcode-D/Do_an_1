@@ -155,11 +155,13 @@ class _VehicleRentDetailScreenState extends State<VehicleRentDetailScreen>{
                               children:[
                                 const Icon(Icons.directions_car, size: 25.0, color: Colors.grey),
                                 const SizedBox(width: 10.0),
-                                Text(
-                                  carItemBloc.vehicle!.brand!,
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 23.0,
-                                    fontWeight: FontWeight.w600,
+                                Flexible(
+                                  child: Text(
+                                    carItemBloc.vehicle!.brand!,
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 23.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ]
