@@ -7,7 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
 
 class EditHotelItem extends StatelessWidget{
   final formatCurrency = NumberFormat("#,###");
@@ -46,11 +45,7 @@ class EditHotelItem extends StatelessWidget{
                       style: GoogleFonts.roboto(
                           fontSize: 20,
                           fontWeight: FontWeight.bold),),
-                    const Spacer(),
-                    Text('12/12/2021',
-                      style: GoogleFonts.roboto(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),),
+
                   ],
                 ),
                 const SizedBox(height: 10,),

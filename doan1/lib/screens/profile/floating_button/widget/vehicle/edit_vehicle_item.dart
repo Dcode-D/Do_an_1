@@ -48,11 +48,6 @@ class EditVehicleItem extends StatelessWidget{
                       style: GoogleFonts.roboto(
                           fontSize: 20,
                           fontWeight: FontWeight.bold),),
-                    const Spacer(),
-                    Text('12/12/2021',
-                      style: GoogleFonts.roboto(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),),
                   ],
                 ),
                 const SizedBox(height: 10,),
