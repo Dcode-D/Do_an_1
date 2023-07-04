@@ -8,6 +8,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
+import '../../../EventBus/Events/BookingRejectedEVB.dart';
 import '../../../data/model/hotel.dart';
 import '../../../data/repositories/hotel_repo.dart';
 import '../../../data/repositories/vehicle_repo.dart';
@@ -70,8 +71,8 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
             emit(BookingOrderLoadFail());
           }
         }
-        emit(BookingOrderLoad(listBookings));
       }
+      emit(BookingOrderLoad(listBookings));
     });
     final eventbus = GetIt.instance.get<EventBus>();
     eventbus.on<NewBookingEvent>().listen((event) {
@@ -80,6 +81,11 @@ class BookerBloc extends Bloc<BookerEvent,BookerState>{
       }
     });
     eventbus.on<NeedRefreshBookHistoryEvent>().listen((event) {
+      if(!isClosed){
+        add(BookingRefreshed());
+      }
+    });
+    eventbus.on<BookingRejectedEVB>().listen((event) {
       if(!isClosed){
         add(BookingRefreshed());
       }

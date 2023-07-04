@@ -171,6 +171,7 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                           )))
                       :
                     ListView.builder(
+                      key: UniqueKey(),
                       controller: hotelBookingController,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
@@ -225,18 +226,21 @@ class _BookingScreenState extends State<BookingScreen> with SingleTickerProvider
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
                     itemCount: bookHistoryBloc.lsVehicleBooking!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return MultiBlocProvider(
-                        providers: [
-                          BlocProvider<ProfileBloc>.value(
-                              value: profileBloc),
-                          BlocProvider<VehicleBookingItemBloc>(
-                              create: (context) => VehicleBookingItemBloc()..add(
-                                  VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index],index: index))
-                          ),
-                          BlocProvider<BookHistoryBloc>.value(
-                              value: bookHistoryBloc),
-                        ],
-                          child: VehicleBookingItem());},)
+                      return Container(
+                        key: UniqueKey(),
+                        child: MultiBlocProvider(
+                          providers: [
+                            BlocProvider<ProfileBloc>.value(
+                                value: profileBloc),
+                            BlocProvider<VehicleBookingItemBloc>(
+                                create: (context) => VehicleBookingItemBloc()..add(
+                                    VehicleBookingItemInitialEvent(dateBooking: bookHistoryBloc.lsVehicleBooking![index],index: index))
+                            ),
+                            BlocProvider<BookHistoryBloc>.value(
+                                value: bookHistoryBloc),
+                          ],
+                            child: VehicleBookingItem()),
+                      );},)
                   :
               Center(child:
               Text('No vehicle booking history',

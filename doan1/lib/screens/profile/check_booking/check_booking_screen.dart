@@ -87,16 +87,19 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 70),
                   itemCount: bookerBloc.listBookings.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return MultiBlocProvider(
-                      providers: [
-                        BlocProvider.value(
-                          value: bookerBloc,
-                        ),
-                        BlocProvider<HotelBookingItemBloc>(
-                        create: (context) => HotelBookingItemBloc()..add(
-                        HotelBookingItemInitialEvent(dateBooking: bookerBloc.listBookings[index],index: index)),),
-                      ],
-                        child: HotelCheckBookingItem());
+                    return Container(
+                      key: UniqueKey(),
+                      child: MultiBlocProvider(
+                        providers: [
+                          BlocProvider.value(
+                            value: bookerBloc,
+                          ),
+                          BlocProvider<HotelBookingItemBloc>(
+                          create: (context) => HotelBookingItemBloc()..add(
+                          HotelBookingItemInitialEvent(dateBooking: bookerBloc.listBookings[index],index: index)),),
+                        ],
+                          child: HotelCheckBookingItem()),
+                    );
                   },
                 ):
                 bookerBloc.listBookings.isEmpty ?
@@ -115,16 +118,19 @@ class _CheckBookingScreenState extends State<CheckBookingScreen> with SingleTick
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 50),
                   itemCount: bookerBloc.listBookings.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return MultiBlocProvider(
-                      providers: [
-                        BlocProvider.value(
-                          value: bookerBloc,
-                        ),
-                        BlocProvider<VehicleBookingItemBloc>(
-                        create: (context) => VehicleBookingItemBloc()..add(
-                        VehicleBookingItemInitialEvent(dateBooking: bookerBloc.listBookings[index],index: index)),),
-                      ],
-                        child: VehicleCheckBookingItem());
+                    return Container(
+                      key: UniqueKey(),
+                      child: MultiBlocProvider(
+                        providers: [
+                          BlocProvider.value(
+                            value: bookerBloc,
+                          ),
+                          BlocProvider<VehicleBookingItemBloc>(
+                          create: (context) => VehicleBookingItemBloc()..add(
+                          VehicleBookingItemInitialEvent(dateBooking: bookerBloc.listBookings[index],index: index)),),
+                        ],
+                          child: VehicleCheckBookingItem()),
+                    );
                   },
                 ),
             ),

@@ -53,6 +53,13 @@ class SocketRepo{
           _socket!.on("RejectBookingOwner", (data)
           {
             print(data);
+            try{
+              final booking = DateBooking.fromJson(data);
+              _eventBus.fire(BookingRejectedEVB(booking.id as String));
+            }
+            catch(e){
+              print(e);
+            }
           });
 
           _socket!.on("RejectBookingUser", (data)

@@ -181,9 +181,15 @@ class VehicleCheckBookingItem extends StatelessWidget{
                             MaterialPageRoute(builder: (context) => MultiBlocProvider(
                               providers: [
                                 BlocProvider.value(value: bookerBloc),
-                                BlocProvider.value(value: vehicleBookingItemBloc)
+                                BlocProvider<VehicleBookingItemBloc>(
+                                  create: (context) => VehicleBookingItemBloc()..add(
+                                      VehicleBookingItemInitialEvent(dateBooking: vehicleBookingItemBloc.dateBooking,index: 0)),),
                               ],
-                                child: VehicleCheckBookingDetailScreen()))
+                                child: Builder(
+                                  builder: (context) {
+                                    return VehicleCheckBookingDetailScreen();
+                                  }
+                                )))
                         );
                       },
                       child:
