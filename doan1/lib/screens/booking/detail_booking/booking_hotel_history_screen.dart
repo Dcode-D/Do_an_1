@@ -753,8 +753,9 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              // "${widget.totalPrice} \$",
-                                "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price!*1.1)} VNĐ",
+                                hotelBookingItemBloc.dateBooking == null ?
+                                    "loading..." :
+                                "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price??0*1.1)} VNĐ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts.raleway().fontFamily,
@@ -886,7 +887,7 @@ class BookingHotelHistoryScreen extends StatelessWidget {
                                         TextButton(
                                           onPressed: (){
                                             hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-
+                                            Navigator.pop(context);
                                             Navigator.pop(context);
                                           },
                                           child: Text("Yes",

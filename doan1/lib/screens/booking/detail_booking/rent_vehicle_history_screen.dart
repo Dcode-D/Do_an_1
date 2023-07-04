@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../BLOC/profile/profile_view/profile_bloc.dart';
-import '../../../BLOC/screen/book_history/book_history_bloc.dart';
 import '../../../BLOC/screen/booking_widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
 import '../../detail_screens/setting_booking/checking_information_screen.dart';
 
@@ -700,7 +699,6 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                             TextButton(
                                               onPressed: (){
                                                 vehicleBookingItemBloc.add(VehicleBookingItemDeleteEvent());
-
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",
@@ -764,6 +762,7 @@ class RentVehicleHistoryScreen extends StatelessWidget {
                                         TextButton(
                                           onPressed: (){
                                             vehicleBookingItemBloc.add(VehicleBookingItemRejectEvent());
+                                            Navigator.pop(context);
                                             Navigator.pop(context);
                                           },
                                           child: Text("Yes",

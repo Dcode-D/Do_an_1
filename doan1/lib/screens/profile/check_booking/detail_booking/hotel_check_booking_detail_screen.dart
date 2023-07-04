@@ -16,14 +16,14 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     final formatCurrency = NumberFormat("#,###");
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
-    var bookerBloc = context.read<BookerBloc>();
     var hotelBookingItemBloc = context.read<HotelBookingItemBloc>();
 
     return BlocListener<HotelBookingItemBloc,HotelBookingItemState>(
       listenWhen: (previous, current) =>
       current is HotelBookingItemInitial ||
           current is HotelBookingItemApproveSuccess ||
-      current is HotelBookingItemRejectSuccess,
+      current is HotelBookingItemRejectSuccess||
+      current is HotelBookingItemDeleteSuccess,
       listener: (context,state){
         if(state is HotelBookingItemDeleteSuccess){
           if(state.deleteSuccess == true){
@@ -923,8 +923,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                             TextButton(
                                               onPressed: (){
                                                 hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                                bookerBloc.add(GetBookerEvent());
-                                                hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",
@@ -961,8 +959,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                 child: ElevatedButton(
                                   onPressed: (){
                                     hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                                    bookerBloc.add(GetBookerEvent());
-                                    hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.orange,
@@ -1057,8 +1053,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                           TextButton(
                                             onPressed: (){
                                               hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                              bookerBloc.add(GetBookerEvent());
-                                              hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
+                                              Navigator.pop(context);
                                               Navigator.pop(context);
                                             },
                                             child: Text("Yes",
@@ -1095,8 +1090,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                               child: ElevatedButton(
                                 onPressed: (){
                                   hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                                  bookerBloc.add(GetBookerEvent());
-                                  hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.orange,
@@ -1222,8 +1215,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                             TextButton(
                                               onPressed: (){
                                                 hotelBookingItemBloc.add(HotelBookingItemRejectEvent());
-                                                bookerBloc.add(GetBookerEvent());
-                                                hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
+                                                Navigator.pop(context);
                                                 Navigator.pop(context);
                                               },
                                               child: Text("Yes",
@@ -1260,7 +1252,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                 child: ElevatedButton(
                                   onPressed: (){
                                     hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
-                                    bookerBloc.add(GetBookerEvent());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.orange,

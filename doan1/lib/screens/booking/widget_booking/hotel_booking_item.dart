@@ -183,9 +183,13 @@ class HotelBookingItem extends StatelessWidget{
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => MultiBlocProvider(
                             providers: [
                               BlocProvider.value(value: profileBloc,),
-                              BlocProvider.value(value: hotelBookingItemBloc,),
+                              BlocProvider<HotelBookingItemBloc>(create: (context) => HotelBookingItemBloc()..add(HotelBookingItemInitialEvent(dateBooking: hotelBookingItemBloc.dateBooking!, index: 0))),
                             ],
-                              child: BookingHotelHistoryScreen())));
+                              child: Builder(
+                                builder: (context) {
+                                  return BookingHotelHistoryScreen();
+                                }
+                              ))));
                         },
                         child:
                         Text(

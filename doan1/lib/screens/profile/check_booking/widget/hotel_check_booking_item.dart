@@ -184,7 +184,6 @@ class HotelCheckBookingItem extends StatelessWidget{
                         BlocProvider<HotelBookingItemBloc>(
                         create: (context) => HotelBookingItemBloc()..add(
                             HotelBookingItemInitialEvent(dateBooking: hotelBookingItemBloc.dateBooking,index: 0))),
-                            BlocProvider.value(value: bookerBloc),
                           ],
                             child: Builder(
                               builder: (context) {
