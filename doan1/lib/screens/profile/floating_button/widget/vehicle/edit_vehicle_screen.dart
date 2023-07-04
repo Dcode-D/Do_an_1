@@ -184,7 +184,6 @@ class _EditVehicleScreenState extends State<EditVehicleScreen> {
                                       ],
                                     ),
                                     const Spacer(),
-
                                     //add vehicle pictures
                                     IconButton(
                                       onPressed: () {
@@ -192,10 +191,10 @@ class _EditVehicleScreenState extends State<EditVehicleScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              backgroundColor: Colors.orange,
-                                              title: Text('Choose an image source',
+                                              backgroundColor: Colors.white,
+                                              title: const Text('Choose an image source',
                                                 style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                               actions: <Widget>[
@@ -206,11 +205,11 @@ class _EditVehicleScreenState extends State<EditVehicleScreen> {
                                                     vehicleEditItemBloc.add(VehicleItemAddImageEvent(ImagePickMethod.GALLERY));
                                                     // Process the image
                                                   },
-                                                  child: Row(
+                                                  child: const Row(
                                                     children: <Widget>[
                                                       Icon(
                                                         Icons.photo_library,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       SizedBox(
                                                         width: 8,
@@ -218,7 +217,7 @@ class _EditVehicleScreenState extends State<EditVehicleScreen> {
                                                       Text(
                                                         'Gallery',
                                                         style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                         ),
                                                       ),
                                                     ],
@@ -231,11 +230,11 @@ class _EditVehicleScreenState extends State<EditVehicleScreen> {
                                                     vehicleEditItemBloc.add(VehicleItemAddImageEvent(ImagePickMethod.CAMERA));
                                                     // Process the image
                                                   },
-                                                  child: Row(
+                                                  child: const Row(
                                                     children: <Widget>[
                                                       Icon(
                                                         Icons.camera_alt,
-                                                        color: Colors.white,
+                                                        color: Colors.black,
                                                       ),
                                                       SizedBox(
                                                         width: 8,
@@ -243,7 +242,7 @@ class _EditVehicleScreenState extends State<EditVehicleScreen> {
                                                       Text(
                                                         'Camera',
                                                         style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.black,
                                                         ),
                                                       ),
                                                     ],

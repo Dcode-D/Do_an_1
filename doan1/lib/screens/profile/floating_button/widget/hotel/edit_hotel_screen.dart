@@ -406,28 +406,63 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
                                                 showDialog(context: context, builder:
                                                 (context)=>
                                                     AlertDialog(
-                                                      title: const Text('Select Image Source'),
-                                                      content: SingleChildScrollView(
-                                                        child: ListBody(
-                                                          children: [
-                                                            GestureDetector(
-                                                              child: const Text('Take a photo'),
-                                                              onTap: () async {
-                                                                Navigator.pop(context);
-                                                                editHotelItemBloc.add(AddImageEvent(ImagePickMethod.CAMERA));
-                                                              },
-                                                            ),
-                                                            const Padding(padding: EdgeInsets.all(8.0)),
-                                                            GestureDetector(
-                                                              child: const Text('Choose from gallery'),
-                                                              onTap: () async {
-                                                                Navigator.pop(context);
-                                                                editHotelItemBloc.add(AddImageEvent(ImagePickMethod.GALLERY));
-                                                              },
-                                                            ),
-                                                          ],
+                                                      title: const Text(
+                                                          'Choose an image source',
+                                                            style: TextStyle(
+                                                              color: Colors.black,
+                                                            ),),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () async {
+                                                            // Pick image from gallery
+                                                            Navigator.pop(context);
+                                                            editHotelItemBloc.add(AddImageEvent(ImagePickMethod.GALLERY));
+                                                            // Process the image
+                                                          },
+                                                          child: const Row(
+                                                            children: <Widget>[
+                                                              Icon(
+                                                                Icons.photo_library,
+                                                                color: Colors.black,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 8,
+                                                              ),
+                                                              Text(
+                                                                'Gallery',
+                                                                style: TextStyle(
+                                                                  color: Colors.black,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
+                                                        ElevatedButton(
+                                                          onPressed: () async {
+                                                            // Pick image from camera
+                                                            Navigator.pop(context);
+                                                            editHotelItemBloc.add(AddImageEvent(ImagePickMethod.CAMERA));
+                                                            // Process the image
+                                                          },
+                                                          child: const Row(
+                                                            children: <Widget>[
+                                                              Icon(
+                                                                Icons.camera_alt,
+                                                                color: Colors.black,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 8,
+                                                              ),
+                                                              Text(
+                                                                'Camera',
+                                                                style: TextStyle(
+                                                                  color: Colors.black,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
                                                     )
                                                 );
                                               },
