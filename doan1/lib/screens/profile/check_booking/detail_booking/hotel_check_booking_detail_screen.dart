@@ -18,13 +18,6 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
     var baseUrl = GetIt.instance.get<Dio>().options.baseUrl;
     var bookerBloc = context.read<BookerBloc>();
     var hotelBookingItemBloc = context.read<HotelBookingItemBloc>();
-    double calculateTotalPrice() {
-      double totalPrice = 0;
-      for (var i = 0; i < hotelBookingItemBloc.lsHotelRoom!.length; i++) {
-        totalPrice += hotelBookingItemBloc.lsHotelRoom![i].price!;
-      }
-      return totalPrice;
-    }
 
     return BlocListener<HotelBookingItemBloc,HotelBookingItemState>(
       listenWhen: (previous, current) =>
@@ -765,7 +758,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                             const Text('Loading...') :
                             Text(
                               // "${widget.totalPrice} \$",
-                              "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price??0*1.1)} VNĐ",
+                              "${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price!*1.1)} VNĐ",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: GoogleFonts.raleway().fontFamily,
@@ -969,6 +962,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                   onPressed: (){
                                     hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
                                     bookerBloc.add(GetBookerEvent());
+                                    hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.orange,
@@ -1102,7 +1096,7 @@ class HotelCheckBookingDetailScreen extends StatelessWidget{
                                 onPressed: (){
                                   hotelBookingItemBloc.add(HotelBookingItemApproveEvent());
                                   bookerBloc.add(GetBookerEvent());
-
+                                  hotelBookingItemBloc.add(HotelBookingItemRefreshEvent());
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.orange,

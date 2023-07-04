@@ -1,7 +1,5 @@
 import 'package:doan1/BLOC/profile/edit_vehicle/edit_vehicle_item_bloc.dart';
 import 'package:doan1/BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
-import 'package:doan1/screens/profile/floating_button/widget/dialog/vehicle_delete_dialog.dart';
-import 'package:doan1/screens/profile/floating_button/widget/vehicle/edit_vehicle_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +15,6 @@ class BookingVehicleItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     var editVehicleItemBloc = context.read<EditVehicleItemBloc>();
-    var manageServiceBloc = context.read<ManageServiceBloc>();
 
     return BlocBuilder<EditVehicleItemBloc,EditVehicleItemState>(
       builder: (context,state)=>
@@ -50,11 +47,6 @@ class BookingVehicleItem extends StatelessWidget{
                     Text('Vehicle',
                       style: GoogleFonts.roboto(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold),),
-                    const Spacer(),
-                    Text('12/12/2021',
-                      style: GoogleFonts.roboto(
-                          fontSize: 15,
                           fontWeight: FontWeight.bold),),
                   ],
                 ),

@@ -17,14 +17,6 @@ class HotelCheckBookingItem extends StatelessWidget{
     var bookerBloc = context.read<BookerBloc>();
     final formatCurrency = NumberFormat("#,###");
 
-    double calculateTotalPrice() {
-      double totalPrice = 0;
-      for (var i = 0; i < hotelBookingItemBloc.lsHotelRoom!.length; i++) {
-        totalPrice += hotelBookingItemBloc.lsHotelRoom![i].price!;
-      }
-      return totalPrice;
-    }
-
     return BlocBuilder<HotelBookingItemBloc,HotelBookingItemState>(
       buildWhen: (previous, current) =>
       current is HotelBookingItemInitial,
@@ -147,10 +139,10 @@ class HotelCheckBookingItem extends StatelessWidget{
                       const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       hotelBookingItemBloc.lsHotelRoom != null ?
                       Text(
-                          'Total: ${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price??0)} VNĐ',
+                          'Total: ${formatCurrency.format(hotelBookingItemBloc.dateBooking!.price!*1.1)} VNĐ',
                           style: GoogleFonts.raleway(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,

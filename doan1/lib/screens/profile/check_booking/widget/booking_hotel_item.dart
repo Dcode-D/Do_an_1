@@ -1,15 +1,12 @@
 import 'package:doan1/BLOC/profile/booker/booker_bloc.dart';
 import 'package:doan1/BLOC/profile/edit_hotel/edit_hotel_item_bloc.dart';
 import 'package:doan1/screens/profile/check_booking/check_booking_screen.dart';
-import 'package:doan1/screens/profile/floating_button/widget/dialog/hotel_delete_dialog.dart';
-import 'package:doan1/screens/profile/floating_button/widget/hotel/edit_hotel_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../BLOC/profile/manage_hotel_car/manage_service_bloc.dart';
 
 class BookingHotelItem extends StatelessWidget {
   final formatCurrency = NumberFormat("#,###");
@@ -52,12 +49,6 @@ class BookingHotelItem extends StatelessWidget {
                             'Hotel',
                             style: GoogleFonts.roboto(
                                 fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          const Spacer(),
-                          Text(
-                            '12/12/2021',
-                            style: GoogleFonts.roboto(
-                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -172,7 +163,7 @@ class BookingHotelItem extends StatelessWidget {
                 ),
               ),
             )
-          : Center(
+          : const Center(
               child: CircularProgressIndicator(),
             ),
     );

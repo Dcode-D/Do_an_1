@@ -1,4 +1,3 @@
-import 'package:doan1/BLOC/screen/book_history/book_history_bloc.dart';
 import 'package:doan1/screens/profile/check_booking/widget/hotel_check_booking_item.dart';
 import 'package:doan1/screens/profile/check_booking/widget/vehicle_check_booking_item.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../BLOC/profile/booker/booker_bloc.dart';
 import '../../../BLOC/screen/booking_widget/hotel_booking_item/hotel_booking_item_bloc.dart';
 import '../../../BLOC/screen/booking_widget/vehicle_booking_item/vehicle_booking_item_bloc.dart';
-import '../../../widgets/circle_indicator.dart';
-import '../../../widgets/silver_appbar_delegate.dart';
 
 class CheckBookingScreen extends StatefulWidget{
   const CheckBookingScreen({Key? key}) : super(key: key);
